@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "person.h"
 #include <iomanip>
+#include <regex>
 
 using namespace std;
 
@@ -14,20 +15,21 @@ void populateVector(vector<Person> &p);
 // Sort vector
 bool sortNameAscend(Person p1, Person p2);
 bool sortNameDescend(Person p1, Person p2);
-
+// Get the longest name in the vector
 int findLongestName(vector<Person> &p);
-
+// Search for name
+void search(vector<Person> &p, string query, int longestName);
 
 int main(int argc, char *argv[])
 {
-    int longestName;
     QCoreApplication a(argc, argv);
 
     // ===== SETUP =====
 
     // Vars
-    string command = "";
+    string command = ""; // User command
     vector<Person> people; // The data vector
+    int longestName; // Longest name var
 
     // Add data
     populateVector(people);
@@ -51,10 +53,13 @@ int main(int argc, char *argv[])
             display(people, longestName);
         }
         // Sort - Descending
-        else if(command == "sortd" || command == "sort -d"){
+        else if(command == "sort -d"){
             sort(people.begin(), people.end(), sortNameDescend);
             display(people, longestName);
 
+        }
+        else if(command.substr(0,6) == "search"){
+            search(people, command, longestName);
         }
     }
 
@@ -125,12 +130,14 @@ bool sortNameAscend(Person p1, Person p2){
     string s2 = p2.getName();
 
     // Loop over names
-    for(int i = 0; i < s1.length(); i++){
+    for(unsigned int i = 0; i < s1.length(); i++){
         // Until letters are not the same
         if(toupper(s1[i]) != toupper(s2[i])){
             return toupper(s1[i]) < toupper(s2[i]);
         }
     }
+
+    return false;
 }
 // Alphabetically name descending
 bool sortNameDescend(Person p1, Person p2){
@@ -139,12 +146,53 @@ bool sortNameDescend(Person p1, Person p2){
     string s2 = p2.getName();
 
     // Loop over names
-    for(int i = 0; i < s1.length(); i++){
+    for(unsigned int i = 0; i < s1.length(); i++){
         // Until letters are not the same
         if(toupper(s1[i]) != toupper(s2[i])){
             return toupper(s1[i]) > toupper(s2[i]);
         }
     }
+
+    return false;
+}
+
+// ===== SEARCH =====
+void search(vector<Person> &p, string query, int longestName){
+    vector<Person> results;
+
+    // Case sensetive
+    if(query.substr(7,2) == "-c"){
+        query = query.erase(0,10);
+
+        for(unsigned int i = 0; i < p.size(); i++){
+            if(p[i].getName().find(query) != string::npos){
+                results.push_back(p[i]);
+            }
+        }
+    }
+    // Case insensetive
+    else{
+        query = query.erase(0,7);
+
+        for(unsigned int i = 0; i < query.length(); i++){
+            query[i] = tolower(query[i]);
+        }
+
+        string name;
+        for(unsigned int i = 0; i < p.size(); i++){
+            name = p[i].getName();
+
+            for(unsigned int i = 0; i < name.length(); i++){
+                name[i] = tolower(name[i]);
+            }
+
+            if(name.find(query) != string::npos){
+                results.push_back(p[i]);
+            }
+        }
+    }
+
+    display(results, longestName);
 }
 
 // ===== OTHER =====
