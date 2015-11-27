@@ -129,6 +129,8 @@ void populateVector(vector<Person> &p){
             p.push_back(temp);
         }
     }
+
+    ifile.close();
 }
 
 // ===== SORTING =====
@@ -209,11 +211,17 @@ void search(vector<Person> &p, string query, int longestName){
 // Display
 void display(vector<Person> p, int longestName){
     cout << "| ";
-    cout << setw(longestName) << "Name" << " | ";
-    cout <<  setw(6) << "GENDER" << " | ";
-    cout << setw(10) << "DOB" << " | ";
-    cout << setw(10) << "DOD" << " | ";
+    cout << left << setw(longestName) << "Name" << " | ";
+    cout <<  setw(6) << "Gender" << " | ";
+    cout << setw(10) << "Birth date" << " | ";
+    cout << setw(10) << "Death date" << " | ";
     cout <<  setw(4) << "Country" << endl;
+
+    for(int i = 0; i < (47 + longestName); i++){
+        cout << "-";
+    }
+    cout << endl;
+
     // loops through vector
     for(unsigned int i = 0; i < p.size(); i++){
         p[i].display(longestName);

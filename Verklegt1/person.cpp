@@ -55,8 +55,8 @@ void Person::setCountry(string c){
 
 void Person::display(int nameLength) {
      cout << "| ";
-     cout << left << setw(nameLength) << getName() << " | ";
-     cout <<  setw(6) << getGender() << " | ";
+     cout << setw(nameLength) << getName() << " | ";
+     cout << setw(6) << getGender() << " | ";
      cout << setw(10) << getDateOfBirth() << " | ";
      cout << setw(10) << getDateOfDeath() << " | ";
      cout << getCountry() << endl;
