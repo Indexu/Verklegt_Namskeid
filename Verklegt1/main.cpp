@@ -19,6 +19,12 @@ bool sortNameDescend(Person p1, Person p2);
 int findLongestName(vector<Person> &p);
 // Search for name
 void search(vector<Person> &p, string query, int longestName);
+// Verify date input
+bool verifyDate(string ver);
+// Find longest name in database
+int findLongestName(vector<Person> &p);
+// Add new person to vector
+void add(vector<Person> &p);
 
 int main(int argc, char *argv[])
 {
@@ -60,6 +66,9 @@ int main(int argc, char *argv[])
         }
         else if(command.substr(0,6) == "search"){
             search(people, command, longestName);
+        }
+        else if(command == "add") {
+            add(people);
         }
     }
 
@@ -199,7 +208,13 @@ void search(vector<Person> &p, string query, int longestName){
 
 // Display
 void display(vector<Person> p, int longestName){
-    // Loop over vector
+    cout << "| ";
+    cout << setw(longestName) << "Name" << " | ";
+    cout <<  setw(6) << "GENDER" << " | ";
+    cout << setw(10) << "DOB" << " | ";
+    cout << setw(10) << "DOD" << " | ";
+    cout <<  setw(4) << "Country" << endl;
+    // loops through vector
     for(unsigned int i = 0; i < p.size(); i++){
         p[i].display(longestName);
     }
@@ -215,4 +230,43 @@ int findLongestName(vector<Person>& p) {
         }
     }
     return nameLength;
+}
+
+void add(vector<Person> &p) {
+    string name, gender, dob, dod = "", country;
+    cout << "Name: ";
+    getline(cin, name);
+    cout << "Gender (M/F): ";
+    cin >> gender;
+    cout << "Date of birth (DD/MM/YYYY): ";
+    cin >> dob;
+    cout << "Date of death (same form as above, if alive: -): ";
+    cin >> dod;
+    cout << "Country of origin: ";
+    cin >> country;
+
+    if (verifyDate(dob) && verifyDate(dod)) {
+        if (tolower(gender[0]) == 'm' || tolower(gender[0]) == 'f') {
+            gender = (gender[0] == 'm') ? gender = "male" : gender = "female";
+
+            Person temp(name, gender, dob, dod, country);
+            // Add to person to vector
+            cout << "Person " << name << " succesfully added." << endl;
+            p.push_back(temp);
+        }
+        else {
+            cout << "Invalid gender input.";
+        }
+    }
+    else {
+        cout << "Invalid date format.";
+    }
+}
+
+bool verifyDate(string ver) {
+    regex expr ("^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$");
+    if (regex_match(ver, expr) || ver == "-") {
+       return true;
+    }
+    return false;
 }
