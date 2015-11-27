@@ -11,8 +11,8 @@ void display(vector<Person> p);
 // Add data to vector
 void populateVector(vector<Person> &p);
 // Sort vector
-bool sortAlphabeticallyA(Person p1, Person p2);
-bool sortAlphabeticallyD(Person p1, Person p2);
+bool sortNameAscend(Person p1, Person p2);
+bool sortNameDescend(Person p1, Person p2);
 
 int main(int argc, char *argv[])
 {
@@ -34,19 +34,24 @@ int main(int argc, char *argv[])
 
     while(command != "q"){
         cout << ">";
-        cin >> command;
 
+        // Get command
+        getline(cin, command);
+
+        // Sort - Ascending
         if(command == "sort" || command == "sort -a"){
-            sort(people.begin(), people.end(), sortAlphabeticallyA);
+            sort(people.begin(), people.end(), sortNameAscend);
             display(people);
         }
-        else if(command == "sortd"){
-            sort(people.begin(), people.end(), sortAlphabeticallyD);
+        // Sort - Descending
+        else if(command == "sortd" || command == "sort -d"){
+            sort(people.begin(), people.end(), sortNameDescend);
             display(people);
         }
 
     }
 
+    // ===== END =====
     return a.exec();
 }
 
@@ -105,27 +110,37 @@ void populateVector(vector<Person> &p){
     }
 }
 
-bool sortAlphabeticallyA(Person p1, Person p2){
+// ===== SORTING =====
+// Alphabetically name ascending
+bool sortNameAscend(Person p1, Person p2){
+    // Get names
     string s1 = p1.getName();
     string s2 = p2.getName();
 
+    // Loop over names
     for(int i = 0; i < s1.length(); i++){
+        // Until letters are not the same
         if(toupper(s1[i]) != toupper(s2[i])){
             return toupper(s1[i]) < toupper(s2[i]);
         }
     }
 }
-
-bool sortAlphabeticallyD(Person p1, Person p2){
+// Alphabetically name descending
+bool sortNameDescend(Person p1, Person p2){
+    // Get names
     string s1 = p1.getName();
     string s2 = p2.getName();
 
+    // Loop over names
     for(int i = 0; i < s1.length(); i++){
+        // Until letters are not the same
         if(toupper(s1[i]) != toupper(s2[i])){
             return toupper(s1[i]) > toupper(s2[i]);
         }
     }
 }
+
+// ===== OTHER =====
 
 // Display
 void display(vector<Person> p){
