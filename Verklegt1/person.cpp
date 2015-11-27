@@ -1,19 +1,12 @@
 #include "person.h"
 
-// Constructor - Without date of death
-Person::Person(std::string n, std::string g, std::string dob){
-    Name = n;
-    Gender = g;
-    DateOfBirth = dob;
-    DateOfDeath = "";
-}
-
 // Constructor - With date of death
-Person::Person(std::string n, std::string g, std::string dob, std::string dod){
+Person::Person(std::string n, std::string g, std::string dob, std::string dod, std::string c){
     Name = n;
     Gender = g;
     DateOfBirth = dob;
     DateOfDeath = dod;
+    Country = c;
 }
 
 // Get set name
@@ -46,4 +39,13 @@ std::string Person::getDateOfDeath(){
 }
 void Person::setDateOfDeath(std::string dod){
     DateOfDeath = dod;
+}
+
+// Get set country
+std::string Person::getCountry(){
+    return Country;
+}
+
+void Person::setCountry(std::string c){
+    Country = c;
 }
