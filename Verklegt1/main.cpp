@@ -1,6 +1,7 @@
 #include <QCoreApplication>
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include "person.h"
 
 using namespace std;
@@ -9,19 +10,42 @@ using namespace std;
 void display(vector<Person> p);
 // Add data to vector
 void populateVector(vector<Person> &p);
+// Sort vector
+bool sortAlphabeticallyA(Person p1, Person p2);
+bool sortAlphabeticallyD(Person p1, Person p2);
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    // The vector
-    vector<Person> people;
+    // ===== SETUP =====
+
+    // Vars
+    string command = "";
+    vector<Person> people; // The data vector
 
     // Add data
     populateVector(people);
 
     // Print
     display(people);
+
+    // ===== MAIN =====
+
+    while(command != "q"){
+        cout << ">";
+        cin >> command;
+
+        if(command == "sort" || command == "sort -a"){
+            sort(people.begin(), people.end(), sortAlphabeticallyA);
+            display(people);
+        }
+        else if(command == "sortd"){
+            sort(people.begin(), people.end(), sortAlphabeticallyD);
+            display(people);
+        }
+
+    }
 
     return a.exec();
 }
@@ -77,6 +101,28 @@ void populateVector(vector<Person> &p){
             Person temp(name, gender, dob, dod, country);
             // Add to person to vector
             p.push_back(temp);
+        }
+    }
+}
+
+bool sortAlphabeticallyA(Person p1, Person p2){
+    string s1 = p1.getName();
+    string s2 = p2.getName();
+
+    for(int i = 0; i < s1.length(); i++){
+        if(toupper(s1[i]) != toupper(s2[i])){
+            return toupper(s1[i]) < toupper(s2[i]);
+        }
+    }
+}
+
+bool sortAlphabeticallyD(Person p1, Person p2){
+    string s1 = p1.getName();
+    string s2 = p2.getName();
+
+    for(int i = 0; i < s1.length(); i++){
+        if(toupper(s1[i]) != toupper(s2[i])){
+            return toupper(s1[i]) > toupper(s2[i]);
         }
     }
 }
