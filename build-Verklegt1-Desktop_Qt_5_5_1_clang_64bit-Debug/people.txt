@@ -1,4 +1,4 @@
-Charles Babbage,male,26/12/1791,18/10/1871
-Ada Lovelace,female,10/12/1815,27/11/1852
-Alan Turing,male,23/06/1912,07/06/1954
-Grace Murray Hopper,female,9/12/1906,01/01/1992
+Charles Babbage,male,26/12/1791,18/10/1871,USA
+Ada Lovelace,female,10/12/1815,27/11/1852,UK
+Alan Turing,male,23/06/1912,07/06/1954,UK
+Grace Murray Hopper,female,9/12/1906,01/01/1992,UK
