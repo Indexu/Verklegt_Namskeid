@@ -1,7 +1,6 @@
 #include <QCoreApplication>
 #include <iostream>
 #include <fstream>
-#include <algorithm>
 #include "person.h"
 #include <iomanip>
 
@@ -11,23 +10,15 @@ using namespace std;
 void display(vector<Person> p, int longestName);
 // Add data to vector
 void populateVector(vector<Person> &p);
-// Sort vector
-bool sortNameAscend(Person p1, Person p2);
-bool sortNameDescend(Person p1, Person p2);
-
 int findLongestName(vector<Person> &p);
-
 
 int main(int argc, char *argv[])
 {
     int longestName;
     QCoreApplication a(argc, argv);
 
-    // ===== SETUP =====
-
-    // Vars
-    string command = "";
-    vector<Person> people; // The data vector
+    // The vector
+    vector<Person> people;
 
     // Add data
     populateVector(people);
@@ -37,28 +28,6 @@ int main(int argc, char *argv[])
     // Print
     display(people, longestName);
 
-    // ===== MAIN =====
-
-    while(command != "q"){
-        cout << ">";
-
-        // Get command
-        getline(cin, command);
-
-        // Sort - Ascending
-        if(command == "sort" || command == "sort -a"){
-            sort(people.begin(), people.end(), sortNameAscend);
-            display(people, longestName);
-        }
-        // Sort - Descending
-        else if(command == "sortd" || command == "sort -d"){
-            sort(people.begin(), people.end(), sortNameDescend);
-            display(people, longestName);
-
-        }
-    }
-
-    // ===== END =====
     return a.exec();
 }
 
@@ -116,38 +85,6 @@ void populateVector(vector<Person> &p){
         }
     }
 }
-
-// ===== SORTING =====
-// Alphabetically name ascending
-bool sortNameAscend(Person p1, Person p2){
-    // Get names
-    string s1 = p1.getName();
-    string s2 = p2.getName();
-
-    // Loop over names
-    for(int i = 0; i < s1.length(); i++){
-        // Until letters are not the same
-        if(toupper(s1[i]) != toupper(s2[i])){
-            return toupper(s1[i]) < toupper(s2[i]);
-        }
-    }
-}
-// Alphabetically name descending
-bool sortNameDescend(Person p1, Person p2){
-    // Get names
-    string s1 = p1.getName();
-    string s2 = p2.getName();
-
-    // Loop over names
-    for(int i = 0; i < s1.length(); i++){
-        // Until letters are not the same
-        if(toupper(s1[i]) != toupper(s2[i])){
-            return toupper(s1[i]) > toupper(s2[i]);
-        }
-    }
-}
-
-// ===== OTHER =====
 
 // Display
 void display(vector<Person> p, int longestName){

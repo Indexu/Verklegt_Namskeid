@@ -36,6 +36,12 @@ public:
     std::string getCountry();
     void setCountry(std::string c);
 
+    // Get longest name
+    int getLongestName();
+
+    // Set longest name
+    void setLongestName(int n);
+
     // Display the vector
     void display(int nameLength);
 
