@@ -1,6 +1,7 @@
 #include <QCoreApplication>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <algorithm>
 #include "person.h"
 #include <iomanip>
@@ -81,53 +82,25 @@ void populateVector(vector<Person> &p){
     // Load file
     ifstream ifile("people.txt");
     // Check file and continue
-    if(ifile.is_open()){
-        // Vars
-        string line, name, gender, dob, dod, country;
-        int count;
+    if(!ifile.is_open()) {
+        cout << "Unable to open file..." << endl;
+        return;
+    }
 
-        // Read file
-        while(getline(ifile, line)){
-            // Default values for each line
-            count = 0;
-            name = "";
-            gender = "";
-            dob = "";
-            dod = "";
-            country = "";
+    // Vars
+    string line, name, gender, dob, dod, country;
+    while (getline(ifile, line)) {
+        istringstream tokens(line);
+        getline(tokens, name, ',');
+        getline(tokens, gender, ',');
+        getline(tokens, dob, ',');
+        getline(tokens, dod, ',');
+        getline(tokens, country, ',');
 
-            // Loop over line
-            for(unsigned int i = 0; i < line.length(); i++){
-                // Seperate by comma
-                if(line[i] == ','){
-                    count++;
-                    continue;
-                }
-
-                // Add to appropriate variable
-                switch(count){
-                    case 0:
-                        name += line[i];
-                        break;
-                    case 1:
-                        gender += line[i];
-                        break;
-                    case 2:
-                        dob += line[i];
-                        break;
-                    case 3:
-                        dod += line[i];
-                        break;
-                    case 4:
-                        country += line[i];
-                        break;
-                }
-            }
-            // Create person
-            Person temp(name, gender, dob, dod, country);
-            // Add to person to vector
-            p.push_back(temp);
-        }
+        // Create person
+        Person temp(name, gender, dob, dod, country);
+        // Add to person to vector
+        p.push_back(temp);
     }
 
     ifile.close();
@@ -212,10 +185,10 @@ void search(vector<Person> &p, string query, int longestName){
 void display(vector<Person> p, int longestName){
     cout << "| ";
     cout << left << setw(longestName) << "Name" << " | ";
-    cout <<  setw(6) << "Gender" << " | ";
+    cout << setw(6) << "Gender" << " | ";
     cout << setw(10) << "Birth date" << " | ";
     cout << setw(10) << "Death date" << " | ";
-    cout <<  setw(4) << "Country" << endl;
+    cout << setw(4) << "Country" << endl;
 
     for(int i = 0; i < (47 + longestName); i++){
         cout << "-";
