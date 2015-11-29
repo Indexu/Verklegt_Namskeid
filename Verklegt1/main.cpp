@@ -18,6 +18,8 @@ bool sortNameAscend(Person p1, Person p2);
 bool sortNameDescend(Person p1, Person p2);
 // Get the longest name in the vector
 int findLongestName(vector<Person> &p);
+// Sort names
+void sortNames(vector<Person> &p, string command, int longestName);
 // Search for name
 void search(vector<Person> &p, string query, int longestName);
 // Verify date input
@@ -41,6 +43,7 @@ int main(int argc, char *argv[])
     // Add data
     populateVector(people);
 
+    // Get longest name
     longestName = findLongestName(people);
 
     // Print
@@ -54,20 +57,19 @@ int main(int argc, char *argv[])
         // Get command
         getline(cin, command);
 
-        // Sort - Ascending
-        if(command == "sort" || command == "sort -a"){
-            sort(people.begin(), people.end(), sortNameAscend);
+        // Display the vector
+        if(command == "display" || command == "list"){
             display(people, longestName);
         }
-        // Sort - Descending
-        else if(command == "sort -d"){
-            sort(people.begin(), people.end(), sortNameDescend);
-            display(people, longestName);
-
+        // Sort
+        else if(command.substr(0,4) == "sort"){
+            sortNames(people, command, longestName);
         }
+        // Search
         else if(command.substr(0,6) == "search"){
             search(people, command, longestName);
         }
+        // Add
         else if(command == "add") {
             add(people);
         }
@@ -102,11 +104,25 @@ void populateVector(vector<Person> &p){
         // Add to person to vector
         p.push_back(temp);
     }
-
+    // Close
     ifile.close();
 }
 
 // ===== SORTING =====
+void sortNames(vector<Person> &p, string command, int longestName){
+    // Ascending
+    if(command == "sort" || command == "sort -a"){
+        sort(p.begin(), p.end(), sortNameAscend);
+        display(p, longestName);
+    }
+    // Descending
+    else if(command == "sort -d"){
+        sort(p.begin(), p.end(), sortNameDescend);
+        display(p, longestName);
+
+    }
+}
+
 // Alphabetically name ascending
 bool sortNameAscend(Person p1, Person p2){
     // Get names
@@ -144,9 +160,38 @@ bool sortNameDescend(Person p1, Person p2){
 void search(vector<Person> &p, string query, int longestName){
     vector<Person> results;
 
+    // Check arguements
+    int caseSensetive = query.find(" -c ");
+    int sorta = query.find(" -a ");
+    int sortd = query.find(" -d ");
+
+    // Error check
+    if(sorta != string::npos && sortd != string::npos){
+        cout << "Only one sorting method allowed!" << endl;
+        return;
+    }
+
+    // Extract search query
+    // -a last arguement
+    if(caseSensetive < sorta){
+        query = query.erase(0,sorta + 4);
+    }
+    // -d last arguement
+    else if(caseSensetive < sortd){
+        query = query.erase(0,sortd + 4);
+    }
+    // -c last arguement
+    else if(caseSensetive != string::npos){
+        query = query.erase(0,caseSensetive + 4);
+    }
+    // no arguement
+    else{
+        query = query.erase(0,7);
+    }
+
+    // Conduct search
     // Case sensetive
-    if(query.substr(7,2) == "-c"){
-        query = query.erase(0,10);
+    if(caseSensetive != string::npos){
 
         for(unsigned int i = 0; i < p.size(); i++){
             if(p[i].getName().find(query) != string::npos){
@@ -156,7 +201,6 @@ void search(vector<Person> &p, string query, int longestName){
     }
     // Case insensetive
     else{
-        query = query.erase(0,7);
 
         for(unsigned int i = 0; i < query.length(); i++){
             query[i] = tolower(query[i]);
@@ -176,43 +220,20 @@ void search(vector<Person> &p, string query, int longestName){
         }
     }
 
+    // Sort ascending
+    if(sorta != string::npos){
+        sort(results.begin(), results.end(), sortNameAscend);
+    }
+    // Sort descending
+    else if(sortd != string::npos){
+        sort(results.begin(), results.end(), sortNameDescend);
+    }
+
+    // Display
     display(results, longestName);
 }
 
-// ===== OTHER =====
-
-// Display
-void display(vector<Person> p, int longestName){
-    cout << "| ";
-    cout << left << setw(longestName) << "Name" << " | ";
-    cout << setw(6) << "Gender" << " | ";
-    cout << setw(10) << "Birth date" << " | ";
-    cout << setw(10) << "Death date" << " | ";
-    cout << setw(4) << "Country" << endl;
-
-    for(int i = 0; i < (47 + longestName); i++){
-        cout << "-";
-    }
-    cout << endl;
-
-    // loops through vector
-    for(unsigned int i = 0; i < p.size(); i++){
-        p[i].display(longestName);
-    }
-}
-
-int findLongestName(vector<Person>& p) {
-    // Set first element to longest name
-    int nameLength = p[0].getName().length();
-    // Loop over vector
-    for(unsigned int i = 1; i < p.size(); i++){
-        if ((int)p[i].getName().length() > nameLength) {
-            nameLength = p[i].getName().length();
-        }
-    }
-    return nameLength;
-}
-
+// ===== ADD =====
 void add(vector<Person> &p) {
     string name, gender, dob, dod = "", country;
     cout << "Name: ";
@@ -244,6 +265,42 @@ void add(vector<Person> &p) {
     }
 }
 
+// ===== OTHER =====
+
+// Display
+void display(vector<Person> p, int longestName){
+    cout << "| ";
+    cout << left << setw(longestName) << "Name" << " | ";
+    cout << setw(6) << "Gender" << " | ";
+    cout << setw(10) << "Birth date" << " | ";
+    cout << setw(10) << "Death date" << " | ";
+    cout << setw(4) << "Country" << endl;
+
+    for(int i = 0; i < (47 + longestName); i++){
+        cout << "-";
+    }
+    cout << endl;
+
+    // loops through vector
+    for(unsigned int i = 0; i < p.size(); i++){
+        p[i].display(longestName);
+    }
+}
+
+// Find the longest name
+int findLongestName(vector<Person>& p) {
+    // Set first element to longest name
+    int nameLength = p[0].getName().length();
+    // Loop over vector
+    for(unsigned int i = 1; i < p.size(); i++){
+        if ((int)p[i].getName().length() > nameLength) {
+            nameLength = p[i].getName().length();
+        }
+    }
+    return nameLength;
+}
+
+// Verify date
 bool verifyDate(string ver) {
     regex expr ("^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$");
     if (regex_match(ver, expr) || ver == "-") {
