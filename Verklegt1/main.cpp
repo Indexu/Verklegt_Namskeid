@@ -28,6 +28,8 @@ bool verifyDate(string ver);
 int findLongestName(vector<Person> &p);
 // Add new person to vector
 void add(vector<Person> &p);
+// Help dialog
+void help();
 
 int main(int argc, char *argv[])
 {
@@ -72,6 +74,12 @@ int main(int argc, char *argv[])
         // Add
         else if(command == "add") {
             add(people);
+        }
+        else if(command == "help"){
+            help();
+        }
+        else if(command != ""){
+            cout << "Invalid command." << endl;
         }
     }
 
@@ -235,34 +243,81 @@ void search(vector<Person> &p, string query, int longestName){
 
 // ===== ADD =====
 void add(vector<Person> &p) {
+    // Vars
     string name, gender, dob, dod = "", country;
-    cout << "Name: ";
-    getline(cin, name);
-    cout << "Gender (M/F): ";
-    cin >> gender;
-    cout << "Date of birth (DD/MM/YYYY): ";
-    cin >> dob;
-    cout << "Date of death (same form as above, if alive: -): ";
-    cin >> dod;
-    cout << "Country of origin: ";
-    cin >> country;
+    bool valid;
 
-    if (verifyDate(dob) && verifyDate(dod)) {
-        if (tolower(gender[0]) == 'm' || tolower(gender[0]) == 'f') {
+    // Name
+    do{
+        cout << "Name: ";
+        getline(cin, name);
+
+        if(name == ""){
+            cout << "Please enter a name." << endl;
+        }
+    }while(name == "");
+
+    // Gender
+    do{
+       cout << "Gender (M/F): ";
+       getline(cin, gender);
+
+       gender = tolower(gender[0]);
+
+        if(gender == ""){
+            cout << "Please enter a gender." << endl;
+        }
+        else if(gender[0] != 'm' && gender[0] != 'f'){
+            cout << "Invalid gender input" << endl;
+        }
+        else{
             gender = (gender[0] == 'm') ? gender = "male" : gender = "female";
+        }
+    }while(gender == "" || (gender[0] != 'm' && gender[0] != 'f'));
 
-            Person temp(name, gender, dob, dod, country);
-            // Add to person to vector
-            cout << "Person " << name << " succesfully added." << endl;
-            p.push_back(temp);
+    // Date of birth
+    do{
+        cout << "Date of birth (DD/MM/YYYY): ";
+        getline(cin, dob);
+
+        valid = verifyDate(dob);
+
+        if(!valid){
+            cout << "Invalid date format." << endl;
         }
-        else {
-            cout << "Invalid gender input.";
+    }while(!valid);
+
+    // Date of death
+    do{
+        cout << "Date of death (DD/MM/YYYY, if alive: -): ";
+        getline(cin, dod);
+
+        valid = verifyDate(dod);
+
+        if(!valid){
+            cout << "Invalid date format." << endl;
         }
-    }
-    else {
-        cout << "Invalid date format.";
-    }
+    }while(!valid);
+
+    // Country
+    do{
+        cout << "Country of origin: ";
+        getline(cin, country);
+
+        if(country == ""){
+            cout << "Please enter a country." << endl;
+        }
+    }while(country == "");
+
+    // Add to person to vector
+    Person temp(name, gender, dob, dod, country);
+    p.push_back(temp);
+    cout << "Person " << name << " succesfully added." << endl;
+}
+
+// ===== HELP =====
+void help(){
+
 }
 
 // ===== OTHER =====
