@@ -30,6 +30,8 @@ int findLongestName(vector<Person> &p);
 void add(vector<Person> &p);
 // Help dialog
 void help();
+// Largest value in int vector
+int largestValue(vector<int> &v);
 
 int main(int argc, char *argv[])
 {
@@ -75,11 +77,21 @@ int main(int argc, char *argv[])
         else if(command == "add") {
             add(people);
         }
+        // Help
         else if(command == "help"){
             help();
         }
+        // Quit
+        else if(command == "q"){
+            break;
+        }
+        // Invalid
         else if(command != ""){
             cout << "Invalid command." << endl;
+        }
+        // Wat
+        else{
+            cout << "Unknown error..." << endl;
         }
     }
 
@@ -166,79 +178,211 @@ bool sortNameDescend(Person p1, Person p2){
 
 // ===== SEARCH =====
 void search(vector<Person> &p, string query, int longestName){
-    vector<Person> results;
+    vector<Person> results; // Result vector
+    vector<int> args; // Arguements
 
     // Check arguements
-    int caseSensetive = query.find(" -c ");
-    int sorta = query.find(" -a ");
-    int sortd = query.find(" -d ");
+    args.push_back(query.find(" -C ")); // 0. Case-sensative
+    args.push_back(query.find(" -a ")); // 1. Sort ascending
+    args.push_back(query.find(" -z ")); // 2. Sort descending
+    args.push_back(query.find(" -n ")); // 3. Name
+    args.push_back(query.find(" -g ")); // 4. Gender
+    args.push_back(query.find(" -b ")); // 5. Date of birth
+    args.push_back(query.find(" -d ")); // 6. Date of death
+    args.push_back(query.find(" -c ")); // 7. Country
 
     // Error check
-    if(sorta != string::npos && sortd != string::npos){
+    if(args[1] != string::npos && args[2] != string::npos){
         cout << "Only one sorting method allowed!" << endl;
         return;
     }
 
     // Extract search query
-    // -a last arguement
-    if(caseSensetive < sorta){
-        query = query.erase(0,sorta + 4);
+    int max = largestValue(args);
+    // Erase up to query
+    if(max != 0){
+        query = query.erase(0, max + 4);
     }
-    // -d last arguement
-    else if(caseSensetive < sortd){
-        query = query.erase(0,sortd + 4);
-    }
-    // -c last arguement
-    else if(caseSensetive != string::npos){
-        query = query.erase(0,caseSensetive + 4);
-    }
-    // no arguement
+    // No args
     else{
         query = query.erase(0,7);
     }
 
-    // Conduct search
-    // Case sensetive
-    if(caseSensetive != string::npos){
+    // = Conduct search =
 
+    // Gender
+    if(query == "male" || query == "female"){
         for(unsigned int i = 0; i < p.size(); i++){
-            if(p[i].getName().find(query) != string::npos){
+            if(p[i].getGender() == query){
                 results.push_back(p[i]);
             }
         }
     }
-    // Case insensetive
+    // Not Gender
     else{
+        // Case sensetive
+        if(args[0] != string::npos){
+            bool valid;
 
-        for(unsigned int i = 0; i < query.length(); i++){
-            query[i] = tolower(query[i]);
+            for(unsigned int i = 0; i < p.size(); i++){
+                valid = false;
+
+                // Name
+                if(args[3] != string::npos){
+                    if(p[i].getName().find(query) != string::npos){
+                        valid = true;
+                    }
+                }
+                // Date of birth
+                else if(args[5] != string::npos){
+                    if(p[i].getDateOfBirth().find(query) != string::npos){
+                        valid = true;
+                    }
+                }
+                // Date of death
+                else if(args[6] != string::npos){
+                    if(p[i].getDateOfDeath().find(query) != string::npos){
+                        valid = true;
+                    }
+                }
+                // Country
+                else if(args[7] != string::npos){
+                    if(p[i].getCountry().find(query) != string::npos){
+                        valid = true;
+                    }
+                }
+                // All fields
+                else{
+                    if(p[i].getName().find(query) != string::npos){
+                        valid = true;
+                    }
+                    else if(p[i].getDateOfBirth().find(query) != string::npos){
+                        valid = true;
+                    }
+                    else if(p[i].getDateOfDeath().find(query) != string::npos){
+                        valid = true;
+                    }
+                    else if(p[i].getCountry().find(query) != string::npos){
+                        valid = true;
+                    }
+                }
+                // Check
+                if(valid){
+                    // Add
+                    results.push_back(p[i]);
+                }
+            }
         }
+        // Case insensetive
+        else{
 
-        string name;
-        for(unsigned int i = 0; i < p.size(); i++){
-            name = p[i].getName();
-
-            for(unsigned int i = 0; i < name.length(); i++){
-                name[i] = tolower(name[i]);
+            for(unsigned int i = 0; i < query.length(); i++){
+                query[i] = tolower(query[i]);
             }
 
-            if(name.find(query) != string::npos){
-                results.push_back(p[i]);
+            string temp;
+            bool valid;
+            for(unsigned int i = 0; i < p.size(); i++){
+                valid = false;
+
+                // Name
+                if(args[3] != string::npos){
+                    temp = p[i].getName();
+
+                    for(unsigned int i = 0; i < temp.length(); i++){
+                        temp[i] = tolower(temp[i]);
+                    }
+
+                    if(temp.find(query) != string::npos){
+                        valid = true;
+                    }
+                }
+                // Date of birth
+                else if(args[5] != string::npos){
+                    if(p[i].getDateOfBirth().find(query) != string::npos){
+                        valid = true;
+                    }
+                }
+                // Date of death
+                else if(args[6] != string::npos){
+                    if(p[i].getDateOfDeath().find(query) != string::npos){
+                        valid = true;
+                    }
+                }
+                // Country
+                else if(args[7] != string::npos){
+                    temp = p[i].getCountry();
+
+                    for(unsigned int i = 0; i < temp.length(); i++){
+                        temp[i] = tolower(temp[i]);
+                    }
+
+                    if(temp.find(query) != string::npos){
+                        valid = true;
+                    }
+                }
+                // All fields
+                else{
+                    // Name
+                    temp = p[i].getName();
+
+                    for(unsigned int i = 0; i < temp.length(); i++){
+                        temp[i] = tolower(temp[i]);
+                    }
+
+                    if(temp.find(query) != string::npos){
+                        valid = true;
+                    }
+
+                    // Date of birth
+                    else if(p[i].getDateOfBirth().find(query) != string::npos){
+                        valid = true;
+                    }
+                    // Date of death
+                    else if(p[i].getDateOfDeath().find(query) != string::npos){
+                        valid = true;
+                    }
+                    // Country
+                    else{
+                        temp = p[i].getCountry();
+
+                        for(unsigned int i = 0; i < temp.length(); i++){
+                            temp[i] = tolower(temp[i]);
+                        }
+
+                        if(temp.find(query) != string::npos){
+                            valid = true;
+                        }
+                    }
+
+                }
+                // Check
+                if(valid){
+                    // Add
+                    results.push_back(p[i]);
+                }
             }
         }
     }
 
     // Sort ascending
-    if(sorta != string::npos){
+    if(args[1] != string::npos){
         sort(results.begin(), results.end(), sortNameAscend);
     }
     // Sort descending
-    else if(sortd != string::npos){
+    else if(args[2] != string::npos){
         sort(results.begin(), results.end(), sortNameDescend);
     }
 
     // Display
-    display(results, longestName);
+    // No results
+    if(results.size() == 0){
+        cout << "No results for query: \"" << query << "\"" << endl;
+    }
+    // Results
+    else{
+        display(results, longestName);
+    }
 }
 
 // ===== ADD =====
@@ -357,10 +501,25 @@ int findLongestName(vector<Person>& p) {
 
 // Verify date
 bool verifyDate(string ver) {
-    regex expr ("^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$");
+    regex expr ("^[0-9]{2}/[0-9]{2}/[0-9]{4}$");
     if (regex_match(ver, expr) || ver == "-") {
        return true;
     }
     return false;
 }
 
+<<<<<<< HEAD
+=======
+// Largest int value
+int largestValue(vector<int> &v){
+    int largest = 0;
+
+    for(int i = 0; i < v.size(); i++){
+        if(v[i] > largest){
+            largest = v[i];
+        }
+    }
+
+    return largest;
+}
+>>>>>>> origin/master
