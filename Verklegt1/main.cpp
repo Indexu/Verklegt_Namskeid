@@ -271,7 +271,7 @@ void add(vector<Person> &p) {
             cout << "Invalid gender input" << endl;
         }
         else{
-            gender = (gender[0] == 'm') ? gender = "male" : gender = "female";
+            gender = (gender[0] == 'm') ? gender = "Male" : gender = "Female";
         }
     }while(gender == "" || (gender[0] != 'm' && gender[0] != 'f'));
 
