@@ -30,6 +30,9 @@ int findLongestName(vector<Person> &p);
 void add(vector<Person> &p);
 // Help dialog
 void help();
+//Add vector to text file
+void addInfo(vector<Person> &p);
+
 
 int main(int argc, char *argv[])
 {
@@ -74,6 +77,7 @@ int main(int argc, char *argv[])
         // Add
         else if(command == "add") {
             add(people);
+            addInfo(people);
         }
         else if(command == "help"){
             help();
@@ -246,7 +250,6 @@ void add(vector<Person> &p) {
     // Vars
     string name, gender, dob, dod = "", country;
     bool valid;
-
     // Name
     do{
         cout << "Name: ";
@@ -317,6 +320,23 @@ void add(vector<Person> &p) {
 
 // ===== HELP =====
 void help(){
+
+}
+//Add vector to text file
+void addInfo(vector<Person> &p){
+    ofstream outputFile;
+
+        outputFile.open("people.txt");
+
+        for(unsigned int i=0; i < p.size(); i++){
+            outputFile << p[i].getName() << ",";
+            outputFile << p[i].getGender() << ",";
+            outputFile << p[i].getDateOfBirth() << ",";
+            outputFile << p[i].getDateOfBirth() << ",";
+            outputFile << p[i].getCountry() << endl;
+        }
+
+        outputFile.close();
 
 }
 
