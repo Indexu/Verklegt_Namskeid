@@ -508,8 +508,7 @@ bool verifyDate(string ver) {
     return false;
 }
 
-<<<<<<< HEAD
-=======
+
 // Largest int value
 int largestValue(vector<int> &v){
     int largest = 0;
@@ -522,4 +521,3 @@ int largestValue(vector<int> &v){
 
     return largest;
 }
->>>>>>> origin/master
