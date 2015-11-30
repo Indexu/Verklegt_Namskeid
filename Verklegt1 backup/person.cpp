@@ -4,7 +4,7 @@
 using namespace std;
 
 // Constructor - With date of death
-Person::Person(string n, string g, string dob, string dod, string c){
+Person::Person(std::string n, std::string g, std::string dob, std::string dod, std::string c){
     Name = n;
     Gender = g;
     DateOfBirth = dob;
@@ -13,7 +13,7 @@ Person::Person(string n, string g, string dob, string dod, string c){
 }
 
 // Get set name
-string Person::getName(){
+std::string Person::getName(){
     return Name;
 }
 void Person::setName(std::string n){
@@ -21,43 +21,43 @@ void Person::setName(std::string n){
 }
 
 // Get set gender
-string Person::getGender(){
+std::string Person::getGender(){
     return Gender;
 }
-void Person::setGender(string g){
+void Person::setGender(std::string g){
     Gender = g;
 }
 
 // Get set date of birth
-string Person::getDateOfBirth(){
+std::string Person::getDateOfBirth(){
     return DateOfBirth;
 }
-void Person::setDateOfBirth(string dob){
+void Person::setDateOfBirth(std::string dob){
     DateOfBirth = dob;
 }
 
 // Get set date of death
-string Person::getDateOfDeath(){
+std::string Person::getDateOfDeath(){
     return DateOfDeath;
 }
-void Person::setDateOfDeath(string dod){
+void Person::setDateOfDeath(std::string dod){
     DateOfDeath = dod;
 }
 
 // Get set country
-string Person::getCountry(){
+std::string Person::getCountry(){
     return Country;
 }
 
-void Person::setCountry(string c){
+void Person::setCountry(std::string c){
     Country = c;
 }
 
 void Person::display(int nameLength) {
      cout << "| ";
      cout << setw(nameLength) << getName() << " | ";
-     cout << setw(6) << getGender() << " | ";
+     cout <<  setw(6) << getGender() << " | ";
      cout << setw(10) << getDateOfBirth() << " | ";
      cout << setw(10) << getDateOfDeath() << " | ";
-     cout << getCountry() << endl;
+     cout <<  setw(4) << getCountry() << endl;
 }
