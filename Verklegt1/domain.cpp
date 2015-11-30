@@ -253,18 +253,6 @@ vector<Person> search(vector<Person> &p, string query, string &message){
     }
 
     return results;
-
-    /*
-    // Display
-    // No results
-    if(results.size() == 0){
-        cout << "No results for query: \"" << query << "\"" << endl;
-    }
-    // Results
-    else{
-        //display(results, longestName);
-    }
-    */
 }
 
 // ===== ADD =====
@@ -318,10 +306,15 @@ void add(vector<Person> &p) {
         cout << "Date of death (DD/MM/YYYY, if alive: -): ";
         getline(cin, dod);
 
-        valid = verifyDate(dod);
+        if(dod == "-"){
+            dod = "";
+        }
+        else{
+            valid = verifyDate(dod);
 
-        if(!valid){
-            cout << "Invalid date format." << endl;
+            if(!valid){
+                cout << "Invalid date format." << endl;
+            }
         }
     }while(!valid);
 
@@ -359,7 +352,7 @@ int findLongestName(vector<Person>& p) {
 // Verify date
 bool verifyDate(string ver) {
     regex expr ("^[0-9]{2}/[0-9]{2}/[0-9]{4}$");
-    if (regex_match(ver, expr) || ver == "-") {
+    if (regex_match(ver, expr)) {
        return true;
     }
     return false;
@@ -376,6 +369,12 @@ int largestValue(vector<int> &v){
     }
 
     return largest;
+}
+
+//Add vector to text file
+void addInfo(vector<Person> &p){
+    setData(p);
+
 }
 
 // Populate vector

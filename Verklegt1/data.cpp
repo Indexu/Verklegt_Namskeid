@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// Get data
 void getData(vector<Person> &p){
     // Load file
     ifstream ifile("people.txt");
@@ -30,4 +31,22 @@ void getData(vector<Person> &p){
     }
     // Close
     ifile.close();
+}
+
+// Set data
+void setData(vector<Person> &p){
+    ofstream outputFile;
+
+    outputFile.open("people.txt");
+
+    for(unsigned int i=0; i < p.size(); i++){
+        outputFile << p[i].getName() << ",";
+        outputFile << p[i].getGender() << ",";
+        outputFile << p[i].getDateOfBirth() << ",";
+        outputFile << p[i].getDateOfBirth() << ",";
+        outputFile << p[i].getCountry() << endl;
+    }
+
+    outputFile.close();
+
 }

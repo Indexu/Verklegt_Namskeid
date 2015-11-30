@@ -52,6 +52,10 @@ void loop(){
         else if(command == "add") {
             add(people);
         }
+        // Write to database
+        else if(command == "save") {
+            addInfo(people);
+        }
         // Help
         else if(command == "help"){
             help(command);

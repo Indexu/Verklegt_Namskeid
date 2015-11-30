@@ -7,6 +7,7 @@
 using namespace std;
 
 void getData(vector<Person> &p);
+void setData(vector<Person> &p);
 
 #endif // DATA
 

@@ -25,6 +25,8 @@ int findLongestName(vector<Person> &p);
 void add(vector<Person> &p);
 // Largest value in int vector
 int largestValue(vector<int> &v);
+// Add to txt file
+void addInfo(vector<Person> &p);
 
 #endif // DOMAIN
 
