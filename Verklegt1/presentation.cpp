@@ -51,6 +51,16 @@ void loop(){
                     cout << message << endl;
                 }
             }
+            // Filter
+            else if(getCommand(command) == "filter"){
+                vector<Person> results = filter(people, command, message);
+                if(message == ""){
+                    display(results, longestName);
+                }
+                else{
+                    cout << message << endl;
+                }
+            }
             // Add
             else if(command == "add") {
                 add(people);
@@ -94,7 +104,12 @@ void display(vector<Person> p, int longestName){
 
     // loops through vector
     for(unsigned int i = 0; i < p.size(); i++){
-        p[i].display(longestName);
+        cout << "| ";
+        cout << setw(longestName) << p[i].getName() << " | ";
+        cout << setw(6) << p[i].getGender() << " | ";
+        cout << setw(10) << p[i].getDateOfBirth() << " | ";
+        cout << setw(10) << p[i].getDateOfDeath() << " | ";
+        cout << p[i].getCountry() << endl;
     }
 }
 
@@ -121,6 +136,19 @@ void help(string command) {
         cout << "search [args] [male|female] searches for specified gender" << endl;
         cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
     }
+    else if (command == "filter") {
+        cout << "filter [string] filters out the string in all the columns except gender" << endl;
+        cout << "filter -a [string] returns filter in ascending order" << endl;
+        cout << "filter -b [string] filters out matches in the birth date column" << endl;
+        cout << "filter -c [string] filters out matches in the country column" << endl;
+        cout << "filter -C [string] filters out matches in the database case sensitive" << endl;
+        cout << "filter -d [string] filters out matches in the death date column" << endl;
+        cout << "filter -g [string] filters out matches in the date of gender column" << endl;
+        cout << "filter -n [string] filters out matches in the names column" << endl;
+        cout << "filter -z [string] returns filter in descending order" << endl;
+        cout << "filter [args] [male|female] filter out a specified gender" << endl;
+        cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
+    }
     else if (command == "sort") {
         cout << "sort/sort -a prints out the database in ascending order." << endl;
         cout << "sort -d prints out the database in descending order." << endl;
@@ -133,6 +161,7 @@ void help(string command) {
         cout << "[add] is used to add a person to the datebase."  << endl;
         cout << "[display] is used to print out the database." << endl;
         cout << "[search] is used to search for an item in the database." << endl;
+        cout << "[filter] is used to filter out an item in the database." << endl;
         cout << "[sort] is used to sort the list in the database." << endl;
     }
     else {

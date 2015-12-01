@@ -4,7 +4,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include <iomanip>
 
 class Person{
     std::string Name;
@@ -17,27 +16,27 @@ public:
     Person(std::string n, std::string g, std::string dob, std::string dod, std::string c);
     
     // Get set name
-    std::string getName();
+    std::string getName() const;
     void setName(std::string n);
     
     // Get set gender
-    std::string getGender();
+    std::string getGender() const;
     void setGender(std::string g);
 
     // Get set date of birth
-    std::string getDateOfBirth();
+    std::string getDateOfBirth() const;
     void setDateOfBirth(std::string dob);
     
     // Get set date of death
-    std::string getDateOfDeath();
+    std::string getDateOfDeath() const;
     void setDateOfDeath(std::string dod);
 
     // Get set country
-    std::string getCountry();
+    std::string getCountry() const;
     void setCountry(std::string c);
 
-    // Display the vector
-    void display(int nameLength);
+    // Overload == operator
+    bool operator==(const Person &p) const;
 
 };
 

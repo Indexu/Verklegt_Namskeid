@@ -14,7 +14,7 @@ Person::Person(string n, string g, string dob, string dod, string c){
 }
 
 // Get set name
-string Person::getName(){
+string Person::getName() const{
     return Name;
 }
 void Person::setName(std::string n){
@@ -22,7 +22,7 @@ void Person::setName(std::string n){
 }
 
 // Get set gender
-string Person::getGender(){
+string Person::getGender() const{
     return Gender;
 }
 void Person::setGender(string g){
@@ -30,7 +30,7 @@ void Person::setGender(string g){
 }
 
 // Get set date of birth
-string Person::getDateOfBirth(){
+string Person::getDateOfBirth() const{
     return DateOfBirth;
 }
 void Person::setDateOfBirth(string dob){
@@ -38,7 +38,7 @@ void Person::setDateOfBirth(string dob){
 }
 
 // Get set date of death
-string Person::getDateOfDeath(){
+string Person::getDateOfDeath() const{
     return DateOfDeath;
 }
 void Person::setDateOfDeath(string dod){
@@ -46,19 +46,20 @@ void Person::setDateOfDeath(string dod){
 }
 
 // Get set country
-string Person::getCountry(){
+string Person::getCountry() const{
     return Country;
 }
-
 void Person::setCountry(string c){
     Country = c;
 }
 
-void Person::display(int nameLength) {
-     cout << "| ";
-     cout << setw(nameLength) << getName() << " | ";
-     cout << setw(6) << getGender() << " | ";
-     cout << setw(10) << getDateOfBirth() << " | ";
-     cout << setw(10) << getDateOfDeath() << " | ";
-     cout << getCountry() << endl;
+// Operator ==
+bool Person::operator==(const Person &p) const{
+    bool n = (Name == p.getName());
+    bool g = (Gender == p.getGender());
+    bool b = (DateOfBirth == p.getDateOfBirth());
+    bool d = (DateOfDeath == p.getDateOfDeath());
+    bool c = (Country == p.getCountry());
+
+    return (n && g && b && d && c);
 }

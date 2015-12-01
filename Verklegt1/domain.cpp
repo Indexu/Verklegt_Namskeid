@@ -257,6 +257,44 @@ vector<Person> search(vector<Person> &p, string query, string &message){
     return results;
 }
 
+// ===== Filter =====
+vector<Person> filter(vector<Person> &p, string query, string &message){
+    // Search
+    vector<Person> results = search(p, query, message);
+
+    // If successful search
+    if(message == ""){
+        // Whether or not add the person
+        bool addPerson;
+
+        for(unsigned int i = 0; i < p.size(); i++){
+            addPerson = true;
+            // Check search results
+            if(results.size() != 0){
+                for(unsigned int j = 0; j < results.size(); j++){
+                    // Remove search match and do not add the person
+                    if(p[i] == results[j]){
+                        results.erase(results.begin() + j);
+                        addPerson = false;
+                    }
+                }
+            }
+
+            // Add the person if true
+            if(addPerson){
+                results.push_back(p[i]);
+            }
+        }
+    }
+    // If no match in search, add all.
+    else if(results.size() == 0 && message[0] != 'O'){
+        results = p;
+        message = "";
+    }
+
+    return results;
+}
+
 // ===== ADD =====
 void add(vector<Person> &p) {
     // Vars

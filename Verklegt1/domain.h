@@ -17,8 +17,11 @@ int findLongestName(std::vector<Person> &p);
 // Sort names
 void sortNames(std::vector<Person> &p, std::string command);
 
-// Search for name
+// Search
 std::vector<Person> search(std::vector<Person> &p, std::string query, std::string &message);
+
+// Filter
+std::vector<Person> filter(std::vector<Person> &p, std::string query, std::string &message);
 
 // Verify date input
 bool verifyDate(std::string ver);
