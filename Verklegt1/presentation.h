@@ -16,5 +16,8 @@ void display(std::vector<Person> p, int longestName);
 // Help dialog
 void help(std::string command);
 
+// Add process
+void addProcess(std::vector<Person> &p, int currentID);
+
 #endif // PRESENTATION
 

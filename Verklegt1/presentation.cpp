@@ -67,7 +67,7 @@ void loop(){
             }
             // Add
             else if(command == "add") {
-                add(people, currentId);
+                addProcess(people, currentId);
             }
             // Delete
             else if(getCommand(command) == "delete") {
@@ -100,6 +100,75 @@ void loop(){
     else{
         cout << message << endl;
     }
+}
+
+void addProcess(vector<Person> &p, int currentID){
+    string name, gender, dob, dod = "", country;
+    bool valid = false;
+
+    // Name
+    do{
+        cout << "Name: ";
+        getline(cin, name);
+
+        if(name == ""){
+            cout << "Please enter a name." << endl;
+        }
+    }while(name == "");
+
+    // Gender
+    do{
+       cout << "Gender (M/F): ";
+       getline(cin, gender);
+
+       gender = verifyGender(gender);
+
+    }while(gender == "" || (gender[0] != 'm' && gender[0] != 'f'));
+
+    // Date of birth
+    do{
+        cout << "Date of birth (DD/MM/YYYY): ";
+        getline(cin, dob);
+
+        valid = verifyDate(dob);
+
+        if(!valid){
+            cout << "Invalid date format." << endl;
+        }
+    }while(!valid);
+
+    // Date of death
+    do{
+        valid = false;
+
+        cout << "Date of death (DD/MM/YYYY, if alive: -): ";
+        getline(cin, dod);
+
+        if(dod == "-"){
+            dod = "";
+            break;
+        }
+        else{
+            valid = verifyDate(dod);
+
+            if(!valid){
+                cout << "Invalid date format." << endl;
+            }
+        }
+    }while(!valid);
+
+    // Country
+    do{
+        cout << "Country of origin: ";
+        getline(cin, country);
+
+        if(country == ""){
+            cout << "Please enter a country." << endl;
+        }
+    }while(country == "");
+
+    // Add + print
+    cout << add(p, currentID, name, gender, dob, dod, country) << endl;
 }
 
 // Display

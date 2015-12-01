@@ -29,7 +29,7 @@ std::vector<Person> filter(const std::vector<Person> &p, std::string &query, std
 bool verifyDate(const std::string &ver);
 
 // Add new person to DB
-void add(std::vector<Person> &p, int &currentId);
+std::string add(std::vector<Person> &p, int &currentId, std::string name, std::string gender, std::string dob, std::string dod, std::string country);
 
 // Delete person from DB
 std::string del(std::vector<Person> &p, std::string &command);
@@ -54,6 +54,9 @@ bool isNumber(const std::string &str);
 
 // Get index by ID
 int getIndexByID(std::vector<Person> p, int id);
+
+// Verify gender input
+std::string verifyGender(std::string g);
 
 #endif // DOMAIN_LAYER
 

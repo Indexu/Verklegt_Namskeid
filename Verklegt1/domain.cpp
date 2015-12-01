@@ -343,83 +343,13 @@ vector<Person> filter(const vector<Person> &p, string &query, string &message){
 }
 
 // ===== ADD =====
-void add(vector<Person> &p, int &currentId) {
-    // Vars
-    string name, gender, dob, dod = "", country, message;
-    bool valid;
-
-    // Name
-    do{
-        cout << "Name: ";
-        getline(cin, name);
-
-        if(name == ""){
-            cout << "Please enter a name." << endl;
-        }
-    }while(name == "");
-
-    // Gender
-    do{
-       cout << "Gender (M/F): ";
-       getline(cin, gender);
-
-       gender = tolower(gender[0]);
-
-        if(gender == ""){
-            cout << "Please enter a gender." << endl;
-        }
-        else if(gender[0] != 'm' && gender[0] != 'f'){
-            cout << "Invalid gender input" << endl;
-        }
-        else{
-            gender = (gender[0] == 'm') ? gender = "male" : gender = "female";
-        }
-    }while(gender == "" || (gender[0] != 'm' && gender[0] != 'f'));
-
-    // Date of birth
-    do{
-        cout << "Date of birth (DD/MM/YYYY): ";
-        getline(cin, dob);
-
-        valid = verifyDate(dob);
-
-        if(!valid){
-            cout << "Invalid date format." << endl;
-        }
-    }while(!valid);
-
-    // Date of death
-    do{
-        cout << "Date of death (DD/MM/YYYY, if alive: -): ";
-        getline(cin, dod);
-
-        if(dod == "-"){
-            dod = "";
-        }
-        else{
-            valid = verifyDate(dod);
-
-            if(!valid){
-                cout << "Invalid date format." << endl;
-            }
-        }
-    }while(!valid);
-
-    // Country
-    do{
-        cout << "Country of origin: ";
-        getline(cin, country);
-
-        if(country == ""){
-            cout << "Please enter a country." << endl;
-        }
-    }while(country == "");
-
+string add(vector<Person> &p, int &currentId, string name, string gender, string dob, string dod, string country) {
     // Add to person to vector
     Person temp(++currentId, name, gender, dob, dod, country);
     p.push_back(temp);
     setData(p);
-    cout << "Person " << name << " succesfully added." << endl;
+
+    return "Person " + name + " succesfully added.";
 }
 
 // ===== DELETE =====
@@ -716,4 +646,21 @@ int getIndexByID(vector<Person> p, int id){
     }
 
     return middle;
+}
+
+// Verify gender input
+string verifyGender(string g){
+    g = tolower(g[0]);
+
+    if(g == ""){
+        g = "Please enter a gender.";
+    }
+    else if(g[0] != 'm' && g[0] != 'f'){
+        g = "Invalid gender input";
+    }
+    else{
+        g = (g[0] == 'm') ? g = "male" : g = "female";
+    }
+
+    return g;
 }
