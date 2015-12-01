@@ -7,7 +7,7 @@
 using namespace std;
 
 // ===== SORTING =====
-void sortNames(vector<Person> &p, string command){
+void sortNames(vector<Person> &p, const string &command){
     // Ascending
     if(command == "sort" || command == "sort -a"){
         sort(p.begin(), p.end(), sortNameAscend);
@@ -19,7 +19,7 @@ void sortNames(vector<Person> &p, string command){
 }
 
 // Alphabetically name ascending
-bool sortNameAscend(Person p1, Person p2){
+bool sortNameAscend(const Person p1, const Person p2){
     // Get names
     string s1 = p1.getName();
     string s2 = p2.getName();
@@ -35,7 +35,7 @@ bool sortNameAscend(Person p1, Person p2){
     return false;
 }
 // Alphabetically name descending
-bool sortNameDescend(Person p1, Person p2){
+bool sortNameDescend(const Person p1, const Person p2){
     // Get names
     string s1 = p1.getName();
     string s2 = p2.getName();
@@ -52,7 +52,7 @@ bool sortNameDescend(Person p1, Person p2){
 }
 
 // ===== SEARCH =====
-vector<Person> search(vector<Person> &p, string query, string &message){
+vector<Person> search(const vector<Person> &p, string &query, string &message){
     vector<Person> results; // Result vector
     vector<int> args; // Arguements
     message = "";
@@ -258,7 +258,7 @@ vector<Person> search(vector<Person> &p, string query, string &message){
 }
 
 // ===== Filter =====
-vector<Person> filter(vector<Person> &p, string query, string &message){
+vector<Person> filter(const vector<Person> &p, string &query, string &message){
     // Search
     vector<Person> results = search(p, query, message);
 
@@ -378,20 +378,24 @@ void add(vector<Person> &p) {
 // ===== OTHER =====
 
 // Find the longest name
-int findLongestName(vector<Person>& p) {
-    // Set first element to longest name
-    int nameLength = p[0].getName().length();
+int findLongestName(const vector<Person> &p) {
+    int currentName, nameLength = 0;
     // Loop over vector
-    for(unsigned int i = 1; i < p.size(); i++){
-        if ((int)p[i].getName().length() > nameLength) {
-            nameLength = p[i].getName().length();
+    for(unsigned int i = 0; i < p.size(); i++){
+        // Current name length
+        currentName = p[i].getName().length();
+        // If it's longer than the longest name so far
+        if (nameLength < currentName) {
+            // New longest name
+            nameLength = currentName;
         }
     }
+
     return nameLength;
 }
 
 // Verify date
-bool verifyDate(string ver) {
+bool verifyDate(const string &ver) {
     regex expr ("^[0-9]{2}/[0-9]{2}/[0-9]{4}$");
     if (regex_match(ver, expr)) {
        return true;
@@ -400,7 +404,7 @@ bool verifyDate(string ver) {
 }
 
 // Largest int value
-int largestValue(vector<int> &v){
+int largestValue(const vector<int> &v){
     int largest = 0;
 
     for(int i = 0; i < v.size(); i++){
@@ -413,7 +417,7 @@ int largestValue(vector<int> &v){
 }
 
 //Add vector to text file
-void addInfo(vector<Person> &p){
+void writeVector(const vector<Person> &p){
     setData(p);
 
 }
@@ -424,7 +428,7 @@ void populateVector(vector<Person> &p, string &message){
 }
 
 // Get the command
-string getCommand(string command) {
+string getCommand(const string &command) {
     int findSpace = command.find(" ");
     return command.substr(0,findSpace);
 }

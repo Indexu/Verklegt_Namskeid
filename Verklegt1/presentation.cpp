@@ -67,7 +67,7 @@ void loop(){
             }
             // Write to database
             else if(command == "save") {
-                addInfo(people);
+                writeVector(people);
             }
             // Help
             else if(getCommand(command) == "help"){

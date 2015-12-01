@@ -8,38 +8,35 @@
 void populateVector(std::vector<Person> &p, std::string &message);
 
 // Sort vector
-bool sortNameAscend(Person p1, Person p2);
-bool sortNameDescend(Person p1, Person p2);
+bool sortNameAscend(const Person p1, const Person p2);
+bool sortNameDescend(const Person p1, const Person p2);
 
 // Get the longest name in the vector
-int findLongestName(std::vector<Person> &p);
+int findLongestName(const std::vector<Person> &p);
 
 // Sort names
-void sortNames(std::vector<Person> &p, std::string command);
+void sortNames(std::vector<Person> &p, const std::string &command);
 
 // Search
-std::vector<Person> search(std::vector<Person> &p, std::string query, std::string &message);
+std::vector<Person> search(const std::vector<Person> &p, std::string &query, std::string &message);
 
 // Filter
-std::vector<Person> filter(std::vector<Person> &p, std::string query, std::string &message);
+std::vector<Person> filter(const std::vector<Person> &p, std::string &query, std::string &message);
 
 // Verify date input
-bool verifyDate(std::string ver);
-
-// Find longest name in database
-int findLongestName(std::vector<Person> &p);
+bool verifyDate(const std::string &ver);
 
 // Add new person to vector
 void add(std::vector<Person> &p);
 
 // Largest value in int vector
-int largestValue(std::vector<int> &v);
+int largestValue(const std::vector<int> &v);
 
 // Add to txt file
-void addInfo(std::vector<Person> &p);
+void writeVector(const std::vector<Person> &p);
 
 // Get command
-std::string getCommand(std::string command);
+std::string getCommand(const std::string &command);
 
 #endif // DOMAIN_LAYER
 

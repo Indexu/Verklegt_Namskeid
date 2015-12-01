@@ -34,7 +34,7 @@ void getData(vector<Person> &p, string &message){
 }
 
 // Set data
-void setData(vector<Person> &p){
+void setData(const vector<Person> &p){
     ofstream outputFile;
 
     outputFile.open("people.txt");
