@@ -2,6 +2,7 @@
 #include "domain.h"
 #include "person.h"
 #include <iomanip>
+#include <cstdlib>
 
 using namespace std;
 
@@ -86,9 +87,14 @@ void loop(){
             else if(command == "q" || command == "quit"){
                 break;
             }
+            // Clear screen
+            else if(command == "clear") {
+                clearScreen();
+                // system("clear"); is not the way to go appearantly
+            }
             // Invalid
             else if(command != ""){
-                cout << "Invalid command." << endl;
+                cout << "Invalid command. Type help for available commands." << endl;
             }
         }
     }
@@ -126,6 +132,13 @@ void display(vector<Person> p, int longestName){
         cout << "-";
     }
     cout << endl << "| Results: " << p.size() << endl;
+}
+
+// Clear screen
+void clearScreen() {
+    for (int i = 0; i < 5; i++) {
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    }
 }
 
 // Help
@@ -170,7 +183,7 @@ void help(string command) {
         cout << "sort/sort -a prints out the database in ascending order by name." << endl;
         cout << "sort -d prints out the database in descending order by name." << endl;
         cout << "sort -i prints out the database in ascending order by ID." << endl;
-        cout << "sort -id prints out the database in descending order by ID." << endl;
+        cout << "sort -iD prints out the database in descending order by ID." << endl;
     }
     else if (command == "delete") {
         cout << "delete [id] deletes the entry in the database with corresponding id" << endl;
@@ -186,6 +199,8 @@ void help(string command) {
         cout << "[search] is used to search for an item in the database." << endl;
         cout << "[filter] is used to filter out an item in the database." << endl;
         cout << "[sort] is used to sort the list in the database." << endl;
+        cout << "[clear] is used to clear the console window" << endl;
+        cout << "[quit] is used to quit the program." << endl;
     }
     else {
         cout << "No help found for command: \"" << command << "\"\nSee help menu for instructions:" << endl;
