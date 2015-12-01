@@ -278,6 +278,11 @@ void help(string command) {
         cout << "edit -d [id] [value] replaces the death date of the person of the specified id with the specified date" << endl;
         cout << "edit -c [id] [value] replaces the country of the person of the specified id with the specified value" << endl;
     }
+    // Edit
+    else if (command == "quit") {
+        cout << "Safely exits the application" << endl;
+        cout << "[quit] and [q] are synonymous" << endl;
+    }
     // Menu
     else if (command == "help") {
         cout << "==================HELP MENU====================" << endl;
