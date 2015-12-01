@@ -3,6 +3,8 @@
 #include "person.h"
 #include <iomanip>
 
+string getCommand(string command);
+
 void loop(){
     // ===== SETUP =====
 
@@ -57,8 +59,10 @@ void loop(){
             addInfo(people);
         }
         // Help
-        else if(command == "help"){
-            help(command);
+        else if(getCommand(command) == "help"){
+            string subcommand = "";
+            (command.length() == 4) ? subcommand = "help" : subcommand = command.substr(5,command.length());
+            help(subcommand);
         }
         // Quit
         else if(command == "q"){
@@ -92,6 +96,45 @@ void display(vector<Person> p, int longestName){
 }
 
 // Help
-void help(string command){
-    cout << command << endl;
+void help(string command) {
+    if (command == "add") {
+        cout << "Follow the instructions on the screen." << endl;
+    }
+    else if (command == "display") {
+        cout << "Prints the database on the screen." << endl;
+    }
+    else if (command == "search") {
+        cout << "Search [string] searches through all the column" << endl;
+        cout << "Search -a [string] returns search in ascending order" << endl;
+        cout << "Search -b [string] searches through the birth date column" << endl;
+        cout << "Search -c [string] searches through the country column" << endl;
+        cout << "Search -C [string] searches through the database case sensitive" << endl;
+        cout << "Search -d [string] searches through the death date column" << endl;
+        cout << "Search -g [string] searches through the date of gender column" << endl;
+        cout << "Search -n [string] searches through the names column" << endl;
+        cout << "Search -z [string] returns search in descending order" << endl;
+    }
+    else if (command == "sort") {
+        cout << "Sort/sort -a prints out the database in ascending order." << endl;
+        cout << "Sort -d prints out the database in descending order." << endl;
+    }
+    else if (command == "help") {
+        cout << "==================HELP MENU====================" << endl;
+        cout << "Type help [keyword] for more detailed options." << endl;
+        cout << "===============================================" << endl;
+        cout << "The keywords used in this program are: " << endl;
+        cout << "[add] is used to add a person to the datebase."  << endl;
+        cout << "[display] is used to print out the database." << endl;
+        cout << "[search] is used to search for an item in the database." << endl;
+        cout << "[sort] is used to sort the list in the database." << endl;
+    }
+    else {
+        cout << "No help found for command: " << command << ". See help menu for instructions:" << endl;
+        help("help");
+    }
+}
+
+string getCommand(string command) {
+    int findSpace = command.find(" ");
+    return command.substr(0,findSpace);
 }
