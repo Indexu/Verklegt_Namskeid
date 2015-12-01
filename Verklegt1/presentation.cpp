@@ -142,7 +142,8 @@ void help(string command) {
         cout << "search -C [string] searches through the database case sensitive" << endl;
         cout << "search -d [string] searches through the death date column" << endl;
         cout << "search -g [string] searches through the date of gender column" << endl;
-        cout << "search -n [string] searches through the names column" << endl;
+        cout << "search -i [string] searches through the ID column" << endl;
+        cout << "search -n [string] searches through the name column" << endl;
         cout << "search -z [string] returns search in descending order" << endl;
         cout << "search [args] [male|female] searches for specified gender" << endl;
         cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
@@ -155,14 +156,17 @@ void help(string command) {
         cout << "filter -C [string] filters out matches in the database case sensitive" << endl;
         cout << "filter -d [string] filters out matches in the death date column" << endl;
         cout << "filter -g [string] filters out matches in the date of gender column" << endl;
+        cout << "filter -i [string] filters out matches in the ID column" << endl;
         cout << "filter -n [string] filters out matches in the names column" << endl;
         cout << "filter -z [string] returns filter in descending order" << endl;
         cout << "filter [args] [male|female] filter out a specified gender" << endl;
         cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
     }
     else if (command == "sort") {
-        cout << "sort -a prints out the database in ascending order. This is the default, i.e. entering only \"sort\"" << endl;
-        cout << "sort -d prints out the database in descending order." << endl;
+        cout << "sort/sort -a prints out the database in ascending order by name." << endl;
+        cout << "sort -d prints out the database in descending order by name." << endl;
+        cout << "sort -i prints out the database in ascending order by ID." << endl;
+        cout << "sort -id prints out the database in descending order by ID." << endl;
     }
     else if (command == "delete") {
         cout << "delete [id] deletes the entry in the database with corresponding id" << endl;

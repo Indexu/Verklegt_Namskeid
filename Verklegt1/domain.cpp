@@ -93,6 +93,7 @@ vector<Person> search(const vector<Person> &p, string &query, string &message){
     args.push_back(query.find(" -b ")); // 5. Date of birth
     args.push_back(query.find(" -d ")); // 6. Date of death
     args.push_back(query.find(" -c ")); // 7. Country
+    args.push_back(query.find(" -i ")); // 8. ID
 
     // Error check
     if(args[1] != string::npos && args[2] != string::npos){
@@ -154,6 +155,12 @@ vector<Person> search(const vector<Person> &p, string &query, string &message){
                         valid = true;
                     }
                 }
+                // ID
+                else if(args[8] != string::npos){
+                    if(to_string(p[i].getId()).find(query) != string::npos){
+                        valid = true;
+                    }
+                }
                 // All fields
                 else{
                     if(p[i].getName().find(query) != string::npos){
@@ -166,6 +173,9 @@ vector<Person> search(const vector<Person> &p, string &query, string &message){
                         valid = true;
                     }
                     else if(p[i].getCountry().find(query) != string::npos){
+                        valid = true;
+                    }
+                    else if(to_string(p[i].getId()).find(query) != string::npos){
                         valid = true;
                     }
                 }
@@ -224,6 +234,12 @@ vector<Person> search(const vector<Person> &p, string &query, string &message){
                         valid = true;
                     }
                 }
+                // ID
+                else if(args[8] != string::npos){
+                    if(to_string(p[i].getId()).find(query) != string::npos){
+                        valid = true;
+                    }
+                }
                 // All fields
                 else{
                     // Name
@@ -243,6 +259,10 @@ vector<Person> search(const vector<Person> &p, string &query, string &message){
                     }
                     // Date of death
                     else if(p[i].getDateOfDeath().find(query) != string::npos){
+                        valid = true;
+                    }
+                    // ID
+                    else if(to_string(p[i].getId()).find(query) != string::npos){
                         valid = true;
                     }
                     // Country
