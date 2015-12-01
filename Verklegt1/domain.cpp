@@ -12,9 +12,15 @@ void sortNames(vector<Person> &p, const string &command){
     if(command == "sort" || command == "sort -a"){
         sort(p.begin(), p.end(), sortNameAscend);
     }
+    else if (command == "sort -i") {
+        sort(p.begin(), p.end(), sortByIdAscend);
+    }
     // Descending
     else if(command == "sort -d"){
         sort(p.begin(), p.end(), sortNameDescend);
+    }
+    else if (command == "sort -iD") {
+        sort(p.begin(), p.end(), sortByIdDescend);
     }
 }
 
@@ -49,6 +55,15 @@ bool sortNameDescend(const Person p1, const Person p2){
     }
 
     return false;
+}
+
+// Sort table by ID
+bool sortByIdAscend(const Person p1, const Person p2) {
+    return (p1.getId() < p2.getId());
+}
+// Sort table by ID descending order
+bool sortByIdDescend(const Person p1, const Person p2) {
+    return (p1.getId() > p2.getId());
 }
 
 // ===== SEARCH =====

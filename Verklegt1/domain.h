@@ -10,6 +10,8 @@ void populateVector(std::vector<Person> &p, std::string &message);
 // Sort vector
 bool sortNameAscend(const Person p1, const Person p2);
 bool sortNameDescend(const Person p1, const Person p2);
+bool sortByIdAscend(const Person p1, const Person p2);
+bool sortByIdDescend(const Person p1, const Person p2);
 
 // Get the longest name in the vector
 int findLongestName(const std::vector<Person> &p);
