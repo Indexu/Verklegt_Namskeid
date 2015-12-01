@@ -19,5 +19,9 @@ void help(std::string command);
 // Add process
 void addProcess(std::vector<Person> &p, int currentID);
 
+// Clear screen
+void clearScreen();
+
 #endif // PRESENTATION
+
 

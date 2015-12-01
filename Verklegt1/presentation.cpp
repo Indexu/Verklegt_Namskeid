@@ -2,6 +2,7 @@
 #include "domain.h"
 #include "person.h"
 #include <iomanip>
+#include <cstdlib>
 
 using namespace std;
 
@@ -91,9 +92,14 @@ void loop(){
             else if(command == "q" || command == "quit"){
                 break;
             }
+            // Clear screen
+            else if(command == "clear") {
+                clearScreen();
+                // system("clear"); is not the way to go appearantly
+            }
             // Invalid
             else if(command != ""){
-                cout << "Invalid command." << endl;
+                cout << "Invalid command. Type help for available commands." << endl;
             }
         }
     }
@@ -202,6 +208,13 @@ void display(vector<Person> p, int longestName){
     cout << endl << "| Results: " << p.size() << endl;
 }
 
+// Clear screen
+void clearScreen() {
+    for (int i = 0; i < 5; i++) {
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    }
+}
+
 // Help
 void help(string command) {
     // Remove "help " from string
@@ -250,7 +263,7 @@ void help(string command) {
         cout << "sort/sort -a prints out the database in ascending order by name." << endl;
         cout << "sort -d prints out the database in descending order by name." << endl;
         cout << "sort -i prints out the database in ascending order by ID." << endl;
-        cout << "sort -id prints out the database in descending order by ID." << endl;
+        cout << "sort -iD prints out the database in descending order by ID." << endl;
     }
     // Delete
     else if (command == "delete") {
@@ -278,6 +291,8 @@ void help(string command) {
         cout << "[filter] is used to filter out an item in the database." << endl;
         cout << "[sort] is used to sort the list in the database." << endl;
         cout << "[edit] is used to edit a person's information in the database." << endl;
+        cout << "[clear] is used to clear the console window" << endl;
+        cout << "[quit] is used to quit the program." << endl;
     }
     // Error
     else {
