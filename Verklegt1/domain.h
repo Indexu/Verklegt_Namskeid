@@ -35,5 +35,8 @@ int largestValue(std::vector<int> &v);
 // Add to txt file
 void addInfo(std::vector<Person> &p);
 
+// Get command
+std::string getCommand(std::string command);
+
 #endif // DOMAIN_LAYER
 

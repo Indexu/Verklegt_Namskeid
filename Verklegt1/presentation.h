@@ -13,8 +13,5 @@ void display(std::vector<Person> p, int longestName);
 // Help dialog
 void help(std::string command);
 
-// Get command
-std::string getCommand(std::string command);
-
 #endif // PRESENTATION
 

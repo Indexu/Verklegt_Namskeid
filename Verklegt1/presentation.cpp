@@ -61,9 +61,7 @@ void loop(){
             }
             // Help
             else if(getCommand(command) == "help"){
-                string subcommand = "";
-                (command.length() == 4) ? subcommand = "help" : subcommand = command.substr(5,command.length());
-                help(subcommand);
+                help(command);
             }
             // Quit
             else if(command == "q"){
@@ -102,6 +100,8 @@ void display(vector<Person> p, int longestName){
 
 // Help
 void help(string command) {
+    (command.length() == 4) ? command = "help" : command = command.erase(0,5);
+
     if (command == "add") {
         cout << "Follow the instructions on the screen." << endl;
     }
@@ -137,9 +137,4 @@ void help(string command) {
         cout << "No help found for command: " << command << ". See help menu for instructions:" << endl;
         help("help");
     }
-}
-
-string getCommand(string command) {
-    int findSpace = command.find(" ");
-    return command.substr(0,findSpace);
 }

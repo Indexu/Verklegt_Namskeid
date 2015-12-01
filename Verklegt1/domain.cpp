@@ -383,3 +383,9 @@ void addInfo(vector<Person> &p){
 void populateVector(vector<Person> &p, string &message){
     getData(p, message);
 }
+
+// Get the command
+string getCommand(string command) {
+    int findSpace = command.find(" ");
+    return command.substr(0,findSpace);
+}
