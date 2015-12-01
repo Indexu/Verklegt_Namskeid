@@ -107,7 +107,7 @@ void display(vector<Person> p, int longestName){
     cout << setw(10) << "Death date" << " | ";
     cout << setw(4) << "Country" << endl;
 
-    for(int i = 0; i < (47 + longestName); i++){
+    for(int i = 0; i < (TABLE_LENGTH + longestName); i++){
         cout << "-";
     }
     cout << endl;
