@@ -13,6 +13,7 @@ void loop(){
     string message = ""; // General use message
     vector<Person> people; // The data vector
     int longestName; // Longest name var
+    int currentId; // Current Id
 
     // Add data
     populateVector(people, message);
@@ -20,6 +21,9 @@ void loop(){
     if(message == ""){
         // Get longest name
         longestName = findLongestName(people);
+
+        // Get current id
+        currentId = getCurrentId(people);
 
         // Print
         display(people, longestName);
@@ -63,7 +67,12 @@ void loop(){
             }
             // Add
             else if(command == "add") {
-                add(people);
+                add(people, currentId);
+            }
+            // Add
+            else if(getCommand(command) == "delete") {
+                message = del(people, command);
+                cout << message << endl;
             }
             // Write to database
             else if(command == "save") {
@@ -91,7 +100,8 @@ void loop(){
 // Display
 void display(vector<Person> p, int longestName){
     cout << "| ";
-    cout << left << setw(longestName) << "Name" << " | ";
+    cout << left << setw(4) << "ID" << " | ";
+    cout << setw(longestName) << "Name" << " | ";
     cout << setw(6) << "Gender" << " | ";
     cout << setw(10) << "Birth date" << " | ";
     cout << setw(10) << "Death date" << " | ";
@@ -105,6 +115,7 @@ void display(vector<Person> p, int longestName){
     // loops through vector
     for(unsigned int i = 0; i < p.size(); i++){
         cout << "| ";
+        cout << setw(4) << p[i].getId() << " | ";
         cout << setw(longestName) << p[i].getName() << " | ";
         cout << setw(6) << p[i].getGender() << " | ";
         cout << setw(10) << p[i].getDateOfBirth() << " | ";
@@ -153,12 +164,16 @@ void help(string command) {
         cout << "sort/sort -a prints out the database in ascending order." << endl;
         cout << "sort -d prints out the database in descending order." << endl;
     }
+    else if (command == "delete") {
+        cout << "delete [id] deletes the entry in the database with corresponding id" << endl;
+    }
     else if (command == "help") {
         cout << "==================HELP MENU====================" << endl;
         cout << "Type help [command] for more detailed options." << endl;
         cout << "===============================================" << endl;
         cout << "The command used in this program are: " << endl;
-        cout << "[add] is used to add a person to the datebase."  << endl;
+        cout << "[add] is used to add a person to the database."  << endl;
+        cout << "[delete] is used to delete a person from database."  << endl;
         cout << "[display] is used to print out the database." << endl;
         cout << "[search] is used to search for an item in the database." << endl;
         cout << "[filter] is used to filter out an item in the database." << endl;

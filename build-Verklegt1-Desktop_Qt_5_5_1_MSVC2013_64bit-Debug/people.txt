@@ -1,0 +1,7 @@
+1,Ada Lovelace,female,10/12/1815,10/12/1815,United Kingdom
+2,Alan Turing,male,23/06/1912,23/06/1912,United Kingdom
+3,Charles Babbage,male,26/12/1791,26/12/1791,United States of America
+4,Grace Murray Hopper,female,09/12/1906,09/12/1906,United Kingdom
+6,Franklin D,male,01/01/1889,01/01/1889,USA
+7,Dickon Manwoody,male,01/02/0003,01/02/0003,Westeros
+8,Frodo Baggins,male,25/03/1990,25/03/1990,Middle-Earth

@@ -26,8 +26,11 @@ std::vector<Person> filter(const std::vector<Person> &p, std::string &query, std
 // Verify date input
 bool verifyDate(const std::string &ver);
 
-// Add new person to vector
-void add(std::vector<Person> &p);
+// Add new person to DB
+void add(std::vector<Person> &p, int &currentId);
+
+// Delete person from DB
+std::string del(std::vector<Person> &p, std::string &command);
 
 // Largest value in int vector
 int largestValue(const std::vector<int> &v);
@@ -37,6 +40,12 @@ void writeVector(const std::vector<Person> &p);
 
 // Get command
 std::string getCommand(const std::string &command);
+
+// Get current id
+int getCurrentId(const std::vector<Person> &p);
+
+// Check if string is all-digits
+bool isNumber(const std::string &str);
 
 #endif // DOMAIN_LAYER
 

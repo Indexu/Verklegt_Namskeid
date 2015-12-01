@@ -15,9 +15,10 @@ void getData(vector<Person> &p, string &message){
     }
 
     // Vars
-    string line, name, gender, dob, dod, country;
+    string line, id, name, gender, dob, dod, country;
     while (getline(ifile, line)) {
         istringstream tokens(line);
+        getline(tokens, id, ',');
         getline(tokens, name, ',');
         getline(tokens, gender, ',');
         getline(tokens, dob, ',');
@@ -25,7 +26,7 @@ void getData(vector<Person> &p, string &message){
         getline(tokens, country, ',');
 
         // Create person
-        Person temp(name, gender, dob, dod, country);
+        Person temp(stoi(id), name, gender, dob, dod, country);
         // Add to person to vector
         p.push_back(temp);
     }
@@ -40,6 +41,7 @@ void setData(const vector<Person> &p){
     outputFile.open("people.txt");
 
     for(unsigned int i=0; i < p.size(); i++){
+        outputFile << p[i].getId() << ",";
         outputFile << p[i].getName() << ",";
         outputFile << p[i].getGender() << ",";
         outputFile << p[i].getDateOfBirth() << ",";

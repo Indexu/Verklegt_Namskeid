@@ -4,13 +4,19 @@
 
 using namespace std;
 
-// Constructor - With date of death
-Person::Person(string n, string g, string dob, string dod, string c){
+// Constructor
+Person::Person(int id, string n, string g, string dob, string dod, string c){
+    Id = id;
     Name = n;
     Gender = g;
     DateOfBirth = dob;
     DateOfDeath = dod;
     Country = c;
+}
+
+// Get id
+int Person::getId() const{
+    return Id;
 }
 
 // Get set name

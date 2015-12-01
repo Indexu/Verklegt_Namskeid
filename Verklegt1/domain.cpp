@@ -296,7 +296,7 @@ vector<Person> filter(const vector<Person> &p, string &query, string &message){
 }
 
 // ===== ADD =====
-void add(vector<Person> &p) {
+void add(vector<Person> &p, int &currentId) {
     // Vars
     string name, gender, dob, dod = "", country;
     bool valid;
@@ -369,10 +369,58 @@ void add(vector<Person> &p) {
     }while(country == "");
 
     // Add to person to vector
-    Person temp(name, gender, dob, dod, country);
+    Person temp(++currentId, name, gender, dob, dod, country);
     p.push_back(temp);
     setData(p);
     cout << "Person " << name << " succesfully added." << endl;
+}
+
+// ===== DELETE =====
+string del(vector<Person> &p, string &command){
+    string name, message = ""; // Return message
+    bool deleted = false; // If deleted
+    int id; // The extracted ID
+
+    // Check for missing ID
+    if(command.length() < 7){
+        message = "ID is missing";
+        return message;
+    }
+
+    // Remove "delete "
+    command = command.erase(0,7);
+
+    // Confirm the ID is a number
+    if(!isNumber(command)){
+        message = "ID must only contain digits";
+        return message;
+    }
+
+    // Convert to int
+    id = stoi(command);
+
+    // Loop over the vector and delete
+    for(unsigned int i = 0; i < p.size(); i++){
+        // Match
+        if(p[i].getId() == id){
+            name = p[i].getName(); // Store name
+            p.erase(p.begin() + i); // Remove from vector
+            deleted = true; // Confirm deleted
+        }
+    }
+
+    // Success message
+    if(deleted){
+        message = "| " + to_string(id) + " - " + name + " has been deleted.";
+        writeVector(p);
+    }
+    // ID not found message
+    else{
+        message = "ID: " + to_string(id) + " not found.";
+    }
+
+    // Return
+    return message;
 }
 
 // ===== OTHER =====
@@ -431,4 +479,32 @@ void populateVector(vector<Person> &p, string &message){
 string getCommand(const string &command) {
     int findSpace = command.find(" ");
     return command.substr(0,findSpace);
+}
+
+// Get current id
+int getCurrentId(const vector<Person> &p) {
+    int currentId, largestId = 0;
+    // Loop over vector
+    for(unsigned int i = 0; i < p.size(); i++){
+        // Current id
+        currentId = p[i].getId();
+        // If it's longer than the largest id so far
+        if (largestId < currentId) {
+            // New largest id
+            largestId = currentId;
+        }
+    }
+
+    return largestId;
+}
+
+// Verify string as number
+bool isNumber(const string &str){
+    for(int i = 0; i < str.length(); i++){
+        if(!isdigit(str[i])){
+            return false;
+        }
+    }
+
+    return true;
 }

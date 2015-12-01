@@ -6,6 +6,7 @@
 #include <vector>
 
 class Person{
+    int Id;
     std::string Name;
     std::string Gender;
     std::string DateOfBirth;
@@ -13,7 +14,10 @@ class Person{
     std::string Country;
 public:
     // Constructor - With date of death
-    Person(std::string n, std::string g, std::string dob, std::string dod, std::string c);
+    Person(int id, std::string n, std::string g, std::string dob, std::string dod, std::string c);
+
+    // Get id
+    int Person::getId() const;
     
     // Get set name
     std::string getName() const;
