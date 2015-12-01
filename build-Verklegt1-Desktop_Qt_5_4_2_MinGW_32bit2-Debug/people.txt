@@ -6,5 +6,5 @@ John Vincent Atanasoff,male,04/10/1903,15/06/1995,USA
 Jean Bartik,female,27/12/1924,23/12/1924,USA
 Timothy John Berners-Lee,male,08/06/1955,,UK
 George Bool,male,02/11/1815,08/12/1864,UK
-Nikolay Brusentsov,male,07/02/1925,04/12/2014,USSR
+Nikolay Brusentsov,male,07/02/1925,04/12/2014,RUS
 Vannevar Bush,male,11/03/1890,28/06/1974,USA
