@@ -333,6 +333,7 @@ void add(vector<Person> &p) {
     // Add to person to vector
     Person temp(name, gender, dob, dod, country);
     p.push_back(temp);
+    setData(p);
     cout << "Person " << name << " succesfully added." << endl;
 }
 

@@ -26,7 +26,7 @@ void loop(){
 
         // ===== MAIN =====
 
-        while(command != "q"){
+        while(command != "q" || command != "quit"){
             cout << ">";
 
             // Get command
@@ -37,12 +37,12 @@ void loop(){
                 display(people, longestName);
             }
             // Sort
-            else if(command.substr(0,4) == "sort"){
+            else if(getCommand(command) == "sort"){
                 sortNames(people, command);
                 display(people, longestName);
             }
             // Search
-            else if(command.substr(0,6) == "search"){
+            else if(getCommand(command) == "search"){
                 vector<Person> results = search(people, command, message);
                 if(message == ""){
                     display(results, longestName);
@@ -64,7 +64,7 @@ void loop(){
                 help(command);
             }
             // Quit
-            else if(command == "q"){
+            else if(command == "q" || command == "quit"){
                 break;
             }
             // Invalid
@@ -109,32 +109,34 @@ void help(string command) {
         cout << "Prints the database on the screen." << endl;
     }
     else if (command == "search") {
-        cout << "Search [string] searches through all the column" << endl;
-        cout << "Search -a [string] returns search in ascending order" << endl;
-        cout << "Search -b [string] searches through the birth date column" << endl;
-        cout << "Search -c [string] searches through the country column" << endl;
-        cout << "Search -C [string] searches through the database case sensitive" << endl;
-        cout << "Search -d [string] searches through the death date column" << endl;
-        cout << "Search -g [string] searches through the date of gender column" << endl;
-        cout << "Search -n [string] searches through the names column" << endl;
-        cout << "Search -z [string] returns search in descending order" << endl;
+        cout << "search [string] searches through all the columns except gender" << endl;
+        cout << "search -a [string] returns search in ascending order" << endl;
+        cout << "search -b [string] searches through the birth date column" << endl;
+        cout << "search -c [string] searches through the country column" << endl;
+        cout << "search -C [string] searches through the database case sensitive" << endl;
+        cout << "search -d [string] searches through the death date column" << endl;
+        cout << "search -g [string] searches through the date of gender column" << endl;
+        cout << "search -n [string] searches through the names column" << endl;
+        cout << "search -z [string] returns search in descending order" << endl;
+        cout << "search [args] [male|female] searches for specified gender" << endl;
+        cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
     }
     else if (command == "sort") {
-        cout << "Sort/sort -a prints out the database in ascending order." << endl;
-        cout << "Sort -d prints out the database in descending order." << endl;
+        cout << "sort/sort -a prints out the database in ascending order." << endl;
+        cout << "sort -d prints out the database in descending order." << endl;
     }
     else if (command == "help") {
         cout << "==================HELP MENU====================" << endl;
-        cout << "Type help [keyword] for more detailed options." << endl;
+        cout << "Type help [command] for more detailed options." << endl;
         cout << "===============================================" << endl;
-        cout << "The keywords used in this program are: " << endl;
+        cout << "The command used in this program are: " << endl;
         cout << "[add] is used to add a person to the datebase."  << endl;
         cout << "[display] is used to print out the database." << endl;
         cout << "[search] is used to search for an item in the database." << endl;
         cout << "[sort] is used to sort the list in the database." << endl;
     }
     else {
-        cout << "No help found for command: " << command << ". See help menu for instructions:" << endl;
+        cout << "No help found for command: \"" << command << "\"\nSee help menu for instructions:" << endl;
         help("help");
     }
 }
