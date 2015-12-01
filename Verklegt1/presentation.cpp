@@ -3,7 +3,7 @@
 #include "person.h"
 #include <iomanip>
 
-string getCommand(string command);
+using namespace std;
 
 void loop(){
     // ===== SETUP =====
@@ -15,63 +15,68 @@ void loop(){
     int longestName; // Longest name var
 
     // Add data
-    populateVector(people);
+    populateVector(people, message);
 
-    // Get longest name
-    longestName = findLongestName(people);
+    if(message == ""){
+        // Get longest name
+        longestName = findLongestName(people);
 
-    // Print
-    display(people, longestName);
+        // Print
+        display(people, longestName);
 
-    // ===== MAIN =====
+        // ===== MAIN =====
 
-    while(command != "q"){
-        cout << ">";
+        while(command != "q"){
+            cout << ">";
 
-        // Get command
-        getline(cin, command);
+            // Get command
+            getline(cin, command);
 
-        // Display the vector
-        if(command == "display" || command == "list"){
-            display(people, longestName);
-        }
-        // Sort
-        else if(command.substr(0,4) == "sort"){
-            sortNames(people, command);
-            display(people, longestName);
-        }
-        // Search
-        else if(command.substr(0,6) == "search"){
-            vector<Person> results = search(people, command, message);
-            if(message == ""){
-                display(results, longestName);
+            // Display the vector
+            if(command == "display" || command == "list"){
+                display(people, longestName);
             }
-            else{
-                cout << message << endl;
+            // Sort
+            else if(command.substr(0,4) == "sort"){
+                sortNames(people, command);
+                display(people, longestName);
+            }
+            // Search
+            else if(command.substr(0,6) == "search"){
+                vector<Person> results = search(people, command, message);
+                if(message == ""){
+                    display(results, longestName);
+                }
+                else{
+                    cout << message << endl;
+                }
+            }
+            // Add
+            else if(command == "add") {
+                add(people);
+            }
+            // Write to database
+            else if(command == "save") {
+                addInfo(people);
+            }
+            // Help
+            else if(getCommand(command) == "help"){
+                string subcommand = "";
+                (command.length() == 4) ? subcommand = "help" : subcommand = command.substr(5,command.length());
+                help(subcommand);
+            }
+            // Quit
+            else if(command == "q"){
+                break;
+            }
+            // Invalid
+            else if(command != ""){
+                cout << "Invalid command." << endl;
             }
         }
-        // Add
-        else if(command == "add") {
-            add(people);
-        }
-        // Write to database
-        else if(command == "save") {
-            addInfo(people);
-        }
-        // Help
-        else if(getCommand(command) == "help"){
-            string subcommand = "";
-            (command.length() == 4) ? subcommand = "help" : subcommand = command.substr(5,command.length());
-            help(subcommand);
-        }
-        // Quit
-        else if(command == "q"){
-            break;
-        }
-        // Invalid
-        else if(command != ""){
-            cout << "Invalid command." << endl;
-        }
+    }
+    else{
+        cout << message << endl;
     }
 }
 

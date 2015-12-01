@@ -5,12 +5,12 @@
 using namespace std;
 
 // Get data
-void getData(vector<Person> &p){
+void getData(vector<Person> &p, string &message){
     // Load file
     ifstream ifile("people.txt");
     // Check file and continue
     if(!ifile.is_open()) {
-        cout << "Unable to open file..." << endl;
+        message = "Unable to open file...";
         return;
     }
 

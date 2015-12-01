@@ -1,8 +1,10 @@
-#include "data.h"
 #include "domain.h"
+#include "data.h"
 #include "person.h"
-#include "vector"
+#include <vector>
 #include <regex>
+
+using namespace std;
 
 // ===== SORTING =====
 void sortNames(vector<Person> &p, string command){
@@ -378,6 +380,6 @@ void addInfo(vector<Person> &p){
 }
 
 // Populate vector
-void populateVector(vector<Person> &p){
-    getData(p);
+void populateVector(vector<Person> &p, string &message){
+    getData(p, message);
 }
