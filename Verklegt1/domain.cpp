@@ -624,7 +624,7 @@ bool verifyDate(const string &ver) {
 int largestValue(const vector<int> &v){
     int largest = 0;
 
-    for(int i = 0; i < v.size(); i++){
+    for(unsigned int i = 0; i < v.size(); i++){
         if(v[i] > largest){
             largest = v[i];
         }
@@ -669,7 +669,7 @@ int getCurrentId(const vector<Person> &p) {
 
 // Verify string as number
 bool isNumber(const string &str){
-    for(int i = 0; i < str.length(); i++){
+    for(unsigned int i = 0; i < str.length(); i++){
         if(!isdigit(str[i])){
             return false;
         }

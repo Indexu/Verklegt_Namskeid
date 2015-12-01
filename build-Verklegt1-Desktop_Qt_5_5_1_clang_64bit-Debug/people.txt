@@ -1,10 +1,40 @@
-1,Charles Babbage,male,26/12/1791,26/12/1791,USA
-2,Ada Lovelace,female,10/12/1815,27/11/1852,UK
-3,Alan Turing,male,23/06/1912,23/06/1912,UK
-4,Grace Murray Hopper,female,09/12/1906,09/12/1906,UK
-5,John Vincent Atanasoff,male,04/10/1903,15/06/1995,USA
-6,Jean Bartik,female,27/12/1924,23/12/1924,USA
-7,Timothy John Berners-Lee,male,08/06/1955,,UK
-8,George Bool,male,02/11/1815,08/12/1864,UK
-9,Nikolay Brusentsov,male,07/02/1925,04/12/2014,RUS
-10,Vannevar Bush,male,11/03/1890,28/06/1974,USA
+1,Charles Babbage,male,26/12/1791,26/12/1791,United States
+2,Ada Lovelace,female,10/12/1815,27/11/1852,United Kingdom
+3,Alan Turing,male,23/06/1912,7/06/1954,United Kingdom
+4,Grace Murray Hopper,female,09/12/1906,09/12/1906,United Kingdom
+5,John Vincent Atanasoff,male,04/10/1903,15/06/1995,United States
+6,Jean Bartik,female,27/12/1924,23/12/1924,United States
+7,Timothy John Berners-Lee,male,08/06/1955,,United Kingdom
+8,George Bool,male,02/11/1815,08/12/1864,United Kingdom
+9,Nikolay Brusentsov,male,07/02/1925,04/12/2014,Russia
+10,Vannevar Bush,male,11/03/1890,28/06/1974,United States
+11,Konrad Zuse,male,22/06/1910,18/12/1995,Germany
+12,Niklaus Wirth,male,15/02/1934,,Switzerland
+13,Maurice Wilkes,male,26/06/1913,29/11/2010,United Kingdom
+14,Stephen Cook,male,14/12/1939,,United States
+15,John von Neumann,male,28/12/1903,08/02/1957,Hungary
+16,John Backus,male,03/12/1924,17/03/2007,United States
+17,Ole-Johan Dahl,male,12/10/1931,29/06/2002,Norway
+18,Margaret Hamilton,female,17/08/1936,,United States
+19,Tommy Flowers,male,22/12/1905,28/10/1998,United Kingdom
+20,Adriaan van Wijngaarden,male,02/10/1916,07/02/1987,Netherlands
+21,Willis Ware,male,31/08/1921,22/10/2013,United States
+22,Ivan Edward Sutherland,male,16/05/1038,,United States
+23,Herbert Alexander Simon,male,15/06/1916,09/02/2001,United States
+24,Gerard Salton,male,08/03/1927,28/08/1995,Germany
+25,Bertrand Russell,male,18/05/1872,02/02/1970,United Kingdom
+26,Saul Rosen,male,08/02/1922,09/06/1991,United States
+27,Max Newman,male,07/02/1897,22/02/1984,United Kingdom
+28,Peter Naur,male,25/10/1928,,Denmark
+29,John Mauchly,male,30/08/1907,08/01/1980,United States
+30,Jacek Karpinski,male,09/04/2010,21/02/2010,Italy
+31,Donald Knuth,male,10/01/1938,,United States
+32,Stephen Cole Kleene,male,05/01/1909,25/01/1994,United States
+33,Alan Kay,male,17/05/1940,,United States
+34,Maurice Karnaugh,male,04/10/1924,,United States
+35,Herman Hollerith,male,29/02/1860,17/11/1929,United States
+36,Kurt Godel,male,28/04/1906,14/01/1978,Austria
+37,Douglas Engelbart,male,30/01/1925,02/07/2013,United States
+38,Seymour Ginsburg,male,12/12/1927,05/12/2004,United States
+39,John Presper Eckert,male,09/04/1919,03/06/1995,United States
+40,Vint Cerf,male,23/06/1943,,United States
