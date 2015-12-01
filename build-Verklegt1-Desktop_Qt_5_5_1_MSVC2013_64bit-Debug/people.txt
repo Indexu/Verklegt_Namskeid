@@ -1,7 +1,10 @@
-1,Ada Lovelace,female,10/12/1815,10/12/1815,United Kingdom
-2,Alan Turing,male,23/06/1912,23/06/1912,United Kingdom
-3,Charles Babbage,male,26/12/1791,26/12/1791,United States of America
-4,Grace Murray Hopper,female,09/12/1906,09/12/1906,United Kingdom
-6,Franklin D,male,01/01/1889,01/01/1889,USA
-7,Dickon Manwoody,male,01/02/0003,01/02/0003,Westeros
-8,Frodo Baggins,male,25/03/1990,25/03/1990,Middle-Earth
+1,Charles Babbage,male,26/12/1791,26/12/1791,USA
+2,Ada Lovelace,female,10/12/1815,27/11/1852,UK
+3,Alan Turing,male,23/06/1912,23/06/1912,UK
+4,Grace Murray Hopper,female,09/12/1906,09/12/1906,UK
+5,John Vincent Atanasoff,male,04/10/1903,15/06/1995,USA
+6,Jean Bartik,female,27/12/1924,23/12/1924,USA
+7,Timothy John Berners-Lee,male,08/06/1955,,UK
+8,George Bool,male,02/11/1815,08/12/1864,UK
+9,Nikolay Brusentsov,male,07/02/1925,04/12/2014,RUS
+10,Vannevar Bush,male,11/03/1890,28/06/1974,USA
