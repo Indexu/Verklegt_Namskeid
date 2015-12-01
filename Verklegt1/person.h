@@ -17,7 +17,7 @@ public:
     Person(int id, std::string n, std::string g, std::string dob, std::string dod, std::string c);
 
     // Get id
-    int Person::getId() const;
+    int getId() const;
     
     // Get set name
     std::string getName() const;
