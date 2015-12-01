@@ -23,7 +23,7 @@ public:
     // Get set gender
     std::string getGender();
     void setGender(std::string g);
-    
+
     // Get set date of birth
     std::string getDateOfBirth();
     void setDateOfBirth(std::string dob);

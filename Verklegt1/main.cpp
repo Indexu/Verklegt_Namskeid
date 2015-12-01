@@ -1,4 +1,5 @@
 #include <QCoreApplication>
+<<<<<<< HEAD
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -33,32 +34,17 @@ void help();
 //Add vector to text file
 void addInfo(vector<Person> &p);
 
+=======
+#include "presentation.h"
+>>>>>>> origin/master
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    // ===== SETUP =====
+    // ===== BEGIN =====
 
-    // Vars
-    string command = ""; // User command
-    vector<Person> people; // The data vector
-    int longestName; // Longest name var
-
-    // Add data
-    populateVector(people);
-
-    // Get longest name
-    longestName = findLongestName(people);
-
-    // Print
-    display(people, longestName);
-
-    // ===== MAIN =====
-
-    while(command != "q"){
-        cout << ">";
-
+<<<<<<< HEAD
         // Get command
         getline(cin, command);
 
@@ -86,10 +72,14 @@ int main(int argc, char *argv[])
             cout << "Invalid command." << endl;
         }
     }
+=======
+    loop();
+>>>>>>> origin/master
 
     // ===== END =====
     return a.exec();
 }
+<<<<<<< HEAD
 
 // Populate vector
 void populateVector(vector<Person> &p){
@@ -383,3 +373,5 @@ bool verifyDate(string ver) {
     }
     return false;
 }
+=======
+>>>>>>> origin/master
