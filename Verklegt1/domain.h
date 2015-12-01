@@ -34,6 +34,9 @@ void add(std::vector<Person> &p, int &currentId);
 // Delete person from DB
 std::string del(std::vector<Person> &p, std::string &command);
 
+// Edit person in DB
+std::string edit(std::vector<Person> &p, std::string command);
+
 // Largest value in int vector
 int largestValue(const std::vector<int> &v);
 
@@ -48,6 +51,9 @@ int getCurrentId(const std::vector<Person> &p);
 
 // Check if string is all-digits
 bool isNumber(const std::string &str);
+
+// Get index by ID
+int getIndexByID(std::vector<Person> p, int id);
 
 #endif // DOMAIN_LAYER
 

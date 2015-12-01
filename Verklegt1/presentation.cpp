@@ -74,6 +74,11 @@ void loop(){
                 message = del(people, command);
                 cout << message << endl;
             }
+            // Edit
+            else if(getCommand(command) == "edit") {
+                message = edit(people, command);
+                cout << message << endl;
+            }
             // Write to database
             else if(command == "save") {
                 writeVector(people);
@@ -126,14 +131,18 @@ void display(vector<Person> p, int longestName){
 
 // Help
 void help(string command) {
+    // Remove "help " from string
     (command.length() == 4) ? command = "help" : command = command.erase(0,5);
 
+    // Add
     if (command == "add") {
         cout << "Follow the instructions on the screen." << endl;
     }
+    // Display
     else if (command == "display") {
         cout << "Prints the database on the screen." << endl;
     }
+    // Search
     else if (command == "search") {
         cout << "search [string] searches through all the columns except gender" << endl;
         cout << "search -a [string] returns search in ascending order" << endl;
@@ -148,6 +157,7 @@ void help(string command) {
         cout << "search [args] [male|female] searches for specified gender" << endl;
         cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
     }
+    // Filter
     else if (command == "filter") {
         cout << "filter [string] filters out the string in all the columns except gender" << endl;
         cout << "filter -a [string] returns filter in ascending order" << endl;
@@ -162,15 +172,27 @@ void help(string command) {
         cout << "filter [args] [male|female] filter out a specified gender" << endl;
         cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
     }
+    // Sort
     else if (command == "sort") {
         cout << "sort/sort -a prints out the database in ascending order by name." << endl;
         cout << "sort -d prints out the database in descending order by name." << endl;
         cout << "sort -i prints out the database in ascending order by ID." << endl;
         cout << "sort -id prints out the database in descending order by ID." << endl;
     }
+    // Delete
     else if (command == "delete") {
         cout << "delete [id] deletes the entry in the database with corresponding id" << endl;
     }
+    // Edit
+    else if (command == "edit") {
+        cout << "edit [field] [id] [value]" << endl;
+        cout << "edit -n [id] [value] replaces the name of the person of the specified id with the specified value" << endl;
+        cout << "edit -g [id] [value] replaces the gender of the person of the specified id. Accepted values are \"m\",\"male\",\"f\" and \"female\"" << endl;
+        cout << "edit -b [id] [value] replaces the birth date of the person of the specified id with the specified date" << endl;
+        cout << "edit -d [id] [value] replaces the death date of the person of the specified id with the specified date" << endl;
+        cout << "edit -c [id] [value] replaces the country of the person of the specified id with the specified value" << endl;
+    }
+    // Menu
     else if (command == "help") {
         cout << "==================HELP MENU====================" << endl;
         cout << "Type help [command] for more detailed options." << endl;
@@ -182,7 +204,9 @@ void help(string command) {
         cout << "[search] is used to search for an item in the database." << endl;
         cout << "[filter] is used to filter out an item in the database." << endl;
         cout << "[sort] is used to sort the list in the database." << endl;
+        cout << "[edit] is used to edit a person's information in the database." << endl;
     }
+    // Error
     else {
         cout << "No help found for command: \"" << command << "\"\nSee help menu for instructions:" << endl;
         help("help");
