@@ -69,7 +69,7 @@ void loop(){
             else if(command == "add") {
                 add(people, currentId);
             }
-            // Add
+            // Delete
             else if(getCommand(command) == "delete") {
                 message = del(people, command);
                 cout << message << endl;
@@ -161,7 +161,7 @@ void help(string command) {
         cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
     }
     else if (command == "sort") {
-        cout << "sort/sort -a prints out the database in ascending order." << endl;
+        cout << "sort -a prints out the database in ascending order. This is the default, i.e. entering only \"sort\"" << endl;
         cout << "sort -d prints out the database in descending order." << endl;
     }
     else if (command == "delete") {

@@ -8,17 +8,19 @@ using namespace std;
 
 // ===== SORTING =====
 void sortNames(vector<Person> &p, const string &command){
-    // Ascending
+    // Ascending - name
     if(command == "sort" || command == "sort -a"){
         sort(p.begin(), p.end(), sortNameAscend);
     }
+    // Ascending - id
     else if (command == "sort -i") {
         sort(p.begin(), p.end(), sortByIdAscend);
     }
-    // Descending
+    // Descending - name
     else if(command == "sort -d"){
         sort(p.begin(), p.end(), sortNameDescend);
     }
+    // Descending - id
     else if (command == "sort -iD") {
         sort(p.begin(), p.end(), sortByIdDescend);
     }
@@ -29,6 +31,11 @@ bool sortNameAscend(const Person p1, const Person p2){
     // Get names
     string s1 = p1.getName();
     string s2 = p2.getName();
+
+    // Same name -> sort by ID
+    if(s1 == s2){
+        return sortByIdAscend(p1, p2);
+    }
 
     // Loop over names
     for(unsigned int i = 0; i < s1.length(); i++){
@@ -45,6 +52,11 @@ bool sortNameDescend(const Person p1, const Person p2){
     // Get names
     string s1 = p1.getName();
     string s2 = p2.getName();
+
+    // Same name -> sort by ID
+    if(s1 == s2){
+        return sortByIdDescend(p1, p2);
+    }
 
     // Loop over names
     for(unsigned int i = 0; i < s1.length(); i++){
