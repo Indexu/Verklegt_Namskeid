@@ -1,7 +1,10 @@
 Charles Babbage,male,26/12/1791,26/12/1791,USA
-Ada Lovelace,female,10/12/1815,10/12/1815,UK
+Ada Lovelace,female,10/12/1815,27/11/1852,UK
 Alan Turing,male,23/06/1912,23/06/1912,UK
 Grace Murray Hopper,female,09/12/1906,09/12/1906,UK
-Haukur Halldorsson,male,23/12/2012,23/12/2012,ICELAND
-Francine Smith,female,09/12/1966,09/12/1966,USSR
-Svan¡na Kan¡na,male,11/12/1234,11/12/1234,Antarctica
+John Vincent Atanasoff,male,04/10/1903,15/06/1995,USA
+Jean Bartik,female,27/12/1924,23/12/1924,USA
+Timothy John Berners-Lee,male,08/06/1955,,UK
+George Bool,male,02/11/1815,08/12/1864,UK
+Nikolay Brusentsov,male,07/02/1925,04/12/2014,USSR
+Vannevar Bush,male,11/03/1890,28/06/1974,USA
