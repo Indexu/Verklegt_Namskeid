@@ -347,7 +347,9 @@ string add(vector<Person> &p, int &currentId, string name, string gender, string
     // Add to person to vector
     Person temp(++currentId, name, gender, dob, dod, country);
     p.push_back(temp);
-    setData(p);
+
+    // Write to database
+    writeVector(p);
 
     return "Person " + name + " succesfully added.";
 }
@@ -451,11 +453,13 @@ string edit(vector<Person> &p, string command){
     }
 
     string name = p[index].getName();
+    bool success = false;
     // Name
     if(field == "-n"){
         p[index].setName(newValue); // Set new name
         // Confirmation message
         message = "ID " + strID + " - Name of " + name + " changed to: " + newValue;
+        success = true;
     }
     // Gender
     else if(field == "-g"){
@@ -483,6 +487,7 @@ string edit(vector<Person> &p, string command){
 
         // Confirmation message
         message = "ID " + strID + " - Gender of " + name + " changed to: " + newValue;
+        success = true;
     }
     // Date of birth
     else if(field == "-b"){
@@ -495,6 +500,7 @@ string edit(vector<Person> &p, string command){
             p[index].setDateOfBirth(newValue); // Set new date of birth
             // Confirmation message
             message = "ID " + strID + " - Birth date of " + name + " changed to: " + newValue;
+            success = true;
     }
     // Date of death
     else if(field == "-d"){
@@ -507,16 +513,23 @@ string edit(vector<Person> &p, string command){
             p[index].setDateOfDeath(newValue); // Set new date of death
             // Confirmation message
             message = "ID " + strID + " - Death date of " + name + " changed to: " + newValue;
+            success = true;
     }
     // Country
     else if(field == "-c"){
         p[index].setCountry(newValue); // Set new country
         // Confirmation message
         message = "ID " + strID + " - Country of " + name + " changed to: " + newValue;
+        success = true;
     }
     else{
         message = "Unknown field specified";
         return message;
+    }
+
+    // Write to database if success
+    if(success){
+        writeVector(p);
     }
 
     return message;
