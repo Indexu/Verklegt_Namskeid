@@ -11,6 +11,7 @@
 11,Konrad Zuse,male,22/06/1910,18/12/1995,Germany
 12,Niklaus Wirth,male,15/02/1934,,Switzerland
 13,Maurice Wilkes,male,26/06/1913,29/11/2010,United Kingdom
+14,Stephen Cook,male,14/12/1939,,United States
 15,John von Neumann,male,28/12/1903,08/02/1957,Hungary
 16,John Backus,male,03/12/1924,17/03/2007,United States
 17,Ole-Johan Dahl,male,12/10/1931,29/06/2002,Norway

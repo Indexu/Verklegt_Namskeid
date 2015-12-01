@@ -122,6 +122,10 @@ void display(vector<Person> p, int longestName){
         cout << setw(10) << p[i].getDateOfDeath() << " | ";
         cout << p[i].getCountry() << endl;
     }
+    for(int i = 0; i < (TABLE_LENGTH + longestName); i++){
+        cout << "-";
+    }
+    cout << endl << "| Results: " << p.size() << endl;
 }
 
 // Help
