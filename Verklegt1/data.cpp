@@ -45,7 +45,7 @@ void setData(const vector<Person> &p){
         outputFile << p[i].getName() << ",";
         outputFile << p[i].getGender() << ",";
         outputFile << p[i].getDateOfBirth() << ",";
-        outputFile << p[i].getDateOfBirth() << ",";
+        outputFile << p[i].getDateOfDeath() << ",";
         outputFile << p[i].getCountry() << endl;
     }
 
