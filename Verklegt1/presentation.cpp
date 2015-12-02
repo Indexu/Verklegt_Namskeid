@@ -38,7 +38,7 @@ void loop(){
             getline(cin, command);
 
             // Display the vector
-            if(command == "display" || command == "list"){
+            if(command == "list" || command == "ls"){
                 display(people, longestName);
             }
             // Sort
@@ -224,9 +224,10 @@ void help(string command) {
     if (command == "add") {
         cout << "Follow the instructions on the screen." << endl;
     }
-    // Display
-    else if (command == "display") {
+    // List
+    else if (command == "list" || command == "ls") {
         cout << "Prints the database on the screen." << endl;
+        cout << "[list] and [ls] are synonymous" << endl;
     }
     // Search
     else if (command == "search") {
@@ -279,7 +280,7 @@ void help(string command) {
         cout << "edit -c [id] [value] replaces the country of the person of the specified id with the specified value" << endl;
     }
     // Edit
-    else if (command == "quit") {
+    else if (command == "quit" || command == "q") {
         cout << "Safely exits the application" << endl;
         cout << "[quit] and [q] are synonymous" << endl;
     }
@@ -291,7 +292,7 @@ void help(string command) {
         cout << "The command used in this program are: " << endl;
         cout << "[add] is used to add a person to the database."  << endl;
         cout << "[delete] is used to delete a person from database."  << endl;
-        cout << "[display] is used to print out the database." << endl;
+        cout << "[list] is used to print out the database." << endl;
         cout << "[search] is used to search for an item in the database." << endl;
         cout << "[filter] is used to filter out an item in the database." << endl;
         cout << "[sort] is used to sort the list in the database." << endl;

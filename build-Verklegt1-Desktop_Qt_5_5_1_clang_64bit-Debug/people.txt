@@ -1,11 +1,11 @@
-1,Charles Babbage,male,26/12/1791,26/12/1791,United States
+1,Charles Babbage,male,26/12/1791,18/10/1871,United Kingdom
 2,Ada Lovelace,female,10/12/1815,27/11/1852,United Kingdom
-3,Alan Turing,male,23/06/1912,7/06/1954,United Kingdom
-4,Grace Murray Hopper,female,09/12/1906,09/12/1906,United Kingdom
+3,Alan Turing,male,23/06/1912,07/06/1954,United Kingdom
+4,Grace Murray Hopper,female,09/12/1906,01/01/1992,United States
 5,John Vincent Atanasoff,male,04/10/1903,15/06/1995,United States
-6,Jean Bartik,female,27/12/1924,23/12/1924,United States
+6,Jean Bartik,female,27/12/1924,23/03/2011,United States
 7,Timothy John Berners-Lee,male,08/06/1955,,United Kingdom
-8,George Bool,male,02/11/1815,08/12/1864,United Kingdom
+8,George Boole,male,02/11/1815,08/12/1864,United Kingdom
 9,Nikolay Brusentsov,male,07/02/1925,04/12/2014,Russia
 10,Vannevar Bush,male,11/03/1890,28/06/1974,United States
 11,Konrad Zuse,male,22/06/1910,18/12/1995,Germany
