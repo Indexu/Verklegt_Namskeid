@@ -38,5 +38,3 @@
 38,Seymour Ginsburg,male,12/12/1927,05/12/2004,United States
 39,John Presper Eckert,male,09/04/1919,03/06/1995,United States
 40,Vint Cerf,male,23/06/1943,,United States
-39,John Presper Eckert,male,09/04/1919,03/06/1995,United States
-40,Vint Cerf,male,23/06/1943,,United States
