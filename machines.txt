@@ -1,0 +1,6 @@
+Z3, 1941, Electromechanical, Yes, Germany, Konrad Zuse
+The Complex Number Calculator, 1940, Electromechanical, Yes, United States of America, George Stibitz
+The Atanasoff-Berry Computer, 1942, Electromechanical, Yes, United States of America, John Vincent Atanasoff,Clifford Berry
+Turing machine, 1936, Automatic machine, Yes, United Kingdom, Alan Turing
+Difference Machine, 1991, Mechanical,Yes, United Kingdom, Charles Babbage,Johann Helfrich von Müller
+Harvard Mark 1, 1944, Electromechanical, Yes, United States of America, Howard Aiken
