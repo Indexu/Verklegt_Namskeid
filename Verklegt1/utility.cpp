@@ -30,9 +30,9 @@ bool verifyDate(const string &ver) {
     return false;
 }
 
-// Largest int value
-int largestValue(const vector<int> &v){
-    int largest = 0;
+// Largest size_t value
+size_t largestValue(const std::vector<size_t> &v){
+    size_t largest = 0;
 
     for(unsigned int i = 0; i < v.size(); i++){
         if(v[i] > largest){
@@ -41,11 +41,6 @@ int largestValue(const vector<int> &v){
     }
 
     return largest;
-}
-
-// Populate vector
-void populateVector(vector<Person> &p, string &message){
-    getData(p, message);
 }
 
 // Get the command
@@ -84,7 +79,6 @@ bool isNumber(const string &str){
 
 // Get index by ID
 int getIndexByID(vector<Person> p, int id){
-    bool found = false;
     int start = 0;
     int end = p.size() - 1;
     int middle = -1;

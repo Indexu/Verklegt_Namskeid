@@ -9,7 +9,7 @@
 
 
 // Largest value in int vector
-int largestValue(const std::vector<int> &v);
+size_t largestValue(const std::vector<size_t> &v);
 
 // Get command
 std::string getCommand(const std::string &command);

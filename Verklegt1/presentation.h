@@ -17,7 +17,7 @@ void display(std::vector<Person> p, int longestName);
 void help(std::string command);
 
 // Add process
-void addProcess(std::vector<Person> &p, int currentID);
+void addProcess(std::vector<Person> &p);
 
 // Clear screen
 void clearScreen();
