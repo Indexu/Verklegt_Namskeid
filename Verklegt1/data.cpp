@@ -79,7 +79,7 @@ string addPersonDB(const string &name, const string &gender, const string &dob, 
         query.bindValue(":country", c);
 
         if(!query.exec()){
-            return "!-Error-!";
+            return query.lastError().text().toStdString();
         }
 
         // Close
@@ -92,6 +92,7 @@ string addPersonDB(const string &name, const string &gender, const string &dob, 
 
 }
 
+// Delete person
 string delPersonDB(const int &id){
     string error = "";
     if(personIDExistsDB(id, error)){
@@ -105,7 +106,7 @@ string delPersonDB(const int &id){
             query.bindValue(":id", id);
 
             if(!query.exec()){
-                return "!-Error-!";
+                return query.lastError().text().toStdString();
             }
 
             // Close
@@ -124,6 +125,41 @@ string delPersonDB(const int &id){
     }
 }
 
+string editPersonDB(const int &id, const string &column, const string &value){
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        QString col = QString::fromStdString(column);
+
+        QString queStr = "UPDATE persons ";
+        queStr.append("SET " + col + " = :val WHERE id = :id");
+
+        query.prepare(queStr);
+
+
+        QString val = QString::fromStdString(value);
+
+        //query.bindValue(":col", col);
+        query.bindValue(":val", val);
+        query.bindValue(":id", id);
+
+        cout << query.lastQuery().toStdString() << endl;
+
+        if(!query.exec()){
+            return query.lastError().text().toStdString();
+        }
+
+        // Close
+        db.close();
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
+}
+
+// Check if person ID exists in DB
 bool personIDExistsDB(const int &id, string &error){
     // Open
     if(db.open()){
@@ -136,7 +172,7 @@ bool personIDExistsDB(const int &id, string &error){
         query.bindValue(":id", id);
 
         if(!query.exec()){
-            error = "!-Error-!";
+            error = query.lastError().text().toStdString();
         }
         else if(query.next()){
              exists = true;

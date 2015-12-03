@@ -449,13 +449,20 @@ string edit(vector<Person> &p, string command){
     }
 
     string name = p[index].getName();
-    bool success = false;
     // Name
     if(field == "-n"){
-        p[index].setName(newValue); // Set new name
-        // Confirmation message
-        message = "ID " + strID + " - Name of " + name + " changed to: " + newValue;
-        success = true;
+        // Set new name
+        message = editPersonDB(id, "name", newValue);
+
+        // SQL Error check
+        if(message == ""){
+            // Confirmation message
+            message = "ID " + strID + " - Name of " + name + " changed to: " + newValue;
+            populateVector(p);
+        }
+        else{
+            return message;
+        }
     }
     // Gender
     else if(field == "-g"){
@@ -467,12 +474,10 @@ string edit(vector<Person> &p, string command){
 
         // Male
         if(newValue == "m" || newValue == "male"){
-            p[index].setGender("male");
             newValue = "male";
         }
         // Female
         else if(newValue == "f" || newValue == "female"){
-            p[index].setGender("female");
             newValue = "female";
         }
         // Invalid
@@ -481,9 +486,18 @@ string edit(vector<Person> &p, string command){
             return message;
         }
 
-        // Confirmation message
-        message = "ID " + strID + " - Gender of " + name + " changed to: " + newValue;
-        success = true;
+        // Set new gender
+        message = editPersonDB(id, "gender", newValue);
+
+        // SQL Error check
+        if(message == ""){
+            // Confirmation message
+            message = "ID " + strID + " - Gender of " + name + " changed to: " + newValue;
+            populateVector(p);
+        }
+        else{
+            return message;
+        }
     }
     // Date of birth
     else if(field == "-b"){
@@ -493,10 +507,18 @@ string edit(vector<Person> &p, string command){
                 return message;
             }
 
-            p[index].setDateOfBirth(newValue); // Set new date of birth
-            // Confirmation message
-            message = "ID " + strID + " - Birth date of " + name + " changed to: " + newValue;
-            success = true;
+            // Set new date of birth
+            message = editPersonDB(id, "date_of_birth", newValue);
+
+            // SQL Error check
+            if(message == ""){
+                // Confirmation message
+                message = "ID " + strID + " - Birth date of " + name + " changed to: " + newValue;
+                populateVector(p);
+            }
+            else{
+                return message;
+            }
     }
     // Date of death
     else if(field == "-d"){
@@ -506,26 +528,37 @@ string edit(vector<Person> &p, string command){
                 return message;
             }
 
-            p[index].setDateOfDeath(newValue); // Set new date of death
-            // Confirmation message
-            message = "ID " + strID + " - Death date of " + name + " changed to: " + newValue;
-            success = true;
+            // Set new name
+            message = editPersonDB(id, "date_of_death", newValue);
+
+            // SQL Error check
+            if(message == ""){
+                // Confirmation message
+                message = "ID " + strID + " - Death date of " + name + " changed to: " + newValue;
+                populateVector(p);
+            }
+            else{
+                return message;
+            }
     }
     // Country
     else if(field == "-c"){
-        p[index].setCountry(newValue); // Set new country
-        // Confirmation message
-        message = "ID " + strID + " - Country of " + name + " changed to: " + newValue;
-        success = true;
+        // Set new name
+        message = editPersonDB(id, "country", newValue);
+
+        // SQL Error check
+        if(message == ""){
+            // Confirmation message
+            message = "ID " + strID + " - Country of " + name + " changed to: " + newValue;
+            populateVector(p);
+        }
+        else{
+            return message;
+        }
     }
     else{
         message = "Unknown field specified";
         return message;
-    }
-
-    // Write to database if success
-    if(success){
-        //writeVector(p);
     }
 
     return message;
