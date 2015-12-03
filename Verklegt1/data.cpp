@@ -11,28 +11,30 @@ void getData(vector<Person> &p, string &message){
     QString dbName = "verklegt.sqlite";
     db.setDatabaseName(dbName);
     // Open
-    db.open();
+    if(db.open()){
+        QSqlQuery query(db);
+        // Query
+        query.exec("SELECT * FROM persons");
 
-    QSqlQuery query(db);
-    // Query
-    query.exec("SELECT * FROM persons");
+        string name, gender, dob, dod, country;
+        int id;
+        while(query.next()){
+            id = query.value("id").toInt();
+            name = query.value("name").toString().toStdString();
+            gender = query.value("gender").toString().toStdString();
+            dob = query.value("date_of_birth").toString().toStdString();
+            dod = query.value("date_of_death").toString().toStdString();
+            country = query.value("country").toString().toStdString();
 
-    string name, gender, dob, dod, country;
-    int id;
-    while(query.next()){
-        id = query.value("id").toInt();
-        name = query.value("name").toString().toStdString();
-        gender = query.value("gender").toString().toStdString();
-        dob = query.value("date_of_birth").toString().toStdString();
-        dod = query.value("date_of_death").toString().toStdString();
-        country = query.value("country").toString().toStdString();
-
-        Person temp(id, name, gender, dob, dod, country);
-        p.push_back(temp);
+            Person temp(id, name, gender, dob, dod, country);
+            p.push_back(temp);
+        }
+        // Close
+        db.close();
     }
-    // Close
-    db.close();
-
+    else{
+        message = "Unable to connect to database";
+    }
 }
 
 // Add Person
