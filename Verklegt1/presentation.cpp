@@ -1,6 +1,7 @@
 #include "presentation.h"
 #include "domain.h"
 #include "person.h"
+#include "utility.h"
 #include <iomanip>
 #include <cstdlib>
 
@@ -82,7 +83,7 @@ void loop(){
             }
             // Write to database
             else if(command == "save") {
-                writeVector(people);
+                // writeVector(people);
             }
             // Help
             else if(getCommand(command) == "help"){
