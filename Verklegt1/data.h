@@ -5,7 +5,7 @@
 #include "person.h"
 
 void getData(std::vector<Person> &p, std::string &message);
-void setData(const std::vector<Person> &p);
+void addPersonDB(const std::string &name, const std::string &gender, const std::string &dob, const std::string &dod, const std::string &country);
 
 #endif // DATA
 

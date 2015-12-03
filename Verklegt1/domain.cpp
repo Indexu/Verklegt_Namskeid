@@ -343,13 +343,13 @@ vector<Person> filter(const vector<Person> &p, string &query, string &message){
 }
 
 // ===== ADD =====
-string add(vector<Person> &p, int &currentId, string name, string gender, string dob, string dod, string country) {
+string addPerson(vector<Person> &p, int &currentId, const string &name, const string &gender, const string &dob, const string &dod, const string &country) {
     // Add to person to vector
     Person temp(++currentId, name, gender, dob, dod, country);
     p.push_back(temp);
 
-    // Write to database
-    writeVector(p);
+    // Add to database
+    addPersonDB(name, gender, dob, dod, country);
 
     return "Person " + name + " succesfully added.";
 }
@@ -529,7 +529,7 @@ string edit(vector<Person> &p, string command){
 
     // Write to database if success
     if(success){
-        writeVector(p);
+        //writeVector(p);
     }
 
     return message;
@@ -578,7 +578,7 @@ int largestValue(const vector<int> &v){
 
 //Add vector to text file
 void writeVector(const vector<Person> &p){
-    setData(p);
+    //setData(p);
 
 }
 

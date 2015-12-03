@@ -174,7 +174,7 @@ void addProcess(vector<Person> &p, int currentID){
     }while(country == "");
 
     // Add + print
-    cout << add(p, currentID, name, gender, dob, dod, country) << endl;
+    cout << addPerson(p, currentID, name, gender, dob, dod, country) << endl;
 }
 
 // Display

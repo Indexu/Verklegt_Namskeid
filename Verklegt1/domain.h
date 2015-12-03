@@ -29,7 +29,7 @@ std::vector<Person> filter(const std::vector<Person> &p, std::string &query, std
 bool verifyDate(const std::string &ver);
 
 // Add new person to DB
-std::string add(std::vector<Person> &p, int &currentId, std::string name, std::string gender, std::string dob, std::string dod, std::string country);
+std::string addPerson(std::vector<Person> &p, int &currentId, const std::string &name, const std::string &gender, const std::string &dob, const std::string &dod, const std::string &country);
 
 // Delete person from DB
 std::string del(std::vector<Person> &p, std::string &command);
