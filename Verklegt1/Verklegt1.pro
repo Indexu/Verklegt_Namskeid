@@ -14,12 +14,14 @@ SOURCES += main.cpp \
     data.cpp \
     domain.cpp \
     presentation.cpp \
-    utility.cpp
+    utility.cpp \
+    machine.cpp
 
 HEADERS += \
     person.h \
     data.h \
     presentation.h \
     domain.h \
-    utility.h
+    utility.h \
+    machine.h
 
