@@ -17,91 +17,99 @@ void loop(){
     int longestName; // Longest name var
     int currentId; // Current Id
 
-    // Add data
-    populateVector(people, message);
+    // Connect to DB
+    message = startDB();
 
     if(message == ""){
-        // Get longest name
-        longestName = findLongestName(people);
+        // Add data
+        message = populateVector(people);
 
-        // Get current id
-        currentId = getCurrentId(people);
+        if(message == ""){
+            // Get longest name
+            longestName = findLongestName(people);
 
-        // Print
-        display(people, longestName);
+            // Get current id
+            currentId = getCurrentId(people);
 
-        // ===== MAIN =====
+            // Print
+            display(people, longestName);
 
-        while(command != "q" || command != "quit"){
-            cout << ">";
+            // ===== MAIN =====
 
-            // Get command
-            getline(cin, command);
+            while(command != "q" || command != "quit"){
+                cout << ">";
 
-            // Display the vector
-            if(command == "list" || command == "ls"){
-                display(people, longestName);
-            }
-            // Sort
-            else if(getCommand(command) == "sort"){
-                sortNames(people, command);
-                display(people, longestName);
-            }
-            // Search
-            else if(getCommand(command) == "search"){
-                vector<Person> results = search(people, command, message);
-                if(message == ""){
-                    display(results, longestName);
+                // Get command
+                getline(cin, command);
+
+                // Display the vector
+                if(command == "list" || command == "ls"){
+                    display(people, longestName);
                 }
-                else{
+                // Sort
+                else if(getCommand(command) == "sort"){
+                    sortNames(people, command);
+                    display(people, longestName);
+                }
+                // Search
+                else if(getCommand(command) == "search"){
+                    vector<Person> results = search(people, command, message);
+                    if(message == ""){
+                        display(results, longestName);
+                    }
+                    else{
+                        cout << message << endl;
+                    }
+                }
+                // Filter
+                else if(getCommand(command) == "filter"){
+                    vector<Person> results = filter(people, command, message);
+                    if(message == ""){
+                        display(results, longestName);
+                    }
+                    else{
+                        cout << message << endl;
+                    }
+                }
+                // Add
+                else if(command == "add") {
+                    addProcess(people, currentId);
+                }
+                // Delete
+                else if(getCommand(command) == "delete") {
+                    message = del(people, command);
                     cout << message << endl;
                 }
-            }
-            // Filter
-            else if(getCommand(command) == "filter"){
-                vector<Person> results = filter(people, command, message);
-                if(message == ""){
-                    display(results, longestName);
-                }
-                else{
+                // Edit
+                else if(getCommand(command) == "edit") {
+                    message = edit(people, command);
                     cout << message << endl;
                 }
+                // Write to database
+                else if(command == "save") {
+                    // writeVector(people);
+                }
+                // Help
+                else if(getCommand(command) == "help"){
+                    help(command);
+                }
+                // Quit
+                else if(command == "q" || command == "quit"){
+                    break;
+                }
+                // Clear screen
+                else if(command == "clear") {
+                    clearScreen();
+                    // system("clear"); is not the way to go appearantly
+                }
+                // Invalid
+                else if(command != ""){
+                    cout << "Invalid command. Type help for available commands." << endl;
+                }
             }
-            // Add
-            else if(command == "add") {
-                addProcess(people, currentId);
-            }
-            // Delete
-            else if(getCommand(command) == "delete") {
-                message = del(people, command);
-                cout << message << endl;
-            }
-            // Edit
-            else if(getCommand(command) == "edit") {
-                message = edit(people, command);
-                cout << message << endl;
-            }
-            // Write to database
-            else if(command == "save") {
-                // writeVector(people);
-            }
-            // Help
-            else if(getCommand(command) == "help"){
-                help(command);
-            }
-            // Quit
-            else if(command == "q" || command == "quit"){
-                break;
-            }
-            // Clear screen
-            else if(command == "clear") {
-                clearScreen();
-                // system("clear"); is not the way to go appearantly
-            }
-            // Invalid
-            else if(command != ""){
-                cout << "Invalid command. Type help for available commands." << endl;
-            }
+        }
+        else{
+            cout << message << endl;
         }
     }
     else{

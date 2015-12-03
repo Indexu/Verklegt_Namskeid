@@ -4,8 +4,11 @@
 #include "person.h"
 #include <vector>
 
+// Start database
+std::string startDB();
+
 // Add data to vector
-void populateVector(std::vector<Person> &p, std::string &message);
+std::string populateVector(std::vector<Person> &p);
 
 // Sort vector
 bool sortNameAscend(const Person p1, const Person p2);

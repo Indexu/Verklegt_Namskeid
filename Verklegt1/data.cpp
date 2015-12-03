@@ -3,13 +3,27 @@
 
 using namespace std;
 
-// Get data
-void getData(vector<Person> &p, string &message){
-    QSqlDatabase db;
+const QString DB_NAME = "verklegt.sqlite";
+QSqlDatabase db;
+
+// Initialize database connection
+string initDB(){
 
     db = QSqlDatabase::addDatabase("QSQLITE");
-    QString dbName = "verklegt.sqlite";
+    QString dbName = DB_NAME;
     db.setDatabaseName(dbName);
+
+    if(!db.open()){
+        return "Unable to connect to database";
+    }
+    else{
+        return "";
+    }
+}
+
+// Get data
+string getData(vector<Person> &p){
+
     // Open
     if(db.open()){
         QSqlQuery query(db);
@@ -31,40 +45,44 @@ void getData(vector<Person> &p, string &message){
         }
         // Close
         db.close();
+
+        return "";
     }
     else{
-        message = "Unable to connect to database";
+        return "Unable to connect to database";
     }
 }
 
 // Add Person
-void addPersonDB(const string &name, const string &gender, const string &dob, const string &dod, const string &country){
-    QSqlDatabase db;
+string addPersonDB(const string &name, const string &gender, const string &dob, const string &dod, const string &country){
 
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    QString dbName = "verklegt.sqlite";
-    db.setDatabaseName(dbName);
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
 
-    db.open();
+        QString n = QString::fromStdString(name);
+        QString g = QString::fromStdString(gender);
+        QString b = QString::fromStdString(dob);
+        QString d = QString::fromStdString(dod);
+        QString c = QString::fromStdString(country);
 
-    QSqlQuery query(db);
+        query.prepare("INSERT INTO persons (name, gender, date_of_birth, date_of_death, country) "
+                      "VALUES (:name, :gender, :dob, :dod, :country)");
 
-    QString n = QString::fromStdString(name);
-    QString g = QString::fromStdString(gender);
-    QString b = QString::fromStdString(dob);
-    QString d = QString::fromStdString(dod);
-    QString c = QString::fromStdString(country);
+        query.bindValue(":name", n);
+        query.bindValue(":gender", g);
+        query.bindValue(":dob", b);
+        query.bindValue(":dod", d);
+        query.bindValue(":country", c);
 
-    query.prepare("INSERT INTO persons (name, gender, date_of_birth, date_of_death, country) "
-                  "VALUES (:name, :gender, :dob, :dod, :country)");
+        query.exec();
 
-    query.bindValue(":name", n);
-    query.bindValue(":gender", g);
-    query.bindValue(":dob", b);
-    query.bindValue(":dod", d);
-    query.bindValue(":country", c);
+        // Close
+        db.close();
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
 
-    query.exec();
-
-    db.close();
 }

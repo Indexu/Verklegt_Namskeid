@@ -7,6 +7,15 @@
 
 using namespace std;
 
+string startDB(){
+    return initDB();
+}
+
+// ===== POPULATE VECTOR =====
+string populateVector(vector<Person> &p){
+    return getData(p);
+}
+
 // ===== SORTING =====
 void sortNames(vector<Person> &p, const string &command){
     // Ascending - name
@@ -82,7 +91,7 @@ bool sortByIdDescend(const Person p1, const Person p2) {
 // ===== SEARCH =====
 vector<Person> search(const vector<Person> &p, string &query, string &message){
     vector<Person> results; // Result vector
-    vector<int> args; // Arguements
+    vector<size_t> args; // Arguements
     message = "";
 
     // Check arguements
@@ -466,7 +475,7 @@ string edit(vector<Person> &p, string command){
     else if(field == "-g"){
 
         // Lowercase
-        for(int i = 0; i < newValue.length(); i++){
+        for(size_t i = 0; i < newValue.length(); i++){
             newValue[i] = tolower(newValue[i]);
         }
 
