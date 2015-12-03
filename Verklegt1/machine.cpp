@@ -6,7 +6,7 @@ Machine::Machine(int id, int y, bool b, std::string n, std::string t){
     Year = y;
     Built = b;
     Name = n;
-    CType_ID = t;
+    MType_ID = t;
 }
 
 // GETTERS/SETTERS
@@ -48,9 +48,9 @@ void Machine::setName(std::string n) {
 
 // Get/set machine type
 std::string Machine::getType() {
-    return CType_ID;
+    return MType_ID;
 }
 
 void Machine::setType(std::string id) {
-    CType_ID = id;
+    MType_ID = id;
 }

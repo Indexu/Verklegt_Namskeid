@@ -9,7 +9,7 @@ class Machine
     int Year;
     bool Built;
     std::string Name;
-    std::string CType_ID;
+    std::string MType_ID;
 public:
     // Constructor
     Machine(int id, int y, bool b, std::string n, std::string t);

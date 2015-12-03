@@ -3,6 +3,7 @@
 #include "person.h"
 #include "machine.h"
 #include "utility.h"
+#include "data.h"
 #include <iomanip>
 #include <cstdlib>
 

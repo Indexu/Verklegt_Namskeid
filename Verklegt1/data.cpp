@@ -149,6 +149,7 @@ bool personIDExistsDB(const int &id, string &error){
     else{
         error = "Unable to connect to database";
     }
-
     return false;
 }
+
+
