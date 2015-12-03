@@ -73,7 +73,7 @@ void loop(){
                 }
                 // Add
                 else if(command == "add") {
-                    addProcess(people, currentId);
+                    addProcess(people);
                 }
                 // Delete
                 else if(getCommand(command) == "delete") {
@@ -117,7 +117,7 @@ void loop(){
     }
 }
 
-void addProcess(vector<Person> &p, int currentID){
+void addProcess(vector<Person> &p){
     string name, gender, dob, dod = "", country;
     bool valid = false;
 
@@ -183,7 +183,7 @@ void addProcess(vector<Person> &p, int currentID){
     }while(country == "");
 
     // Add + print
-    cout << addPerson(p, currentID, name, gender, dob, dod, country) << endl;
+    cout << addPerson(p, name, gender, dob, dod, country) << endl;
 }
 
 // Display

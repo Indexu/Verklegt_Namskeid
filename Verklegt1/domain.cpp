@@ -353,13 +353,12 @@ vector<Person> filter(const vector<Person> &p, string &query, string &message){
 }
 
 // ===== ADD =====
-string addPerson(vector<Person> &p, int &currentId, const string &name, const string &gender, const string &dob, const string &dod, const string &country) {
-    // Add to person to vector
-    Person temp(++currentId, name, gender, dob, dod, country);
-    p.push_back(temp);
-
+string addPerson(vector<Person> &p, const string &name, const string &gender, const string &dob, const string &dod, const string &country) {
     // Add to database
     addPersonDB(name, gender, dob, dod, country);
+
+    // Re-populate vector
+    populateVector(p);
 
     return "Person " + name + " succesfully added.";
 }
@@ -367,7 +366,6 @@ string addPerson(vector<Person> &p, int &currentId, const string &name, const st
 // ===== DELETE =====
 string del(vector<Person> &p, string &command){
     string name, message = ""; // Return message
-    bool deleted = false; // If deleted
     int id; // The extracted ID
 
     // Check for missing ID
@@ -388,27 +386,14 @@ string del(vector<Person> &p, string &command){
     // Convert to int
     id = stoi(command);
 
-    // Loop over the vector and delete
-    for(unsigned int i = 0; i < p.size(); i++){
-        // Match
-        if(p[i].getId() == id){
-            name = p[i].getName(); // Store name
-            p.erase(p.begin() + i); // Remove from vector
-            deleted = true; // Confirm deleted
-        }
-    }
+    message = delPersonDB(id);
 
     // Success message
-    if(deleted){
+    if(message == ""){
         message = "| " + to_string(id) + " - " + name + " has been deleted.";
-        // writeVector(p);
+        populateVector(p);
     }
-    // ID not found message
-    else{
-        message = "ID: " + to_string(id) + " not found.";
-    }
-
-    // Return
+    
     return message;
 }
 

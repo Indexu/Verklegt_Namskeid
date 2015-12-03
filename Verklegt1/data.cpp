@@ -26,6 +26,9 @@ string getData(vector<Person> &p){
 
     // Open
     if(db.open()){
+        // Empty vector
+        p.clear();
+
         QSqlQuery query(db);
         // Query
         query.exec("SELECT * FROM persons");
@@ -75,7 +78,9 @@ string addPersonDB(const string &name, const string &gender, const string &dob, 
         query.bindValue(":dod", d);
         query.bindValue(":country", c);
 
-        query.exec();
+        if(!query.exec()){
+            return "!-Error-!";
+        }
 
         // Close
         db.close();
@@ -85,4 +90,65 @@ string addPersonDB(const string &name, const string &gender, const string &dob, 
         return "Unable to connect to database";
     }
 
+}
+
+string delPersonDB(const int &id){
+    string error = "";
+    if(personIDExistsDB(id, error)){
+        // Open
+        if(db.open()){
+            QSqlQuery query(db);
+
+            query.prepare("DELETE FROM persons "
+                          "WHERE id = :id");
+
+            query.bindValue(":id", id);
+
+            if(!query.exec()){
+                return "!-Error-!";
+            }
+
+            // Close
+            db.close();
+            return "";
+        }
+        else{
+            return "Unable to connect to database";
+        }
+    }
+    else if(error != ""){
+        return error;
+    }
+    else{
+        return "ID: " + to_string(id) + " not found.";
+    }
+}
+
+bool personIDExistsDB(const int &id, string &error){
+    // Open
+    if(db.open()){
+        bool exists = false;
+        QSqlQuery query(db);
+
+        query.prepare("SELECT id FROM persons "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            error = "!-Error-!";
+        }
+        else if(query.next()){
+             exists = true;
+        }
+
+        // Close
+        db.close();
+        return exists;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
 }
