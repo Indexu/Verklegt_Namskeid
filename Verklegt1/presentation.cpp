@@ -1,6 +1,7 @@
 #include "presentation.h"
 #include "domain.h"
 #include "person.h"
+#include "machine.h"
 #include "utility.h"
 #include <iomanip>
 #include <cstdlib>

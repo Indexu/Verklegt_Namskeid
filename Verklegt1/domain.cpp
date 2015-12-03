@@ -1,6 +1,7 @@
 #include "domain.h"
 #include "data.h"
 #include "person.h"
+#include "machine.h"
 #include "utility.h"
 #include <vector>
 #include <regex>
