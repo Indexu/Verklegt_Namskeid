@@ -86,8 +86,6 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     query.erase(0,10);
 
     // Get field flag
-
-
     if(query.substr(0,1) == "-"){
         arg = query.substr(0,2);
         query.erase(0,3);
@@ -185,6 +183,13 @@ string del(vector<Person> &p, string &command){
     // Convert to int
     id = stoi(command);
 
+    // Get index
+    int index = getIndexByID(p, id);
+
+    // Get name
+    name = p[index].getName();
+
+    // Delete
     message = delPersonDB(id);
 
     // Success message

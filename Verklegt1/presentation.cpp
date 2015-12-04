@@ -47,6 +47,9 @@ void loop(){
                 // ===== MAIN =====
 
                 while(command != "q" || command != "quit"){
+                    // Reset message
+                    message = "";
+
                     cout << ">";
 
                     // Get command
@@ -54,7 +57,6 @@ void loop(){
 
                     // List
                     if(getCommand(command) == "ls"){
-                        message = "";
 
                         // If only "ls"
                         if(command == "ls"){
