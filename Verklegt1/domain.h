@@ -33,10 +33,15 @@ bool verifyDate(const std::string &ver);
 std::string addPerson(std::vector<Person> &p, const std::string &name, const std::string &gender, const std::string &dob, const std::string &dod, const std::string &country);
 
 // Delete person from DB
-std::string del(std::vector<Person> &p, std::string &command);
+std::string delPerson(std::vector<Person> &p, std::string &command);
 
 // Edit person in DB
 std::string edit(std::vector<Person> &p, std::string command);
+
+// Add new machine
+
+// Delete machine
+std::string delMachine(std::vector<Machine> &m, std::string &command);
 
 #endif // DOMAIN_LAYER
 

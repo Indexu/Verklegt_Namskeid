@@ -111,8 +111,8 @@ bool isNumber(const string &str){
     return true;
 }
 
-// Get index by ID
-int getIndexByID(vector<Person> p, int id){
+// Get person index by ID
+int getPIndexByID(vector<Person> p, int id){
     int start = 0;
     int end = p.size() - 1;
     int middle = -1;
@@ -124,6 +124,42 @@ int getIndexByID(vector<Person> p, int id){
 
         // Get middle element's ID
         currentID = p[middle].getId();
+
+        // Found
+        if(currentID == id){
+            return middle;
+        }
+        // Higher
+        else if(currentID < id){
+            start = middle + 1;
+        }
+        // Lower
+        else{
+            end = middle - 1;
+        }
+    }
+
+    // Not found
+    if(end < start){
+        middle = -1;
+    }
+
+    return middle;
+}
+
+// Get machine index by ID
+int getMIndexByID(vector<Machine> m, int id){
+    int start = 0;
+    int end = m.size() - 1;
+    int middle = -1;
+    int currentID;
+
+    while(start <= end){
+        // Get middle element index
+        middle = start + ((end - start)/2);
+
+        // Get middle element's ID
+        currentID = m[middle].getId();
 
         // Found
         if(currentID == id){

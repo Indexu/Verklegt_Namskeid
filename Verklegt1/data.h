@@ -21,6 +21,10 @@ bool personIDExistsDB(const int &id, std::string &error);
 std::vector<Person> searchPersonDB(std::string &searchString, std::string &message, std::string &field);
 // Get machines
 std::string getMachinesDB(std::vector<Machine> &m, const std::string &sorting);
+// Delete machine
+std::string delMachineDB(const int &id);
+// Check if machine ID exists
+bool machineIDExistsDB(const int &id, std::string &error);
 
 #endif // DATA
 

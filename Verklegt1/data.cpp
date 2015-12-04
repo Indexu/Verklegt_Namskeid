@@ -327,3 +327,65 @@ string getMachinesDB(vector<Machine> &m, const string &sorting){
         return "Unable to connect to database";
     }
 }
+
+// Delete machine
+string delMachineDB(const int &id){
+    string error = "";
+    if(machineIDExistsDB(id, error)){
+        // Open
+        if(db.open()){
+            QSqlQuery query(db);
+
+            query.prepare("DELETE FROM machines "
+                          "WHERE id = :id");
+
+            query.bindValue(":id", id);
+
+            if(!query.exec()){
+                return query.lastError().text().toStdString();
+            }
+
+            // Close
+            db.close();
+            return "";
+        }
+        else{
+            return "Unable to connect to database";
+        }
+    }
+    else if(error != ""){
+        return error;
+    }
+    else{
+        return "ID: " + to_string(id) + " not found.";
+    }
+}
+
+// Check if machine ID exists in DB
+bool machineIDExistsDB(const int &id, string &error){
+    // Open
+    if(db.open()){
+        bool exists = false;
+        QSqlQuery query(db);
+
+        query.prepare("SELECT id FROM machines "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            error = query.lastError().text().toStdString();
+        }
+        else if(query.next()){
+             exists = true;
+        }
+
+        // Close
+        db.close();
+        return exists;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+    return false;
+}
