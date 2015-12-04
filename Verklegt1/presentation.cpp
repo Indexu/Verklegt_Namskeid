@@ -50,6 +50,7 @@ void loop(){
 
                     // List
                     if(getCommand(command) == "ls"){
+                        message = "";
 
                         // If only "ls"
                         if(command == "ls"){
