@@ -4,8 +4,8 @@ using namespace std;
 
 // = UTILITY FUNCTIONS =
 
-// Find the longest name
-int findLongestName(const vector<Person> &p) {
+// Find the longest person name
+int findLongestPName(const vector<Person> &p) {
     int currentName, nameLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < p.size(); i++){
@@ -19,6 +19,40 @@ int findLongestName(const vector<Person> &p) {
     }
 
     return nameLength;
+}
+
+// Find the longest machine name
+int findLongestMName(const vector<Machine> &m) {
+    int currentName, nameLength = 0;
+    // Loop over vector
+    for(unsigned int i = 0; i < m.size(); i++){
+        // Current name length
+        currentName = m[i].getName().length();
+        // If it's longer than the longest name so far
+        if (nameLength < currentName) {
+            // New longest name
+            nameLength = currentName;
+        }
+    }
+
+    return nameLength;
+}
+
+// Find the longest machine type
+int findLongestMType(const vector<Machine> &m) {
+    int currentType, typeLength = 0;
+    // Loop over vector
+    for(unsigned int i = 0; i < m.size(); i++){
+        // Current type length
+        currentType = m[i].getType().length();
+        // If it's longer than the longest type so far
+        if (typeLength < currentType) {
+            // New longest type
+            typeLength = currentType;
+        }
+    }
+
+    return typeLength;
 }
 
 // Verify date

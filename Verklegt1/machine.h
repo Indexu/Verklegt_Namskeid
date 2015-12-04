@@ -16,27 +16,27 @@ public:
 
     // GETTERS/SETTERS
     // Get/set machine ID
-    int getId();
+    int getId() const;
     void setId(int id);
 
     // Get/set year build year
-    int getYear();
+    int getYear() const;
     void setYear(int y);
 
     // Get/set if machine is built
-    bool isBuilt();
-    void isBuilt(bool b);
+    bool getBuilt() const;
+    void setBuilt(bool b);
 
     // Get/set machine name
-    std::string getName();
+    std::string getName() const;
     void setName(std::string n);
 
     // Get/set machine type
-    std::string getType();
+    std::string getType() const;
     void setType(std::string t);
 
     // Get/set machine numerical system
-    std::string getSystem();
+    std::string getSystem() const;
     void setSystem(std::string s);
 
 };

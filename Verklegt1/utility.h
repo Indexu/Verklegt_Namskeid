@@ -11,6 +11,15 @@
 // Largest value in int vector
 size_t largestValue(const std::vector<size_t> &v);
 
+// Get the longest name in Person vector
+int findLongestPName(const std::vector<Person> &p);
+
+// Get longest name in Machine vector
+int findLongestMName(const std::vector<Machine> &m);
+
+// Get longest type in Machine type
+int findLongestMType(const std::vector<Machine> &m);
+
 // Get command
 std::string getCommand(const std::string &command);
 

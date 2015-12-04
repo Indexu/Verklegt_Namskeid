@@ -12,7 +12,7 @@ Machine::Machine(int id, std::string n, int y, bool b, std::string t, std::strin
 
 // GETTERS/SETTERS
 // Get/set machine ID
-int Machine::getId() {
+int Machine::getId() const {
     return Id;
 }
 
@@ -21,7 +21,7 @@ void Machine::setId(int id) {
 }
 
 // Get/set year build year
-int Machine::getYear() {
+int Machine::getYear() const{
     return Year;
 }
 
@@ -30,16 +30,16 @@ void Machine::setYear(int y) {
 }
 
 // Get/set if machine is built
-bool Machine::isBuilt() {
+bool Machine::getBuilt() const{
     return Built;
 }
 
-void Machine::isBuilt(bool b) {
+void Machine::setBuilt(bool b) {
     Built = b;
 }
 
 // Get/set machine name
-std::string Machine::getName() {
+std::string Machine::getName() const{
     return Name;
 }
 
@@ -48,7 +48,7 @@ void Machine::setName(std::string n) {
 }
 
 // Get/set machine type
-std::string Machine::getType() {
+std::string Machine::getType() const{
     return type;
 }
 
@@ -57,7 +57,7 @@ void Machine::setType(std::string t) {
 }
 
 // Get/set machine numerical system
-std::string Machine::getSystem() {
+std::string Machine::getSystem() const{
     return system;
 }
 

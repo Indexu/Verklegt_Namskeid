@@ -23,6 +23,7 @@ string populateMachineVector(vector<Machine> &m, const string &sorting){
 }
 
 // ===== LIST =====
+// Persons
 vector<Person> listPersons(string &command, string &message){
     vector<Person> p;
 
@@ -45,6 +46,31 @@ vector<Person> listPersons(string &command, string &message){
     }
 
     return p;
+}
+
+// Machines
+vector<Machine> listMachines(string &command, string &message){
+    vector<Machine> m;
+
+    command = command.erase(0,6);
+
+    if(command == "-a"){
+        populateMachineVector(m, "a");
+    }
+    else if(command == "-z"){
+        populateMachineVector(m, "z");
+    }
+    else if(command == "-d"){
+        populateMachineVector(m, "d");
+    }
+    else if(command == ""){
+        populateMachineVector(m, "");
+    }
+    else{
+        message = "Invalid flag: \"" + command + "\"";
+    }
+
+    return m;
 }
 
 // ===== SEARCH =====
