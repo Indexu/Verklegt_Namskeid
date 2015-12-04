@@ -10,7 +10,7 @@ std::string startDB();
 // Add data to vector
 std::string populatePersonVector(std::vector<Person> &p, const std::string &sorting);
 
-std::vector<Person>listPersons(std::string &command);
+std::vector<Person>listPersons(std::string &command, std::string &message);
 
 // Sort vector
 bool sortNameAscend(const Person p1, const Person p2);

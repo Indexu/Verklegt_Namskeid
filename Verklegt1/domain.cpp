@@ -18,7 +18,7 @@ string populatePersonVector(vector<Person> &p, const string &sorting){
 }
 
 // ===== LIST =====
-vector<Person> listPersons(string &command){
+vector<Person> listPersons(string &command, string &message){
     vector<Person> p;
 
     command = command.erase(0,6);
@@ -32,8 +32,11 @@ vector<Person> listPersons(string &command){
     else if(command == "-d"){
         populatePersonVector(p, "d");
     }
-    else{
+    else if(command == ""){
         populatePersonVector(p, "");
+    }
+    else{
+        message = "Invalid flag: \"" + command + "\"";
     }
 
     return p;

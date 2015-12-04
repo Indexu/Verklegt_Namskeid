@@ -44,10 +44,44 @@ void loop(){
                 // Get command
                 getline(cin, command);
 
-                // Display the vector
+                // List
                 if(getCommand(command) == "ls"){
+
+                    // List - People
                     if(command.substr(0,5) == "ls -p"){
-                        display(listPersons(command), longestName);
+                        // Get persons
+                        people = listPersons(command, message);
+
+                        // Check for errors
+                        if(message == ""){
+                            // Display people
+                            display(people, longestName);
+                        }
+                        else{
+                            // Display errors
+                            cout << message << endl;
+                        }
+
+                    }
+                    // List - Machines
+                    else if(command.substr(0,5) == "ls -m"){
+                        /*
+                        // Get machines
+                        people = listPersons(command, message);
+
+                        // Check for errors
+                        if(message == ""){
+                            // Display machines
+                            display(people, longestName);
+                        }
+                        else{
+                            // Display errors
+                            cout << message << endl;
+                        }*/
+
+                    }
+                    else{
+                        cout << "Invalid flag: \"" << command.substr(4,2) << "\"" << endl;
                     }
 
 
@@ -250,7 +284,14 @@ void help(string command) {
     }
     // List
     else if (command == "ls") {
-        cout << "Prints the database on the screen." << endl;
+        cout << "ls -p prints out all persons ordered by ID in ascending order" << endl;
+        cout << "ls -p -d prints out all persons ordered by ID in descending order" << endl;
+        cout << "ls -p -a prints out all persons ordered by name in ascending order" << endl;
+        cout << "ls -p -z prints out all persons ordered by name in descending order" << endl;
+        cout << "ls -m prints out all machines ordered by ID in ascending order" << endl;
+        cout << "ls -m -d prints out all machines ordered by ID in descending order" << endl;
+        cout << "ls -m -a prints out all machines ordered by name in ascending order" << endl;
+        cout << "ls -m -z prints out all machines ordered by name in descending order" << endl;
     }
     // Search
     else if (command == "search") {
@@ -282,13 +323,6 @@ void help(string command) {
         cout << "filter [args] [male|female] filter out a specified gender" << endl;
         cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
     }
-    // Sort
-    else if (command == "sort") {
-        cout << "sort/sort -a prints out the database in ascending order by name." << endl;
-        cout << "sort -d prints out the database in descending order by name." << endl;
-        cout << "sort -i prints out the database in ascending order by ID." << endl;
-        cout << "sort -iD prints out the database in descending order by ID." << endl;
-    }
     // Delete
     else if (command == "delete") {
         cout << "delete [id] deletes the entry in the database with corresponding id" << endl;
@@ -318,7 +352,6 @@ void help(string command) {
         cout << "[ls] is used to print out the database." << endl;
         cout << "[search] is used to search for an item in the database." << endl;
         cout << "[filter] is used to filter out an item in the database." << endl;
-        cout << "[sort] is used to sort the list in the database." << endl;
         cout << "[edit] is used to edit a person's information in the database." << endl;
         cout << "[clear] is used to clear the console window" << endl;
         cout << "[quit] is used to quit the program." << endl;
