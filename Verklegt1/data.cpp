@@ -227,8 +227,21 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
         else{
             QString ss = QString::fromStdString(searchString);
 
-            query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'");
-            query.bindValue(":ss", ss);
+            if(field != ""){
+                query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'");
+                query.bindValue(":ss", ss);
+            }
+            else{
+                query.prepare("SELECT * FROM persons WHERE id LIKE '%'||:ss||'%'"
+                              "OR id LIKE '%'||:ss||'%'"
+                              "OR name LIKE '%'||:ss||'%'"
+                              "OR gender LIKE '%'||:ss||'%'"
+                              "OR date_of_birth LIKE '%'||:ss||'%'"
+                              "OR date_of_death LIKE '%'||:ss||'%'"
+                              "OR country LIKE '%'||:ss||'%'");
+
+                query.bindValue(":ss", ss);
+            }
         }
 
         string name, gender, dob, dod, country;

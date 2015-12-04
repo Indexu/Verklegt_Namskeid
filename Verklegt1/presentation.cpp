@@ -96,11 +96,25 @@ void loop(){
                     }
                     // Filter
                     else if(getCommand(command) == "filter"){
-                        vector<Person> results = filter(people, command, message);
-                        if(message == ""){
-                            displayPerson(results, longestName);
+                        if (command == "filter") {
+                            message = "Filter command is missing flags. See help for instructions.";
+                            cout << message << endl;
                         }
-                        else{
+                        else if (command.substr(0,9) == "filter -p") {
+                            vector<Person> results = filter(command, message);
+                            if (message == "") {
+                                displayPerson(results, longestName);
+                            }
+                            else {
+                                cout << message << endl;
+                            }
+                        }
+                        else if (command.substr(0,9) == "filter -m") {
+                            message = "DB_Machine not ready yet. Try filter -p for persons.";
+                            cout << message;
+                        }
+                        else {
+                            message = "First flag is invalid! Available flags are: -p for person, -m for machines.";
                             cout << message << endl;
                         }
                     }

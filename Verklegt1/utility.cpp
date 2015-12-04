@@ -150,6 +150,9 @@ string convert2Field(string searchString) {
     else if (searchString == "-i") {
         field = "id";
     }
+    else if(searchString == ""){
+        field = "";
+    }
     else {
         field = "-1";
     }

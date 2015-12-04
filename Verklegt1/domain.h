@@ -20,11 +20,11 @@ std::vector<Person>listPersons(std::string &command, std::string &message);
 // Get the longest name in the vector
 int findLongestName(const std::vector<Person> &p);
 
-// Search
-std::vector<Person> search(const std::vector<Person> &p, std::string &query, std::string &message);
+// Searching...
+std::vector<Person> callSearchPersonDB(std::string &query, std::string &message);
 
 // Filter
-std::vector<Person> filter(const std::vector<Person> &p, std::string &query, std::string &message);
+std::vector<Person> filter(std::string &query, std::string &message);
 
 // Verify date input
 bool verifyDate(const std::string &ver);
@@ -37,9 +37,6 @@ std::string del(std::vector<Person> &p, std::string &command);
 
 // Edit person in DB
 std::string edit(std::vector<Person> &p, std::string command);
-
-// Searching...
-std::vector<Person> callSearchPersonDB(std::string &query, std::string &message);
 
 #endif // DOMAIN_LAYER
 
