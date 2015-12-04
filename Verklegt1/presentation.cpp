@@ -24,7 +24,7 @@ void loop(){
 
     if(message == ""){
         // Add data
-        message = populateVector(people);
+        message = populatePersonVector(people, "");
 
         if(message == ""){
             // Get longest name
@@ -45,8 +45,12 @@ void loop(){
                 getline(cin, command);
 
                 // Display the vector
-                if(command == "list" || command == "ls"){
-                    display(people, longestName);
+                if(getCommand(command) == "ls"){
+                    if(command.substr(0,5) == "ls -p"){
+                        display(listPersons(command), longestName);
+                    }
+
+
                 }
                 // Sort
                 else if(getCommand(command) == "sort"){
@@ -245,9 +249,8 @@ void help(string command) {
         cout << "Follow the instructions on the screen." << endl;
     }
     // List
-    else if (command == "list" || command == "ls") {
+    else if (command == "ls") {
         cout << "Prints the database on the screen." << endl;
-        cout << "[list] and [ls] are synonymous" << endl;
     }
     // Search
     else if (command == "search") {
@@ -312,7 +315,7 @@ void help(string command) {
         cout << "The command used in this program are: " << endl;
         cout << "[add] is used to add a person to the database."  << endl;
         cout << "[delete] is used to delete a person from database."  << endl;
-        cout << "[list] is used to print out the database." << endl;
+        cout << "[ls] is used to print out the database." << endl;
         cout << "[search] is used to search for an item in the database." << endl;
         cout << "[filter] is used to filter out an item in the database." << endl;
         cout << "[sort] is used to sort the list in the database." << endl;

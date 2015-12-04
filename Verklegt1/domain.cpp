@@ -12,9 +12,31 @@ string startDB(){
     return initDB();
 }
 
-// ===== POPULATE VECTOR =====
-string populateVector(vector<Person> &p){
-    return getData(p);
+// ===== POPULATE PERSON VECTOR =====
+string populatePersonVector(vector<Person> &p, const string &sorting){
+    return getPersonsDB(p, sorting);
+}
+
+// ===== LIST =====
+vector<Person> listPersons(string &command){
+    vector<Person> p;
+
+    command = command.erase(0,6);
+
+    if(command == "-a"){
+        populatePersonVector(p, "a");
+    }
+    else if(command == "-z"){
+        populatePersonVector(p, "z");
+    }
+    else if(command == "-d"){
+        populatePersonVector(p, "d");
+    }
+    else{
+        populatePersonVector(p, "");
+    }
+
+    return p;
 }
 
 // ===== SORTING =====
@@ -377,7 +399,7 @@ string addPerson(vector<Person> &p, const string &name, const string &gender, co
     addPersonDB(name, gender, dob, dod, country);
 
     // Re-populate vector
-    populateVector(p);
+    populatePersonVector(p, "");
 
     return "Person " + name + " succesfully added.";
 }
@@ -410,7 +432,7 @@ string del(vector<Person> &p, string &command){
     // Success message
     if(message == ""){
         message = "| " + to_string(id) + " - " + name + " has been deleted.";
-        populateVector(p);
+        populatePersonVector(p, "");
     }
     
     return message;
@@ -476,7 +498,7 @@ string edit(vector<Person> &p, string command){
         if(message == ""){
             // Confirmation message
             message = "ID " + strID + " - Name of " + name + " changed to: " + newValue;
-            populateVector(p);
+            populatePersonVector(p, "");
         }
         else{
             return message;
@@ -511,7 +533,7 @@ string edit(vector<Person> &p, string command){
         if(message == ""){
             // Confirmation message
             message = "ID " + strID + " - Gender of " + name + " changed to: " + newValue;
-            populateVector(p);
+            populatePersonVector(p, "");
         }
         else{
             return message;
@@ -532,7 +554,7 @@ string edit(vector<Person> &p, string command){
             if(message == ""){
                 // Confirmation message
                 message = "ID " + strID + " - Birth date of " + name + " changed to: " + newValue;
-                populateVector(p);
+                populatePersonVector(p, "");
             }
             else{
                 return message;
@@ -553,7 +575,7 @@ string edit(vector<Person> &p, string command){
             if(message == ""){
                 // Confirmation message
                 message = "ID " + strID + " - Death date of " + name + " changed to: " + newValue;
-                populateVector(p);
+                populatePersonVector(p, "");
             }
             else{
                 return message;
@@ -568,7 +590,7 @@ string edit(vector<Person> &p, string command){
         if(message == ""){
             // Confirmation message
             message = "ID " + strID + " - Country of " + name + " changed to: " + newValue;
-            populateVector(p);
+            populatePersonVector(p, "");
         }
         else{
             return message;

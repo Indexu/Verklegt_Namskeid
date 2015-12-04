@@ -8,7 +8,9 @@
 std::string startDB();
 
 // Add data to vector
-std::string populateVector(std::vector<Person> &p);
+std::string populatePersonVector(std::vector<Person> &p, const std::string &sorting);
+
+std::vector<Person>listPersons(std::string &command);
 
 // Sort vector
 bool sortNameAscend(const Person p1, const Person p2);

@@ -22,7 +22,7 @@ string initDB(){
 }
 
 // Get data
-string getData(vector<Person> &p){
+string getPersonsDB(vector<Person> &p, const string &sorting){
 
     // Open
     if(db.open()){
@@ -30,8 +30,22 @@ string getData(vector<Person> &p){
         p.clear();
 
         QSqlQuery query(db);
+
+        QString sort = "";
+        if(sorting == "a"){
+            sort = "ORDER BY name ASC, id ASC";
+        }
+        else if(sorting == "z"){
+            sort = "ORDER BY name DESC, id DESC";
+        }
+        else if(sorting == "d"){
+            sort = "ORDER BY id DESC, name DESC";
+        }
+
+        QString queStr = "SELECT * FROM persons " + sort;
+
         // Query
-        query.exec("SELECT * FROM persons");
+        query.exec(queStr);
 
         string name, gender, dob, dod, country;
         int id;
@@ -188,6 +202,7 @@ bool personIDExistsDB(const int &id, string &error){
     return false;
 }
 
+// Search for a person in DB
 vector<Person> searchPersonDB(string &searchString, string &message, string &field){
     vector<Person> results; // Result vector
 
