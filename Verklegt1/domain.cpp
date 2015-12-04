@@ -17,6 +17,11 @@ string populatePersonVector(vector<Person> &p, const string &sorting){
     return getPersonsDB(p, sorting);
 }
 
+// ===== POPULATE MACHINE VECTOR =====
+string populateMachineVector(vector<Machine> &m, const string &sorting){
+    return getMachinesDB(m, sorting);
+}
+
 // ===== LIST =====
 vector<Person> listPersons(string &command, string &message){
     vector<Person> p;
@@ -42,275 +47,72 @@ vector<Person> listPersons(string &command, string &message){
     return p;
 }
 
+// ===== SEARCH =====
 vector<Person> callSearchPersonDB(string &query, string &message) {
+    // Result vector
     vector<Person> results;
+    // Reset message
     message = "";
-    query.erase(0,7);
-    string table = query.substr(0,2);
-    query.erase(0,3);
-    string arg = query.substr(0,2);
-    string searchString = query.erase(0,3);
+    // Field flag
+    string arg = "";
+
+    // Erase command + -p/-m
+    query.erase(0,10);
+
+    // Get field flag
+
+
+    if(query.substr(0,1) == "-"){
+        arg = query.substr(0,2);
+        query.erase(0,3);
+    }
+
+    string searchString = query;
     string field = convert2Field(arg);
 
-    if (table == "-p") {
-        results = searchPersonDB(searchString, message, field);
-    }
-    else if (table == "-m") {
-        message = "DB_MACHINE not ready.";
-    }
+    results = searchPersonDB(searchString, message, field);
 
     if(message == ""){
         if (results.empty()) {
             message = "No entries matched your search.";
         }
-    } 
-    return results;
-}
-
-
-// ===== SEARCH =====
-vector<Person> search(const vector<Person> &p, string &query, string &message){
-    vector<Person> results; // Result vector
-    vector<size_t> args; // Arguements
-    message = "";
-
-    // Check arguements
-    args.push_back(query.find(" -C ")); // 0. Case-sensative
-    args.push_back(query.find(" -a ")); // 1. Sort ascending
-    args.push_back(query.find(" -z ")); // 2. Sort descending
-    args.push_back(query.find(" -n ")); // 3. Name
-    args.push_back(query.find(" -g ")); // 4. Gender
-    args.push_back(query.find(" -b ")); // 5. Date of birth
-    args.push_back(query.find(" -d ")); // 6. Date of death
-    args.push_back(query.find(" -c ")); // 7. Country
-    args.push_back(query.find(" -i ")); // 8. ID
-
-    // Error check
-    if(args[1] != string::npos && args[2] != string::npos){
-        message = "Only one sorting method allowed!";
-        return results;
     }
-
-    // Extract search query
-    int max = largestValue(args);
-    // Erase up to query
-    if(max != 0){
-        query = query.erase(0, max + 4);
-    }
-    // No args
-    else{
-        query = query.erase(0,7);
-    }
-
-    // = Conduct search =
-
-    // Gender
-    if(query == "male" || query == "female"){
-        for(unsigned int i = 0; i < p.size(); i++){
-            if(p[i].getGender() == query){
-                results.push_back(p[i]);
-            }
-        }
-    }
-    // Not Gender
-    else{
-        // Case sensetive
-        if(args[0] != string::npos){
-            bool valid;
-
-            for(unsigned int i = 0; i < p.size(); i++){
-                valid = false;
-
-                // Name
-                if(args[3] != string::npos){
-                    if(p[i].getName().find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // Date of birth
-                else if(args[5] != string::npos){
-                    if(p[i].getDateOfBirth().find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // Date of death
-                else if(args[6] != string::npos){
-                    if(p[i].getDateOfDeath().find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // Country
-                else if(args[7] != string::npos){
-                    if(p[i].getCountry().find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // ID
-                else if(args[8] != string::npos){
-                    if(to_string(p[i].getId()).find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // All fields
-                else{
-                    if(p[i].getName().find(query) != string::npos){
-                        valid = true;
-                    }
-                    else if(p[i].getDateOfBirth().find(query) != string::npos){
-                        valid = true;
-                    }
-                    else if(p[i].getDateOfDeath().find(query) != string::npos){
-                        valid = true;
-                    }
-                    else if(p[i].getCountry().find(query) != string::npos){
-                        valid = true;
-                    }
-                    else if(to_string(p[i].getId()).find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // Check
-                if(valid){
-                    // Add
-                    results.push_back(p[i]);
-                }
-            }
-        }
-        // Case insensetive
-        else{
-
-            for(unsigned int i = 0; i < query.length(); i++){
-                query[i] = tolower(query[i]);
-            }
-
-            string temp;
-            bool valid;
-            for(unsigned int i = 0; i < p.size(); i++){
-                valid = false;
-
-                // Name
-                if(args[3] != string::npos){
-                    temp = p[i].getName();
-
-                    for(unsigned int i = 0; i < temp.length(); i++){
-                        temp[i] = tolower(temp[i]);
-                    }
-
-                    if(temp.find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // Date of birth
-                else if(args[5] != string::npos){
-                    if(p[i].getDateOfBirth().find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // Date of death
-                else if(args[6] != string::npos){
-                    if(p[i].getDateOfDeath().find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // Country
-                else if(args[7] != string::npos){
-                    temp = p[i].getCountry();
-
-                    for(unsigned int i = 0; i < temp.length(); i++){
-                        temp[i] = tolower(temp[i]);
-                    }
-
-                    if(temp.find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // ID
-                else if(args[8] != string::npos){
-                    if(to_string(p[i].getId()).find(query) != string::npos){
-                        valid = true;
-                    }
-                }
-                // All fields
-                else{
-                    // Name
-                    temp = p[i].getName();
-
-                    for(unsigned int i = 0; i < temp.length(); i++){
-                        temp[i] = tolower(temp[i]);
-                    }
-
-                    if(temp.find(query) != string::npos){
-                        valid = true;
-                    }
-
-                    // Date of birth
-                    else if(p[i].getDateOfBirth().find(query) != string::npos){
-                        valid = true;
-                    }
-                    // Date of death
-                    else if(p[i].getDateOfDeath().find(query) != string::npos){
-                        valid = true;
-                    }
-                    // ID
-                    else if(to_string(p[i].getId()).find(query) != string::npos){
-                        valid = true;
-                    }
-                    // Country
-                    else{
-                        temp = p[i].getCountry();
-
-                        for(unsigned int i = 0; i < temp.length(); i++){
-                            temp[i] = tolower(temp[i]);
-                        }
-
-                        if(temp.find(query) != string::npos){
-                            valid = true;
-                        }
-                    }
-
-                }
-                // Check
-                if(valid){
-                    // Add
-                    results.push_back(p[i]);
-                }
-            }
-        }
-    }
-
-    if(results.size() == 0){
-        message = "No results for query: \"" + query + "\"";
-    }
-
     return results;
 }
 
 // ===== Filter =====
-vector<Person> filter(const vector<Person> &p, string &query, string &message){
+vector<Person> filter(string &query, string &message){
+    // Everyone
+    vector<Person> p;
     // Search
-    vector<Person> results = search(p, query, message);
+    vector<Person> results = callSearchPersonDB(query, message);
 
     // If successful search
     if(message == ""){
-        // Whether or not add the person
-        bool addPerson;
+        // Get all persons
+        message = populatePersonVector(p, "");
 
-        for(unsigned int i = 0; i < p.size(); i++){
-            addPerson = true;
-            // Check search results
-            if(results.size() != 0){
-                for(unsigned int j = 0; j < results.size(); j++){
-                    // Remove search match and do not add the person
-                    if(p[i] == results[j]){
-                        results.erase(results.begin() + j);
-                        addPerson = false;
+        if(message == ""){
+            // Whether or not add the person
+            bool addPerson;
+
+            for(unsigned int i = 0; i < p.size(); i++){
+                addPerson = true;
+                // Check search results
+                if(results.size() != 0){
+                    for(unsigned int j = 0; j < results.size(); j++){
+                        // Remove search match and do not add the person
+                        if(p[i] == results[j]){
+                            results.erase(results.begin() + j);
+                            addPerson = false;
+                        }
                     }
                 }
-            }
 
-            // Add the person if true
-            if(addPerson){
-                results.push_back(p[i]);
+                // Add the person if true
+                if(addPerson){
+                    results.push_back(p[i]);
+                }
             }
         }
     }

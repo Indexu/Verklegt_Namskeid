@@ -15,7 +15,8 @@ void loop(){
     // Vars
     string command = ""; // User command
     string message = ""; // General use message
-    vector<Person> people; // The data vector
+    vector<Person> people; // The person vector
+    vector<Machine> machines; // The machine vector
     int longestName; // Longest name var
     int currentId; // Current Id
 
@@ -27,134 +28,155 @@ void loop(){
         message = populatePersonVector(people, "");
 
         if(message == ""){
-            // Get longest name
-            longestName = findLongestName(people);
+            message = populateMachineVector(machines, "");
 
-            // Get current id
-            currentId = getCurrentId(people);
+            if(message == ""){
+                // Get longest name
+                longestName = findLongestName(people);
 
-            // Print
-            display(people, longestName);
+                // Get current id
+                currentId = getCurrentId(people);
 
-            // ===== MAIN =====
+                // Print
+                displayPerson(people, longestName);
 
-            while(command != "q" || command != "quit"){
-                cout << ">";
+                // ===== MAIN =====
 
-                // Get command
-                getline(cin, command);
+                while(command != "q" || command != "quit"){
+                    cout << ">";
 
-                // List
-                if(getCommand(command) == "ls"){
+                    // Get command
+                    getline(cin, command);
 
-                    // If only "ls"
-                    if(command == "ls"){
-                        cout << "Missing flag" << endl;
-                    }
-                    // List - People
-                    else if(command.substr(0,5) == "ls -p"){
-                        // Get persons
-                        people = listPersons(command, message);
+                    // List
+                    if(getCommand(command) == "ls"){
 
-                        // Check for errors
-                        if(message == ""){
-                            // Display people
-                            display(people, longestName);
+                        // If only "ls"
+                        if(command == "ls"){
+                            cout << "Missing flag" << endl;
+                        }
+                        // List - People
+                        else if(command.substr(0,5) == "ls -p"){
+                            // Get persons
+                            people = listPersons(command, message);
+
+                            // Check for errors
+                            if(message == ""){
+                                // Display people
+                                displayPerson(people, longestName);
+                            }
+                            else{
+                                // Display errors
+                                cout << message << endl;
+                            }
+
+                        }
+                        // List - Machines
+                        else if(command.substr(0,5) == "ls -m"){
+                            /*
+                            // Get machines
+                            people = listPersons(command, message);
+
+                            // Check for errors
+                            if(message == ""){
+                                // Display machines
+                                display(people, longestName);
+                            }
+                            else{
+                                // Display errors
+                                cout << message << endl;
+                            }*/
+
                         }
                         else{
-                            // Display errors
-                            cout << message << endl;
+                            cout << "Invalid flag: \"" << command.substr(4,2) << "\"" << endl;
                         }
 
-                    }
-                    // List - Machines
-                    else if(command.substr(0,5) == "ls -m"){
-                        /*
-                        // Get machines
-                        people = listPersons(command, message);
 
-                        // Check for errors
-                        if(message == ""){
-                            // Display machines
-                            display(people, longestName);
-                        }
-                        else{
-                            // Display errors
+                    }
+                    // Filter
+                    else if(getCommand(command) == "filter"){
+                        if (command == "filter") {
+                            message = "Filter command is missing flags. See help for instructions.";
                             cout << message << endl;
-                        }*/
-
-                    }
-                    else{
-                        cout << "Invalid flag: \"" << command.substr(4,2) << "\"" << endl;
-                    }
-
-
-                }
-                // Filter
-                else if(getCommand(command) == "filter"){
-                    vector<Person> results = filter(people, command, message);
-                    if(message == ""){
-                        display(results, longestName);
-                    }
-                    else{
-                        cout << message << endl;
-                    }
-                }
-                // Add
-                else if(command == "add") {
-                    addProcess(people);
-                }
-                // Delete
-                else if(getCommand(command) == "delete") {
-                    message = del(people, command);
-                    cout << message << endl;
-                }
-                // Edit
-                else if(getCommand(command) == "edit") {
-                    message = edit(people, command);
-                    cout << message << endl;
-                }
-                // Help
-                else if(getCommand(command) == "help"){
-                    help(command);
-                }
-                // Quit
-                else if(command == "q" || command == "quit"){
-                    break;
-                }
-                // Clear screen
-                else if(command == "clear") {
-                    clearScreen();
-                    // system("clear"); is not the way to go appearantly
-                }
-                // Search
-                else if(getCommand(command) == "search"){
-                    if (command == "search") {
-                        message = "Search command is missing flags. See help for instructions.";
-                        cout << message << endl;
-                    }
-                    else if (command.substr(0,9) == "search -p") {
-                        vector<Person> results = callSearchPersonDB(command, message);
-                        if (message == "") {
-                            display(results, longestName);
+                        }
+                        else if (command.substr(0,9) == "filter -p") {
+                            vector<Person> results = filter(command, message);
+                            if (message == "") {
+                                displayPerson(results, longestName);
+                            }
+                            else {
+                                cout << message << endl;
+                            }
+                        }
+                        else if (command.substr(0,9) == "filter -m") {
+                            message = "DB_Machine not ready yet. Try filter -p for persons.";
+                            cout << message;
                         }
                         else {
+                            message = "First flag is invalid! Available flags are: -p for person, -m for machines.";
                             cout << message << endl;
                         }
                     }
-                    else if (command.substr(0,9) == "search -m") {
-                        message = "DB_Machine not ready yet. Try search -p for persons.";
-                        cout << message;
+                    // Add
+                    else if(command == "add") {
+                        addProcess(people);
                     }
-                    else {
-                        message = "First flag is invalid! Available flags are: -p for person, -m for machines.";
+                    // Delete
+                    else if(getCommand(command) == "delete") {
+                        message = del(people, command);
                         cout << message << endl;
                     }
+                    // Edit
+                    else if(getCommand(command) == "edit") {
+                        message = edit(people, command);
+                        cout << message << endl;
+                    }
+                    // Help
+                    else if(getCommand(command) == "help"){
+                        help(command);
+                    }
+                    // Quit
+                    else if(command == "q" || command == "quit"){
+                        break;
+                    }
+                    // Clear screen
+                    else if(command == "clear") {
+                        clearScreen();
+                        // system("clear"); is not the way to go appearantly
+                    }
+                    // Search
+                    else if(getCommand(command) == "search"){
+                        if (command == "search") {
+                            message = "Search command is missing flags. See help for instructions.";
+                            cout << message << endl;
+                        }
+                        else if (command.substr(0,9) == "search -p") {
+                            vector<Person> results = callSearchPersonDB(command, message);
+                            if (message == "") {
+                                displayPerson(results, longestName);
+                            }
+                            else {
+                                cout << message << endl;
+                            }
+                        }
+                        else if (command.substr(0,9) == "search -m") {
+                            message = "DB_Machine not ready yet. Try search -p for persons.";
+                            cout << message;
+                        }
+                        else {
+                            message = "First flag is invalid! Available flags are: -p for person, -m for machines.";
+                            cout << message << endl;
+                        }
+                    }
+                    // Invalid
+                    else if(command != ""){
+                        cout << "Invalid command. Type help for available commands." << endl;
+                    }
                 }
-                // Invalid
-                else if(command != ""){
-                    cout << "Invalid command. Type help for available commands." << endl;
-                }
+            }
+            else{
+                cout << message << endl;
             }
         }
         else{
@@ -236,7 +258,7 @@ void addProcess(vector<Person> &p){
 }
 
 // Display
-void display(vector<Person> p, int longestName){
+void displayPerson(vector<Person> p, int longestName){
     cout << "| ";
     cout << left << setw(4) << "ID" << " | ";
     cout << setw(longestName) << "Name" << " | ";

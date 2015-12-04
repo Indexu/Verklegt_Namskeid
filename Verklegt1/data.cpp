@@ -21,6 +21,8 @@ string initDB(){
     }
 }
 
+// ===== PERSON =====
+
 // Get data
 string getPersonsDB(vector<Person> &p, const string &sorting){
 
@@ -208,10 +210,39 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
 
     if(db.open()){
         QSqlQuery query(db);
-        QString ss = QString::fromStdString(searchString);
 
-        query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'");
-        query.bindValue(":ss", ss);
+
+        if(field == "gender"){
+            if(searchString[0] == 'm'){
+                query.prepare("SELECT * FROM persons WHERE gender = 'male'");
+            }
+            else if(searchString[0] == 'f'){
+                query.prepare("SELECT * FROM persons WHERE gender = 'female'");
+            }
+            else{
+                message = "Unknown gender";
+                return results;
+            }
+        }
+        else{
+            QString ss = QString::fromStdString(searchString);
+
+            if(field != ""){
+                query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'");
+                query.bindValue(":ss", ss);
+            }
+            else{
+                query.prepare("SELECT * FROM persons WHERE id LIKE '%'||:ss||'%'"
+                              "OR id LIKE '%'||:ss||'%'"
+                              "OR name LIKE '%'||:ss||'%'"
+                              "OR gender LIKE '%'||:ss||'%'"
+                              "OR date_of_birth LIKE '%'||:ss||'%'"
+                              "OR date_of_death LIKE '%'||:ss||'%'"
+                              "OR country LIKE '%'||:ss||'%'");
+
+                query.bindValue(":ss", ss);
+            }
+        }
 
         string name, gender, dob, dod, country;
         int id;
@@ -238,4 +269,55 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
     }
     db.close();
     return results;
+}
+
+// ===== MACHINE =====
+// Get data
+string getMachinesDB(vector<Machine> &m, const string &sorting){
+
+    // Open
+    if(db.open()){
+        // Empty vector
+        m.clear();
+
+        QSqlQuery query(db);
+
+        QString sort = "";
+        if(sorting == "a"){
+            sort = "ORDER BY name ASC, id ASC";
+        }
+        else if(sorting == "z"){
+            sort = "ORDER BY name DESC, id DESC";
+        }
+        else if(sorting == "d"){
+            sort = "ORDER BY id DESC, name DESC";
+        }
+
+        QString queStr = "SELECT * FROM machines " + sort;
+
+        // Query
+        query.exec(queStr);
+
+        string name, type, system;
+        int id, year;
+        bool built;
+        while(query.next()){
+            id = query.value("id").toInt();
+            name = query.value("name").toString().toStdString();
+            year = query.value("year").toInt();
+            built = query.value("built").toBool();
+            type = query.value("type").toString().toStdString();
+            system = query.value("system").toString().toStdString();
+
+            Machine temp(id, name, year, built, type, system);
+            m.push_back(temp);
+        }
+        // Close
+        db.close();
+
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
 }
