@@ -132,3 +132,30 @@ string verifyGender(string g){
 
     return g;
 }
+
+string convert2Field(string searchString) {
+    string field;
+    if (searchString == "-g") {
+        field = "gender";
+    }
+    else if (searchString == "-c") {
+        field = "country";
+    }
+    else if (searchString == "-n") {
+        field = "name";
+    }
+    else if (searchString == "-b") {
+        field = "date_of_birth";
+    }
+    else if (searchString == "-d") {
+        field = "date_of_death";
+    }
+    else if (searchString == "-i") {
+        field = "id";
+    }
+    else {
+        field = "-1";
+    }
+    return field;
+}
+

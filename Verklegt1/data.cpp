@@ -211,7 +211,6 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
         QString ss = QString::fromStdString(searchString);
 
         query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'");
-
         query.bindValue(":ss", ss);
 
         string name, gender, dob, dod, country;

@@ -43,7 +43,7 @@ std::string del(std::vector<Person> &p, std::string &command);
 std::string edit(std::vector<Person> &p, std::string command);
 
 // Searching...
-std::vector<Person> searchDB(std::string &query, std::string &message);
+std::vector<Person> callSearchPersonDB(std::string &query, std::string &message);
 
 #endif // DOMAIN_LAYER
 

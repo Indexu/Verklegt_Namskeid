@@ -109,11 +109,25 @@ void loop(){
                     // system("clear"); is not the way to go appearantly
                 }
                 else if(getCommand(command) == "search"){
-                    vector<Person> results = searchDB(command, message);
-                    if (message == "") {
-                        display(results, longestName);
+                    if (command == "search") {
+                        message = "Search command is missing flags. See help for instructions.";
+                        cout << message << endl;
+                    }
+                    else if (command.substr(0,9) == "search -p") {
+                        vector<Person> results = callSearchPersonDB(command, message);
+                        if (message == "") {
+                            display(results, longestName);
+                        }
+                        else {
+                            cout << message << endl;
+                        }
+                    }
+                    else if (command.substr(0,9) == "search -m") {
+                        message = "DB_Machine not ready yet. Try search -p for persons.";
+                        cout << message;
                     }
                     else {
+                        message = "First flag is invalid! Available flags are: -p for person, -m for machines.";
                         cout << message << endl;
                     }
                 }

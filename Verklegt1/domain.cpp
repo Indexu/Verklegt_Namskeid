@@ -111,20 +111,28 @@ bool sortByIdDescend(const Person p1, const Person p2) {
     return (p1.getId() > p2.getId());
 }
 
-vector<Person> searchDB(string &query, string &message) {
+vector<Person> callSearchPersonDB(string &query, string &message) {
     vector<Person> results;
     message = "";
     query.erase(0,7);
-    
-    string field = "gender"; // todo: args!
-    results =  searchPersonDB(query, message, field);
-    
+    string table = query.substr(0,2);
+    query.erase(0,3);
+    string arg = query.substr(0,2);
+    string searchString = query.erase(0,3);
+    string field = convert2Field(arg);
+
+    if (table == "-p") {
+        results = searchPersonDB(searchString, message, field);
+    }
+    else if (table == "-m") {
+        message = "DB_MACHINE not ready.";
+    }
+
     if(message == ""){
         if (results.empty()) {
-            message = "No entries matched your search";
+            message = "No entries matched your search.";
         }
-    }
-    
+    } 
     return results;
 }
 

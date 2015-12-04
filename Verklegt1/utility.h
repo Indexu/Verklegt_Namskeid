@@ -26,5 +26,7 @@ int getIndexByID(std::vector<Person> p, int id);
 // Verify gender input
 std::string verifyGender(std::string g);
 
+// Converts arguments to strings
+std::string convert2Field(std::string searchString);
 
 #endif // UTILITY_H
