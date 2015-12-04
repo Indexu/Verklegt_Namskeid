@@ -17,7 +17,9 @@ void loop(){
     string message = ""; // General use message
     vector<Person> people; // The person vector
     vector<Machine> machines; // The machine vector
-    int longestName; // Longest name var
+    int longestPName; // Longest person name
+    int longestMName; // Longest machine name
+    int longestMType; // Longest machine type
     int currentId; // Current Id
 
     // Connect to DB
@@ -31,14 +33,16 @@ void loop(){
             message = populateMachineVector(machines, "");
 
             if(message == ""){
-                // Get longest name
-                longestName = findLongestName(people);
+                // Get longest everything
+                longestPName = findLongestPName(people);
+                longestMName = findLongestMName(machines);
+                longestMType = findLongestMType(machines);
 
                 // Get current id
                 currentId = getCurrentId(people);
 
                 // Print
-                displayPerson(people, longestName);
+                displayPerson(people, longestPName);
 
                 // ===== MAIN =====
 
@@ -64,7 +68,7 @@ void loop(){
                             // Check for errors
                             if(message == ""){
                                 // Display people
-                                displayPerson(people, longestName);
+                                displayPerson(people, longestPName);
                             }
                             else{
                                 // Display errors
@@ -74,19 +78,21 @@ void loop(){
                         }
                         // List - Machines
                         else if(command.substr(0,5) == "ls -m"){
-                            /*
+
                             // Get machines
-                            people = listPersons(command, message);
+                            machines = listMachines(command, message);
+
+                            cout << machines.size() << endl;
 
                             // Check for errors
                             if(message == ""){
                                 // Display machines
-                                display(people, longestName);
+                                displayMachine(machines, longestMName, longestMType);
                             }
                             else{
                                 // Display errors
                                 cout << message << endl;
-                            }*/
+                            }
 
                         }
                         else{
@@ -104,7 +110,7 @@ void loop(){
                         else if (command.substr(0,9) == "filter -p") {
                             vector<Person> results = filter(command, message);
                             if (message == "") {
-                                displayPerson(results, longestName);
+                                displayPerson(results, longestPName);
                             }
                             else {
                                 cout << message << endl;
@@ -157,7 +163,7 @@ void loop(){
                         else if (command.substr(0,9) == "search -p") {
                             vector<Person> results = callSearchPersonDB(command, message);
                             if (message == "") {
-                                displayPerson(results, longestName);
+                                displayPerson(results, longestPName);
                             }
                             else {
                                 cout << message << endl;
@@ -262,17 +268,17 @@ void addProcess(vector<Person> &p){
     cout << addPerson(p, name, gender, dob, dod, country) << endl;
 }
 
-// Display
-void displayPerson(vector<Person> p, int longestName){
+// Display Persons
+void displayPerson(vector<Person> p, int longestPName){
     cout << "| ";
     cout << left << setw(4) << "ID" << " | ";
-    cout << setw(longestName) << "Name" << " | ";
+    cout << setw(longestPName) << "Name" << " | ";
     cout << setw(6) << "Gender" << " | ";
     cout << setw(10) << "Birth date" << " | ";
     cout << setw(10) << "Death date" << " | ";
     cout << setw(4) << "Country" << endl;
 
-    for(int i = 0; i < (TABLE_LENGTH + longestName); i++){
+    for(int i = 0; i < (TABLE_LENGTH + longestPName); i++){
         cout << "-";
     }
     cout << endl;
@@ -281,16 +287,47 @@ void displayPerson(vector<Person> p, int longestName){
     for(unsigned int i = 0; i < p.size(); i++){
         cout << "| ";
         cout << setw(4) << p[i].getId() << " | ";
-        cout << setw(longestName) << p[i].getName() << " | ";
+        cout << setw(longestPName) << p[i].getName() << " | ";
         cout << setw(6) << p[i].getGender() << " | ";
         cout << setw(10) << p[i].getDateOfBirth() << " | ";
         cout << setw(10) << p[i].getDateOfDeath() << " | ";
         cout << p[i].getCountry() << endl;
     }
-    for(int i = 0; i < (TABLE_LENGTH + longestName); i++){
+    for(int i = 0; i < (TABLE_LENGTH + longestPName); i++){
         cout << "-";
     }
     cout << endl << "| Results: " << p.size() << endl;
+}
+
+// Display Machines
+void displayMachine(const vector<Machine> &m, const int &longestMName, const int &longestMType){
+    cout << "| ";
+    cout << left << setw(4) << "ID" << " | ";
+    cout << setw(longestMName) << "Name" << " | ";
+    cout << setw(6) << "Year" << " | ";
+    cout << setw(10) << "Built" << " | ";
+    cout << setw(longestMType) << "Type" << " | ";
+    cout << setw(4) << "System" << endl;
+
+    for(int i = 0; i < (TABLE_LENGTH + longestMName + longestMType); i++){
+        cout << "-";
+    }
+    cout << endl;
+
+    // loops through vector
+    for(unsigned int i = 0; i < m.size(); i++){
+        cout << "| ";
+        cout << setw(4) << m[i].getId() << " | ";
+        cout << setw(longestMName) << m[i].getName() << " | ";
+        cout << setw(6) << m[i].getYear() << " | ";
+        cout << setw(10) << m[i].getBuilt() << " | ";
+        cout << setw(longestMType) << m[i].getType() << " | ";
+        cout << setw(4) << m[i].getSystem() << endl;
+    }
+    for(int i = 0; i < (TABLE_LENGTH + longestMName + longestMType); i++){
+        cout << "-";
+    }
+    cout << endl << "| Results: " << m.size() << endl;
 }
 
 // Clear screen

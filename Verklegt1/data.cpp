@@ -213,10 +213,10 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
 
         // Check if searching for gender - looks at the first charachter of the search string
         if(field == "gender"){
-            if(searchString[0] == 'm'){
+            if(tolower(searchString[0]) == 'm'){
                 query.prepare("SELECT * FROM persons WHERE gender = 'male'");
             }
-            else if(searchString[0] == 'f'){
+            else if(tolower(searchString[0]) == 'f'){
                 query.prepare("SELECT * FROM persons WHERE gender = 'female'");
             }
             else{
@@ -295,7 +295,11 @@ string getMachinesDB(vector<Machine> &m, const string &sorting){
             sort = "ORDER BY id DESC, name DESC";
         }
 
-        QString queStr = "SELECT * FROM machines " + sort;
+        QString queStr = "SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
+                         "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
+                         "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                         "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
+                         + sort;
 
         // Query
         query.exec(queStr);

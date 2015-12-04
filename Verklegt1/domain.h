@@ -15,10 +15,10 @@ std::string populatePersonVector(std::vector<Person> &p, const std::string &sort
 std::string populateMachineVector(std::vector<Machine> &m, const std::string &sorting);
 
 // List Persons
-std::vector<Person>listPersons(std::string &command, std::string &message);
+std::vector<Person> listPersons(std::string &command, std::string &message);
 
-// Get the longest name in the vector
-int findLongestName(const std::vector<Person> &p);
+// List Machines
+std::vector<Machine> listMachines(std::string &command, std::string &message);
 
 // Searching...
 std::vector<Person> callSearchPersonDB(std::string &query, std::string &message);
