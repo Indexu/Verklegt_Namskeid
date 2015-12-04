@@ -193,15 +193,14 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
 
     if(db.open()){
         QSqlQuery query(db);
-        query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%" + QString::fromStdString(searchString) + "%'");
-
         QString ss = QString::fromStdString(searchString);
+
+        query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'");
+
         query.bindValue(":ss", ss);
 
         string name, gender, dob, dod, country;
         int id;
-
-        query.exec();
 
         if (query.exec()) {
             while(query.next()){
@@ -217,7 +216,7 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
             }
         }
         else {
-            cout << "ERROR";
+            message = query.lastError().text().toStdString();;
         }
     }
     else{
