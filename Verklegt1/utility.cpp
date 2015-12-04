@@ -163,7 +163,7 @@ string verifyGender(string g){
 
     return g;
 }
-
+// Convert arguments to field names
 string convert2Field(string searchString){
     string field;
     if (searchString == "-g"){
