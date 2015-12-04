@@ -327,3 +327,69 @@ string getMachinesDB(vector<Machine> &m, const string &sorting){
         return "Unable to connect to database";
     }
 }
+
+vector<Machine> searchMachineDB(string &searchString, string &message, string &field){
+    vector<Machine> results; // Result vector
+
+    if(db.open()){
+        QSqlQuery query(db);
+
+        QString ss = QString::fromStdString(searchString);
+        // Searches through a specified field
+        if(field != ""){
+            QString qField = QString::fromStdString(field);
+
+            if(field == "name" || field == "id"){
+                qField.prepend("machines.");
+            }
+
+            query.prepare("SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
+                          "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
+                          "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                          "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
+                          "WHERE " + qField + " LIKE '%'||:ss||'%'");
+
+            query.bindValue(":ss", ss);
+        }
+        // Searches through all the fields
+        else{
+            query.prepare("SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
+                          "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines"
+                          "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                          "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
+                          "WHERE id LIKE '%'||:ss||'%'"
+                          "OR name LIKE '%'||:ss||'%'"
+                          "OR year LIKE '%'||:ss||'%'"
+                          "OR built LIKE '%'||:ss||'%'"
+                          "OR type LIKE '%'||:ss||'%'"
+                          "OR system LIKE '%'||:ss||'%'");
+
+            query.bindValue(":ss", ss);
+        }
+        string name, type, system;
+        int id, year;
+        bool built;
+
+        if (query.exec()) {
+            while(query.next()){
+                id = query.value("id").toInt();
+                name = query.value("name").toString().toStdString();
+                year = query.value("year").toInt();
+                built = query.value("built").toBool();
+                type = query.value("type").toString().toStdString();
+                system = query.value("system").toString().toStdString();
+
+                Machine temp(id, name, year, built, type, system);
+                results.push_back(temp);
+            }
+        }
+        else {
+            message = query.lastError().text().toStdString();
+        }
+    }
+    else{
+        message = "Unable to connect to database";
+    }
+    db.close();
+    return results;
+}

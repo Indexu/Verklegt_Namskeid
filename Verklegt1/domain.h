@@ -20,8 +20,11 @@ std::vector<Person> listPersons(std::string &command, std::string &message);
 // List Machines
 std::vector<Machine> listMachines(std::string &command, std::string &message);
 
-// Searching...
+// Searching for persons
 std::vector<Person> callSearchPersonDB(std::string &query, std::string &message);
+
+// Searching for machines
+std::vector<Machine> callSearchMachineDB(std::string &query, std::string &message);
 
 // Filter
 std::vector<Person> filter(std::string &query, std::string &message);
