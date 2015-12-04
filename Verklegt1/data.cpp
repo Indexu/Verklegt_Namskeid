@@ -160,8 +160,6 @@ string editPersonDB(const int &id, const string &column, const string &value){
         query.bindValue(":val", val);
         query.bindValue(":id", id);
 
-        cout << query.lastQuery().toStdString() << endl;
-
         if(!query.exec()){
             return query.lastError().text().toStdString();
         }

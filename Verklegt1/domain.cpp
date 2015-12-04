@@ -294,6 +294,29 @@ string edit(vector<Person> &p, string command){
     }
 
     string name = p[index].getName();
+    field = convert2Field(field);
+
+    if(field == "" || field == "-1"){
+        message = "Unknown field specified";
+        return message;
+    }
+
+    // Set new name
+    message = editPersonDB(id, field, newValue);
+
+    // SQL Error check
+    if(message == ""){
+        // Capital first letter
+        field[0] = toupper(field[0]);
+
+        // Confirmation message
+        message = "ID " + strID + " - " + field + " of " + name + " changed to: " + newValue;
+        populatePersonVector(p, "");
+    }
+    else{
+        return message;
+    }
+    /*
     // Name
     if(field == "-n"){
         // Set new name
@@ -405,6 +428,8 @@ string edit(vector<Person> &p, string command){
         message = "Unknown field specified";
         return message;
     }
+
+    */
 
     return message;
 }
