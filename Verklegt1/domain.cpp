@@ -47,20 +47,23 @@ vector<Person> listPersons(string &command, string &message){
     return p;
 }
 
-vector<Person> searchDB(string &query, string &message) {
+vector<Person> callSearchPersonDB(string &query, string &message) {
     vector<Person> results;
     message = "";
     query.erase(0,7);
-    
-    string field = "gender"; // todo: args!
-    results =  searchPersonDB(query, message, field);
-    
+    string table = query.substr(0,2);
+    query.erase(0,3);
+    string arg = query.substr(0,2);
+    string searchString = query.erase(0,3);
+    string field = convert2Field(arg);
+
+    results = searchPersonDB(searchString, message, field);
+
     if(message == ""){
         if (results.empty()) {
-            message = "No entries matched your search";
+            message = "No entries matched your search.";
         }
-    }
-    
+    } 
     return results;
 }
 

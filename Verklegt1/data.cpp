@@ -210,11 +210,26 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
 
     if(db.open()){
         QSqlQuery query(db);
-        QString ss = QString::fromStdString(searchString);
 
-        query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'");
 
-        query.bindValue(":ss", ss);
+        if(field == "gender"){
+            if(searchString[0] == 'm'){
+                query.prepare("SELECT * FROM persons WHERE gender = 'male'");
+            }
+            else if(searchString[0] == 'f'){
+                query.prepare("SELECT * FROM persons WHERE gender = 'female'");
+            }
+            else{
+                message = "Unknown gender";
+                return results;
+            }
+        }
+        else{
+            QString ss = QString::fromStdString(searchString);
+
+            query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'");
+            query.bindValue(":ss", ss);
+        }
 
         string name, gender, dob, dod, country;
         int id;
