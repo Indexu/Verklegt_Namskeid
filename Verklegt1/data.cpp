@@ -211,7 +211,7 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
     if(db.open()){
         QSqlQuery query(db);
 
-
+        // Check if searching for gender - looks at the first charachter of the search string
         if(field == "gender"){
             if(searchString[0] == 'm'){
                 query.prepare("SELECT * FROM persons WHERE gender = 'male'");
@@ -224,13 +224,15 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
                 return results;
             }
         }
+        // If not searching for gender it searches either a specifield field, or every field in the table
         else{
             QString ss = QString::fromStdString(searchString);
-
+            // Searches through a specified field
             if(field != ""){
                 query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'");
                 query.bindValue(":ss", ss);
             }
+            // Searches through all the fields
             else{
                 query.prepare("SELECT * FROM persons WHERE id LIKE '%'||:ss||'%'"
                               "OR id LIKE '%'||:ss||'%'"
@@ -246,7 +248,7 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
 
         string name, gender, dob, dod, country;
         int id;
-
+        // Execute query
         if (query.exec()) {
             while(query.next()){
                 id = query.value("id").toInt();

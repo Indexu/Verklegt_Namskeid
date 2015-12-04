@@ -147,10 +147,12 @@ void loop(){
                     }
                     // Search
                     else if(getCommand(command) == "search"){
+                        // Search not specified
                         if (command == "search") {
                             message = "Search command is missing flags. See help for instructions.";
                             cout << message << endl;
                         }
+                        // Searches through persons database
                         else if (command.substr(0,9) == "search -p") {
                             vector<Person> results = callSearchPersonDB(command, message);
                             if (message == "") {
@@ -160,10 +162,12 @@ void loop(){
                                 cout << message << endl;
                             }
                         }
+                        // Searches through machine database
                         else if (command.substr(0,9) == "search -m") {
                             message = "DB_Machine not ready yet. Try search -p for persons.";
                             cout << message;
                         }
+                        // Error message if invalid database is specified
                         else {
                             message = "First flag is invalid! Available flags are: -p for person, -m for machines.";
                             cout << message << endl;
