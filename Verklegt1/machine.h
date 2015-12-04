@@ -9,9 +9,10 @@ class Machine
     int Year;
     bool Built;
     std::string type;
+    std::string system;
 public:
     // Constructor
-    Machine(int id, std::string n, int y, bool b, std::string t);
+    Machine(int id, std::string n, int y, bool b, std::string t, std::string s);
 
     // GETTERS/SETTERS
     // Get/set machine ID
@@ -33,6 +34,10 @@ public:
     // Get/set machine type
     std::string getType();
     void setType(std::string t);
+
+    // Get/set machine numerical system
+    std::string getSystem();
+    void setSystem(std::string s);
 
 };
 

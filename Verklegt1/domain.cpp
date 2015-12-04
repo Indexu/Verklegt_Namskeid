@@ -17,6 +17,11 @@ string populatePersonVector(vector<Person> &p, const string &sorting){
     return getPersonsDB(p, sorting);
 }
 
+// ===== POPULATE MACHINE VECTOR =====
+string populateMachineVector(vector<Machine> &m, const string &sorting){
+    return getMachinesDB(m, sorting);
+}
+
 // ===== LIST =====
 vector<Person> listPersons(string &command, string &message){
     vector<Person> p;

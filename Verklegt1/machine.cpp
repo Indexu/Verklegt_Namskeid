@@ -1,12 +1,13 @@
 #include "machine.h"
 
 // Constructor
-Machine::Machine(int id, std::string n, int y, bool b, std::string t){
+Machine::Machine(int id, std::string n, int y, bool b, std::string t, std::string s){
     Id = id;
     Name = n;
     Year = y;
     Built = b;
     type = t;
+    system = s;
 }
 
 // GETTERS/SETTERS
@@ -53,4 +54,13 @@ std::string Machine::getType() {
 
 void Machine::setType(std::string t) {
     type = t;
+}
+
+// Get/set machine numerical system
+std::string Machine::getSystem() {
+    return system;
+}
+
+void Machine::setSystem(std::string s) {
+    system = s;
 }

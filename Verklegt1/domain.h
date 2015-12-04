@@ -2,13 +2,17 @@
 #define DOMAIN_LAYER
 
 #include "person.h"
+#include "machine.h"
 #include <vector>
 
 // Start database
 std::string startDB();
 
-// Add data to vector
+// Populate people
 std::string populatePersonVector(std::vector<Person> &p, const std::string &sorting);
+
+// Populate machine
+std::string populateMachineVector(std::vector<Machine> &m, const std::string &sorting);
 
 // List Persons
 std::vector<Person>listPersons(std::string &command, std::string &message);
