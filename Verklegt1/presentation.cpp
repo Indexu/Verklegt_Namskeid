@@ -47,8 +47,11 @@ void loop(){
                 // List
                 if(getCommand(command) == "ls"){
 
+                    if(command == "ls"){
+                        cout << "Missing flag" << endl;
+                    }
                     // List - People
-                    if(command.substr(0,5) == "ls -p"){
+                    else if(command.substr(0,5) == "ls -p"){
                         // Get persons
                         people = listPersons(command, message);
 
@@ -86,21 +89,6 @@ void loop(){
 
 
                 }
-                // Sort
-                else if(getCommand(command) == "sort"){
-                    sortNames(people, command);
-                    display(people, longestName);
-                }
-                // Search
-                /*else if(getCommand(command) == "search"){
-                    vector<Person> results = search(people, command, message);
-                    if(message == ""){
-                        display(results, longestName);
-                    }
-                    else{
-                        cout << message << endl;
-                    }
-                }*/
                 // Filter
                 else if(getCommand(command) == "filter"){
                     vector<Person> results = filter(people, command, message);
@@ -125,10 +113,6 @@ void loop(){
                     message = edit(people, command);
                     cout << message << endl;
                 }
-                // Write to database
-                else if(command == "save") {
-                    // writeVector(people);
-                }
                 // Help
                 else if(getCommand(command) == "help"){
                     help(command);
@@ -142,6 +126,7 @@ void loop(){
                     clearScreen();
                     // system("clear"); is not the way to go appearantly
                 }
+                // Search
                 else if(getCommand(command) == "search"){
                     vector<Person> results = searchDB(command, message);
                     if (message == "") {

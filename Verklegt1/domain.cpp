@@ -42,78 +42,6 @@ vector<Person> listPersons(string &command, string &message){
     return p;
 }
 
-// ===== SORTING =====
-void sortNames(vector<Person> &p, const string &command){
-    // Ascending - name
-    if(command == "sort" || command == "sort -a"){
-        sort(p.begin(), p.end(), sortNameAscend);
-    }
-    // Ascending - id
-    else if (command == "sort -i") {
-        sort(p.begin(), p.end(), sortByIdAscend);
-    }
-    // Descending - name
-    else if(command == "sort -d"){
-        sort(p.begin(), p.end(), sortNameDescend);
-    }
-    // Descending - id
-    else if (command == "sort -iD") {
-        sort(p.begin(), p.end(), sortByIdDescend);
-    }
-}
-
-// Alphabetically name ascending
-bool sortNameAscend(const Person p1, const Person p2){
-    // Get names
-    string s1 = p1.getName();
-    string s2 = p2.getName();
-
-    // Same name -> sort by ID
-    if(s1 == s2){
-        return sortByIdAscend(p1, p2);
-    }
-
-    // Loop over names
-    for(unsigned int i = 0; i < s1.length(); i++){
-        // Until letters are not the same
-        if(toupper(s1[i]) != toupper(s2[i])){
-            return toupper(s1[i]) < toupper(s2[i]);
-        }
-    }
-
-    return false;
-}
-// Alphabetically name descending
-bool sortNameDescend(const Person p1, const Person p2){
-    // Get names
-    string s1 = p1.getName();
-    string s2 = p2.getName();
-
-    // Same name -> sort by ID
-    if(s1 == s2){
-        return sortByIdDescend(p1, p2);
-    }
-
-    // Loop over names
-    for(unsigned int i = 0; i < s1.length(); i++){
-        // Until letters are not the same
-        if(toupper(s1[i]) != toupper(s2[i])){
-            return toupper(s1[i]) > toupper(s2[i]);
-        }
-    }
-
-    return false;
-}
-
-// Sort table by ID
-bool sortByIdAscend(const Person p1, const Person p2) {
-    return (p1.getId() < p2.getId());
-}
-// Sort table by ID descending order
-bool sortByIdDescend(const Person p1, const Person p2) {
-    return (p1.getId() > p2.getId());
-}
-
 vector<Person> searchDB(string &query, string &message) {
     vector<Person> results;
     message = "";
@@ -340,15 +268,6 @@ vector<Person> search(const vector<Person> &p, string &query, string &message){
                 }
             }
         }
-    }
-
-    // Sort ascending
-    if(args[1] != string::npos){
-        sort(results.begin(), results.end(), sortNameAscend);
-    }
-    // Sort descending
-    else if(args[2] != string::npos){
-        sort(results.begin(), results.end(), sortNameDescend);
     }
 
     if(results.size() == 0){

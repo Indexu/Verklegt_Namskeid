@@ -10,19 +10,11 @@ std::string startDB();
 // Add data to vector
 std::string populatePersonVector(std::vector<Person> &p, const std::string &sorting);
 
+// List Persons
 std::vector<Person>listPersons(std::string &command, std::string &message);
-
-// Sort vector
-bool sortNameAscend(const Person p1, const Person p2);
-bool sortNameDescend(const Person p1, const Person p2);
-bool sortByIdAscend(const Person p1, const Person p2);
-bool sortByIdDescend(const Person p1, const Person p2);
 
 // Get the longest name in the vector
 int findLongestName(const std::vector<Person> &p);
-
-// Sort names
-void sortNames(std::vector<Person> &p, const std::string &command);
 
 // Search
 std::vector<Person> search(const std::vector<Person> &p, std::string &query, std::string &message);

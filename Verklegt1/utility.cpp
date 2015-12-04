@@ -84,9 +84,6 @@ int getIndexByID(vector<Person> p, int id){
     int middle = -1;
     int currentID;
 
-    // Sort by ID
-    sort(p.begin(), p.end(), sortByIdAscend);
-
     while(start <= end){
         // Get middle element index
         middle = start + ((end - start)/2);
