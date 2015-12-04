@@ -54,7 +54,7 @@ void loop(){
                     display(people, longestName);
                 }
                 // Search
-                else if(getCommand(command) == "search"){
+                /*else if(getCommand(command) == "search"){
                     vector<Person> results = search(people, command, message);
                     if(message == ""){
                         display(results, longestName);
@@ -62,7 +62,7 @@ void loop(){
                     else{
                         cout << message << endl;
                     }
-                }
+                }*/
                 // Filter
                 else if(getCommand(command) == "filter"){
                     vector<Person> results = filter(people, command, message);
@@ -103,6 +103,15 @@ void loop(){
                 else if(command == "clear") {
                     clearScreen();
                     // system("clear"); is not the way to go appearantly
+                }
+                else if(getCommand(command) == "search"){
+                    vector<Person> results = searchDB(command, message);
+                    if (message == "") {
+                        display(results, longestName);
+                    }
+                    else {
+                        cout << message << endl;
+                    }
                 }
                 // Invalid
                 else if(command != ""){

@@ -188,4 +188,41 @@ bool personIDExistsDB(const int &id, string &error){
     return false;
 }
 
+vector<Person> searchPersonDB(string &searchString, string &message, string &field){
+    vector<Person> results; // Result vector
 
+    if(db.open()){
+        QSqlQuery query(db);
+        query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%" + QString::fromStdString(searchString) + "%'");
+
+        QString ss = QString::fromStdString(searchString);
+        query.bindValue(":ss", ss);
+
+        string name, gender, dob, dod, country;
+        int id;
+
+        query.exec();
+
+        if (query.exec()) {
+            while(query.next()){
+                id = query.value("id").toInt();
+                name = query.value("name").toString().toStdString();
+                gender = query.value("gender").toString().toStdString();
+                dob = query.value("date_of_birth").toString().toStdString();
+                dod = query.value("date_of_death").toString().toStdString();
+                country = query.value("country").toString().toStdString();
+
+                Person temp(id, name, gender, dob, dod, country);
+                results.push_back(temp);
+            }
+        }
+        else {
+            cout << "ERROR";
+        }
+    }
+    else{
+        message = "Unable to connect to database";
+    }
+    db.close();
+    return results;
+}

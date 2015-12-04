@@ -10,6 +10,7 @@ std::string addPersonDB(const std::string &name, const std::string &gender, cons
 std::string delPersonDB(const int &id);
 std::string editPersonDB(const int &id, const std::string &column, const std::string &value);
 bool personIDExistsDB(const int &id, std::string &error);
+std::vector<Person> searchPersonDB(std::string &searchString, std::string &message, std::string &field);
 
 #endif // DATA
 

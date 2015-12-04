@@ -89,6 +89,19 @@ bool sortByIdDescend(const Person p1, const Person p2) {
     return (p1.getId() > p2.getId());
 }
 
+vector<Person> searchDB(string &query, string &message) {
+    vector<Person> results;
+    message = "";
+    query.erase(0,7);
+    string field = "gender"; // todo: args!
+    results =  searchPersonDB(query, message, field);
+    if (results.size() == 0) {
+        message = "No entries matched your search";
+    }
+    return results;
+}
+
+
 // ===== SEARCH =====
 vector<Person> search(const vector<Person> &p, string &query, string &message){
     vector<Person> results; // Result vector
