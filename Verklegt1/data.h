@@ -19,6 +19,8 @@ std::string editPersonDB(const int &id, const std::string &column, const std::st
 bool personIDExistsDB(const int &id, std::string &error);
 // Search for a person
 std::vector<Person> searchPersonDB(std::string &searchString, std::string &message, std::string &field);
+// Search for a machine
+std::vector<Machine> searchMachineDB(std::string &searchString, std::string &message, std::string &field);
 // Get machines
 std::string getMachinesDB(std::vector<Machine> &m, const std::string &sorting);
 // Delete machine

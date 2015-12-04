@@ -92,9 +92,39 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     }
 
     string searchString = query;
-    string field = convert2Field(arg);
+    string field = convert2Field(arg, "person");
 
     results = searchPersonDB(searchString, message, field);
+
+    if(message == ""){
+        if (results.empty()) {
+            message = "No entries matched your search.";
+        }
+    }
+    return results;
+}
+
+vector<Machine> callSearchMachineDB(string &query, string &message) {
+    // Result vector
+    vector<Machine> results;
+    // Reset message
+    message = "";
+    // Field flag
+    string arg = "";
+
+    // Erase command + -p/-m
+    query.erase(0,10);
+
+    // Get field flag
+    if(query.substr(0,1) == "-"){
+        arg = query.substr(0,2);
+        query.erase(0,3);
+    }
+
+    string searchString = query;
+    string field = convert2Field(arg, "machine");
+
+    results = searchMachineDB(searchString, message, field);
 
     if(message == ""){
         if (results.empty()) {

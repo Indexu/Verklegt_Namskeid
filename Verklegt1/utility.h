@@ -39,6 +39,6 @@ int getMIndexByID(std::vector<Machine> m, int id);
 std::string verifyGender(std::string g);
 
 // Converts arguments to strings
-std::string convert2Field(std::string searchString);
+std::string convert2Field(std::string searchString, std::string database);
 
 #endif // UTILITY_H

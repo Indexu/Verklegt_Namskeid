@@ -200,7 +200,7 @@ string verifyGender(string g){
     return g;
 }
 // Convert arguments to field names
-string convert2Field(string searchString){
+string convert2Field(string searchString, string database){
     string field;
     if (searchString == "-g"){
         field = "gender";
@@ -212,7 +212,7 @@ string convert2Field(string searchString){
         field = "name";
     }
     else if (searchString == "-b"){
-        field = "date_of_birth";
+        (database == "machine") ? field = "built" : field = "date_of_birth";
     }
     else if (searchString == "-d"){
         field = "date_of_death";
@@ -220,6 +220,16 @@ string convert2Field(string searchString){
     else if (searchString == "-i"){
         field = "id";
     }
+    else if (searchString == "-y"){
+        field = "year";
+    }
+    else if (searchString == "-t"){
+        field = "mtype_id";
+    }
+    else if (searchString == "-s"){
+        field = "num_sys_id";
+    }
+
     else if(searchString == ""){
         field = "";
     }

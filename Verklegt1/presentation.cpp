@@ -196,8 +196,13 @@ void loop(){
                         }
                         // Searches through machine database
                         else if (command.substr(0,9) == "search -m") {
-                            message = "DB_Machine not ready yet. Try search -p for persons.";
-                            cout << message;
+                            vector<Machine> results = callSearchMachineDB(command, message);
+                            if (message == "") {
+                                displayMachine(results, longestMName, longestMType);
+                            }
+                            else {
+                                cout << message << endl;
+                            }
                         }
                         // Error message if invalid database is specified
                         else {
