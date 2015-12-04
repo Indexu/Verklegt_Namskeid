@@ -1,18 +1,17 @@
 #ifndef MACHINE_H
 #define MACHINE_H
 #include <string>
-using namespace std;
 
 class Machine
 {
     int Id;
+    std::string Name;
     int Year;
     bool Built;
-    std::string Name;
-    std::string MType_ID;
+    std::string type;
 public:
     // Constructor
-    Machine(int id, int y, bool b, std::string n, std::string t);
+    Machine(int id, std::string n, int y, bool b, std::string t);
 
     // GETTERS/SETTERS
     // Get/set machine ID
@@ -26,6 +25,7 @@ public:
     // Get/set if machine is built
     bool isBuilt();
     void isBuilt(bool b);
+
     // Get/set machine name
     std::string getName();
     void setName(std::string n);

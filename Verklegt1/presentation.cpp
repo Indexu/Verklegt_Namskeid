@@ -47,6 +47,7 @@ void loop(){
                 // List
                 if(getCommand(command) == "ls"){
 
+                    // If only "ls"
                     if(command == "ls"){
                         cout << "Missing flag" << endl;
                     }
