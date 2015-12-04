@@ -86,8 +86,6 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     query.erase(0,10);
 
     // Get field flag
-
-
     if(query.substr(0,1) == "-"){
         arg = query.substr(0,2);
         query.erase(0,3);
@@ -193,18 +191,18 @@ string addPerson(vector<Person> &p, const string &name, const string &gender, co
 }
 
 // ===== DELETE =====
-string del(vector<Person> &p, string &command){
+string delPerson(vector<Person> &p, string &command){
     string name, message = ""; // Return message
     int id; // The extracted ID
 
     // Check for missing ID
-    if(command.length() < 7){
+    if(command.length() < 10){
         message = "ID is missing";
         return message;
     }
 
-    // Remove "delete "
-    command = command.erase(0,7);
+    // Remove "delete -p"
+    command = command.erase(0,10);
 
     // Confirm the ID is a number
     if(!isNumber(command)){
@@ -215,6 +213,13 @@ string del(vector<Person> &p, string &command){
     // Convert to int
     id = stoi(command);
 
+    // Get index
+    int index = getPIndexByID(p, id);
+
+    // Get name
+    name = p[index].getName();
+
+    // Delete
     message = delPersonDB(id);
 
     // Success message
@@ -225,6 +230,48 @@ string del(vector<Person> &p, string &command){
     
     return message;
 }
+
+// Machine
+string delMachine(vector<Machine> &m, string &command){
+    string name, message = ""; // Return message
+    int id; // The extracted ID
+
+    // Check for missing ID
+    if(command.length() < 10){
+        message = "ID is missing";
+        return message;
+    }
+
+    // Remove "delete -p"
+    command = command.erase(0,10);
+
+    // Confirm the ID is a number
+    if(!isNumber(command)){
+        message = "ID must only contain digits";
+        return message;
+    }
+
+    // Convert to int
+    id = stoi(command);
+
+    // Get index
+    int index = getMIndexByID(m, id);
+
+    // Get name
+    name = m[index].getName();
+
+    // Delete
+    message = delMachineDB(id);
+
+    // Success message
+    if(message == ""){
+        message = "| " + to_string(id) + " - " + name + " has been deleted.";
+        populateMachineVector(m, "");
+    }
+
+    return message;
+}
+
 
 // ===== EDIT =====
 string edit(vector<Person> &p, string command){
@@ -261,7 +308,7 @@ string edit(vector<Person> &p, string command){
     id = stoi(strID);
 
     // Get index of element with corresponding ID
-    int index = getIndexByID(p, id); // The index of specified ID
+    int index = getPIndexByID(p, id);
     // If ID isn't in the database
     if(index == -1){
         message = "ID not found";

@@ -47,6 +47,9 @@ void loop(){
                 // ===== MAIN =====
 
                 while(command != "q" || command != "quit"){
+                    // Reset message
+                    message = "";
+
                     cout << ">";
 
                     // Get command
@@ -54,7 +57,6 @@ void loop(){
 
                     // List
                     if(getCommand(command) == "ls"){
-                        message = "";
 
                         // If only "ls"
                         if(command == "ls"){
@@ -131,8 +133,31 @@ void loop(){
                     }
                     // Delete
                     else if(getCommand(command) == "delete") {
-                        message = del(people, command);
-                        cout << message << endl;
+                        // Only "delete"
+                        if(command == "delete"){
+                            cout << "Delete command is missing flags. See help for instructions." << endl;
+                        }
+                        // Delete person
+                        else if(command.substr(0,9) == "delete -p"){
+                            message = delPerson(people, command);
+
+                            if(message != ""){
+                                cout << message << endl;
+                            }
+                        }
+                        // Delete machine
+                        else if(command.substr(0,9) == "delete -m"){
+                            message = delMachine(machines, command);
+
+                            if(message != ""){
+                                cout << message << endl;
+                            }
+                        }
+                        // Invalid flag
+                        else{
+                            cout << "First flag is invalid! Available flags are: -p for person, -m for machines." << endl;
+                        }
+
                     }
                     // Edit
                     else if(getCommand(command) == "edit") {

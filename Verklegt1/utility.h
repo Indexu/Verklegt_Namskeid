@@ -29,8 +29,11 @@ int getCurrentId(const std::vector<Person> &p);
 // Check if string is all-digits
 bool isNumber(const std::string &str);
 
-// Get index by ID
-int getIndexByID(std::vector<Person> p, int id);
+// Get person index by ID
+int getPIndexByID(std::vector<Person> p, int id);
+
+// Get machine index by ID
+int getMIndexByID(std::vector<Machine> m, int id);
 
 // Verify gender input
 std::string verifyGender(std::string g);
