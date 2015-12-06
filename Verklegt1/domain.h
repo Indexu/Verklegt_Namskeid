@@ -39,7 +39,10 @@ std::string addPerson(std::vector<Person> &p, const std::string &name, const std
 std::string delPerson(std::vector<Person> &p, std::string &command);
 
 // Edit person in DB
-std::string edit(std::vector<Person> &p, std::string command);
+std::string editPerson(std::vector<Person> &p, std::string command);
+
+// Edit machine in DB
+std::string editMachine(std::vector<Machine> &m, std::string command);
 
 // Add new machine
 

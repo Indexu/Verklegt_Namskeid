@@ -74,6 +74,7 @@ vector<Machine> listMachines(string &command, string &message){
 }
 
 // ===== SEARCH =====
+// Person search
 vector<Person> callSearchPersonDB(string &query, string &message) {
     // Result vector
     vector<Person> results;
@@ -104,6 +105,7 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     return results;
 }
 
+// Machine search
 vector<Machine> callSearchMachineDB(string &query, string &message) {
     // Result vector
     vector<Machine> results;
@@ -274,29 +276,46 @@ string delMachine(vector<Machine> &m, string &command){
 
 
 // ===== EDIT =====
-string edit(vector<Person> &p, string command){
+// Person edit
+string editPerson(vector<Person> &p, string command){
     string message = ""; // Return message
+    string table = ""; // What table to edit
     string field = ""; // What field to edit
     int id = 0; // ID of person to edit
     string newValue = ""; // New value
 
-    // Error check
-    if(command.length() < 8){
-        message = "Missing field and/or ID";
+    // Split the command by whitespace
+    vector<string> split = splitString(command, " ");
+
+    if(split.size() < 5){
+        message = "Too few arguments";
         return message;
     }
 
-    // Remove "edit " from string
-    command = command.erase(0,5);
+    // Remove "edit" from vector
+    split.erase(split.begin() + 0);
+
+    // Extract table
+    table = split[0];
+    split.erase(split.begin() + 0);
 
     // Extract field
-    field = command.substr(0,2);
-    command = command.erase(0,3);
+    field = convert2Field(split[0], "person");
+    split.erase(split.begin() + 0);
+
+    // Verify field
+    if(field == "-i"){
+        message = "ID cannot be edited";
+        return message;
+    }
+    else if(field == "" || field == "-1"){
+        message = "Unknown field specified";
+        return message;
+    }
 
     // Extract ID
-    int space = command.find(" "); // Next whitespace position
-    string strID = command.substr(0,space); // The ID, string.
-    command = command.erase(0,space + 1); // Erase ID
+    string strID = split[0]; // The ID, string.
+    split.erase(split.begin() + 0);
 
     // Verify ID
     if(!isNumber(strID)){
@@ -315,21 +334,17 @@ string edit(vector<Person> &p, string command){
         return message;
     }
 
-    // What is left of command is the new value
-    newValue = command;
+    // Assemble what is left of split vector into a string
+    newValue = assembleString(split, " ");
+
     // If value is missing
     if(newValue == ""){
         message = "New value not specified";
         return message;
     }
 
+    // Get name of person being edited
     string name = p[index].getName();
-    field = convert2Field(field, "person");
-
-    if(field == "" || field == "-1"){
-        message = "Unknown field specified";
-        return message;
-    }
 
     // Set new name
     message = editPersonDB(id, field, newValue);
@@ -346,120 +361,95 @@ string edit(vector<Person> &p, string command){
     else{
         return message;
     }
-    /*
-    // Name
-    if(field == "-n"){
-        // Set new name
-        message = editPersonDB(id, "name", newValue);
 
-        // SQL Error check
-        if(message == ""){
-            // Confirmation message
-            message = "ID " + strID + " - Name of " + name + " changed to: " + newValue;
-            populatePersonVector(p, "");
-        }
-        else{
-            return message;
-        }
+    return message;
+}
+
+// Machine edit
+string editMachine(vector<Machine> &m, string command){
+    string message = ""; // Return message
+    string table = ""; // What table to edit
+    string field = ""; // What field to edit
+    int id = 0; // ID of person to edit
+    string newValue = ""; // New value
+
+    // Split the command by whitespace
+    vector<string> split = splitString(command, " ");
+
+    if(split.size() < 5){
+        message = "Too few arguments";
+        return message;
     }
-    // Gender
-    else if(field == "-g"){
 
-        // Lowercase
-        for(size_t i = 0; i < newValue.length(); i++){
-            newValue[i] = tolower(newValue[i]);
-        }
+    // Remove "edit" from vector
+    split.erase(split.begin() + 0);
 
-        // Male
-        if(newValue == "m" || newValue == "male"){
-            newValue = "male";
-        }
-        // Female
-        else if(newValue == "f" || newValue == "female"){
-            newValue = "female";
-        }
-        // Invalid
-        else{
-            message = "Invalid gender";
-            return message;
-        }
+    // Extract table
+    table = split[0];
+    split.erase(split.begin() + 0);
 
-        // Set new gender
-        message = editPersonDB(id, "gender", newValue);
+    // Extract field
+    field = convert2Field(split[0], "machine");
+    split.erase(split.begin() + 0);
 
-        // SQL Error check
-        if(message == ""){
-            // Confirmation message
-            message = "ID " + strID + " - Gender of " + name + " changed to: " + newValue;
-            populatePersonVector(p, "");
-        }
-        else{
-            return message;
-        }
+    // Verify field
+    if(field == "-i"){
+        message = "ID cannot be edited";
+        return message;
     }
-    // Date of birth
-    else if(field == "-b"){
-            // Verify date
-            if(!verifyDate(newValue)){
-                message = "Incorrect date format";
-                return message;
-            }
-
-            // Set new date of birth
-            message = editPersonDB(id, "date_of_birth", newValue);
-
-            // SQL Error check
-            if(message == ""){
-                // Confirmation message
-                message = "ID " + strID + " - Birth date of " + name + " changed to: " + newValue;
-                populatePersonVector(p, "");
-            }
-            else{
-                return message;
-            }
-    }
-    // Date of death
-    else if(field == "-d"){
-            // Verify date
-            if(!verifyDate(newValue)){
-                message = "Incorrect date format";
-                return message;
-            }
-
-            // Set new name
-            message = editPersonDB(id, "date_of_death", newValue);
-
-            // SQL Error check
-            if(message == ""){
-                // Confirmation message
-                message = "ID " + strID + " - Death date of " + name + " changed to: " + newValue;
-                populatePersonVector(p, "");
-            }
-            else{
-                return message;
-            }
-    }
-    // Country
-    else if(field == "-c"){
-        // Set new name
-        message = editPersonDB(id, "country", newValue);
-
-        // SQL Error check
-        if(message == ""){
-            // Confirmation message
-            message = "ID " + strID + " - Country of " + name + " changed to: " + newValue;
-            populatePersonVector(p, "");
-        }
-        else{
-            return message;
-        }
-    }
-    else{
+    else if(field == "" || field == "-1"){
         message = "Unknown field specified";
         return message;
     }
 
-    */
+    // Extract ID
+    string strID = split[0]; // The ID, string.
+    split.erase(split.begin() + 0);
+
+    // Verify ID
+    if(!isNumber(strID)){
+        message = "ID must be a positive integer";
+        return message;
+    }
+
+    // Convert string ID to int ID
+    id = stoi(strID);
+
+    // Get index of element with corresponding ID
+    int index = getMIndexByID(m, id);
+    // If ID isn't in the database
+    if(index == -1){
+        message = "ID not found";
+        return message;
+    }
+
+    // Assemble what is left of split vector into a string
+    newValue = assembleString(split, " ");
+
+    // If value is missing
+    if(newValue == ""){
+        message = "New value not specified";
+        return message;
+    }
+
+    // Get name of machine being edited
+    string name = m[index].getName();
+
+    // Set new name
+    message = editMachineDB(id, field, newValue);
+
+    // SQL Error check
+    if(message == ""){
+        // Capital first letter
+        field[0] = toupper(field[0]);
+
+        // Confirmation message
+        message = "ID " + strID + " - " + field + " of " + name + " changed to: " + newValue;
+        populateMachineVector(m, "");
+    }
+    else{
+        return message;
+    }
 
     return message;
 }

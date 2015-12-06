@@ -41,4 +41,10 @@ std::string verifyGender(std::string g);
 // Converts arguments to strings
 std::string convert2Field(std::string searchString, std::string database);
 
+// Split string
+std::vector<std::string> splitString(std::string input, std::string delim);
+
+// Assemble a string
+std::string assembleString(std::vector<std::string> inputVect, std::string delim);
+
 #endif // UTILITY_H

@@ -25,6 +25,8 @@ std::vector<Machine> searchMachineDB(std::string &searchString, std::string &mes
 std::string getMachinesDB(std::vector<Machine> &m, const std::string &sorting);
 // Delete machine
 std::string delMachineDB(const int &id);
+// Edit machine
+std::string editMachineDB(const int &id, const std::string &column, const std::string &value);
 // Check if machine ID exists
 bool machineIDExistsDB(const int &id, std::string &error);
 

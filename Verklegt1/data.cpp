@@ -141,6 +141,7 @@ string delPersonDB(const int &id){
     }
 }
 
+// Edit person
 string editPersonDB(const int &id, const string &column, const string &value){
     // Open
     if(db.open()){
@@ -326,6 +327,7 @@ string getMachinesDB(vector<Machine> &m, const string &sorting){
     }
 }
 
+// Search for a machine
 vector<Machine> searchMachineDB(string &searchString, string &message, string &field){
     vector<Machine> results; // Result vector
 
@@ -422,6 +424,39 @@ string delMachineDB(const int &id){
     }
     else{
         return "ID: " + to_string(id) + " not found.";
+    }
+}
+
+// Edit machine
+string editMachineDB(const int &id, const string &column, const string &value){
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        QString col = QString::fromStdString(column);
+
+        QString queStr = "UPDATE machines ";
+        queStr.append("SET " + col + " = :val WHERE id = :id");
+
+        query.prepare(queStr);
+
+
+        QString val = QString::fromStdString(value);
+
+        //query.bindValue(":col", col);
+        query.bindValue(":val", val);
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            return query.lastError().text().toStdString();
+        }
+
+        // Close
+        db.close();
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
     }
 }
 

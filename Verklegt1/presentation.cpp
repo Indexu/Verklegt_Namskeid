@@ -161,8 +161,30 @@ void loop(){
                     }
                     // Edit
                     else if(getCommand(command) == "edit") {
-                        message = edit(people, command);
-                        cout << message << endl;
+                        // Only "edit"
+                        if(command == "edit"){
+                            cout << "Edit command is missing flags. See help for instructions." << endl;
+                        }
+                        // Edit person
+                        else if(command.substr(0,7) == "edit -p"){
+                            message = editPerson(people, command);
+
+                            if(message != ""){
+                                cout << message << endl;
+                            }
+                        }
+                        // Edit machine
+                        else if(command.substr(0,7) == "edit -m"){
+                            message = editMachine(machines, command);
+
+                            if(message != ""){
+                                cout << message << endl;
+                            }
+                        }
+                        // Invalid flag
+                        else{
+                            cout << "First flag is invalid! Available flags are: -p for person, -m for machines." << endl;
+                        }
                     }
                     // Help
                     else if(getCommand(command) == "help"){
