@@ -352,7 +352,7 @@ vector<Machine> searchMachineDB(string &searchString, string &message, string &f
         // Searches through all the fields
         else{
             query.prepare("SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
-                          "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines"
+                          "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
                           "JOIN mtype ON (machines.mtype_id=mtype.id) "
                           "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
                           "WHERE machines.id LIKE '%'||:ss||'%'"

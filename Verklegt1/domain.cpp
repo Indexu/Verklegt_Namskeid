@@ -324,7 +324,7 @@ string edit(vector<Person> &p, string command){
     }
 
     string name = p[index].getName();
-    field = convert2Field(field);
+    field = convert2Field(field, "person");
 
     if(field == "" || field == "-1"){
         message = "Unknown field specified";
