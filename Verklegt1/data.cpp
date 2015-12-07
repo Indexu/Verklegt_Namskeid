@@ -411,7 +411,7 @@ string addMachineDB(const string &name, const string &year, const string &built,
                       "VALUES (:name, :year, :build, :mtype, :num_sys)");
 
         query.bindValue(":name", n);
-        query.bindValue(":gender", y);
+        query.bindValue(":year", y);
         query.bindValue(":build", b);
         query.bindValue(":mtype", t);
         query.bindValue(":num_sys", s);

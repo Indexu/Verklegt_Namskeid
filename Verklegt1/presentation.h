@@ -28,7 +28,7 @@ void help(std::string command);
 void addProcessPerson(std::vector<Person> &p);
 
 // Add process for machines
-void addProcessMachine(std::vector<Machine> &m);
+void addProcessMachine(std::vector<Machine> &m, const std::vector<TypeSystem> &t, const std::vector<TypeSystem> &s);
 
 // Clear screen
 void clearScreen();

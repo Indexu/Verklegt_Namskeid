@@ -188,7 +188,7 @@ void loop(){
                         }
                         // Add machine
                         else if(command.substr(0,9) == "add -m"){
-                            addProcessMachine(machines);
+                            addProcessMachine(machines, types, systems);
                         }
                         // Invalid flag
                         else{
@@ -407,8 +407,9 @@ void addProcessPerson(vector<Person> &p){
 }
 
 // Add process for machines
-void addProcessMachine(vector<Machine> &m){
+void addProcessMachine(vector<Machine> &m, const vector<TypeSystem> &t, const vector<TypeSystem> &s){
     string name, built, year, type, system;
+    int typeInt, systemInt;
 
     // Input to cancel
     string cancel = "-1";
@@ -471,35 +472,65 @@ void addProcessMachine(vector<Machine> &m){
 
     // Type
     do{
-        // NEEDS WORK
+        // Print options
+        for(int i = 0; i < t.size(); i++){
+            cout << t[i].getId() << ". " << t[i].getName() << endl;
+        }
 
         cout << "Enter number of corresponding type: ";
         getline(cin, type);
 
-        if(type == ""){
-            cout << "Please enter a type." << endl;
+        if(type == cancel){
+            return;
         }
         else if(type == ""){
-            cout << "Please enter a number in the list." << endl;
-            break;
+            cout << "Please enter a type." << endl;
         }
-    }while(type == "");
+        else if(isNumber(type)){
+            typeInt = stoi(type);
+
+            if(typeInt <= t.size() && typeInt >= 1){
+                break;
+            }
+            else{
+                cout << "Please enter a number in the list." << endl;
+            }
+        }
+        else{
+            cout << "Please enter a number in the list." << endl;
+        }
+    }while(type == "" || typeInt > t.size() || typeInt < 1);
 
     // System
     do{
-        // NEEDS WORK
+        // Print options
+        for(int i = 0; i < s.size(); i++){
+            cout << s[i].getId() << ". " << s[i].getName() << endl;
+        }
 
         cout << "Enter number of corresponding system: ";
         getline(cin, system);
 
-        if(system == ""){
-            cout << "Please enter a system." << endl;
+        if(system == cancel){
+            return;
         }
         else if(system == ""){
-            cout << "Please enter a number in the list." << endl;
-            break;
+            cout << "Please enter a system." << endl;
         }
-    }while(system == "");
+        else if(isNumber(system)){
+            systemInt = stoi(system);
+
+            if(systemInt <= s.size() && systemInt >= 1){
+                break;
+            }
+            else{
+                cout << "Please enter a number in the list." << endl;
+            }
+        }
+        else{
+            cout << "Please enter a number in the list." << endl;
+        }
+    }while(system == "" || systemInt > s.size() || systemInt < 1);
 
     // Add + print
     cout << addMachine(m, name, year, built, type, system) << endl;
