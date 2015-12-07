@@ -573,3 +573,59 @@ string getTSDB(vector<TypeSystem> &ts, const string &table, const string &sortin
         return "Unable to connect to database";
     }
 }
+
+// ===== PERSON MACHINE =====
+// Get Person Machine
+string getPersonMachineDB(vector<PersonMachine> &pm, const string &sorting){
+
+    // Open
+    if(db.open()){
+        // Empty vector
+        pm.clear();
+
+        QSqlQuery query(db);
+
+        QString sort = "";
+        if(sorting == "a"){
+            sort = "ORDER BY p_name ASC, id ASC";
+        }
+        else if(sorting == "z"){
+            sort = "ORDER BY p_name DESC, id DESC";
+        }
+        else if(sorting == "d"){
+            sort = "ORDER BY id DESC, p_name DESC";
+        }
+
+        QString queStr = "SELECT pers_mach.id AS id, persons.name AS p_name, machines.name AS m_name, "
+                         "mtype.name AS m_type, num_sys.name AS m_system, persons.country AS p_country FROM persons "
+                         "JOIN pers_mach ON (persons.id=pers_mach.p_id) "
+                         "JOIN machines ON (pers_mach.m_id=machines.id) "
+                         "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                         "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
+                         + sort;
+
+        // Query
+        query.exec(queStr);
+
+        string p_name, p_country, m_name, m_type, m_system;
+        int id;
+        while(query.next()){
+            id = query.value("id").toInt();
+            p_name = query.value("p_name").toString().toStdString();
+            p_country = query.value("p_country").toString().toStdString();
+            m_name = query.value("m_name").toString().toStdString();
+            m_type = query.value("m_type").toString().toStdString();
+            m_system = query.value("m_system").toString().toStdString();
+
+            PersonMachine temp(id, p_name, p_country, m_name, m_type, m_system);
+            pm.push_back(temp);
+        }
+        // Close
+        db.close();
+
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
+}

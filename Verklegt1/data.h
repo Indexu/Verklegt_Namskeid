@@ -5,6 +5,7 @@
 #include "person.h"
 #include "machine.h"
 #include "typesystem.h"
+#include "personmachine.h"
 
 // Initialize DB
 std::string initDB();
@@ -40,6 +41,9 @@ bool machineIDExistsDB(const int &id, std::string &error);
 // == Types and Systems ==
 // Get types and systems
 std::string getTSDB(std::vector<TypeSystem> &t, const std::string &table, const std::string &sorting);
+
+// == Person Machine ==
+std::string getPersonMachineDB(std::vector<PersonMachine> &pm, const std::string &sorting);
 
 #endif // DATA
 

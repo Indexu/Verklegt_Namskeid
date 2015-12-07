@@ -27,6 +27,11 @@ string populateTSVector(vector<TypeSystem> &ts, const string table, const string
     return getTSDB(ts, table, sorting);
 }
 
+// ===== POPULATE PERSON MACHINE VECTOR =====
+string populatePMVector(vector<PersonMachine> &pm, const string &sorting){
+    return getPersonMachineDB(pm, sorting);
+}
+
 // ===== LIST =====
 // Persons
 vector<Person> listPersons(string &command, string &message){
@@ -109,6 +114,38 @@ vector<TypeSystem> listTS(string &command, string &message){
     }
     else if(split[2] == ""){
         populateTSVector(ts, split[1], "");
+    }
+    else{
+        message = "Invalid flag: \"" + split[2] + "\"";
+    }
+
+    return ts;
+}
+
+// Persons and machines
+vector<PersonMachine> listPM(string &command, string &message){
+    vector<PersonMachine> ts;
+
+    // Split
+    vector<string> split = splitString(command, " ");
+    // 0. ls
+    // 1. table
+    // 2. sort
+
+    if(split.size() == 2){
+        populatePMVector(ts, "");
+    }
+    else if(split[2] == "-a"){
+        populatePMVector(ts, "a");
+    }
+    else if(split[2] == "-z"){
+        populatePMVector(ts, "z");
+    }
+    else if(split[2] == "-d"){
+        populatePMVector(ts, "d");
+    }
+    else if(split[2] == ""){
+        populatePMVector(ts, "");
     }
     else{
         message = "Invalid flag: \"" + split[2] + "\"";

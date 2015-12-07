@@ -19,6 +19,7 @@ void loop(){
     vector<Person> people; // The person vector
     vector<Machine> machines; // The machine vector
     vector<TypeSystem> types, systems; // Types and systems vectors
+    vector<PersonMachine> pers_mach; // Person Machine vector
     int longestPName; // Longest person name
     int longestMName; // Longest machine name
     int longestMType; // Longest machine type
@@ -45,6 +46,11 @@ void loop(){
             // Add vector to systems vector
             if(message == ""){
                 message = populateTSVector(systems, "num_sys", "");
+            }
+
+            // Add vector to pers_mach vector
+            if(message == ""){
+                message = populatePMVector(pers_mach, "");
             }
 
             if(message == ""){
@@ -78,6 +84,23 @@ void loop(){
                         // If only "ls"
                         if(command == "ls"){
                             cout << "Missing flag" << endl;
+                        }
+                        // List - Person and Machines
+                        else if(command.substr(0,6) == "ls -pm"){
+
+                            // Get persons and machines
+                            pers_mach = listPM(command, message);
+
+                            // Check for errors
+                            if(message == ""){
+                                // Display persons and machines
+                                displayPersonsMachines(pers_mach, longestPName, longestMName, longestMType, longestSName);
+                            }
+                            else{
+                                // Display errors
+                                cout << message << endl;
+                            }
+
                         }
                         // List - People
                         else if(command.substr(0,5) == "ls -p"){
@@ -619,6 +642,37 @@ void displayTS(const vector<TypeSystem> &ts, const int &longestName){
         cout << "-";
     }
     cout << endl << "| Results: " << ts.size() << endl;
+}
+
+// Display Persons and Machines
+void displayPersonsMachines(vector<PersonMachine> pm, int longestPName, int longestMName, int longestMType, int longestSName){
+    cout << "| ";
+    cout << left << setw(4) << "ID" << " | ";
+    cout << setw(longestPName) << "Person" << " | ";
+    cout << setw(longestMName) << "Machine" << " | ";
+    cout << setw(longestMType) << "Type" << " | ";
+    cout << setw(longestSName) << "System" << " | ";
+    cout << setw(4) << "Country" << endl;
+
+    for(int i = 0; i < (TABLE_LENGTH + longestPName + longestMName + longestMType); i++){
+        cout << "-";
+    }
+    cout << endl;
+
+    // loops through vector
+    for(unsigned int i = 0; i < pm.size(); i++){
+        cout << "| ";
+        cout << left << setw(4) << pm[i].getId() << " | ";
+        cout << setw(longestPName) << pm[i].getP_Name() << " | ";
+        cout << setw(longestMName) << pm[i].getM_Name() << " | ";
+        cout << setw(longestMType) << pm[i].getM_Type() << " | ";
+        cout << setw(longestSName) << pm[i].getM_System() << " | ";
+        cout << setw(4) << pm[i].getP_Country() << endl;
+    }
+    for(int i = 0; i < (TABLE_LENGTH + longestPName + longestMName + longestMType); i++){
+        cout << "-";
+    }
+    cout << endl << "| Results: " << pm.size() << endl;
 }
 
 // Clear screen

@@ -5,6 +5,7 @@
 #include "person.h"
 #include "machine.h"
 #include "typesystem.h"
+#include "personmachine.h"
 
 // Constant for table length when displaying
 int const TABLE_LENGTH = 54;
@@ -20,6 +21,9 @@ void displayMachine(const std::vector<Machine> &m, const int &longestMName, cons
 
 // Print types and systems
 void displayTS(const std::vector<TypeSystem> &ts, const int &longestName);
+
+// Print persons and machines
+void displayPersonsMachines(std::vector<PersonMachine> pm, int longestPName, int longestMName, int longestMType, int longestSName);
 
 // Help dialog
 void help(std::string command);

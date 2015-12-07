@@ -4,6 +4,7 @@
 #include "person.h"
 #include "machine.h"
 #include "typesystem.h"
+#include "personmachine.h"
 #include <vector>
 
 // Start database
@@ -18,6 +19,9 @@ std::string populateMachineVector(std::vector<Machine> &m, const std::string &so
 // Populate types and systems
 std::string populateTSVector(std::vector<TypeSystem> &ts, const std::string table, const std::string &sorting);
 
+// Populate person machine
+std::string populatePMVector(std::vector<PersonMachine> &pm, const std::string &sorting);
+
 // List Persons
 std::vector<Person> listPersons(std::string &command, std::string &message);
 
@@ -26,6 +30,9 @@ std::vector<Machine> listMachines(std::string &command, std::string &message);
 
 // List Types and Systems
 std::vector<TypeSystem> listTS(std::string &command, std::string &message);
+
+// List Persons and Machines
+std::vector<PersonMachine> listPM(std::string &command, std::string &message);
 
 // Searching for persons
 std::vector<Person> callSearchPersonDB(std::string &query, std::string &message);
