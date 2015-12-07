@@ -2,8 +2,7 @@
 #define MACHINE_H
 #include <string>
 
-class Machine
-{
+class Machine{
     int Id;
     std::string Name;
     int Year;

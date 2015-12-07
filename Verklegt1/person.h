@@ -2,7 +2,6 @@
 #define PERSON
 
 #include <string>
-#include <iostream>
 #include <vector>
 
 class Person{

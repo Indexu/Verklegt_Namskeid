@@ -182,6 +182,7 @@ vector<Person> filter(string &query, string &message){
 }
 
 // ===== ADD =====
+// Person add
 string addPerson(vector<Person> &p, const string &name, const string &gender, const string &dob, const string &dod, const string &country) {
     // Add to database
     addPersonDB(name, gender, dob, dod, country);
@@ -190,6 +191,17 @@ string addPerson(vector<Person> &p, const string &name, const string &gender, co
     populatePersonVector(p, "");
 
     return "Person " + name + " succesfully added.";
+}
+
+// Machine add
+string addMachine(vector<Machine> &m, const string &name, const string &year, const string &built, const string &type, const string &system) {
+    // Add to database
+    addMachineDB(name, year, built, type, system);
+
+    // Re-populate vector
+    populateMachineVector(m, "");
+
+    return "Machine " + name + " succesfully added.";
 }
 
 // ===== DELETE =====

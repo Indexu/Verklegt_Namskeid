@@ -45,6 +45,7 @@ std::string editPerson(std::vector<Person> &p, std::string command);
 std::string editMachine(std::vector<Machine> &m, std::string command);
 
 // Add new machine
+std::string addMachine(std::vector<Machine> &m, const std::string &name, const std::string &year, const std::string &built, const std::string &type, const std::string &system);
 
 // Delete machine
 std::string delMachine(std::vector<Machine> &m, std::string &command);

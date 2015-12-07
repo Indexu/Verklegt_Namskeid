@@ -20,8 +20,11 @@ void displayMachine(const std::vector<Machine> &m, const int &longestMName, cons
 // Help dialog
 void help(std::string command);
 
-// Add process
-void addProcess(std::vector<Person> &p);
+// Add process for persons
+void addProcessPerson(std::vector<Person> &p);
+
+// Add process for machines
+void addProcessMachine(std::vector<Machine> &m);
 
 // Clear screen
 void clearScreen();

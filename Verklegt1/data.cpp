@@ -394,6 +394,42 @@ vector<Machine> searchMachineDB(string &searchString, string &message, string &f
     return results;
 }
 
+// Add Machine
+string addMachineDB(const string &name, const string &year, const string &built, const string &type, const string &system){
+
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        QString n = QString::fromStdString(name);
+        QString y = QString::fromStdString(year);
+        QString b = QString::fromStdString(built);
+        QString t = QString::fromStdString(type);
+        QString s = QString::fromStdString(system);
+
+        query.prepare("INSERT INTO machines (name, year, built, mtype_id, num_sys_id) "
+                      "VALUES (:name, :year, :build, :mtype, :num_sys)");
+
+        query.bindValue(":name", n);
+        query.bindValue(":gender", y);
+        query.bindValue(":build", b);
+        query.bindValue(":mtype", t);
+        query.bindValue(":num_sys", s);
+
+        if(!query.exec()){
+            return query.lastError().text().toStdString();
+        }
+
+        // Close
+        db.close();
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
+
+}
+
 // Delete machine
 string delMachineDB(const int &id){
     string error = "";

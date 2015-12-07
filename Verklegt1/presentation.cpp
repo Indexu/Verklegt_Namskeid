@@ -6,6 +6,7 @@
 #include "data.h"
 #include <iomanip>
 #include <cstdlib>
+#include <iostream>
 
 using namespace std;
 
@@ -128,8 +129,24 @@ void loop(){
                         }
                     }
                     // Add
-                    else if(command == "add") {
-                        addProcess(people);
+                    else if(getCommand(command) == "add") {
+                        // Only "add"
+                        if(command == "add"){
+                            cout << "Add command is missing a flag. See help for instructions." << endl;
+                        }
+                        // Add person
+                        else if(command.substr(0,9) == "add -p"){
+                            addProcessPerson(people);
+                        }
+                        // Add machine
+                        else if(command.substr(0,9) == "add -m"){
+                            addProcessMachine(machines);
+                        }
+                        // Invalid flag
+                        else{
+                            cout << "Flag is invalid! Available flags are: -p for person, -m for machines." << endl;
+                        }
+
                     }
                     // Delete
                     else if(getCommand(command) == "delete") {
@@ -251,9 +268,13 @@ void loop(){
     }
 }
 
-void addProcess(vector<Person> &p){
+// Add process for persons
+void addProcessPerson(vector<Person> &p){
     string name, gender, dob, dod = "", country;
     bool valid = false;
+
+    // Input to cancel
+    string cancel = "-1";
 
     // Name
     do{
@@ -263,12 +284,19 @@ void addProcess(vector<Person> &p){
         if(name == ""){
             cout << "Please enter a name." << endl;
         }
+        else if(name == cancel){
+            return;
+        }
     }while(name == "");
 
     // Gender
     do{
-       cout << "Gender (M/F): ";
-       getline(cin, gender);
+        cout << "Gender (M/F): ";
+        getline(cin, gender);
+
+        if(gender == cancel){
+            return;
+        }
 
        gender = verifyGender(gender);
 
@@ -278,6 +306,10 @@ void addProcess(vector<Person> &p){
     do{
         cout << "Date of birth (DD/MM/YYYY): ";
         getline(cin, dob);
+
+        if(dob == cancel){
+            return;
+        }
 
         valid = verifyDate(dob);
 
@@ -297,6 +329,9 @@ void addProcess(vector<Person> &p){
             dod = "";
             break;
         }
+        else if(dod == cancel){
+            return;
+        }
         else{
             valid = verifyDate(dod);
 
@@ -314,10 +349,112 @@ void addProcess(vector<Person> &p){
         if(country == ""){
             cout << "Please enter a country." << endl;
         }
+        else if(country == cancel){
+            return;
+        }
     }while(country == "");
 
     // Add + print
     cout << addPerson(p, name, gender, dob, dod, country) << endl;
+}
+
+// Add process for machines
+void addProcessMachine(vector<Machine> &m){
+    string name, built, year, type, system;
+
+    // Input to cancel
+    string cancel = "-1";
+
+    // Name
+    do{
+        cout << "Name: ";
+        getline(cin, name);
+
+        if(name == ""){
+            cout << "Please enter a name." << endl;
+        }
+        else if(name == cancel){
+            return;
+        }
+    }while(name == "");
+
+    // Year
+    do{
+        cout << "Year built (YYYY, \"-\" if unknown/not built): ";
+        getline(cin, year);
+
+        if(year == cancel){
+            return;
+        }
+        else if(year == "-"){
+            year = "0";
+            break;
+        }
+        else if(year == ""){
+            cout << "Please enter a year." << endl;
+        }
+        else if(year.length() != 4 && year != "0"){
+            cout << "Invalid year." << endl;
+        }
+
+    }while(year == "" || year == "0" || year.length() != 4);
+
+    // Built
+    do{
+        cout << "Built (y/n): ";
+        getline(cin, built);
+
+        if(built == cancel){
+            return;
+        }
+        else if(built == ""){
+            cout << "Please enter \"y\" or \"n\"." << endl;
+        }
+        else if(built == "y"){
+            built = "true";
+            break;
+        }
+        else if(built == "n"){
+            built = "false";
+            break;
+        }
+
+    }while(built == "" || (built != "y" && built != "n"));
+
+    // Type
+    do{
+        // NEEDS WORK
+
+        cout << "Enter number of corresponding type: ";
+        getline(cin, type);
+
+        if(type == ""){
+            cout << "Please enter a type." << endl;
+        }
+        else if(type == ""){
+            cout << "Please enter a number in the list." << endl;
+            break;
+        }
+    }while(type == "");
+
+    // System
+    do{
+        // NEEDS WORK
+
+        cout << "Enter number of corresponding system: ";
+        getline(cin, system);
+
+        if(system == ""){
+            cout << "Please enter a system." << endl;
+        }
+        else if(system == ""){
+            cout << "Please enter a number in the list." << endl;
+            break;
+        }
+    }while(system == "");
+
+    // Add + print
+    cout << addMachine(m, name, year, built, type, system) << endl;
 }
 
 // Display Persons

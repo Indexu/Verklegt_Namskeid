@@ -23,6 +23,8 @@ std::vector<Person> searchPersonDB(std::string &searchString, std::string &messa
 std::vector<Machine> searchMachineDB(std::string &searchString, std::string &message, std::string &field);
 // Get machines
 std::string getMachinesDB(std::vector<Machine> &m, const std::string &sorting);
+// Add machine
+std::string addMachineDB(const std::string &name, const std::string &year, const std::string &built, const std::string &type, const std::string &system);
 // Delete machine
 std::string delMachineDB(const int &id);
 // Edit machine
