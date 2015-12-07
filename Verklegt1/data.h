@@ -13,6 +13,8 @@ std::string initDB();
 // == Persons ==
 // Get persons
 std::string getPersonsDB(std::vector<Person> &p, const std::string &sorting);
+// Get person by ID
+std::string getPersonByIdDB(std::vector<Person> &p, const int &id);
 // Add person
 std::string addPersonDB(const std::string &name, const std::string &gender, const std::string &dob, const std::string &dod, const std::string &country);
 // Delete person
@@ -29,6 +31,8 @@ std::vector<Person> searchPersonDB(std::string &searchString, std::string &messa
 std::vector<Machine> searchMachineDB(std::string &searchString, std::string &message, std::string &field);
 // Get machines
 std::string getMachinesDB(std::vector<Machine> &m, const std::string &sorting);
+// Get machine by ID
+std::string getMachineByIdDB(std::vector<Machine> &m, const int &id);
 // Add machine
 std::string addMachineDB(const std::string &name, const std::string &year, const std::string &built, const std::string &type, const std::string &system);
 // Delete machine
@@ -53,6 +57,8 @@ bool connectionPMExistsDB(const int &pid, const int &mid, std::string &error);
 std::string delPersMachDB(const int &id);
 // Check if connections ID exists
 bool persMachConnectionIDExistsDB(const int &id, std::string &error);
+// Get person-machine row by ID
+std::string getPMByIdDB(std::vector<PersonMachine> &pm, const int &id);
 
 #endif // DATA
 

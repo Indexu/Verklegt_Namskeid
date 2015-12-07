@@ -72,6 +72,47 @@ string getPersonsDB(vector<Person> &p, const string &sorting){
     }
 }
 
+// Get person row by ID
+string getPersonByIdDB(vector<Person> &p, const int &id){
+
+    // Open
+    if(db.open()){
+        // Empty vector
+        p.clear();
+
+        QSqlQuery query(db);
+
+        query.prepare("SELECT * FROM persons "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            return query.lastError().text().toStdString();
+        }
+
+        string name, gender, dob, dod, country;
+        int id;
+        if(query.next()){
+            id = query.value("id").toInt();
+            name = query.value("name").toString().toStdString();
+            gender = query.value("gender").toString().toStdString();
+            dob = query.value("date_of_birth").toString().toStdString();
+            dod = query.value("date_of_death").toString().toStdString();
+            country = query.value("country").toString().toStdString();
+
+            Person temp(id, name, gender, dob, dod, country);
+            p.push_back(temp);
+        }
+        // Close
+        db.close();
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
+}
+
 // Add Person
 string addPersonDB(const string &name, const string &gender, const string &dob, const string &dod, const string &country){
 
@@ -307,6 +348,50 @@ string getMachinesDB(vector<Machine> &m, const string &sorting){
         int id, year;
         bool built;
         while(query.next()){
+            id = query.value("id").toInt();
+            name = query.value("name").toString().toStdString();
+            year = query.value("year").toInt();
+            built = query.value("built").toBool();
+            type = query.value("type").toString().toStdString();
+            system = query.value("system").toString().toStdString();
+
+            Machine temp(id, name, year, built, type, system);
+            m.push_back(temp);
+        }
+        // Close
+        db.close();
+
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
+}
+
+// Get machine row by ID
+string getMachineByIdDB(vector<Machine> &m, const int &id){
+
+    // Open
+    if(db.open()){
+        // Empty vector
+        m.clear();
+
+        QSqlQuery query(db);
+
+        query.prepare("SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
+                      "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
+                      "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                      "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        query.exec();
+
+        string name, type, system;
+        int id, year;
+        bool built;
+        if(query.next()){
             id = query.value("id").toInt();
             name = query.value("name").toString().toStdString();
             year = query.value("year").toInt();
@@ -777,4 +862,49 @@ bool connectionPMExistsDB(const int &pid, const int &mid, string &error){
     }
 
     return false;
+}
+
+// Get person-machine row by ID
+string getPMByIdDB(vector<PersonMachine> &pm, const int &id){
+
+    // Open
+    if(db.open()){
+        // Empty vector
+        pm.clear();
+
+        QSqlQuery query(db);
+
+        query.prepare("SELECT pers_mach.id AS id, persons.name AS p_name, machines.name AS m_name, "
+                      "mtype.name AS m_type, num_sys.name AS m_system, persons.country AS p_country FROM persons "
+                      "JOIN pers_mach ON (persons.id=pers_mach.p_id) "
+                      "JOIN machines ON (pers_mach.m_id=machines.id) "
+                      "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                      "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        query.exec();
+
+        string p_name, p_country, m_name, m_type, m_system;
+        int id;
+        if(query.next()){
+            id = query.value("id").toInt();
+            p_name = query.value("p_name").toString().toStdString();
+            p_country = query.value("p_country").toString().toStdString();
+            m_name = query.value("m_name").toString().toStdString();
+            m_type = query.value("m_type").toString().toStdString();
+            m_system = query.value("m_system").toString().toStdString();
+
+            PersonMachine temp(id, p_name, p_country, m_name, m_type, m_system);
+            pm.push_back(temp);
+        }
+        // Close
+        db.close();
+
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
 }

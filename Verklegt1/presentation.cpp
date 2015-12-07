@@ -226,6 +226,14 @@ void loop(){
                             cout << "Delete command is missing flags. See help for instructions." << endl;
                         }
                         // Delete person
+                        else if(command.substr(0,10) == "delete -pm"){
+                            message = delPM(pers_mach,people, machines, command);
+
+                            if(message != ""){
+                                cout << message << endl;
+                            }
+                        }
+                        // Delete person
                         else if(command.substr(0,9) == "delete -p"){
                             message = delPerson(people, command);
 

@@ -367,6 +367,40 @@ string delMachine(vector<Machine> &m, string &command){
     return message;
 }
 
+// Person Machine
+string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, string &command){
+    string message = ""; // Return message
+    int id; // The extracted ID
+
+    // Check for missing ID
+    if(command.length() < 11){
+        message = "ID is missing";
+        return message;
+    }
+
+    // Remove "delete -pm "
+    command = command.erase(0,11);
+
+    // Confirm the ID is a number
+    if(!isNumber(command)){
+        message = "ID must only contain digits";
+        return message;
+    }
+
+    // Convert to int
+    id = stoi(command);
+
+    // Delete
+    message = delPersMachDB(id);
+
+    // Success message
+    if(message == ""){
+        message = "| Connection with ID: " + to_string(id) + " has been deleted.";
+        populatePMVector(pm, "");
+    }
+
+    return message;
+}
 
 // ===== EDIT =====
 // Person edit
