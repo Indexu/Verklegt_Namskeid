@@ -141,6 +141,7 @@ string delPersonDB(const int &id){
     }
 }
 
+// Edit person
 string editPersonDB(const int &id, const string &column, const string &value){
     // Open
     if(db.open()){
@@ -326,6 +327,7 @@ string getMachinesDB(vector<Machine> &m, const string &sorting){
     }
 }
 
+// Search for a machine
 vector<Machine> searchMachineDB(string &searchString, string &message, string &field){
     vector<Machine> results; // Result vector
 
@@ -392,6 +394,42 @@ vector<Machine> searchMachineDB(string &searchString, string &message, string &f
     return results;
 }
 
+// Add Machine
+string addMachineDB(const string &name, const string &year, const string &built, const string &type, const string &system){
+
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        QString n = QString::fromStdString(name);
+        QString y = QString::fromStdString(year);
+        QString b = QString::fromStdString(built);
+        QString t = QString::fromStdString(type);
+        QString s = QString::fromStdString(system);
+
+        query.prepare("INSERT INTO machines (name, year, built, mtype_id, num_sys_id) "
+                      "VALUES (:name, :year, :build, :mtype, :num_sys)");
+
+        query.bindValue(":name", n);
+        query.bindValue(":gender", y);
+        query.bindValue(":build", b);
+        query.bindValue(":mtype", t);
+        query.bindValue(":num_sys", s);
+
+        if(!query.exec()){
+            return query.lastError().text().toStdString();
+        }
+
+        // Close
+        db.close();
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
+
+}
+
 // Delete machine
 string delMachineDB(const int &id){
     string error = "";
@@ -425,6 +463,39 @@ string delMachineDB(const int &id){
     }
 }
 
+// Edit machine
+string editMachineDB(const int &id, const string &column, const string &value){
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        QString col = QString::fromStdString(column);
+
+        QString queStr = "UPDATE machines ";
+        queStr.append("SET " + col + " = :val WHERE id = :id");
+
+        query.prepare(queStr);
+
+
+        QString val = QString::fromStdString(value);
+
+        //query.bindValue(":col", col);
+        query.bindValue(":val", val);
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            return query.lastError().text().toStdString();
+        }
+
+        // Close
+        db.close();
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
+}
+
 // Check if machine ID exists in DB
 bool machineIDExistsDB(const int &id, string &error){
     // Open
@@ -452,4 +523,53 @@ bool machineIDExistsDB(const int &id, string &error){
         error = "Unable to connect to database";
     }
     return false;
+}
+
+// ===== Types and Systems =====
+// Get data
+string getTSDB(vector<TypeSystem> &ts, const string &table, const string &sorting){
+
+    // Open
+    if(db.open()){
+        // Empty vector
+        ts.clear();
+
+        QSqlQuery query(db);
+
+        QString sort = "";
+        if(sorting == "a"){
+            sort = "ORDER BY name ASC, id ASC";
+        }
+        else if(sorting == "z"){
+            sort = "ORDER BY name DESC, id DESC";
+        }
+        else if(sorting == "d"){
+            sort = "ORDER BY id DESC, name DESC";
+        }
+
+        QString tab = QString::fromStdString(table);
+
+        QString queStr = "SELECT * FROM " + tab + " "
+                         + sort;
+
+        // Query
+        query.exec(queStr);
+
+        string name;
+        int id;
+        while(query.next()){
+            id = query.value("id").toInt();
+            name = query.value("name").toString().toStdString();
+
+            TypeSystem temp(id, name);
+            ts.push_back(temp);
+        }
+        // Close
+        db.close();
+
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
 }

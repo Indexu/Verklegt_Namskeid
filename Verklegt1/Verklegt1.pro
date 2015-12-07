@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     domain.cpp \
     presentation.cpp \
     utility.cpp \
-    machine.cpp
+    machine.cpp \
+    typesystem.cpp
 
 HEADERS += \
     person.h \
@@ -23,5 +24,6 @@ HEADERS += \
     presentation.h \
     domain.h \
     utility.h \
-    machine.h
+    machine.h \
+    typesystem.h
 

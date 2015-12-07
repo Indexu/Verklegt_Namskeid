@@ -1,11 +1,7 @@
 #include "person.h"
-#include <iomanip>
-#include <iostream>
-
-using namespace std;
 
 // Constructor
-Person::Person(int id, string n, string g, string dob, string dod, string c){
+Person::Person(int id, std::string n, std::string g, std::string dob, std::string dod, std::string c){
     Id = id;
     Name = n;
     Gender = g;
@@ -20,7 +16,7 @@ int Person::getId() const{
 }
 
 // Get set name
-string Person::getName() const{
+std::string Person::getName() const{
     return Name;
 }
 void Person::setName(std::string n){
@@ -28,34 +24,34 @@ void Person::setName(std::string n){
 }
 
 // Get set gender
-string Person::getGender() const{
+std::string Person::getGender() const{
     return Gender;
 }
-void Person::setGender(string g){
+void Person::setGender(std::string g){
     Gender = g;
 }
 
 // Get set date of birth
-string Person::getDateOfBirth() const{
+std::string Person::getDateOfBirth() const{
     return DateOfBirth;
 }
-void Person::setDateOfBirth(string dob){
+void Person::setDateOfBirth(std::string dob){
     DateOfBirth = dob;
 }
 
 // Get set date of death
-string Person::getDateOfDeath() const{
+std::string Person::getDateOfDeath() const{
     return DateOfDeath;
 }
-void Person::setDateOfDeath(string dod){
+void Person::setDateOfDeath(std::string dod){
     DateOfDeath = dod;
 }
 
 // Get set country
-string Person::getCountry() const{
+std::string Person::getCountry() const{
     return Country;
 }
-void Person::setCountry(string c){
+void Person::setCountry(std::string c){
     Country = c;
 }
 

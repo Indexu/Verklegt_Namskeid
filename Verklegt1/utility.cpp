@@ -6,7 +6,8 @@ using namespace std;
 
 // Find the longest person name
 int findLongestPName(const vector<Person> &p) {
-    int currentName, nameLength = 0;
+    size_t currentName;
+    int nameLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < p.size(); i++){
         // Current name length
@@ -23,7 +24,8 @@ int findLongestPName(const vector<Person> &p) {
 
 // Find the longest machine name
 int findLongestMName(const vector<Machine> &m) {
-    int currentName, nameLength = 0;
+    size_t currentName;
+    int nameLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < m.size(); i++){
         // Current name length
@@ -40,7 +42,8 @@ int findLongestMName(const vector<Machine> &m) {
 
 // Find the longest machine type
 int findLongestMType(const vector<Machine> &m) {
-    int currentType, typeLength = 0;
+    size_t currentType;
+    int typeLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < m.size(); i++){
         // Current type length
@@ -53,6 +56,24 @@ int findLongestMType(const vector<Machine> &m) {
     }
 
     return typeLength;
+}
+
+// Find the longest typesystem name
+int findLongestTSName(const vector<TypeSystem> &ts) {
+    size_t currentName;
+    int nameLength = 0;
+    // Loop over vector
+    for(unsigned int i = 0; i < ts.size(); i++){
+        // Current name length
+        currentName = ts[i].getName().length();
+        // If it's longer than the longest name so far
+        if (nameLength < currentName) {
+            // New longest name
+            nameLength = currentName;
+        }
+    }
+
+    return nameLength;
 }
 
 // Verify date
@@ -79,7 +100,7 @@ size_t largestValue(const std::vector<size_t> &v){
 
 // Get the command
 string getCommand(const string &command) {
-    int findSpace = command.find(" ");
+    size_t findSpace = command.find(" ");
     return command.substr(0,findSpace);
 }
 
@@ -114,7 +135,7 @@ bool isNumber(const string &str){
 // Get person index by ID
 int getPIndexByID(vector<Person> p, int id){
     int start = 0;
-    int end = p.size() - 1;
+    size_t end = p.size() - 1;
     int middle = -1;
     int currentID;
 
@@ -150,7 +171,7 @@ int getPIndexByID(vector<Person> p, int id){
 // Get machine index by ID
 int getMIndexByID(vector<Machine> m, int id){
     int start = 0;
-    int end = m.size() - 1;
+    size_t end = m.size() - 1;
     int middle = -1;
     int currentID;
 
@@ -202,40 +223,94 @@ string verifyGender(string g){
 // Convert arguments to field names
 string convert2Field(string searchString, string database){
     string field;
-    if (searchString == "-g"){
-        field = "gender";
-    }
-    else if (searchString == "-c"){
-        field = "country";
-    }
-    else if (searchString == "-n"){
-        field = "name";
-    }
-    else if (searchString == "-b"){
-        (database == "machine") ? field = "built" : field = "date_of_birth";
-    }
-    else if (searchString == "-d"){
-        field = "date_of_death";
+    if (searchString == "-n"){
+            field = "name";
     }
     else if (searchString == "-i"){
         field = "id";
     }
-    else if (searchString == "-y"){
-        field = "year";
+    else if(database == "machine"){
+        if (searchString == "-b"){
+            field = "built";
+        }
+        else if (searchString == "-y"){
+            field = "year";
+        }
+        else if (searchString == "-t"){
+            field = "mtype_id";
+        }
+        else if (searchString == "-s"){
+            field = "num_sys_id";
+        }
+        else if(searchString == ""){
+            field = "";
+        }
+        else {
+            field = "-1";
+        }
     }
-    else if (searchString == "-t"){
-        field = "mtype_id";
-    }
-    else if (searchString == "-s"){
-        field = "num_sys_id";
+    else{
+        if (searchString == "-g"){
+            field = "gender";
+        }
+        else if (searchString == "-c"){
+            field = "country";
+        }
+        else if (searchString == "-b"){
+            field = "date_of_birth";
+        }
+        else if (searchString == "-d"){
+            field = "date_of_death";
+        }
+        else if(searchString == ""){
+            field = "";
+        }
+        else {
+            field = "-1";
+        }
     }
 
-    else if(searchString == ""){
-        field = "";
-    }
-    else {
-        field = "-1";
-    }
     return field;
 }
 
+// Split a string to vector
+vector<string> splitString(string input, string delim){
+    vector<string> split;
+    // Position of delimiter
+    size_t delimPos = input.find(delim);
+
+    while (input != "" && delimPos != string::npos){
+        // Get next pos
+        delimPos = input.find(delim);
+
+        // If found, add up to delimPos to vector and erase up to delimPos+1
+        if (delimPos != string::npos){
+            split.push_back(input.substr(0, delimPos));
+            input = input.erase(0, delimPos+1);
+        }
+        // If not found, add what is left of input
+        else{
+            split.push_back(input);
+        }
+    }
+
+    return split;
+}
+
+// Assemble a string from vector
+string assembleString(vector<string> inputVect, string delim){
+    string assembled = "";
+
+    for (size_t i = 0; i < inputVect.size(); i++)
+    {
+        // Append vector element to string
+        assembled += inputVect[i];
+
+        // If not the last element, add the delimiter
+        if (i + 1 < inputVect.size()){
+            assembled += delim;
+        }
+    }
+
+    return assembled;
+}

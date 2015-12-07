@@ -3,6 +3,7 @@
 
 #include "person.h"
 #include "machine.h"
+#include "typesystem.h"
 #include <vector>
 
 // Start database
@@ -14,11 +15,17 @@ std::string populatePersonVector(std::vector<Person> &p, const std::string &sort
 // Populate machine
 std::string populateMachineVector(std::vector<Machine> &m, const std::string &sorting);
 
+// Populate types and systems
+std::string populateTSVector(std::vector<TypeSystem> &ts, const std::string table, const std::string &sorting);
+
 // List Persons
 std::vector<Person> listPersons(std::string &command, std::string &message);
 
 // List Machines
 std::vector<Machine> listMachines(std::string &command, std::string &message);
+
+// List Types and Systems
+std::vector<TypeSystem> listTS(std::string &command, std::string &message);
 
 // Searching for persons
 std::vector<Person> callSearchPersonDB(std::string &query, std::string &message);
@@ -39,9 +46,13 @@ std::string addPerson(std::vector<Person> &p, const std::string &name, const std
 std::string delPerson(std::vector<Person> &p, std::string &command);
 
 // Edit person in DB
-std::string edit(std::vector<Person> &p, std::string command);
+std::string editPerson(std::vector<Person> &p, std::string command);
+
+// Edit machine in DB
+std::string editMachine(std::vector<Machine> &m, std::string command);
 
 // Add new machine
+std::string addMachine(std::vector<Machine> &m, const std::string &name, const std::string &year, const std::string &built, const std::string &type, const std::string &system);
 
 // Delete machine
 std::string delMachine(std::vector<Machine> &m, std::string &command);

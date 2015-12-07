@@ -6,6 +6,7 @@
 #include "data.h"
 #include <iomanip>
 #include <cstdlib>
+#include <iostream>
 
 using namespace std;
 
@@ -17,26 +18,42 @@ void loop(){
     string message = ""; // General use message
     vector<Person> people; // The person vector
     vector<Machine> machines; // The machine vector
+    vector<TypeSystem> types, systems; // Types and systems vectors
     int longestPName; // Longest person name
     int longestMName; // Longest machine name
     int longestMType; // Longest machine type
+    int longestTName; // Longest type name
+    int longestSName; // Longest system name
     int currentId; // Current Id
 
     // Connect to DB
     message = startDB();
 
     if(message == ""){
-        // Add data
+        // Add data to persons vector
         message = populatePersonVector(people, "");
 
         if(message == ""){
+            // Add data to machines vector
             message = populateMachineVector(machines, "");
+
+            // Add data to types vector
+            if(message == ""){
+                message = populateTSVector(types, "mtype", "");
+            }
+
+            // Add vector to systems vector
+            if(message == ""){
+                message = populateTSVector(systems, "num_sys", "");
+            }
 
             if(message == ""){
                 // Get longest everything
                 longestPName = findLongestPName(people);
                 longestMName = findLongestMName(machines);
                 longestMType = findLongestMType(machines);
+                longestTName = findLongestTSName(types);
+                longestSName = findLongestTSName(systems);
 
                 // Get current id
                 currentId = getCurrentId(people);
@@ -84,12 +101,44 @@ void loop(){
                             // Get machines
                             machines = listMachines(command, message);
 
-                            cout << machines.size() << endl;
-
                             // Check for errors
                             if(message == ""){
                                 // Display machines
                                 displayMachine(machines, longestMName, longestMType);
+                            }
+                            else{
+                                // Display errors
+                                cout << message << endl;
+                            }
+
+                        }
+                        // List - Types
+                        else if(command.substr(0,5) == "ls -t"){
+
+                            // Get types
+                            types = listTS(command, message);
+
+                            // Check for errors
+                            if(message == ""){
+                                // Display types
+                                displayTS(types, longestTName);
+                            }
+                            else{
+                                // Display errors
+                                cout << message << endl;
+                            }
+
+                        }
+                        // List - Systems
+                        else if(command.substr(0,5) == "ls -s"){
+
+                            // Get types
+                            systems = listTS(command, message);
+
+                            // Check for errors
+                            if(message == ""){
+                                // Display types
+                                displayTS(systems, longestSName);
                             }
                             else{
                                 // Display errors
@@ -128,8 +177,24 @@ void loop(){
                         }
                     }
                     // Add
-                    else if(command == "add") {
-                        addProcess(people);
+                    else if(getCommand(command) == "add") {
+                        // Only "add"
+                        if(command == "add"){
+                            cout << "Add command is missing a flag. See help for instructions." << endl;
+                        }
+                        // Add person
+                        else if(command.substr(0,9) == "add -p"){
+                            addProcessPerson(people);
+                        }
+                        // Add machine
+                        else if(command.substr(0,9) == "add -m"){
+                            addProcessMachine(machines);
+                        }
+                        // Invalid flag
+                        else{
+                            cout << "Flag is invalid! Available flags are: -p for person, -m for machines." << endl;
+                        }
+
                     }
                     // Delete
                     else if(getCommand(command) == "delete") {
@@ -161,8 +226,30 @@ void loop(){
                     }
                     // Edit
                     else if(getCommand(command) == "edit") {
-                        message = edit(people, command);
-                        cout << message << endl;
+                        // Only "edit"
+                        if(command == "edit"){
+                            cout << "Edit command is missing flags. See help for instructions." << endl;
+                        }
+                        // Edit person
+                        else if(command.substr(0,7) == "edit -p"){
+                            message = editPerson(people, command);
+
+                            if(message != ""){
+                                cout << message << endl;
+                            }
+                        }
+                        // Edit machine
+                        else if(command.substr(0,7) == "edit -m"){
+                            message = editMachine(machines, command);
+
+                            if(message != ""){
+                                cout << message << endl;
+                            }
+                        }
+                        // Invalid flag
+                        else{
+                            cout << "First flag is invalid! Available flags are: -p for person, -m for machines." << endl;
+                        }
                     }
                     // Help
                     else if(getCommand(command) == "help"){
@@ -229,9 +316,13 @@ void loop(){
     }
 }
 
-void addProcess(vector<Person> &p){
+// Add process for persons
+void addProcessPerson(vector<Person> &p){
     string name, gender, dob, dod = "", country;
     bool valid = false;
+
+    // Input to cancel
+    string cancel = "-1";
 
     // Name
     do{
@@ -241,12 +332,19 @@ void addProcess(vector<Person> &p){
         if(name == ""){
             cout << "Please enter a name." << endl;
         }
+        else if(name == cancel){
+            return;
+        }
     }while(name == "");
 
     // Gender
     do{
-       cout << "Gender (M/F): ";
-       getline(cin, gender);
+        cout << "Gender (M/F): ";
+        getline(cin, gender);
+
+        if(gender == cancel){
+            return;
+        }
 
        gender = verifyGender(gender);
 
@@ -256,6 +354,10 @@ void addProcess(vector<Person> &p){
     do{
         cout << "Date of birth (DD/MM/YYYY): ";
         getline(cin, dob);
+
+        if(dob == cancel){
+            return;
+        }
 
         valid = verifyDate(dob);
 
@@ -275,6 +377,9 @@ void addProcess(vector<Person> &p){
             dod = "";
             break;
         }
+        else if(dod == cancel){
+            return;
+        }
         else{
             valid = verifyDate(dod);
 
@@ -292,10 +397,112 @@ void addProcess(vector<Person> &p){
         if(country == ""){
             cout << "Please enter a country." << endl;
         }
+        else if(country == cancel){
+            return;
+        }
     }while(country == "");
 
     // Add + print
     cout << addPerson(p, name, gender, dob, dod, country) << endl;
+}
+
+// Add process for machines
+void addProcessMachine(vector<Machine> &m){
+    string name, built, year, type, system;
+
+    // Input to cancel
+    string cancel = "-1";
+
+    // Name
+    do{
+        cout << "Name: ";
+        getline(cin, name);
+
+        if(name == ""){
+            cout << "Please enter a name." << endl;
+        }
+        else if(name == cancel){
+            return;
+        }
+    }while(name == "");
+
+    // Year
+    do{
+        cout << "Year built (YYYY, \"-\" if unknown/not built): ";
+        getline(cin, year);
+
+        if(year == cancel){
+            return;
+        }
+        else if(year == "-"){
+            year = "0";
+            break;
+        }
+        else if(year == ""){
+            cout << "Please enter a year." << endl;
+        }
+        else if(year.length() != 4 && year != "0"){
+            cout << "Invalid year." << endl;
+        }
+
+    }while(year == "" || year == "0" || year.length() != 4);
+
+    // Built
+    do{
+        cout << "Built (y/n): ";
+        getline(cin, built);
+
+        if(built == cancel){
+            return;
+        }
+        else if(built == ""){
+            cout << "Please enter \"y\" or \"n\"." << endl;
+        }
+        else if(built == "y"){
+            built = "true";
+            break;
+        }
+        else if(built == "n"){
+            built = "false";
+            break;
+        }
+
+    }while(built == "" || (built != "y" && built != "n"));
+
+    // Type
+    do{
+        // NEEDS WORK
+
+        cout << "Enter number of corresponding type: ";
+        getline(cin, type);
+
+        if(type == ""){
+            cout << "Please enter a type." << endl;
+        }
+        else if(type == ""){
+            cout << "Please enter a number in the list." << endl;
+            break;
+        }
+    }while(type == "");
+
+    // System
+    do{
+        // NEEDS WORK
+
+        cout << "Enter number of corresponding system: ";
+        getline(cin, system);
+
+        if(system == ""){
+            cout << "Please enter a system." << endl;
+        }
+        else if(system == ""){
+            cout << "Please enter a number in the list." << endl;
+            break;
+        }
+    }while(system == "");
+
+    // Add + print
+    cout << addMachine(m, name, year, built, type, system) << endl;
 }
 
 // Display Persons
@@ -358,6 +565,29 @@ void displayMachine(const vector<Machine> &m, const int &longestMName, const int
         cout << "-";
     }
     cout << endl << "| Results: " << m.size() << endl;
+}
+
+// Display types and systems
+void displayTS(const vector<TypeSystem> &ts, const int &longestName){
+    cout << "| ";
+    cout << left << setw(4) << "ID" << " | ";
+    cout << setw(longestName) << "Name" << " | " << endl;
+
+    for(int i = 0; i < (TABLE_LENGTH + longestName); i++){
+        cout << "-";
+    }
+    cout << endl;
+
+    // loops through vector
+    for(unsigned int i = 0; i < ts.size(); i++){
+        cout << "| ";
+        cout << setw(4) << ts[i].getId() << " | ";
+        cout << setw(longestName) << ts[i].getName() << " | " << endl;
+    }
+    for(int i = 0; i < (TABLE_LENGTH + longestName); i++){
+        cout << "-";
+    }
+    cout << endl << "| Results: " << ts.size() << endl;
 }
 
 // Clear screen
