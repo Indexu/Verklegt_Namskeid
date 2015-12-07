@@ -629,3 +629,66 @@ string getPersonMachineDB(vector<PersonMachine> &pm, const string &sorting){
         return "Unable to connect to database";
     }
 }
+
+// Delete person and machine connections
+string delPersMachDB(const int &id) {
+    string error = "";
+    if(persMachConnectionIDExistsDB(id, error)){
+        // Open
+        if(db.open()){
+            QSqlQuery query(db);
+
+            query.prepare("DELETE FROM pers_mach "
+                          "WHERE id = :id");
+
+            query.bindValue(":id", id);
+
+            if(!query.exec()){
+                return query.lastError().text().toStdString();
+            }
+
+            // Close
+            db.close();
+            return "";
+        }
+        else{
+            return "Unable to connect to database";
+        }
+    }
+    else if(error != ""){
+        return error;
+    }
+    else{
+        return "ID: " + to_string(id) + " not found.";
+    }
+}
+
+
+// Check if connection exists between person and machine
+bool persMachConnectionIDExistsDB(const int &id, string &error){
+    // Open
+    if(db.open()){
+        bool exists = false;
+        QSqlQuery query(db);
+
+        query.prepare("SELECT id FROM pers_mach "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            error = query.lastError().text().toStdString();
+        }
+        else if(query.next()){
+             exists = true;
+        }
+
+        // Close
+        db.close();
+        return exists;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+    return false;
+}

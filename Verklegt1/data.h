@@ -44,6 +44,10 @@ std::string getTSDB(std::vector<TypeSystem> &t, const std::string &table, const 
 
 // == Person Machine ==
 std::string getPersonMachineDB(std::vector<PersonMachine> &pm, const std::string &sorting);
+// Delete person machine connections
+std::string delPersMachDB(const int &id);
+// Check if connections ID exists
+bool persMachConnectionIDExistsDB(const int &id, std::string &error);
 
 #endif // DATA
 
