@@ -684,18 +684,50 @@ string addPersonMachineDB(const int &p_id, const int &m_id){
     }
 }
 
+// Delete person and machine connections
+string delPersMachDB(const int &id) {
+    string error = "";
+    if(persMachConnectionIDExistsDB(id, error)){
+        // Open
+        if(db.open()){
+            QSqlQuery query(db);
+
+            query.prepare("DELETE FROM pers_mach "
+                          "WHERE id = :id");
+
+            query.bindValue(":id", id);
+
+            if(!query.exec()){
+                return query.lastError().text().toStdString();
+            }
+
+            // Close
+            db.close();
+            return "";
+        }
+        else{
+            return "Unable to connect to database";
+        }
+    }
+    else if(error != ""){
+        return error;
+    }
+    else{
+        return "ID: " + to_string(id) + " not found.";
+    }
+}
+
 // Check if machine ID exists in DB
-bool connectionPMExistsDB(const int &pid, const int &mid, string &error){
+bool persMachConnectionIDExistsDB(const int &id, string &error){
     // Open
     if(db.open()){
         bool exists = false;
         QSqlQuery query(db);
 
         query.prepare("SELECT id FROM pers_mach "
-                      "WHERE p_id = :pid AND m_id = :mid");
+                      "WHERE id = :id");
 
-        query.bindValue(":pid", pid);
-        query.bindValue(":mid", mid);
+        query.bindValue(":id", id);
 
         if(!query.exec()){
             error = query.lastError().text().toStdString();
@@ -711,5 +743,38 @@ bool connectionPMExistsDB(const int &pid, const int &mid, string &error){
     else{
         error = "Unable to connect to database";
     }
-    return true;
+    return false;
+}
+
+
+// Check if connection exists between person and machine
+bool connectionPMExistsDB(const int &pid, const int &mid, string &error){
+    // Open
+    if(db.open()){
+        bool exists = false;
+        QSqlQuery query(db);
+
+        query.prepare("SELECT id FROM pers_mach "
+                      "WHERE p_id = :pid AND m_id = :mid");
+
+        query.bindValue(":pid", pid);
+        query.bindValue(":mid", mid);
+
+
+        if(!query.exec()){
+            error = query.lastError().text().toStdString();
+        }
+        else if(query.next()){
+             exists = true;
+        }
+
+        // Close
+        db.close();
+        return exists;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
 }

@@ -49,6 +49,10 @@ std::string getPersonMachineDB(std::vector<PersonMachine> &pm, const std::string
 std::string addPersonMachineDB(const int &p_id, const int &m_id);
 // Check if connection exists
 bool connectionPMExistsDB(const int &pid, const int &mid, std::string &error);
+// Delete person machine connections
+std::string delPersMachDB(const int &id);
+// Check if connections ID exists
+bool persMachConnectionIDExistsDB(const int &id, std::string &error);
 
 #endif // DATA
 
