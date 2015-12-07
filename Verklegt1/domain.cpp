@@ -401,6 +401,12 @@ string editPerson(vector<Person> &p, string command){
 
     // Get name of person being edited
     string name = p[index].getName();
+    field = convert2Field(field, "person");
+
+    if(field == "" || field == "-1"){
+        message = "Unknown field specified";
+        return message;
+    }
 
     // Set new name
     message = editPersonDB(id, field, newValue);
