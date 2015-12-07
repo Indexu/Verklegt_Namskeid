@@ -58,6 +58,24 @@ int findLongestMType(const vector<Machine> &m) {
     return typeLength;
 }
 
+// Find the longest typesystem name
+int findLongestTSName(const vector<TypeSystem> &ts) {
+    size_t currentName;
+    int nameLength = 0;
+    // Loop over vector
+    for(unsigned int i = 0; i < ts.size(); i++){
+        // Current name length
+        currentName = ts[i].getName().length();
+        // If it's longer than the longest name so far
+        if (nameLength < currentName) {
+            // New longest name
+            nameLength = currentName;
+        }
+    }
+
+    return nameLength;
+}
+
 // Verify date
 bool verifyDate(const string &ver) {
     regex expr ("^[0-9]{2}/[0-9]{2}/[0-9]{4}$");

@@ -17,8 +17,11 @@ int findLongestPName(const std::vector<Person> &p);
 // Get longest name in Machine vector
 int findLongestMName(const std::vector<Machine> &m);
 
-// Get longest type in Machine type
+// Get longest type in Machine vector
 int findLongestMType(const std::vector<Machine> &m);
+
+// Get longest typesystem name
+int findLongestTSName(const std::vector<TypeSystem> &ts);
 
 // Get command
 std::string getCommand(const std::string &command);

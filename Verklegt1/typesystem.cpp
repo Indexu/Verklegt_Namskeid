@@ -7,7 +7,7 @@ TypeSystem::TypeSystem(int id, std::string name){
 }
 
 // Get ID
-std::string TypeSystem::getId(){
+int TypeSystem::getId() const{
     return Id;
 }
 // Set ID
@@ -16,11 +16,11 @@ void TypeSystem::setId(int id){
 }
 
 // Get Name
-std::string TypeSystem::getName(){
+std::string TypeSystem::getName() const{
     return Name;
 }
 // Set Name
-void TypeSystem::setName(int name){
+void TypeSystem::setName(std::string name){
     Name = name;
 }
 

@@ -524,3 +524,52 @@ bool machineIDExistsDB(const int &id, string &error){
     }
     return false;
 }
+
+// ===== Types and Systems =====
+// Get data
+string getTSDB(vector<TypeSystem> &ts, const string &table, const string &sorting){
+
+    // Open
+    if(db.open()){
+        // Empty vector
+        ts.clear();
+
+        QSqlQuery query(db);
+
+        QString sort = "";
+        if(sorting == "a"){
+            sort = "ORDER BY name ASC, id ASC";
+        }
+        else if(sorting == "z"){
+            sort = "ORDER BY name DESC, id DESC";
+        }
+        else if(sorting == "d"){
+            sort = "ORDER BY id DESC, name DESC";
+        }
+
+        QString tab = QString::fromStdString(table);
+
+        QString queStr = "SELECT * FROM " + tab + " "
+                         + sort;
+
+        // Query
+        query.exec(queStr);
+
+        string name;
+        int id;
+        while(query.next()){
+            id = query.value("id").toInt();
+            name = query.value("name").toString().toStdString();
+
+            TypeSystem temp(id, name);
+            ts.push_back(temp);
+        }
+        // Close
+        db.close();
+
+        return "";
+    }
+    else{
+        return "Unable to connect to database";
+    }
+}

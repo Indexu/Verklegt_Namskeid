@@ -22,6 +22,11 @@ string populateMachineVector(vector<Machine> &m, const string &sorting){
     return getMachinesDB(m, sorting);
 }
 
+// ===== POPULATE TYPES AND SYSTEMS VECTOR =====
+string populateTSVector(vector<TypeSystem> &ts, const string table, const string &sorting){
+    return getTSDB(ts, table, sorting);
+}
+
 // ===== LIST =====
 // Persons
 vector<Person> listPersons(string &command, string &message){
@@ -71,6 +76,45 @@ vector<Machine> listMachines(string &command, string &message){
     }
 
     return m;
+}
+
+// Types and systems
+vector<TypeSystem> listTS(string &command, string &message){
+    vector<TypeSystem> ts;
+
+    // Split
+    vector<string> split = splitString(command, " ");
+    // 0. ls
+    // 1. table
+    // 2. sort
+
+    if(split[1] == "-t"){
+        split[1] = "mtype";
+    }
+    else{
+        split[1] = "num_sys";
+    }
+
+    if(split.size() == 2){
+        populateTSVector(ts, split[1], "");
+    }
+    else if(split[2] == "-a"){
+        populateTSVector(ts, split[1], "a");
+    }
+    else if(split[2] == "-z"){
+        populateTSVector(ts, split[1], "z");
+    }
+    else if(split[2] == "-d"){
+        populateTSVector(ts, split[1], "d");
+    }
+    else if(split[2] == ""){
+        populateTSVector(ts, split[1], "");
+    }
+    else{
+        message = "Invalid flag: \"" + split[2] + "\"";
+    }
+
+    return ts;
 }
 
 // ===== SEARCH =====

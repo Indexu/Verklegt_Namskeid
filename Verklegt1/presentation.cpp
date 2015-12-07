@@ -18,26 +18,42 @@ void loop(){
     string message = ""; // General use message
     vector<Person> people; // The person vector
     vector<Machine> machines; // The machine vector
+    vector<TypeSystem> types, systems; // Types and systems vectors
     int longestPName; // Longest person name
     int longestMName; // Longest machine name
     int longestMType; // Longest machine type
+    int longestTName; // Longest type name
+    int longestSName; // Longest system name
     int currentId; // Current Id
 
     // Connect to DB
     message = startDB();
 
     if(message == ""){
-        // Add data
+        // Add data to persons vector
         message = populatePersonVector(people, "");
 
         if(message == ""){
+            // Add data to machines vector
             message = populateMachineVector(machines, "");
+
+            // Add data to types vector
+            if(message == ""){
+                message = populateTSVector(types, "mtype", "");
+            }
+
+            // Add vector to systems vector
+            if(message == ""){
+                message = populateTSVector(systems, "num_sys", "");
+            }
 
             if(message == ""){
                 // Get longest everything
                 longestPName = findLongestPName(people);
                 longestMName = findLongestMName(machines);
                 longestMType = findLongestMType(machines);
+                longestTName = findLongestTSName(types);
+                longestSName = findLongestTSName(systems);
 
                 // Get current id
                 currentId = getCurrentId(people);
@@ -85,12 +101,44 @@ void loop(){
                             // Get machines
                             machines = listMachines(command, message);
 
-                            cout << machines.size() << endl;
-
                             // Check for errors
                             if(message == ""){
                                 // Display machines
                                 displayMachine(machines, longestMName, longestMType);
+                            }
+                            else{
+                                // Display errors
+                                cout << message << endl;
+                            }
+
+                        }
+                        // List - Types
+                        else if(command.substr(0,5) == "ls -t"){
+
+                            // Get types
+                            types = listTS(command, message);
+
+                            // Check for errors
+                            if(message == ""){
+                                // Display types
+                                displayTS(types, longestTName);
+                            }
+                            else{
+                                // Display errors
+                                cout << message << endl;
+                            }
+
+                        }
+                        // List - Systems
+                        else if(command.substr(0,5) == "ls -s"){
+
+                            // Get types
+                            systems = listTS(command, message);
+
+                            // Check for errors
+                            if(message == ""){
+                                // Display types
+                                displayTS(systems, longestSName);
                             }
                             else{
                                 // Display errors
@@ -517,6 +565,29 @@ void displayMachine(const vector<Machine> &m, const int &longestMName, const int
         cout << "-";
     }
     cout << endl << "| Results: " << m.size() << endl;
+}
+
+// Display types and systems
+void displayTS(const vector<TypeSystem> &ts, const int &longestName){
+    cout << "| ";
+    cout << left << setw(4) << "ID" << " | ";
+    cout << setw(longestName) << "Name" << " | " << endl;
+
+    for(int i = 0; i < (TABLE_LENGTH + longestName); i++){
+        cout << "-";
+    }
+    cout << endl;
+
+    // loops through vector
+    for(unsigned int i = 0; i < ts.size(); i++){
+        cout << "| ";
+        cout << setw(4) << ts[i].getId() << " | ";
+        cout << setw(longestName) << ts[i].getName() << " | " << endl;
+    }
+    for(int i = 0; i < (TABLE_LENGTH + longestName); i++){
+        cout << "-";
+    }
+    cout << endl << "| Results: " << ts.size() << endl;
 }
 
 // Clear screen

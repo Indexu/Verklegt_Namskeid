@@ -4,9 +4,12 @@
 #include <vector>
 #include "person.h"
 #include "machine.h"
+#include "typesystem.h"
 
 // Initialize DB
 std::string initDB();
+
+// == Persons ==
 // Get persons
 std::string getPersonsDB(std::vector<Person> &p, const std::string &sorting);
 // Add person
@@ -19,6 +22,8 @@ std::string editPersonDB(const int &id, const std::string &column, const std::st
 bool personIDExistsDB(const int &id, std::string &error);
 // Search for a person
 std::vector<Person> searchPersonDB(std::string &searchString, std::string &message, std::string &field);
+
+// == Machines ==
 // Search for a machine
 std::vector<Machine> searchMachineDB(std::string &searchString, std::string &message, std::string &field);
 // Get machines
@@ -31,6 +36,10 @@ std::string delMachineDB(const int &id);
 std::string editMachineDB(const int &id, const std::string &column, const std::string &value);
 // Check if machine ID exists
 bool machineIDExistsDB(const int &id, std::string &error);
+
+// == Types and Systems ==
+// Get types and systems
+std::string getTSDB(std::vector<TypeSystem> &t, const std::string &table, const std::string &sorting);
 
 #endif // DATA
 

@@ -10,11 +10,11 @@ public:
     TypeSystem(int id, std::string name);
 
     // Get set ID
-    int getId();
+    int getId() const;
     void setId(int id);
 
     // Get set name
-    std::string getName();
+    std::string getName() const;
     void setName(std::string name);
 };
 
