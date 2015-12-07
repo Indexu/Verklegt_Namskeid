@@ -274,6 +274,16 @@ void loop(){
                             cout << "First flag is invalid! Available flags are: -p for person, -m for machines." << endl;
                         }
                     }
+                    // Connect
+                    else if(getCommand(command) == "con") {
+                        // Only "con"
+                        if(command == "con"){
+                            cout << "Con command is missing ID's. See help for instructions." << endl;
+                        }
+                        else{
+                            cout << conPM(people, machines, command) << endl;
+                        }
+                    }
                     // Help
                     else if(getCommand(command) == "help"){
                         help(command);

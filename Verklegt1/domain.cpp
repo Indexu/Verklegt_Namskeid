@@ -552,3 +552,45 @@ string editMachine(vector<Machine> &m, string command){
 
     return message;
 }
+
+// ===== CONNECT =====
+// Connect person and machine
+string conPM(const vector<Person> &p, const vector<Machine> &m, const string &command){
+    vector<string> split = splitString(command, " ");
+
+    // Check number of arguments
+    if(split.size() != 3){
+        return "Too few arguments. See help for instructions.";
+    }
+    // Verify person ID is a number
+    else if(!isNumber(split[1])){
+        return "Person ID must be a number";
+    }
+    // Verify machine ID is a number
+    else if(!isNumber(split[2])){
+        return "Machine ID must be a number";
+    }
+
+    // Convert to int
+    int pid = stoi(split[1]);
+    int mid = stoi(split[2]);
+
+    // Add
+    string message = addPersonMachineDB(pid, mid);
+
+    // Get indexes
+    int pindex = getPIndexByID(p, pid);
+    int mindex = getMIndexByID(m, mid);
+
+    // If error
+    if(message != ""){
+
+        if(message == "exists"){
+            return "| A connection between " + p[pindex].getName() + " and " + m[mindex].getName() + " already exists";
+        }
+
+        return message;
+    }
+
+    return "| " + p[pindex].getName() + " and " + m[mindex].getName() + " successfully connected";
+}

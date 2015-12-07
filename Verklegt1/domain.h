@@ -64,5 +64,8 @@ std::string addMachine(std::vector<Machine> &m, const std::string &name, const s
 // Delete machine
 std::string delMachine(std::vector<Machine> &m, std::string &command);
 
+// Connect person and machine
+std::string conPM(const std::vector<Person> &p, const std::vector<Machine> &m, const std::string &command);
+
 #endif // DOMAIN_LAYER
 

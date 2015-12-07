@@ -43,7 +43,12 @@ bool machineIDExistsDB(const int &id, std::string &error);
 std::string getTSDB(std::vector<TypeSystem> &t, const std::string &table, const std::string &sorting);
 
 // == Person Machine ==
+// Get person machine connections
 std::string getPersonMachineDB(std::vector<PersonMachine> &pm, const std::string &sorting);
+// Add person machine connections
+std::string addPersonMachineDB(const int &p_id, const int &m_id);
+// Check if connection exists
+bool connectionPMExistsDB(const int &pid, const int &mid, std::string &error);
 
 #endif // DATA
 
