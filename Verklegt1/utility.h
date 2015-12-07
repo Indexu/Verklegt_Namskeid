@@ -49,5 +49,7 @@ std::vector<std::string> splitString(std::string input, std::string delim);
 
 // Assemble a string
 std::string assembleString(std::vector<std::string> inputVect, std::string delim);
+// Converts 1's and 0's to yes/no
+std::string boolYesNo(bool num);
 
 #endif // UTILITY_H

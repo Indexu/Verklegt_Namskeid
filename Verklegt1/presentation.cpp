@@ -573,7 +573,7 @@ void displayMachine(const vector<Machine> &m, const int &longestMName, const int
     cout << left << setw(4) << "ID" << " | ";
     cout << setw(longestMName) << "Name" << " | ";
     cout << setw(6) << "Year" << " | ";
-    cout << setw(10) << "Built" << " | ";
+    cout << setw(5) << "Built" << " | ";
     cout << setw(longestMType) << "Type" << " | ";
     cout << setw(4) << "System" << endl;
 
@@ -588,7 +588,7 @@ void displayMachine(const vector<Machine> &m, const int &longestMName, const int
         cout << setw(4) << m[i].getId() << " | ";
         cout << setw(longestMName) << m[i].getName() << " | ";
         cout << setw(6) << m[i].getYear() << " | ";
-        cout << setw(10) << m[i].getBuilt() << " | ";
+        cout << setw(5) << boolYesNo(m[i].getBuilt()) << " | ";
         cout << setw(longestMType) << m[i].getType() << " | ";
         cout << setw(4) << m[i].getSystem() << endl;
     }
