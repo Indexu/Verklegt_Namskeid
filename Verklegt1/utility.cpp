@@ -314,3 +314,10 @@ string assembleString(vector<string> inputVect, string delim){
 
     return assembled;
 }
+
+// convert 1's and 0's to yes and no
+string boolYesNo(bool num) {
+    string yesNo = "";
+    (num) ? yesNo = "yes" : yesNo = "no";
+    return yesNo;
+}
