@@ -59,6 +59,8 @@ std::string delPersMachDB(const int &id);
 bool persMachConnectionIDExistsDB(const int &id, std::string &error);
 // Get person-machine row by ID
 std::string getPMByIdDB(std::vector<PersonMachine> &pm, const int &id);
+// Search for a person-machine connection
+std::vector<PersonMachine> searchPMDB(const std::string &searchString, std::string &message, const std::string &field, const std::string &sorting, const bool &desc);
 
 #endif // DATA
 

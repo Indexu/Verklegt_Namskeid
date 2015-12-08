@@ -1,4 +1,0 @@
-hvernig það keyrir
-https://github.com/apache/kafka
-breyta og skrá allt sem tengist :):) 
-:-*)

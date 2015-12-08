@@ -266,6 +266,29 @@ string convert2Field(string searchString, string database){
             field = "-1";
         }
     }
+    else if(database == "PM") {
+        if (searchString == "-p"){
+            field = "p_name";
+        }
+        else if (searchString == "-m"){
+            field = "m_name";
+        }
+        else if (searchString == "-t"){
+            field = "m_type";
+        }
+        else if (searchString == "-s"){
+            field = "m_system";
+        }
+        else if (searchString == "-c"){
+            field = "p_country";
+        }
+        else if (searchString == ""){
+            field = "";
+        }
+        else{
+            field = "-1";
+        }
+    }
     else{
         if (searchString == "-g"){
             field = "gender";
@@ -289,7 +312,6 @@ string convert2Field(string searchString, string database){
             field = "-1";
         }
     }
-
     return field;
 }
 
@@ -347,11 +369,12 @@ string boolYesNo(bool num) {
     return yesNo;
 }
 
+// Get a vector of arguments from a string
 vector<string> getArgs(string query) {
     vector<string> args = splitString(query, " ");
     vector<string> result;
-
-    for (int i = 0; i < args.size(); i++) {
+    // Loop through the vector given by splitString and put arguments in results vector
+    for (int i = 0; i < (int)args.size(); i++) {
         if (args[i].substr(0,1) == "-") {
             result.push_back(args[i]);
         }

@@ -40,6 +40,9 @@ std::vector<Person> callSearchPersonDB(std::string &query, std::string &message)
 // Searching for machines
 std::vector<Machine> callSearchMachineDB(std::string &query, std::string &message);
 
+// Searching for person-machine
+std::vector<PersonMachine> callSearchPMDB(std::string &query, std::string &message);
+
 // Filter
 std::vector<Person> filter(std::string &query, std::string &message);
 

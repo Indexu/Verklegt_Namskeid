@@ -278,7 +278,7 @@ vector<Person> searchPersonDB(const string &searchString, string &message, const
         if(sorting == "name"){
             sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
         }
-        else if(sorting == "" && desc == true){
+        else if((sorting == "" || sorting == "-1") && desc == true){
             sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
         }
         else if(sorting != "" && sorting != "-1"){
@@ -290,8 +290,17 @@ vector<Person> searchPersonDB(const string &searchString, string &message, const
 
         // QString searchString
         QString ss = QString::fromStdString(searchString);
+
+        // Gender male
+        if(searchString == "male"){
+            queStr = "SELECT * FROM persons WHERE gender = 'male'";
+        }
+        // Gender female
+        else if(searchString == "female"){
+            queStr = "SELECT * FROM persons WHERE gender = 'female'";
+        }
         // Searches through a specified field
-        if(field != ""){
+        else if(field != ""){
             queStr = "SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'";
         }
         // Searches through all the fields
@@ -472,10 +481,10 @@ vector<Machine> searchMachineDB(const string &searchString, string &message, con
         // Assemble ORDER BY
         QString sort = "";
         if(sorting == "name"){
-            sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
+            sort = "ORDER BY machines.name "+ orderMethod + ", id " + orderMethod;
         }
         else if(sorting == "" && desc == true){
-            sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
+            sort = "ORDER BY id "+ orderMethod + ", machines.name " + orderMethod;
         }
         else if(sorting != "" && sorting != "-1"){
             sort = "ORDER BY "+ QString::fromStdString(sorting) + " " + orderMethod + ", name " + orderMethod;
@@ -1004,4 +1013,106 @@ string getPMByIdDB(vector<PersonMachine> &pm, const int &id){
     else{
         return "Unable to connect to database";
     }
+}
+
+// Search for a person machine connection in DB
+vector<PersonMachine> searchPMDB(const string &searchString, string &message, const string &field, const string &sorting, const bool &desc){
+    vector<PersonMachine> results; // Result vector
+
+    if(db.open()){
+        QSqlQuery query(db);
+
+        // Ascending or descending
+        QString orderMethod = "ASC";
+        if(desc){
+            orderMethod = "DESC";
+        }
+
+        // Assemble ORDER BY
+        QString sort = "";
+        if(sorting == "p_name"){
+            sort = "ORDER BY p_name "+ orderMethod + ", m_name " + orderMethod;
+        }
+        else if(sorting == "m_name"){
+            sort = "ORDER BY m_name "+ orderMethod + ", p_name " + orderMethod;
+        }
+        else if(sorting == "m_type"){
+            sort = "ORDER BY m_type "+ orderMethod + ", p_name " + orderMethod;
+        }
+        else if(sorting == "m_system"){
+            sort = "ORDER BY m_system "+ orderMethod + ", p_name " + orderMethod;
+        }
+        else if(sorting == "p_country"){
+            sort = "ORDER BY p_country "+ orderMethod + ", m_name " + orderMethod;
+        }
+        else if((sorting == "" || sorting == "-1") && desc == true){
+            sort = "ORDER BY id "+ orderMethod + ", p_name " + orderMethod;
+        }
+
+        // The query string
+        QString queStr = "SELECT pers_mach.id AS id, persons.name AS p_name, machines.name AS m_name, "
+                         "mtype.name AS m_type, num_sys.name AS m_system, persons.country AS p_country FROM persons "
+                         "JOIN pers_mach ON (persons.id=pers_mach.p_id) "
+                         "JOIN machines ON (pers_mach.m_id=machines.id) "
+                         "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                         "JOIN num_sys ON (machines.num_sys_id=num_sys.id) ";
+
+        // QString searchString
+        QString ss = QString::fromStdString(searchString);
+
+        // Searches through a specified field
+        if(field != ""){
+
+            QString qField = QString::fromStdString(field);
+
+            if(field == "id"){
+                qField.prepend("pers_mach.");
+            }
+
+            queStr += "WHERE " + qField + " LIKE '%'||:ss||'%'";
+        }
+        // Searches through all the fields
+        else{
+            queStr += "WHERE pers_mach.id LIKE '%'||:ss||'%' "
+                      "OR p_name LIKE '%'||:ss||'%' "
+                      "OR m_name LIKE '%'||:ss||'%' "
+                      "OR m_type LIKE '%'||:ss||'%' "
+                      "OR m_system LIKE '%'||:ss||'%' "
+                      "OR p_country LIKE '%'||:ss||'%' ";
+        }
+
+        // Append sort
+        queStr += sort;
+
+        // Query
+        query.prepare(queStr);
+
+        // Bind
+        query.bindValue(":ss", ss);
+
+        string p_name, p_country, m_name, m_type, m_system;
+        int id;
+        // Execute query
+        if (query.exec()) {
+            while(query.next()){
+                id = query.value("id").toInt();
+                p_name = query.value("p_name").toString().toStdString();
+                p_country = query.value("p_country").toString().toStdString();
+                m_name = query.value("m_name").toString().toStdString();
+                m_type = query.value("m_type").toString().toStdString();
+                m_system = query.value("m_system").toString().toStdString();
+
+                PersonMachine temp(id, p_name, p_country, m_name, m_type, m_system);
+                results.push_back(temp);
+            }
+        }
+        else {
+            message = query.lastError().text().toStdString();;
+        }
+    }
+    else{
+        message = "Unable to connect to database";
+    }
+    db.close();
+    return results;
 }
