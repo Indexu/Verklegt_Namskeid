@@ -363,77 +363,29 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     // Get arguments from the vector
     vector<string> arguments = getArgs(query);
 
-    // Set variables depending on the arguments
-    if (arguments.size() == 0){
-        searchString = query;
-    }
-    // Args = 1
-    else if (arguments.size() == 1){
-        // Sort
-        if (arguments[0].length() == 3){
-            sort = arguments[0].erase(1,1);
-            query.erase(0,4);
-        }
-        // Descending
-        else if(arguments[0] == "-d"){
-            desc = true;
-            query.erase(0,3);
-        }
-        // Field
-        else if (arguments[0].length() == 2){
-            arg = convert2Field(arguments[0], "person");
-            query.erase(0,3);
-        }
-    }
-    // Args = 2
-    else if (arguments.size() == 2){
-        // Arg
-        arg = convert2Field(arguments[0], "person");
-
-        // Sort
-        if(arguments[1] != "-d"){
-            sort = arguments[1].erase(1,1);
-        }
-        // Descending
-        else{
-           desc = true;
-        }
-
-        query.erase(0,7);
-    }
-    // Args = 3
-    else if (arguments.size() == 3){
-        // Arg
-        arg = convert2Field(arguments[0], "person");
-        // Sort
-        sort = arguments[1].erase(1,1);
-
-        // Descending
-        if(arguments[2] != "-d"){
-            message = "Invalid flag: " + arguments[2];
-            return results;
-        }
-        else{
-           desc = true;
-        }
-
-        query.erase(0,10);
-    }
-    // Args > 3
-    else {
-        message = "Too many arguments.";
+    // Parse command
+    message = parseSearchArgs(query, searchString, arguments, arg, sort, desc, "person");
+    // Parse error check
+    if(message != ""){
         return results;
-    }
-
-    // What is left of query is the search string
-    searchString = query;
-
-    if (sort == "-d") {
-        desc = true;
     }
 
     // Sort to field
     sort = convert2Field(sort, "person");
+
+    // Error checks
+    if(arg == "-1"){
+        message = "Invalid field option";
+        return results;
+    }
+    else if(sort == "-1"){
+        message = "Invalid sort option";
+        return results;
+    }
+    else if(searchString == ""){
+        message = "Missing search query";
+        return results;
+    }
 
     // Run
     results = searchPersonDB(searchString, message, arg, sort, desc);
@@ -468,77 +420,29 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     // Get arguments from the vector
     vector<string> arguments = getArgs(query);
 
-    // Set variables depending on the arguments
-    if (arguments.size() == 0){
-        searchString = query;
-    }
-    // Args = 1
-    else if (arguments.size() == 1){
-        // Sort
-        if (arguments[0].length() == 3){
-            sort = arguments[0].erase(1,1);
-            query.erase(0,4);
-        }
-        // Descending
-        else if(arguments[0] == "-d"){
-            desc = true;
-            query.erase(0,3);
-        }
-        // Field
-        else if (arguments[0].length() == 2){
-            arg = convert2Field(arguments[0], "machine");
-            query.erase(0,3);
-        }
-    }
-    // Args = 2
-    else if (arguments.size() == 2){
-        // Arg
-        arg = convert2Field(arguments[0], "machine");
-
-        // Sort
-        if(arguments[1] != "-d"){
-            sort = arguments[1].erase(1,1);
-        }
-        // Descending
-        else{
-           desc = true;
-        }
-
-        query.erase(0,7);
-    }
-    // Args = 3
-    else if (arguments.size() == 3){
-        // Arg
-        arg = convert2Field(arguments[0], "machine");
-        // Sort
-        sort = arguments[1].erase(1,1);
-
-        // Descending
-        if(arguments[2] != "-d"){
-            message = "Invalid flag: " + arguments[2];
-            return results;
-        }
-        else{
-           desc = true;
-        }
-
-        query.erase(0,10);
-    }
-    // Args > 3
-    else {
-        message = "Too many arguments.";
+    // Parse command
+    message = parseSearchArgs(query, searchString, arguments, arg, sort, desc, "machine");
+    // Parse error check
+    if(message != ""){
         return results;
-    }
-
-    // What is left of query is the search string
-    searchString = query;
-
-    if (sort == "-d") {
-        desc = true;
     }
 
     // Sort to field
     sort = convert2Field(sort, "machine");
+
+    // Error checks
+    if(arg == "-1"){
+        message = "Invalid field option";
+        return results;
+    }
+    else if(sort == "-1"){
+        message = "Invalid sort option";
+        return results;
+    }
+    else if(searchString == ""){
+        message = "Missing search query";
+        return results;
+    }
 
     // Run
     results = searchMachineDB(searchString, message, arg, sort, desc);
@@ -572,77 +476,29 @@ vector<PersonMachine> callSearchPMDB(string &query, string &message) {
     // Get arguments from the vector
     vector<string> arguments = getArgs(query);
 
-    // Set variables depending on the arguments
-    if (arguments.size() == 0){
-        searchString = query;
-    }
-    // Args = 1
-    else if (arguments.size() == 1){
-        // Sort
-        if (arguments[0].length() == 3){
-            sort = arguments[0].erase(1,1);
-            query.erase(0,4);
-        }
-        // Descending
-        else if(arguments[0] == "-d"){
-            desc = true;
-            query.erase(0,3);
-        }
-        // Field
-        else if (arguments[0].length() == 2){
-            arg = convert2Field(arguments[0], "PM");
-            query.erase(0,3);
-        }
-    }
-    // Args = 2
-    else if (arguments.size() == 2){
-        // Arg
-        arg = convert2Field(arguments[0], "PM");
-
-        // Sort
-        if(arguments[1] != "-d"){
-            sort = arguments[1].erase(1,1);
-        }
-        // Descending
-        else{
-           desc = true;
-        }
-
-        query.erase(0,7);
-    }
-    // Args = 3
-    else if (arguments.size() == 3){
-        // Arg
-        arg = convert2Field(arguments[0], "PM");
-        // Sort
-        sort = arguments[1].erase(1,1);
-
-        // Descending
-        if(arguments[2] != "-d"){
-            message = "Invalid flag: " + arguments[2];
-            return results;
-        }
-        else{
-           desc = true;
-        }
-
-        query.erase(0,10);
-    }
-    // Args > 3
-    else {
-        message = "Too many arguments.";
+    // Parse command
+    message = parseSearchArgs(query, searchString, arguments, arg, sort, desc, "PM");
+    // Parse error check
+    if(message != ""){
         return results;
-    }
-
-    // What is left of query is the search string
-    searchString = query;
-
-    if (sort == "-d") {
-        desc = true;
     }
 
     // Sort to field
     sort = convert2Field(sort, "PM");
+
+    // Error checks
+    if(arg == "-1"){
+        message = "Invalid field option";
+        return results;
+    }
+    else if(sort == "-1"){
+        message = "Invalid sort option";
+        return results;
+    }
+    else if(searchString == ""){
+        message = "Missing search query";
+        return results;
+    }
 
     // Run
     results = searchPMDB(searchString, message, arg, sort, desc);
@@ -900,14 +756,13 @@ string editPerson(vector<Person> &p, string command){
     // Assemble what is left of split vector into a string
     newValue = assembleString(split, " ");
 
-    // If value is missing
+    // Error check
     if(newValue == ""){
         message = "New value not specified";
         return message;
     }
-
-    // Verify value if gender
-    if(field == "gender"){
+    // Gender
+    else if(field == "gender"){
         if(newValue != "male" && newValue != "female"){
             if(newValue == "f"){
                 newValue = "female";
@@ -919,6 +774,13 @@ string editPerson(vector<Person> &p, string command){
                 message = "Gender can only be male or female (m/f)";
                 return message;
             }
+        }
+    }
+    // Dates
+    else if(field == "date_of_birth" || field == "date_of_death"){
+        if(!verifyDate(newValue)){
+            message = "Invalid date format";
+            return message;
         }
     }
 
@@ -1005,10 +867,68 @@ string editMachine(vector<Machine> &m, string command){
     // Assemble what is left of split vector into a string
     newValue = assembleString(split, " ");
 
-    // If value is missing
+    // Error check
+    // Value
     if(newValue == ""){
         message = "New value not specified";
         return message;
+    }
+    // Year
+    else if(field == "year" && !isNumber(newValue)){
+        message = "Year must be all digits";
+        return message;
+    }
+    // Built
+    else if(field == "built"){
+        if(newValue != "y" && newValue != "yes" && newValue != "n" && newValue != "no"){
+            message = "Built must be either yes or no (y/n)";
+            return message;
+        }
+        else{
+            newValue = stringBool(newValue);
+        }
+    }
+    // Type
+    else if(field == "type"){
+        if(!isNumber(newValue)){
+            message = "Type ID must be a positive number";
+            return message;
+        }
+
+        bool exists = TSExistsDB(stoi(newValue), "mtype", message);
+
+        if(message == ""){
+            if(!exists){
+                message = "The ID of specified type does not exist";
+                return message;
+            }
+        }
+        else{
+            return message;
+        }
+
+        field = "mtype_id";
+    }
+    // Number System
+    else if(field == "system"){
+        if(!isNumber(newValue)){
+            message = "Number system ID must be a positive number";
+            return message;
+        }
+
+        bool exists = TSExistsDB(stoi(newValue), "num_sys", message);
+
+        if(message == ""){
+            if(!exists){
+                message = "The ID of specified number system does not exist";
+                return message;
+            }
+        }
+        else{
+            return message;
+        }
+
+        field = "num_sys_id";
     }
 
     // Get name of machine being edited

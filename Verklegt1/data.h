@@ -45,6 +45,8 @@ bool machineIDExistsDB(const int &id, std::string &error);
 // == Types and Systems ==
 // Get types and systems
 std::string getTSDB(std::vector<TypeSystem> &t, const char &table, const char &sortColumn, const bool &desc);
+// Check if type/system exists
+bool TSExistsDB(const int &id, const std::string &tab, std::string &error);
 
 // == Person Machine ==
 // Get person machine connections

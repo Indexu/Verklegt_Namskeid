@@ -1,5 +1,6 @@
 #include "data.h"
 #include "QtSql"
+#include <iostream>
 
 using namespace std;
 
@@ -646,9 +647,12 @@ string editMachineDB(const int &id, const string &column, const string &value){
 
         QString val = QString::fromStdString(value);
 
-        //query.bindValue(":col", col);
         query.bindValue(":val", val);
         query.bindValue(":id", id);
+
+        cout << query.lastQuery().toStdString() << endl;
+        cout << "VALUE: " << val.toStdString() << endl;
+        cout << "ID: " << id << endl;
 
         if(!query.exec()){
             return query.lastError().text().toStdString();
@@ -749,6 +753,36 @@ string getTSDB(vector<TypeSystem> &ts, const char &table, const char &sortColumn
     else{
         return "Unable to connect to database";
     }
+}
+
+// Check if type/system id exists
+bool TSExistsDB(const int &id, const string &tab, string &error){
+    // Open
+    if(db.open()){
+        bool exists = false;
+        QSqlQuery query(db);
+
+        query.prepare("SELECT id FROM " + QString::fromStdString(tab) +
+                      " WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            error = query.lastError().text().toStdString();
+        }
+        else if(query.next()){
+             exists = true;
+        }
+
+        // Close
+        db.close();
+        return exists;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
 }
 
 // ===== PERSON MACHINE =====

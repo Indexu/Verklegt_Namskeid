@@ -312,7 +312,7 @@ void loop(){
                             message = "Search command is missing flags. See help for instructions.";
                             cout << message << endl;
                         }
-                        else if (command.substr(0,11) == "search -pm "){
+                        else if (command.substr(0,10) == "search -pm"){
                             vector<PersonMachine> results = callSearchPMDB(command, message);
                             if (message == "") {
                                 displayPersonsMachines(results, longestPName, longestMName, longestMType, longestSName);
@@ -322,7 +322,7 @@ void loop(){
                             }
                         }
                         // Searches through persons database
-                        else if (command.substr(0,10) == "search -p ") {
+                        else if (command.substr(0,9) == "search -p") {
                             vector<Person> results = callSearchPersonDB(command, message);
                             if (message == "") {
                                 displayPerson(results, longestPName);
@@ -332,7 +332,7 @@ void loop(){
                             }
                         }
                         // Searches through machine database
-                        else if (command.substr(0,10) == "search -m ") {
+                        else if (command.substr(0,9) == "search -m") {
                             vector<Machine> results = callSearchMachineDB(command, message);
                             if (message == "") {
                                 displayMachine(results, longestMName, longestMType);
@@ -343,7 +343,7 @@ void loop(){
                         }
                         // Error message if invalid database is specified
                         else {
-                            message = "First flag is invalid! Available flags are: -p for person, -m for machines.";
+                            message = "First flag is invalid! Available flags are: -p for person, -m for machines, -pm for connections.";
                             cout << message << endl;
                         }
                     }

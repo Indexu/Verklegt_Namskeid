@@ -46,9 +46,6 @@ std::vector<PersonMachine> callSearchPMDB(std::string &query, std::string &messa
 // Filter
 std::vector<Person> filter(std::string &query, std::string &message);
 
-// Verify date input
-bool verifyDate(const std::string &ver);
-
 // Add new person to DB
 std::string addPerson(std::vector<Person> &p, const std::string &name, const std::string &gender, const std::string &dob, const std::string &dod, const std::string &country);
 

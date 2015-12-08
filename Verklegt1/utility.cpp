@@ -362,11 +362,16 @@ string assembleString(vector<string> inputVect, string delim){
     return assembled;
 }
 
-// convert 1's and 0's to yes and no
+// Convert 1's and 0's to yes and no
 string boolYesNo(bool num) {
     string yesNo = "";
     (num) ? yesNo = "yes" : yesNo = "no";
     return yesNo;
+}
+
+// Yes no to bool
+bool stringBool(string s){
+    return (s == "y" || s == "yes") ? true : false;
 }
 
 // Get a vector of arguments from a string
@@ -383,4 +388,86 @@ vector<string> getArgs(string query) {
         }
     }
     return result;
+}
+
+// Parse the search arguments
+string parseSearchArgs(string &query, string &searchString, vector<string> &arguments, string &arg, string &sort, bool &desc, const string &db){
+    // Set variables depending on the arguments
+    if (arguments.size() == 0){
+        searchString = query;
+    }
+    // Args = 1
+    else if (arguments.size() == 1){
+        // Sort
+        if (arguments[0].length() == 3){
+            sort = arguments[0].erase(1,1);
+            query.erase(0,4);
+        }
+        // Descending
+        else if(arguments[0] == "-d"){
+            desc = true;
+            query.erase(0,3);
+        }
+        // Field
+        else if (arguments[0].length() == 2){
+            arg = convert2Field(arguments[0], db);
+            query.erase(0,3);
+        }
+    }
+    // Args = 2
+    else if (arguments.size() == 2){
+        // Arg or sort
+        if(arguments[0].length() == 2){
+            arg = convert2Field(arguments[0], db);
+            query.erase(0,3);
+        }
+        else{
+            sort = arguments[0].erase(1,1);
+            query.erase(0,4);
+        }
+        // Check for double sort
+        if(sort != "" && arguments[1].length() == 3 && arguments[1].substr(0,2) == "-s"){
+            return "Only one sorting method allowed";
+        }
+        // Sort or descend
+        else if(arguments[1] != "-d"){
+            sort = arguments[1].erase(1,1);
+            query.erase(0,4);
+        }
+        else{
+           desc = true;
+           query.erase(0,3);
+        }
+    }
+    // Args = 3
+    else if (arguments.size() == 3){
+        // Arg
+        arg = convert2Field(arguments[0], db);
+        // Sort
+        sort = arguments[1].erase(1,1);
+
+        // Descending
+        if(arguments[2] != "-d"){
+            return "Invalid flag: " + arguments[2];
+        }
+        else{
+           desc = true;
+        }
+
+        query.erase(0,10);
+    }
+    // Args > 3
+    else {
+        return "Too many arguments.";
+    }
+
+    // What is left of query is the search string
+    searchString = query;
+
+    // Check for descending
+    if (sort == "-d") {
+        desc = true;
+    }
+
+    return "";
 }

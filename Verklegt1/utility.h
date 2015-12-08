@@ -23,6 +23,9 @@ int findLongestMType(const std::vector<Machine> &m);
 // Get longest typesystem name
 int findLongestTSName(const std::vector<TypeSystem> &ts);
 
+// Verify date input
+bool verifyDate(const std::string &ver);
+
 // Get command
 std::string getCommand(const std::string &command);
 
@@ -52,7 +55,14 @@ std::vector<std::string> getArgs(std::string query);
 
 // Assemble a string
 std::string assembleString(std::vector<std::string> inputVect, std::string delim);
+
 // Converts 1's and 0's to yes/no
 std::string boolYesNo(bool num);
+
+// y/n string to bool
+bool stringBool(std::string s);
+
+// Parse search command
+std::string parseSearchArgs(std::string &query, std::string &searchString, std::vector<std::string> &arguments, std::string &arg, std::string &sort, bool &desc, const std::string &db);
 
 #endif // UTILITY_H
