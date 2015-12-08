@@ -24,11 +24,11 @@ std::string editPersonDB(const int &id, const std::string &column, const std::st
 // Check if person ID exists
 bool personIDExistsDB(const int &id, std::string &error);
 // Search for a person
-std::vector<Person> searchPersonDB(std::string &searchString, std::string &message, std::string &field, std::string sort);
+std::vector<Person> searchPersonDB(std::string &searchString, std::string &message, std::string &field, const std::__1::string &sorting, const bool &desc);
 
 // == Machines ==
 // Search for a machine
-std::vector<Machine> searchMachineDB(std::string &searchString, std::string &message, std::string &field, std::string sort);
+std::vector<Machine> searchMachineDB(std::string &searchString, std::string &message, std::string &field, const std::__1::string &sorting, const bool &desc);
 // Get machines
 std::string getMachinesDB(std::vector<Machine> &m, const char &sortColumn, const bool &desc);
 // Get machine by ID
