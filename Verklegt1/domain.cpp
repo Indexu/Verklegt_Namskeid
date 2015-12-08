@@ -4,7 +4,6 @@
 #include "machine.h"
 #include "utility.h"
 #include <vector>
-#include <regex>
 
 using namespace std;
 
