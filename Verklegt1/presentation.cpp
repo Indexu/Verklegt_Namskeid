@@ -40,12 +40,12 @@ void loop(){
 
             // Add data to types vector
             if(message == ""){
-                message = populateTSVector(types, "mtype", "");
+                message = populateTSVector(types, 't', ' ', false);
             }
 
             // Add vector to systems vector
             if(message == ""){
-                message = populateTSVector(systems, "num_sys", "");
+                message = populateTSVector(systems, 's', ' ', false);
             }
 
             // Add vector to pers_mach vector

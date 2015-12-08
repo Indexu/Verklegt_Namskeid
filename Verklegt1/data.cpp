@@ -640,7 +640,7 @@ bool machineIDExistsDB(const int &id, string &error){
 
 // ===== Types and Systems =====
 // Get data
-string getTSDB(vector<TypeSystem> &ts, const string &table, const string &sorting){
+string getTSDB(vector<TypeSystem> &ts, const char &table, const char &sortColumn, const bool &desc){
 
     // Open
     if(db.open()){
@@ -649,18 +649,24 @@ string getTSDB(vector<TypeSystem> &ts, const string &table, const string &sortin
 
         QSqlQuery query(db);
 
-        QString sort = "";
-        if(sorting == "a"){
-            sort = "ORDER BY name ASC, id ASC";
-        }
-        else if(sorting == "z"){
-            sort = "ORDER BY name DESC, id DESC";
-        }
-        else if(sorting == "d"){
-            sort = "ORDER BY id DESC, name DESC";
+        QString orderMethod = "ASC";
+        if(desc || sortColumn == 'd'){
+            orderMethod = "DESC";
         }
 
-        QString tab = QString::fromStdString(table);
+        QString sort = "";
+        if(sortColumn =='n'){
+            sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
+        }
+        else if(sortColumn == 'd'){
+            sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
+        }
+
+        QString tab = "mtype";
+
+        if(table == 's'){
+            tab = "num_sys";
+        }
 
         QString queStr = "SELECT * FROM " + tab + " "
                          + sort;

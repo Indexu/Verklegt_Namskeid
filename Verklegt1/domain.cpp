@@ -23,8 +23,8 @@ string populateMachineVector(vector<Machine> &m, const char &sortColumn, const b
 }
 
 // ===== POPULATE TYPES AND SYSTEMS VECTOR =====
-string populateTSVector(vector<TypeSystem> &ts, const string table, const string &sorting){
-    return getTSDB(ts, table, sorting);
+string populateTSVector(vector<TypeSystem> &ts, const char &table, const char &sortColumn, const bool &desc){
+    return getTSDB(ts, table, sortColumn, desc);
 }
 
 // ===== POPULATE PERSON MACHINE VECTOR =====
@@ -185,6 +185,69 @@ vector<Machine> listMachines(string &command, string &message){
 vector<TypeSystem> listTS(string &command, string &message){
     vector<TypeSystem> ts;
 
+    bool desc = false; // Descending flag
+    char sortColumn = ' '; // Which column to order by
+    char table = ' ';
+
+    // Erase "ls "
+    command = command.erase(0,3);
+
+    // Split
+    vector<string> split = splitString(command, " ");
+    // 0. table
+
+    // Size check
+    if(split.size() > 3){
+        message = "Invalid ls command. See help for instructions.";
+        return ts;
+    }
+    // Check descending flag
+    else if(split.size() == 3){
+        if(split[1] == split[2]){
+            message = "Flags cannot be the same. See help for instructions.";
+            return ts;
+        }
+        else if(split[1] == "-d"){
+            split.erase(split.begin() + 1);
+            desc = true;
+        }
+        else if(split[2] == "-d"){
+            split.erase(split.begin() + 2);
+            desc = true;
+        }
+        else{
+            message = "Invalid ls command. See help for instructions.";
+            return ts;
+        }
+    }
+
+    if(split.size() == 2){
+        if(split[1] == "-n"){
+            sortColumn = 'n';
+        }
+        else if(split[1] == "-d"){
+            sortColumn = 'd';
+            desc = true;
+        }
+        else if(split[1] == ""){
+            sortColumn = ' ';
+        }
+        else{
+            message = "Invalid flag: \"" + command + "\"";
+            return ts;
+        }
+    }
+
+    if(split[0] == "-t"){
+        table = 't';
+    }
+    else{
+        table = 's';
+    }
+
+    populateTSVector(ts, table, sortColumn, desc);
+
+    /*
     // Split
     vector<string> split = splitString(command, " ");
     // 0. ls
@@ -215,7 +278,7 @@ vector<TypeSystem> listTS(string &command, string &message){
     }
     else{
         message = "Invalid flag: \"" + split[2] + "\"";
-    }
+    }*/
 
     return ts;
 }
