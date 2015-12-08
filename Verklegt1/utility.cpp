@@ -237,10 +237,10 @@ string convert2Field(string searchString, string database){
             field = "year";
         }
         else if (searchString == "-t"){
-            field = "mtype_id";
+            field = "type";
         }
         else if (searchString == "-s"){
-            field = "num_sys_id";
+            field = "system";
         }
         else if(searchString == ""){
             field = "";
@@ -260,6 +260,9 @@ string convert2Field(string searchString, string database){
             field = "date_of_birth";
         }
         else if (searchString == "-d"){
+            field = "date_of_death";
+        }
+        else if(searchString == "-e"){
             field = "date_of_death";
         }
         else if(searchString == ""){
