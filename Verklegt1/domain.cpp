@@ -4,6 +4,7 @@
 #include "machine.h"
 #include "utility.h"
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -365,7 +366,7 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     string searchString = query;
     string field = convert2Field(arg, "person");
 
-    results = searchPersonDB(searchString, message, field, sort);
+    //results = searchPersonDB(searchString, message, field, sort);
 
     if(message == ""){
         if (results.empty()) {
@@ -393,8 +394,11 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     // Erase command + -p/-m
     query.erase(0,10);
 
+    cout << "QUERY: " << query << endl;
+
     // Get arguments from the vector
     vector<string> arguments = getArgs(query);
+
     // Set variables depending on the arguments
     if (arguments.size() == 0){
         searchString = query;
@@ -402,25 +406,61 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     else if (arguments.size() == 1){
         if (arguments[0].length() == 3){
             sort = arguments[0].erase(1,1);
+            query.erase(0,4);
+        }
+        else if(arguments[0] == "-d"){
+            desc = true;
             query.erase(0,3);
         }
         else if (arguments[0].length() == 2){
             arg = convert2Field(arguments[0], "machine");
-            query.erase(0,2);
+            query.erase(0,3);
         }
     }
     else if (arguments.size() == 2){
         arg = convert2Field(arguments[0], "machine");
+
+        if(arguments[2] != "-d"){
+            sort = arguments[1].erase(1,1);
+        }
+        else{
+           desc = true;
+        }
+
+        query.erase(0,7);
+    }
+    else if (arguments.size() == 3){
+        arg = convert2Field(arguments[0], "machine");
         sort = arguments[1].erase(1,1);
-        query.erase(0,5);
+
+        if(arguments[2] != "-d"){
+            message = "Invalid flag: " + arguments[2];
+            return results;
+        }
+        else{
+           desc = true;
+        }
+
+        query.erase(0,10);
     }
     else {
         message = "Too many arguments.";
+        return results;
     }
+
+    searchString = query;
 
     if (sort == "-d") {
         desc = true;
     }
+
+    sort = convert2Field(sort, "machine");
+
+    cout << "QUERY: " << query << endl;
+    cout << "STRING: " << searchString << endl;
+    cout << "ARG: " << arg << endl;
+    cout << "SORT: " << sort << endl;
+    cout << "DESC: " << desc << endl;
 
     results = searchMachineDB(searchString, message, arg, sort, desc);
 

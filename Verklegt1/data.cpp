@@ -507,21 +507,22 @@ vector<Machine> searchMachineDB(const string &searchString, string &message, con
                      "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
                      "JOIN mtype ON (machines.mtype_id=mtype.id) "
                      "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
-                     "WHERE machines.id LIKE '%'||:ss||'%'"
-                     "OR machines.name LIKE '%'||:ss||'%'"
-                     "OR year LIKE '%'||:ss||'%'"
-                     "OR built LIKE '%'||:ss||'%'"
-                     "OR type LIKE '%'||:ss||'%'"
+                     "WHERE machines.id LIKE '%'||:ss||'%' "
+                     "OR machines.name LIKE '%'||:ss||'%' "
+                     "OR year LIKE '%'||:ss||'%' "
+                     "OR built LIKE '%'||:ss||'%' "
+                     "OR type LIKE '%'||:ss||'%' "
                      "OR system LIKE '%'||:ss||'%'";
-
-
         }
 
-        // Bind
-        query.bindValue(":ss", ss);
+        // Add sort
+        queStr += sort;
 
         // Query
         query.prepare(queStr);
+
+        // Bind
+        query.bindValue(":ss", ss);
 
         string name, type, system;
         int id, year;
