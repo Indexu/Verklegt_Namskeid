@@ -278,7 +278,7 @@ vector<Person> searchPersonDB(const string &searchString, string &message, const
         if(sorting == "name"){
             sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
         }
-        else if(sorting == "" && desc == true){
+        else if((sorting == "" || sorting == "-1") && desc == true){
             sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
         }
         else if(sorting != "" && sorting != "-1"){
@@ -290,8 +290,17 @@ vector<Person> searchPersonDB(const string &searchString, string &message, const
 
         // QString searchString
         QString ss = QString::fromStdString(searchString);
+
+        // Gender male
+        if(searchString == "male"){
+            queStr = "SELECT * FROM persons WHERE gender = 'male'";
+        }
+        // Gender female
+        else if(searchString == "female"){
+            queStr = "SELECT * FROM persons WHERE gender = 'female'";
+        }
         // Searches through a specified field
-        if(field != ""){
+        else if(field != ""){
             queStr = "SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'";
         }
         // Searches through all the fields
