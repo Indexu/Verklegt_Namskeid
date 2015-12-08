@@ -227,7 +227,7 @@ void loop(){
                         }
                         // Delete person
                         else if(command.substr(0,10) == "delete -pm"){
-                            message = delPM(pers_mach, command);
+                            message = delPM(pers_mach,people, machines, command);
 
                             if(message != ""){
                                 cout << message << endl;
@@ -393,7 +393,7 @@ void addProcessPerson(vector<Person> &p){
 
     // Date of birth
     do{
-        cout << "Date of birth (YYYY-MM-DD): ";
+        cout << "Date of birth (DD/MM/YYYY): ";
         getline(cin, dob);
 
         if(dob == cancel){
@@ -411,7 +411,7 @@ void addProcessPerson(vector<Person> &p){
     do{
         valid = false;
 
-        cout << "Date of death (YYYY-MM-DD, if alive: -): ";
+        cout << "Date of death (DD/MM/YYYY, if alive: -): ";
         getline(cin, dod);
 
         if(dod == "-"){
@@ -730,7 +730,7 @@ void help(string command) {
         cout << "-g to print out orderd by persons gender" << endl;
         cout << "-b to print out orderd by date of birth" << endl;
         cout << "-e to print out orderd by date of death" << endl;
-        cout << "-c to print out orderd by persons country" << endl;
+        cout << "-c to print out orderd by persons countries" << endl;
         cout << "Type -d after [field] to print out in descending orders" << endl;
     }
 
@@ -753,7 +753,7 @@ void help(string command) {
         cout << "For more options type ls -pm [field]" << endl << endl;
         cout << "======[field]====== " << endl;
         cout << "-p to print out orderd by persons names" << endl;
-        cout << "-c to print out orderd by persons countrys" << endl;
+        cout << "-c to print out orderd by persons countries" << endl;
         cout << "-m to print out orderd by machine names" << endl;
         cout << "-t to print out orderd by machine types" << endl;
         cout << "-s to print out orderd by machine systems" << endl;
