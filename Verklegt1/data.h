@@ -48,7 +48,7 @@ std::string getTSDB(std::vector<TypeSystem> &t, const char &table, const char &s
 
 // == Person Machine ==
 // Get person machine connections
-std::string getPersonMachineDB(std::vector<PersonMachine> &pm, const std::string &sorting);
+std::string getPersonMachineDB(std::vector<PersonMachine> &pm, const char &sortColumn, const bool &desc);
 // Add person machine connections
 std::string addPersonMachineDB(const int &p_id, const int &m_id);
 // Check if connection exists

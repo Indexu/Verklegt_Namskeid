@@ -50,7 +50,7 @@ void loop(){
 
             // Add vector to pers_mach vector
             if(message == ""){
-                message = populatePMVector(pers_mach, "");
+                message = populatePMVector(pers_mach, ' ', false);
             }
 
             if(message == ""){

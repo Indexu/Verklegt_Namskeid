@@ -20,7 +20,7 @@ std::string populateMachineVector(std::vector<Machine> &m, const char &sortColum
 std::string populateTSVector(std::vector<TypeSystem> &ts, const char &table, const char &sortColumn, const bool &desc);
 
 // Populate person machine
-std::string populatePMVector(std::vector<PersonMachine> &pm, const std::string &sorting);
+std::string populatePMVector(std::vector<PersonMachine> &pm, const char &sortColumn, const bool &desc);
 
 // List Persons
 std::vector<Person> listPersons(std::string &command, std::string &message);
