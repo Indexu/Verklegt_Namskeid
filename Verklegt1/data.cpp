@@ -268,10 +268,14 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
     if(db.open()){
         QSqlQuery query(db);
 
+        // The query string
+        QString queStr = "";
+
         // Check if searching for gender - looks at the first charachter of the search string
-        if(field == "gender"){
+        // If search string is "male", then return males, regardless of flags
+        if(field == "gender" || searchString == "male"){
             if(tolower(searchString[0]) == 'm'){
-                query.prepare("SELECT * FROM persons WHERE gender = 'male'");
+                queStr = "SELECT * FROM persons WHERE gender = 'male'";
             }
             else if(tolower(searchString[0]) == 'f'){
                 query.prepare("SELECT * FROM persons WHERE gender = 'female'");
@@ -302,6 +306,8 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
                 query.bindValue(":ss", ss);
             }
         }
+
+        query.prepare(queStr);
 
         string name, gender, dob, dod, country;
         int id;
