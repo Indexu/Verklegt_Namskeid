@@ -391,7 +391,7 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
         arg = convert2Field(arguments[0], "person");
 
         // Sort
-        if(arguments[2] != "-d"){
+        if(arguments[1] != "-d"){
             sort = arguments[1].erase(1,1);
         }
         // Descending
@@ -496,7 +496,7 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
         arg = convert2Field(arguments[0], "machine");
 
         // Sort
-        if(arguments[2] != "-d"){
+        if(arguments[1] != "-d"){
             sort = arguments[1].erase(1,1);
         }
         // Descending
