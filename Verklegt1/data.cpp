@@ -308,11 +308,11 @@ vector<Person> searchPersonDB(const string &searchString, string &message, const
         // Append sort
         queStr += sort;
 
-        // Bind
-        query.bindValue(":ss", ss);
-
         // Query
         query.prepare(queStr);
+
+        // Bind
+        query.bindValue(":ss", ss);
 
         string name, gender, dob, dod, country;
         int id;

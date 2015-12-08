@@ -227,7 +227,7 @@ void loop(){
                         }
                         // Delete person
                         else if(command.substr(0,10) == "delete -pm"){
-                            message = delPM(pers_mach,people, machines, command);
+                            message = delPM(pers_mach, command);
 
                             if(message != ""){
                                 cout << message << endl;
@@ -393,7 +393,7 @@ void addProcessPerson(vector<Person> &p){
 
     // Date of birth
     do{
-        cout << "Date of birth (DD/MM/YYYY): ";
+        cout << "Date of birth (YYYY-MM-DD): ";
         getline(cin, dob);
 
         if(dob == cancel){
@@ -411,7 +411,7 @@ void addProcessPerson(vector<Person> &p){
     do{
         valid = false;
 
-        cout << "Date of death (DD/MM/YYYY, if alive: -): ";
+        cout << "Date of death (YYYY-MM-DD, if alive: -): ";
         getline(cin, dod);
 
         if(dod == "-"){
