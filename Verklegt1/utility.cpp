@@ -135,7 +135,7 @@ bool isNumber(const string &str){
 // Get person index by ID
 int getPIndexByID(vector<Person> p, int id){
     int start = 0;
-    size_t end = p.size() - 1;
+    int end = (int)p.size() - 1;
     int middle = -1;
     int currentID;
 
@@ -171,7 +171,7 @@ int getPIndexByID(vector<Person> p, int id){
 // Get machine index by ID
 int getMIndexByID(vector<Machine> m, int id){
     int start = 0;
-    size_t end = m.size() - 1;
+    int end = (int)m.size() - 1;
     int middle = -1;
     int currentID;
 
