@@ -7,7 +7,7 @@ using namespace std;
 // Find the longest person name
 int findLongestPName(const vector<Person> &p) {
     size_t currentName;
-    int nameLength = 0;
+    size_t nameLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < p.size(); i++){
         // Current name length
@@ -25,7 +25,7 @@ int findLongestPName(const vector<Person> &p) {
 // Find the longest machine name
 int findLongestMName(const vector<Machine> &m) {
     size_t currentName;
-    int nameLength = 0;
+    size_t nameLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < m.size(); i++){
         // Current name length
@@ -43,7 +43,7 @@ int findLongestMName(const vector<Machine> &m) {
 // Find the longest machine type
 int findLongestMType(const vector<Machine> &m) {
     size_t currentType;
-    int typeLength = 0;
+    size_t typeLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < m.size(); i++){
         // Current type length
@@ -61,7 +61,7 @@ int findLongestMType(const vector<Machine> &m) {
 // Find the longest typesystem name
 int findLongestTSName(const vector<TypeSystem> &ts) {
     size_t currentName;
-    int nameLength = 0;
+    size_t nameLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < ts.size(); i++){
         // Current name length
