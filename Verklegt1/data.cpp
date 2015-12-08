@@ -472,10 +472,10 @@ vector<Machine> searchMachineDB(const string &searchString, string &message, con
         // Assemble ORDER BY
         QString sort = "";
         if(sorting == "name"){
-            sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
+            sort = "ORDER BY machines.name "+ orderMethod + ", id " + orderMethod;
         }
         else if(sorting == "" && desc == true){
-            sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
+            sort = "ORDER BY id "+ orderMethod + ", machines.name " + orderMethod;
         }
         else if(sorting != ""){
             sort = "ORDER BY "+ QString::fromStdString(sorting) + " " + orderMethod + ", name " + orderMethod;
