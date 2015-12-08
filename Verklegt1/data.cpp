@@ -33,11 +33,13 @@ string getPersonsDB(vector<Person> &p, const char &sortColumn, const bool &desc)
 
         QSqlQuery query(db);
 
+        // Ascending or descending
         QString orderMethod = "ASC";
         if(desc || sortColumn == 'd'){
             orderMethod = "DESC";
         }
 
+        // Assemble ORDER BY
         QString sort = "";
         if(sortColumn =='n'){
             sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
@@ -58,6 +60,7 @@ string getPersonsDB(vector<Person> &p, const char &sortColumn, const bool &desc)
             sort = "ORDER BY date(date_of_death) "+ orderMethod + ", name " + orderMethod;
         }
 
+        // Query string
         QString queStr = "SELECT * FROM persons " + sort;
 
         // Query
@@ -337,11 +340,13 @@ string getMachinesDB(vector<Machine> &m,  const char &sortColumn, const bool &de
 
         QSqlQuery query(db);
 
+        // Ascending or descending
         QString orderMethod = "ASC";
         if(desc || sortColumn == 'd'){
             orderMethod = "DESC";
         }
 
+        // Assemble ORDER BY
         QString sort = "";
         if(sortColumn =='n'){
             sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
@@ -362,6 +367,7 @@ string getMachinesDB(vector<Machine> &m,  const char &sortColumn, const bool &de
             sort = "ORDER BY system "+ orderMethod + ", name " + orderMethod;
         }
 
+        // The query string
         QString queStr = "SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
                          "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
                          "JOIN mtype ON (machines.mtype_id=mtype.id) "
@@ -648,11 +654,13 @@ string getTSDB(vector<TypeSystem> &ts, const char &table, const char &sortColumn
 
         QSqlQuery query(db);
 
+        // Ascending or descending
         QString orderMethod = "ASC";
         if(desc || sortColumn == 'd'){
             orderMethod = "DESC";
         }
 
+        // Assemble ORDER BY
         QString sort = "";
         if(sortColumn =='n'){
             sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
@@ -661,12 +669,14 @@ string getTSDB(vector<TypeSystem> &ts, const char &table, const char &sortColumn
             sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
         }
 
+        // Decide which table
         QString tab = "mtype";
 
         if(table == 's'){
             tab = "num_sys";
         }
 
+        // Query string
         QString queStr = "SELECT * FROM " + tab + " "
                          + sort;
 
@@ -703,11 +713,13 @@ string getPersonMachineDB(vector<PersonMachine> &pm, const char &sortColumn, con
 
         QSqlQuery query(db);
 
+        // Ascending or descending
         QString orderMethod = "ASC";
         if(desc || sortColumn == 'd'){
             orderMethod = "DESC";
         }
 
+        // Assemble ORDER BY
         QString sort = "";
         if(sortColumn =='p'){
             sort = "ORDER BY p_name "+ orderMethod + ", m_name " + orderMethod;
@@ -725,6 +737,7 @@ string getPersonMachineDB(vector<PersonMachine> &pm, const char &sortColumn, con
             sort = "ORDER BY m_system "+ orderMethod + ", m_name " + orderMethod;
         }
 
+        // Query string
         QString queStr = "SELECT pers_mach.id AS id, persons.name AS p_name, machines.name AS m_name, "
                          "mtype.name AS m_type, num_sys.name AS m_system, persons.country AS p_country FROM persons "
                          "JOIN pers_mach ON (persons.id=pers_mach.p_id) "
