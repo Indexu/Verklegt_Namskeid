@@ -51,24 +51,29 @@ vector<Person> listPersons(string &command, string &message){
     }
     // Check descending flag
     else if(split.size() == 2){
+        // If flags are the same
         if(split[0] == split[1]){
             message = "Flags cannot be the same. See help for instructions.";
             return p;
         }
+        // If -d is first
         else if(split[0] == "-d"){
             split.erase(split.begin() + 0);
             desc = true;
         }
+        // If -d is second
         else if(split[1] == "-d"){
             split.erase(split.begin() + 1);
             desc = true;
         }
+        // If -d is neither
         else{
             message = "Invalid ls command. See help for instructions.";
             return p;
         }
     }
 
+    // Check column flag
     if(split.size() == 1){
         if(split[0] == "-n"){
             sortColumn = 'n';
@@ -100,6 +105,7 @@ vector<Person> listPersons(string &command, string &message){
         }
     }
 
+    // Run
     populatePersonVector(p, sortColumn, desc);
 
     return p;
@@ -125,24 +131,29 @@ vector<Machine> listMachines(string &command, string &message){
     }
     // Check descending flag
     else if(split.size() == 2){
+        // If flags are the same
         if(split[0] == split[1]){
             message = "Flags cannot be the same. See help for instructions.";
             return m;
         }
+        // If -d is first
         else if(split[0] == "-d"){
             split.erase(split.begin() + 0);
             desc = true;
         }
+        // If -d is second
         else if(split[1] == "-d"){
             split.erase(split.begin() + 1);
             desc = true;
         }
+        // If -d is neither
         else{
             message = "Invalid ls command. See help for instructions.";
             return m;
         }
     }
 
+    // Check column flag
     if(split.size() == 1){
         if(split[0] == "-n"){
             sortColumn = 'n';
@@ -175,6 +186,7 @@ vector<Machine> listMachines(string &command, string &message){
         }
     }
 
+    // Run
     populateMachineVector(m, sortColumn, desc);
 
     return m;
@@ -202,24 +214,29 @@ vector<TypeSystem> listTS(string &command, string &message){
     }
     // Check descending flag
     else if(split.size() == 3){
+        // If flags are the same
         if(split[1] == split[2]){
             message = "Flags cannot be the same. See help for instructions.";
             return ts;
         }
+        // If -d is first
         else if(split[1] == "-d"){
             split.erase(split.begin() + 1);
             desc = true;
         }
+        // If -d is second
         else if(split[2] == "-d"){
             split.erase(split.begin() + 2);
             desc = true;
         }
+        // If -d is neither
         else{
             message = "Invalid ls command. See help for instructions.";
             return ts;
         }
     }
 
+    // Check column flag
     if(split.size() == 2){
         if(split[1] == "-n"){
             sortColumn = 'n';
@@ -244,6 +261,7 @@ vector<TypeSystem> listTS(string &command, string &message){
         table = 's';
     }
 
+    // Run
     populateTSVector(ts, table, sortColumn, desc);
 
     return ts;
@@ -269,24 +287,29 @@ vector<PersonMachine> listPM(string &command, string &message){
     }
     // Check descending flag
     else if(split.size() == 2){
+        // If flags are the same
         if(split[0] == split[1]){
             message = "Flags cannot be the same. See help for instructions.";
             return pm;
         }
+        // If -d is first
         else if(split[0] == "-d"){
             split.erase(split.begin() + 0);
             desc = true;
         }
+        // If -d is second
         else if(split[1] == "-d"){
             split.erase(split.begin() + 1);
             desc = true;
         }
+        // If -d is neither
         else{
             message = "Invalid ls command. See help for instructions.";
             return pm;
         }
     }
 
+    // Check column flag
     if(split.size() == 1){
         if(split[0] == "-p"){
             sortColumn = 'p';
@@ -312,6 +335,7 @@ vector<PersonMachine> listPM(string &command, string &message){
         }
     }
 
+    // Run
     populatePMVector(pm, sortColumn, desc);
 
     return pm;
@@ -531,7 +555,7 @@ string delMachine(vector<Machine> &m, string &command){
 
 
 // Person Machine
-string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, string &command){
+string delPM(vector<PersonMachine> &pm, string &command){
     string message = ""; // Return message
     int id; // The extracted ID
 
