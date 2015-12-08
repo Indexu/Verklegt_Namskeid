@@ -226,6 +226,14 @@ void loop(){
                             cout << "Delete command is missing flags. See help for instructions." << endl;
                         }
                         // Delete person
+                        else if(command.substr(0,10) == "delete -pm"){
+                            message = delPM(pers_mach, people, machines, command);
+
+                            if(message != ""){
+                                cout << message << endl;
+                            }
+                        }
+                        // Delete person
                         else if(command.substr(0,9) == "delete -p"){
                             message = delPerson(people, command);
 
@@ -238,13 +246,6 @@ void loop(){
                             message = delMachine(machines, command);
 
                             if(message != ""){
-                                cout << message << endl;
-                            }
-                        }
-                        // Delete person-machine connection
-                        else if(command.substr(0,10) == "delete -c") {
-                            message = delPersMachDB(pers_mach, command);
-                            if (message != "") {
                                 cout << message << endl;
                             }
                         }
@@ -721,9 +722,13 @@ void help(string command) {
     }
     // Search
     else if (command == "search") {
-        cout << "search [string] searches through all the columns except gender" << endl;
-        cout << "search -a [string] returns search in ascending order" << endl;
-        cout << "search -b [string] searches through the birth date column" << endl;
+        cout << "==================SEARCH MENU====================" << endl;
+        cout << "Type help [command] for more detailed options." << endl;
+        cout << "===============================================" << endl;
+        cout << "[search -p] is used to search through all persons except gender" << endl;
+        cout << "[search -m] is used to search through all machines" << endl;
+        /*cout << "search -a [string] returns search in ascending order" << endl;
+        cout << "search -p -b [string] searches through the birth date column in persons" << endl;
         cout << "search -c [string] searches through the country column" << endl;
         cout << "search -C [string] searches through the database case sensitive" << endl;
         cout << "search -d [string] searches through the death date column" << endl;
@@ -732,8 +737,19 @@ void help(string command) {
         cout << "search -n [string] searches through the name column" << endl;
         cout << "search -z [string] returns search in descending order" << endl;
         cout << "search [args] [male|female] searches for specified gender" << endl;
-        cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
+        cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;*/
     }
+
+    // Search options for persons
+    else if (command == "search -p") {
+        //Unfinished
+    }
+
+    // Search options for machines
+    else if (command == "search -m") {
+        //Unfinished
+    }
+
     // Filter
     else if (command == "filter") {
         cout << "filter [string] filters out the string in all the columns except gender" << endl;

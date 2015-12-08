@@ -366,19 +366,19 @@ string delMachine(vector<Machine> &m, string &command){
     return message;
 }
 
-// Person-Machine
-string delPersonMachine(vector<PersonMachine> &pm, string &command){
-    string name, message = ""; // Return message
+
+// Person Machine
+string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, string &command){
+    string message = ""; // Return message
     int id; // The extracted ID
 
     // Check for missing ID
-    if(command.length() < 10){
+    if(command.length() < 11){
         message = "ID is missing";
         return message;
     }
-
-    // Remove "delete -c"
-    command = command.erase(0,10);
+    // Remove "delete -pm "
+    command = command.erase(0,11);
 
     // Confirm the ID is a number
     if(!isNumber(command)){
@@ -389,15 +389,12 @@ string delPersonMachine(vector<PersonMachine> &pm, string &command){
     // Convert to int
     id = stoi(command);
 
-    // Get index
-    int index = getMIndexByID(pm, id);
-
     // Delete
     message = delPersMachDB(id);
 
     // Success message
     if(message == ""){
-        message = "| " + to_string(id) + " has been deleted.";
+        message = "| Connection with ID: " + to_string(id) + " has been deleted.";
         populatePMVector(pm, "");
     }
     return message;

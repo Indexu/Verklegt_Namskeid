@@ -14,7 +14,7 @@ int findLongestPName(const vector<Person> &p) {
         currentName = p[i].getName().length();
         // If it's longer than the longest name so far
         if (nameLength < currentName) {
-            // New longest name
+            // New longest nam
             nameLength = currentName;
         }
     }
