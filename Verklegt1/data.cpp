@@ -281,7 +281,7 @@ vector<Person> searchPersonDB(const string &searchString, string &message, const
         else if(sorting == "" && desc == true){
             sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
         }
-        else if(sorting != ""){
+        else if(sorting != "" && sorting != "-1"){
             sort = "ORDER BY "+ QString::fromStdString(sorting) + " " + orderMethod + ", name " + orderMethod;
         }
 
@@ -477,7 +477,7 @@ vector<Machine> searchMachineDB(const string &searchString, string &message, con
         else if(sorting == "" && desc == true){
             sort = "ORDER BY id "+ orderMethod + ", machines.name " + orderMethod;
         }
-        else if(sorting != ""){
+        else if(sorting != "" && sorting != "-1"){
             sort = "ORDER BY "+ QString::fromStdString(sorting) + " " + orderMethod + ", name " + orderMethod;
         }
 
