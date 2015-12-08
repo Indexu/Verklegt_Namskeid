@@ -1,6 +1,5 @@
 #include "data.h"
 #include "QtSql"
-#include <iostream>
 
 using namespace std;
 
@@ -1090,11 +1089,6 @@ vector<PersonMachine> searchPMDB(const string &searchString, string &message, co
 
         // Bind
         query.bindValue(":ss", ss);
-
-        cout << "STRING: " << searchString << endl;
-        cout << "FIELD: " << field << endl;
-        cout << "SORTING: " << sorting << endl;
-        cout << "DESC: " << desc << endl;
 
         string p_name, p_country, m_name, m_type, m_system;
         int id;
