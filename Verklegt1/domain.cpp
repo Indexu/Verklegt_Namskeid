@@ -352,21 +352,93 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     string arg = "";
     // Sorting flag
     string sort = "";
+    // Search string
+    string searchString = "";
+    // Bool for descending
+    bool desc = false;
 
     // Erase command + -p/-m
     query.erase(0,10);
 
-    // Get field flag
-    if(query.substr(0,1) == "-"){
-        arg = query.substr(0,2);
-        query.erase(0,3);
+    // Get arguments from the vector
+    vector<string> arguments = getArgs(query);
+
+    // Set variables depending on the arguments
+    if (arguments.size() == 0){
+        searchString = query;
+    }
+    // Args = 1
+    else if (arguments.size() == 1){
+        // Sort
+        if (arguments[0].length() == 3){
+            sort = arguments[0].erase(1,1);
+            query.erase(0,4);
+        }
+        // Descending
+        else if(arguments[0] == "-d"){
+            desc = true;
+            query.erase(0,3);
+        }
+        // Field
+        else if (arguments[0].length() == 2){
+            arg = convert2Field(arguments[0], "person");
+            query.erase(0,3);
+        }
+    }
+    // Args = 2
+    else if (arguments.size() == 2){
+        // Arg
+        arg = convert2Field(arguments[0], "person");
+
+        // Sort
+        if(arguments[2] != "-d"){
+            sort = arguments[1].erase(1,1);
+        }
+        // Descending
+        else{
+           desc = true;
+        }
+
+        query.erase(0,7);
+    }
+    // Args = 3
+    else if (arguments.size() == 3){
+        // Arg
+        arg = convert2Field(arguments[0], "person");
+        // Sort
+        sort = arguments[1].erase(1,1);
+
+        // Descending
+        if(arguments[2] != "-d"){
+            message = "Invalid flag: " + arguments[2];
+            return results;
+        }
+        else{
+           desc = true;
+        }
+
+        query.erase(0,10);
+    }
+    // Args > 3
+    else {
+        message = "Too many arguments.";
+        return results;
     }
 
-    string searchString = query;
-    string field = convert2Field(arg, "person");
+    // What is left of query is the search string
+    searchString = query;
 
-    //results = searchPersonDB(searchString, message, field, sort);
+    if (sort == "-d") {
+        desc = true;
+    }
 
+    // Sort to field
+    sort = convert2Field(sort, "person");
+
+    // Run
+    results = searchPersonDB(searchString, message, arg, sort, desc);
+
+    // Check errors
     if(message == ""){
         if (results.empty()) {
             message = "No entries matched your search.";

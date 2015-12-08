@@ -24,7 +24,7 @@ std::string editPersonDB(const int &id, const std::string &column, const std::st
 // Check if person ID exists
 bool personIDExistsDB(const int &id, std::string &error);
 // Search for a person
-std::vector<Person> searchPersonDB(std::string &searchString, std::string &message, std::string &field, const std::__1::string &sorting, const bool &desc);
+std::vector<Person> searchPersonDB(std::string const &searchString, std::string &message, const std::string &field, const std::string &sorting, const bool &desc);
 
 // == Machines ==
 // Search for a machine

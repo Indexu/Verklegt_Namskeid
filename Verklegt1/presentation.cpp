@@ -227,7 +227,7 @@ void loop(){
                         }
                         // Delete person
                         else if(command.substr(0,10) == "delete -pm"){
-                            message = delPM(pers_mach,people, machines, command);
+                            message = delPM(pers_mach, command);
 
                             if(message != ""){
                                 cout << message << endl;
