@@ -266,6 +266,29 @@ string convert2Field(string searchString, string database){
             field = "-1";
         }
     }
+    else if(database == "PM") {
+        if (searchString == "-p"){
+            field = "p_name";
+        }
+        else if (searchString == "-m"){
+            field = "m_name";
+        }
+        else if (searchString == "-t"){
+            field = "m_type";
+        }
+        else if (searchString == "-s"){
+            field = "m_system";
+        }
+        else if (searchString == "-c"){
+            field = "p_country";
+        }
+        else if (searchString == ""){
+            field = "";
+        }
+        else{
+            field = "-1";
+        }
+    }
     else{
         if (searchString == "-g"){
             field = "gender";
@@ -289,7 +312,6 @@ string convert2Field(string searchString, string database){
             field = "-1";
         }
     }
-
     return field;
 }
 
