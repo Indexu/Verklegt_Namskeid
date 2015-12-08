@@ -640,7 +640,7 @@ bool machineIDExistsDB(const int &id, string &error){
 
 // ===== Types and Systems =====
 // Get data
-string getTSDB(vector<TypeSystem> &ts, const string &table, const string &sorting){
+string getTSDB(vector<TypeSystem> &ts, const char &table, const char &sortColumn, const bool &desc){
 
     // Open
     if(db.open()){
@@ -649,18 +649,24 @@ string getTSDB(vector<TypeSystem> &ts, const string &table, const string &sortin
 
         QSqlQuery query(db);
 
-        QString sort = "";
-        if(sorting == "a"){
-            sort = "ORDER BY name ASC, id ASC";
-        }
-        else if(sorting == "z"){
-            sort = "ORDER BY name DESC, id DESC";
-        }
-        else if(sorting == "d"){
-            sort = "ORDER BY id DESC, name DESC";
+        QString orderMethod = "ASC";
+        if(desc || sortColumn == 'd'){
+            orderMethod = "DESC";
         }
 
-        QString tab = QString::fromStdString(table);
+        QString sort = "";
+        if(sortColumn =='n'){
+            sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
+        }
+        else if(sortColumn == 'd'){
+            sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
+        }
+
+        QString tab = "mtype";
+
+        if(table == 's'){
+            tab = "num_sys";
+        }
 
         QString queStr = "SELECT * FROM " + tab + " "
                          + sort;
@@ -689,7 +695,7 @@ string getTSDB(vector<TypeSystem> &ts, const string &table, const string &sortin
 
 // ===== PERSON MACHINE =====
 // Get Person Machine
-string getPersonMachineDB(vector<PersonMachine> &pm, const string &sorting){
+string getPersonMachineDB(vector<PersonMachine> &pm, const char &sortColumn, const bool &desc){
 
     // Open
     if(db.open()){
@@ -698,15 +704,26 @@ string getPersonMachineDB(vector<PersonMachine> &pm, const string &sorting){
 
         QSqlQuery query(db);
 
+        QString orderMethod = "ASC";
+        if(desc || sortColumn == 'd'){
+            orderMethod = "DESC";
+        }
+
         QString sort = "";
-        if(sorting == "a"){
-            sort = "ORDER BY p_name ASC, id ASC";
+        if(sortColumn =='p'){
+            sort = "ORDER BY p_name "+ orderMethod + ", m_name " + orderMethod;
         }
-        else if(sorting == "z"){
-            sort = "ORDER BY p_name DESC, id DESC";
+        else if(sortColumn == 'm'){
+            sort = "ORDER BY m_name "+ orderMethod + ", p_name " + orderMethod;
         }
-        else if(sorting == "d"){
-            sort = "ORDER BY id DESC, p_name DESC";
+        else if(sortColumn == 'c'){
+            sort = "ORDER BY p_country "+ orderMethod + ", p_name " + orderMethod;
+        }
+        else if(sortColumn == 't'){
+            sort = "ORDER BY m_type "+ orderMethod + ", m_name " + orderMethod;
+        }
+        else if(sortColumn == 's'){
+            sort = "ORDER BY m_system "+ orderMethod + ", m_name " + orderMethod;
         }
 
         QString queStr = "SELECT pers_mach.id AS id, persons.name AS p_name, machines.name AS m_name, "

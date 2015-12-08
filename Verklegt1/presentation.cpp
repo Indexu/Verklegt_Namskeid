@@ -40,17 +40,17 @@ void loop(){
 
             // Add data to types vector
             if(message == ""){
-                message = populateTSVector(types, "mtype", "");
+                message = populateTSVector(types, 't', ' ', false);
             }
 
             // Add vector to systems vector
             if(message == ""){
-                message = populateTSVector(systems, "num_sys", "");
+                message = populateTSVector(systems, 's', ' ', false);
             }
 
             // Add vector to pers_mach vector
             if(message == ""){
-                message = populatePMVector(pers_mach, "");
+                message = populatePMVector(pers_mach, ' ', false);
             }
 
             if(message == ""){
@@ -514,7 +514,7 @@ void addProcessMachine(vector<Machine> &m, const vector<TypeSystem> &t, const ve
     // Type
     do{
         // Print options
-        for(int i = 0; i < t.size(); i++){
+        for(int i = 0; i < (int)t.size(); i++){
             cout << t[i].getId() << ". " << t[i].getName() << endl;
         }
 
@@ -530,7 +530,7 @@ void addProcessMachine(vector<Machine> &m, const vector<TypeSystem> &t, const ve
         else if(isNumber(type)){
             typeInt = stoi(type);
 
-            if(typeInt <= t.size() && typeInt >= 1){
+            if(typeInt <= (int)t.size() && typeInt >= 1){
                 break;
             }
             else{
@@ -540,12 +540,12 @@ void addProcessMachine(vector<Machine> &m, const vector<TypeSystem> &t, const ve
         else{
             cout << "Please enter a number in the list." << endl;
         }
-    }while(type == "" || typeInt > t.size() || typeInt < 1);
+    }while(type == "" || typeInt > (int)t.size() || typeInt < 1);
 
     // System
     do{
         // Print options
-        for(int i = 0; i < s.size(); i++){
+        for(int i = 0; i < (int)s.size(); i++){
             cout << s[i].getId() << ". " << s[i].getName() << endl;
         }
 
@@ -561,7 +561,7 @@ void addProcessMachine(vector<Machine> &m, const vector<TypeSystem> &t, const ve
         else if(isNumber(system)){
             systemInt = stoi(system);
 
-            if(systemInt <= s.size() && systemInt >= 1){
+            if(systemInt <= (int)s.size() && systemInt >= 1){
                 break;
             }
             else{
@@ -571,7 +571,7 @@ void addProcessMachine(vector<Machine> &m, const vector<TypeSystem> &t, const ve
         else{
             cout << "Please enter a number in the list." << endl;
         }
-    }while(system == "" || systemInt > s.size() || systemInt < 1);
+    }while(system == "" || systemInt > (int)s.size() || systemInt < 1);
 
     // Add + print
     cout << addMachine(m, name, year, built, type, system) << endl;

@@ -7,7 +7,7 @@ using namespace std;
 // Find the longest person name
 int findLongestPName(const vector<Person> &p) {
     size_t currentName;
-    int nameLength = 0;
+    size_t nameLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < p.size(); i++){
         // Current name length
@@ -25,7 +25,7 @@ int findLongestPName(const vector<Person> &p) {
 // Find the longest machine name
 int findLongestMName(const vector<Machine> &m) {
     size_t currentName;
-    int nameLength = 0;
+    size_t nameLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < m.size(); i++){
         // Current name length
@@ -43,7 +43,7 @@ int findLongestMName(const vector<Machine> &m) {
 // Find the longest machine type
 int findLongestMType(const vector<Machine> &m) {
     size_t currentType;
-    int typeLength = 0;
+    size_t typeLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < m.size(); i++){
         // Current type length
@@ -61,7 +61,7 @@ int findLongestMType(const vector<Machine> &m) {
 // Find the longest typesystem name
 int findLongestTSName(const vector<TypeSystem> &ts) {
     size_t currentName;
-    int nameLength = 0;
+    size_t nameLength = 0;
     // Loop over vector
     for(unsigned int i = 0; i < ts.size(); i++){
         // Current name length
@@ -135,7 +135,7 @@ bool isNumber(const string &str){
 // Get person index by ID
 int getPIndexByID(vector<Person> p, int id){
     int start = 0;
-    size_t end = p.size() - 1;
+    int end = (int)p.size() - 1;
     int middle = -1;
     int currentID;
 
@@ -171,7 +171,7 @@ int getPIndexByID(vector<Person> p, int id){
 // Get machine index by ID
 int getMIndexByID(vector<Machine> m, int id){
     int start = 0;
-    size_t end = m.size() - 1;
+    int end = (int)m.size() - 1;
     int middle = -1;
     int currentID;
 
@@ -237,10 +237,10 @@ string convert2Field(string searchString, string database){
             field = "year";
         }
         else if (searchString == "-t"){
-            field = "mtype_id";
+            field = "type";
         }
         else if (searchString == "-s"){
-            field = "num_sys_id";
+            field = "system";
         }
         else if(searchString == ""){
             field = "";
@@ -260,6 +260,9 @@ string convert2Field(string searchString, string database){
             field = "date_of_birth";
         }
         else if (searchString == "-d"){
+            field = "date_of_death";
+        }
+        else if(searchString == "-e"){
             field = "date_of_death";
         }
         else if(searchString == ""){

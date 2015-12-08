@@ -23,13 +23,13 @@ string populateMachineVector(vector<Machine> &m, const char &sortColumn, const b
 }
 
 // ===== POPULATE TYPES AND SYSTEMS VECTOR =====
-string populateTSVector(vector<TypeSystem> &ts, const string table, const string &sorting){
-    return getTSDB(ts, table, sorting);
+string populateTSVector(vector<TypeSystem> &ts, const char &table, const char &sortColumn, const bool &desc){
+    return getTSDB(ts, table, sortColumn, desc);
 }
 
 // ===== POPULATE PERSON MACHINE VECTOR =====
-string populatePMVector(vector<PersonMachine> &pm, const string &sorting){
-    return getPersonMachineDB(pm, sorting);
+string populatePMVector(vector<PersonMachine> &pm, const char &sortColumn, const bool &desc){
+    return getPersonMachineDB(pm, sortColumn, desc);
 }
 
 // ===== LIST =====
@@ -185,71 +185,137 @@ vector<Machine> listMachines(string &command, string &message){
 vector<TypeSystem> listTS(string &command, string &message){
     vector<TypeSystem> ts;
 
+    bool desc = false; // Descending flag
+    char sortColumn = ' '; // Which column to order by
+    char table = ' ';
+
+    // Erase "ls "
+    command = command.erase(0,3);
+
     // Split
     vector<string> split = splitString(command, " ");
-    // 0. ls
-    // 1. table
-    // 2. sort
+    // 0. table
 
-    if(split[1] == "-t"){
-        split[1] = "mtype";
+    // Size check
+    if(split.size() > 3){
+        message = "Invalid ls command. See help for instructions.";
+        return ts;
     }
-    else{
-        split[1] = "num_sys";
+    // Check descending flag
+    else if(split.size() == 3){
+        if(split[1] == split[2]){
+            message = "Flags cannot be the same. See help for instructions.";
+            return ts;
+        }
+        else if(split[1] == "-d"){
+            split.erase(split.begin() + 1);
+            desc = true;
+        }
+        else if(split[2] == "-d"){
+            split.erase(split.begin() + 2);
+            desc = true;
+        }
+        else{
+            message = "Invalid ls command. See help for instructions.";
+            return ts;
+        }
     }
 
     if(split.size() == 2){
-        populateTSVector(ts, split[1], "");
+        if(split[1] == "-n"){
+            sortColumn = 'n';
+        }
+        else if(split[1] == "-d"){
+            sortColumn = 'd';
+            desc = true;
+        }
+        else if(split[1] == ""){
+            sortColumn = ' ';
+        }
+        else{
+            message = "Invalid flag: \"" + command + "\"";
+            return ts;
+        }
     }
-    else if(split[2] == "-a"){
-        populateTSVector(ts, split[1], "a");
-    }
-    else if(split[2] == "-z"){
-        populateTSVector(ts, split[1], "z");
-    }
-    else if(split[2] == "-d"){
-        populateTSVector(ts, split[1], "d");
-    }
-    else if(split[2] == ""){
-        populateTSVector(ts, split[1], "");
+
+    if(split[0] == "-t"){
+        table = 't';
     }
     else{
-        message = "Invalid flag: \"" + split[2] + "\"";
+        table = 's';
     }
+
+    populateTSVector(ts, table, sortColumn, desc);
 
     return ts;
 }
 
 // Persons and machines
 vector<PersonMachine> listPM(string &command, string &message){
-    vector<PersonMachine> ts;
+    vector<PersonMachine> pm;
+
+    bool desc = false; // Descending flag
+    char sortColumn = ' '; // Which column to order by
+
+    // Erase "ls -pm "
+    command = command.erase(0,7);
 
     // Split
     vector<string> split = splitString(command, " ");
-    // 0. ls
-    // 1. table
-    // 2. sort
 
-    if(split.size() == 2){
-        populatePMVector(ts, "");
+    // Size check
+    if(split.size() > 2){
+        message = "Invalid ls command. See help for instructions.";
+        return pm;
     }
-    else if(split[2] == "-a"){
-        populatePMVector(ts, "a");
-    }
-    else if(split[2] == "-z"){
-        populatePMVector(ts, "z");
-    }
-    else if(split[2] == "-d"){
-        populatePMVector(ts, "d");
-    }
-    else if(split[2] == ""){
-        populatePMVector(ts, "");
-    }
-    else{
-        message = "Invalid flag: \"" + split[2] + "\"";
+    // Check descending flag
+    else if(split.size() == 2){
+        if(split[0] == split[1]){
+            message = "Flags cannot be the same. See help for instructions.";
+            return pm;
+        }
+        else if(split[0] == "-d"){
+            split.erase(split.begin() + 0);
+            desc = true;
+        }
+        else if(split[1] == "-d"){
+            split.erase(split.begin() + 1);
+            desc = true;
+        }
+        else{
+            message = "Invalid ls command. See help for instructions.";
+            return pm;
+        }
     }
 
-    return ts;
+    if(split.size() == 1){
+        if(split[0] == "-p"){
+            sortColumn = 'p';
+        }
+        else if(split[0] == "-m"){
+            sortColumn = 'm';
+        }
+        else if(split[0] == "-c"){
+            sortColumn = 'c';
+        }
+        else if(split[0] == "-t"){
+            sortColumn = 't';
+        }
+        else if(split[0] == "-s"){
+            sortColumn = 's';
+        }
+        else if(split[0] == ""){
+            sortColumn = ' ';
+        }
+        else{
+            message = "Invalid flag: \"" + command + "\"";
+            return pm;
+        }
+    }
+
+    populatePMVector(pm, sortColumn, desc);
+
+    return pm;
 }
 
 // ===== SEARCH =====
@@ -461,9 +527,9 @@ string delMachine(vector<Machine> &m, string &command){
         message = "| " + to_string(id) + " - " + name + " has been deleted.";
         populateMachineVector(m, ' ', false);
     }
-
     return message;
 }
+
 
 // Person Machine
 string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, string &command){
@@ -475,7 +541,6 @@ string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, s
         message = "ID is missing";
         return message;
     }
-
     // Remove "delete -pm "
     command = command.erase(0,11);
 
@@ -494,9 +559,8 @@ string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, s
     // Success message
     if(message == ""){
         message = "| Connection with ID: " + to_string(id) + " has been deleted.";
-        populatePMVector(pm, "");
+        populatePMVector(pm, ' ', false);
     }
-
     return message;
 }
 
