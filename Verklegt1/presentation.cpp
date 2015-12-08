@@ -36,7 +36,7 @@ void loop(){
 
         if(message == ""){
             // Add data to machines vector
-            message = populateMachineVector(machines, "");
+            message = populateMachineVector(machines, ' ', false);
 
             // Add data to types vector
             if(message == ""){
