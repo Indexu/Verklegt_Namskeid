@@ -78,10 +78,27 @@ int findLongestTSName(const vector<TypeSystem> &ts) {
 
 // Verify date
 bool verifyDate(const string &ver) {
-    regex expr ("^[0-9]{2}/[0-9]{2}/[0-9]{4}$");
+    regex expr ("^[0-9]{4}-[0-9]{2}-[0-9]{2}$");
+
+    // Check regex match
     if (regex_match(ver, expr)) {
-       return true;
+        // Get month and day integers
+       int month = stoi(ver.substr(5,2));
+       int day = stoi(ver.substr(8,2));
+
+       // Month between 1 and 12
+       if(month > 12 || month < 1){
+           return false;
+       }
+       // Day between 1 and 31
+       else if(day > 31 || day < 1){
+           return false;
+       }
+       else{
+           return true;
+       }
     }
+
     return false;
 }
 
