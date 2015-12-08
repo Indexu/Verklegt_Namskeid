@@ -385,21 +385,44 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     string arg = "";
     // Sorting flag
     string sort = "";
+    // Search string
+    string searchString = "";
+    // Bool for descending
+    bool desc = false;
 
     // Erase command + -p/-m
     query.erase(0,10);
-    vector<string> searchPerson = splitString(query, " ");
 
-    // Get field flag
-    if(searchPerson[0].substr(0,1) == "-" && searchPerson[0].length() == 2){
-        arg = query.substr(0,2);
-        query.erase(0,3);
+    // Get arguments from the vector
+    vector<string> arguments = getArgs(query);
+    // Set variables depending on the arguments
+    if (arguments.size() == 0){
+        searchString = query;
+    }
+    else if (arguments.size() == 1){
+        if (arguments[0].length() == 3){
+            sort = arguments[0].erase(1,1);
+            query.erase(0,3);
+        }
+        else if (arguments[0].length() == 2){
+            arg = convert2Field(arguments[0], "machine");
+            query.erase(0,2);
+        }
+    }
+    else if (arguments.size() == 2){
+        arg = convert2Field(arguments[0], "machine");
+        sort = arguments[1].erase(1,1);
+        query.erase(0,5);
+    }
+    else {
+        message = "Too many arguments.";
     }
 
-    string searchString = query;
-    string field = convert2Field(arg, "machine");
+    if (sort == "-d") {
+        desc = true;
+    }
 
-    results = searchMachineDB(searchString, message, field, sort);
+    results = searchMachineDB(searchString, message, arg, sort, desc);
 
     if(message == ""){
         if (results.empty()) {
