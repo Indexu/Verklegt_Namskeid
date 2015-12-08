@@ -1,6 +1,5 @@
 #include "data.h"
 #include "QtSql"
-#include <iostream>
 
 using namespace std;
 
@@ -58,8 +57,6 @@ string getPersonsDB(vector<Person> &p, const char &sortColumn, const bool &desc)
         else if(sortColumn == 'e'){
             sort = "ORDER BY date(date_of_death) "+ orderMethod + ", name " + orderMethod;
         }
-
-        cout << "SORT: " << sort.toStdString() << endl;
 
         QString queStr = "SELECT * FROM persons " + sort;
 
