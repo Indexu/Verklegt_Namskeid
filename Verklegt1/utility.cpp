@@ -294,6 +294,11 @@ vector<string> splitString(string input, string delim){
         }
     }
 
+    // If no delimiter was found in string, return it in vector
+    if(split.empty()){
+        split.push_back(input);
+    }
+
     return split;
 }
 

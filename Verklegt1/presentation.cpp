@@ -32,7 +32,7 @@ void loop(){
 
     if(message == ""){
         // Add data to persons vector
-        message = populatePersonVector(people, "");
+        message = populatePersonVector(people, ' ', false);
 
         if(message == ""){
             // Add data to machines vector

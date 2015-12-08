@@ -24,7 +24,7 @@ string initDB(){
 // ===== PERSON =====
 
 // Get data
-string getPersonsDB(vector<Person> &p, const string &sorting){
+string getPersonsDB(vector<Person> &p, const char &sortColumn, const bool &desc){
 
     // Open
     if(db.open()){
@@ -33,15 +33,29 @@ string getPersonsDB(vector<Person> &p, const string &sorting){
 
         QSqlQuery query(db);
 
+        QString orderMethod = "ASC";
+        if(desc){
+            orderMethod = "DESC";
+        }
+
         QString sort = "";
-        if(sorting == "a"){
-            sort = "ORDER BY name ASC, id ASC";
+        if(sortColumn =='n'){
+            sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
         }
-        else if(sorting == "z"){
-            sort = "ORDER BY name DESC, id DESC";
+        else if(sortColumn == ' ' && desc == true){
+            sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
         }
-        else if(sorting == "d"){
-            sort = "ORDER BY id DESC, name DESC";
+        else if(sortColumn == 'g'){
+            sort = "ORDER BY gender "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sortColumn == 'c'){
+            sort = "ORDER BY country "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sortColumn == 'b'){
+            sort = "ORDER BY date(date_of_birth) "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sortColumn == 'e'){
+            sort = "ORDER BY date(date_of_death) "+ orderMethod + ", name " + orderMethod;
         }
 
         QString queStr = "SELECT * FROM persons " + sort;
@@ -333,6 +347,15 @@ string getMachinesDB(vector<Machine> &m, const string &sorting){
         }
         else if(sorting == "d"){
             sort = "ORDER BY id DESC, name DESC";
+        }
+        else if(sorting == "y"){
+            sort = "ORDER BY year ASC, name ASC";
+        }
+        else if(sorting == "t"){
+            sort = "ORDER BY type ASC, name ASC";
+        }
+        else if(sorting == "s"){
+            sort = "ORDER BY system ASC, name ASC";
         }
 
         QString queStr = "SELECT machines.id AS id, machines.name AS name, machines.year AS year, "

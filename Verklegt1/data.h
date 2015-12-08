@@ -12,7 +12,7 @@ std::string initDB();
 
 // == Persons ==
 // Get persons
-std::string getPersonsDB(std::vector<Person> &p, const std::string &sorting);
+std::string getPersonsDB(std::vector<Person> &p, const char &sortColumn, const bool &desc);
 // Get person by ID
 std::string getPersonByIdDB(std::vector<Person> &p, const int &id);
 // Add person

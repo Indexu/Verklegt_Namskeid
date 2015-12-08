@@ -11,7 +11,7 @@
 std::string startDB();
 
 // Populate people
-std::string populatePersonVector(std::vector<Person> &p, const std::string &sorting);
+std::string populatePersonVector(std::vector<Person> &p, const char &sortColumn, const bool &desc);
 
 // Populate machine
 std::string populateMachineVector(std::vector<Machine> &m, const std::string &sorting);

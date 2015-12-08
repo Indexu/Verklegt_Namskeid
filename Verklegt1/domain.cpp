@@ -13,8 +13,8 @@ string startDB(){
 }
 
 // ===== POPULATE PERSON VECTOR =====
-string populatePersonVector(vector<Person> &p, const string &sorting){
-    return getPersonsDB(p, sorting);
+string populatePersonVector(vector<Person> &p, const char &sortColumn, const bool &desc){
+    return getPersonsDB(p, sortColumn, desc);
 }
 
 // ===== POPULATE MACHINE VECTOR =====
@@ -36,10 +36,71 @@ string populatePMVector(vector<PersonMachine> &pm, const string &sorting){
 // Persons
 vector<Person> listPersons(string &command, string &message){
     vector<Person> p;
+    bool desc = false; // Descending flag
+    char sortColumn = ' '; // Which column to order by
 
+    // Erase "ls -p "
     command = command.erase(0,6);
 
-    if(command == "-a"){
+    // Split
+    vector<string> split = splitString(command, " ");
+
+    // Size check
+    if(split.size() > 2){
+        message = "Invalid ls command. See help for instructions.";
+        return p;
+    }
+    // Check descending flag
+    else if(split.size() == 2){
+        if(split[0] == split[1]){
+            message = "Flags cannot be the same. See help for instructions.";
+            return p;
+        }
+        else if(split[0] == "-d"){
+            split.erase(split.begin() + 0);
+            desc = true;
+        }
+        else if(split[1] == "-d"){
+            split.erase(split.begin() + 1);
+            desc = true;
+        }
+        else{
+            message = "Invalid ls command. See help for instructions.";
+            return p;
+        }
+    }
+
+    if(split.size() == 1){
+        if(split[0] == "-n"){
+            sortColumn = 'n';
+        }
+        else if(split[0] == "-d"){
+            sortColumn = 'd';
+        }
+        else if(split[0] == "-d"){
+            sortColumn = 'd';
+        }
+        else if(split[0] == "-g"){
+            sortColumn = 'g';
+        }
+        else if(split[0] == "-c"){
+            sortColumn = 'c';
+        }
+        else if(split[0] == "-b"){
+            sortColumn = 'b';
+        }
+        else if(split[0] == "-e"){
+            sortColumn = 'e';
+        }
+        else{
+            message = "Invalid flag: \"" + command + "\"";
+            return p;
+        }
+    }
+
+    populatePersonVector(p, sortColumn, desc);
+
+    /*if(command == "-a"){
         populatePersonVector(p, "a");
     }
     else if(command == "-z"){
@@ -48,12 +109,21 @@ vector<Person> listPersons(string &command, string &message){
     else if(command == "-d"){
         populatePersonVector(p, "d");
     }
+    else if(command == "-g"){
+        populatePersonVector(p, "g");
+    }
+    else if(command == "-c"){
+        populatePersonVector(p, "c");
+    }
+    else if(command == "-b"){
+        populatePersonVector(p, "b");
+    }
     else if(command == ""){
         populatePersonVector(p, "");
     }
     else{
         message = "Invalid flag: \"" + command + "\"";
-    }
+    }*/
 
     return p;
 }
@@ -72,6 +142,15 @@ vector<Machine> listMachines(string &command, string &message){
     }
     else if(command == "-d"){
         populateMachineVector(m, "d");
+    }
+    else if(command == "-y"){
+        populateMachineVector(m, "y");
+    }
+    else if(command == "-t"){
+        populateMachineVector(m, "t");
+    }
+    else if(command == "-s"){
+        populateMachineVector(m, "s");
     }
     else if(command == ""){
         populateMachineVector(m, "");
@@ -227,7 +306,7 @@ vector<Person> filter(string &query, string &message){
     // If successful search
     if(message == ""){
         // Get all persons
-        message = populatePersonVector(p, "");
+        message = populatePersonVector(p, ' ', false);
 
         if(message == ""){
             // Whether or not add the person
@@ -269,7 +348,7 @@ string addPerson(vector<Person> &p, const string &name, const string &gender, co
     addPersonDB(name, gender, dob, dod, country);
 
     // Re-populate vector
-    populatePersonVector(p, "");
+    populatePersonVector(p, ' ', false);
 
     return "Person " + name + " succesfully added.";
 }
@@ -320,7 +399,7 @@ string delPerson(vector<Person> &p, string &command){
     // Success message
     if(message == ""){
         message = "| " + to_string(id) + " - " + name + " has been deleted.";
-        populatePersonVector(p, "");
+        populatePersonVector(p, ' ', false);
     }
     
     return message;
@@ -489,7 +568,7 @@ string editPerson(vector<Person> &p, string command){
 
         // Confirmation message
         message = "ID " + strID + " - " + field + " of " + name + " changed to: " + newValue;
-        populatePersonVector(p, "");
+        populatePersonVector(p, ' ', false);
     }
     else{
         return message;
