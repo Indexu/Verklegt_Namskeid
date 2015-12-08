@@ -4,6 +4,7 @@
 #include "machine.h"
 #include "utility.h"
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -51,24 +52,29 @@ vector<Person> listPersons(string &command, string &message){
     }
     // Check descending flag
     else if(split.size() == 2){
+        // If flags are the same
         if(split[0] == split[1]){
             message = "Flags cannot be the same. See help for instructions.";
             return p;
         }
+        // If -d is first
         else if(split[0] == "-d"){
             split.erase(split.begin() + 0);
             desc = true;
         }
+        // If -d is second
         else if(split[1] == "-d"){
             split.erase(split.begin() + 1);
             desc = true;
         }
+        // If -d is neither
         else{
             message = "Invalid ls command. See help for instructions.";
             return p;
         }
     }
 
+    // Check column flag
     if(split.size() == 1){
         if(split[0] == "-n"){
             sortColumn = 'n';
@@ -100,6 +106,7 @@ vector<Person> listPersons(string &command, string &message){
         }
     }
 
+    // Run
     populatePersonVector(p, sortColumn, desc);
 
     return p;
@@ -125,24 +132,29 @@ vector<Machine> listMachines(string &command, string &message){
     }
     // Check descending flag
     else if(split.size() == 2){
+        // If flags are the same
         if(split[0] == split[1]){
             message = "Flags cannot be the same. See help for instructions.";
             return m;
         }
+        // If -d is first
         else if(split[0] == "-d"){
             split.erase(split.begin() + 0);
             desc = true;
         }
+        // If -d is second
         else if(split[1] == "-d"){
             split.erase(split.begin() + 1);
             desc = true;
         }
+        // If -d is neither
         else{
             message = "Invalid ls command. See help for instructions.";
             return m;
         }
     }
 
+    // Check column flag
     if(split.size() == 1){
         if(split[0] == "-n"){
             sortColumn = 'n';
@@ -175,6 +187,7 @@ vector<Machine> listMachines(string &command, string &message){
         }
     }
 
+    // Run
     populateMachineVector(m, sortColumn, desc);
 
     return m;
@@ -202,24 +215,29 @@ vector<TypeSystem> listTS(string &command, string &message){
     }
     // Check descending flag
     else if(split.size() == 3){
+        // If flags are the same
         if(split[1] == split[2]){
             message = "Flags cannot be the same. See help for instructions.";
             return ts;
         }
+        // If -d is first
         else if(split[1] == "-d"){
             split.erase(split.begin() + 1);
             desc = true;
         }
+        // If -d is second
         else if(split[2] == "-d"){
             split.erase(split.begin() + 2);
             desc = true;
         }
+        // If -d is neither
         else{
             message = "Invalid ls command. See help for instructions.";
             return ts;
         }
     }
 
+    // Check column flag
     if(split.size() == 2){
         if(split[1] == "-n"){
             sortColumn = 'n';
@@ -244,6 +262,7 @@ vector<TypeSystem> listTS(string &command, string &message){
         table = 's';
     }
 
+    // Run
     populateTSVector(ts, table, sortColumn, desc);
 
     return ts;
@@ -269,24 +288,29 @@ vector<PersonMachine> listPM(string &command, string &message){
     }
     // Check descending flag
     else if(split.size() == 2){
+        // If flags are the same
         if(split[0] == split[1]){
             message = "Flags cannot be the same. See help for instructions.";
             return pm;
         }
+        // If -d is first
         else if(split[0] == "-d"){
             split.erase(split.begin() + 0);
             desc = true;
         }
+        // If -d is second
         else if(split[1] == "-d"){
             split.erase(split.begin() + 1);
             desc = true;
         }
+        // If -d is neither
         else{
             message = "Invalid ls command. See help for instructions.";
             return pm;
         }
     }
 
+    // Check column flag
     if(split.size() == 1){
         if(split[0] == "-p"){
             sortColumn = 'p';
@@ -312,6 +336,7 @@ vector<PersonMachine> listPM(string &command, string &message){
         }
     }
 
+    // Run
     populatePMVector(pm, sortColumn, desc);
 
     return pm;
@@ -326,6 +351,8 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     message = "";
     // Field flag
     string arg = "";
+    // Sorting flag
+    string sort = "";
 
     // Erase command + -p/-m
     query.erase(0,10);
@@ -339,7 +366,7 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     string searchString = query;
     string field = convert2Field(arg, "person");
 
-    results = searchPersonDB(searchString, message, field);
+    //results = searchPersonDB(searchString, message, field, sort);
 
     if(message == ""){
         if (results.empty()) {
@@ -357,20 +384,85 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     message = "";
     // Field flag
     string arg = "";
+    // Sorting flag
+    string sort = "";
+    // Search string
+    string searchString = "";
+    // Bool for descending
+    bool desc = false;
 
     // Erase command + -p/-m
     query.erase(0,10);
 
-    // Get field flag
-    if(query.substr(0,1) == "-"){
-        arg = query.substr(0,2);
-        query.erase(0,3);
+    cout << "QUERY: " << query << endl;
+
+    // Get arguments from the vector
+    vector<string> arguments = getArgs(query);
+
+    // Set variables depending on the arguments
+    if (arguments.size() == 0){
+        searchString = query;
+    }
+    else if (arguments.size() == 1){
+        if (arguments[0].length() == 3){
+            sort = arguments[0].erase(1,1);
+            query.erase(0,4);
+        }
+        else if(arguments[0] == "-d"){
+            desc = true;
+            query.erase(0,3);
+        }
+        else if (arguments[0].length() == 2){
+            arg = convert2Field(arguments[0], "machine");
+            query.erase(0,3);
+        }
+    }
+    else if (arguments.size() == 2){
+        arg = convert2Field(arguments[0], "machine");
+
+        if(arguments[2] != "-d"){
+            sort = arguments[1].erase(1,1);
+        }
+        else{
+           desc = true;
+        }
+
+        query.erase(0,7);
+    }
+    else if (arguments.size() == 3){
+        arg = convert2Field(arguments[0], "machine");
+        sort = arguments[1].erase(1,1);
+
+        if(arguments[2] != "-d"){
+            message = "Invalid flag: " + arguments[2];
+            return results;
+        }
+        else{
+           desc = true;
+        }
+
+        query.erase(0,10);
+    }
+    else {
+        message = "Too many arguments.";
+        return results;
     }
 
-    string searchString = query;
-    string field = convert2Field(arg, "machine");
+    searchString = query;
 
-    results = searchMachineDB(searchString, message, field);
+    if (sort == "-d") {
+        desc = true;
+    }
+
+    sort = convert2Field(sort, "machine");
+
+    cout << "QUERY: " << query << endl;
+    cout << "STRING: " << searchString << endl;
+    cout << "ARG: " << arg << endl;
+    cout << "SORT: " << sort << endl;
+    cout << "DESC: " << desc << endl;
+
+    results = searchMachineDB(searchString, message, arg, sort, desc);
 
     if(message == ""){
         if (results.empty()) {
@@ -531,7 +623,7 @@ string delMachine(vector<Machine> &m, string &command){
 
 
 // Person Machine
-string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, string &command){
+string delPM(vector<PersonMachine> &pm, string &command){
     string message = ""; // Return message
     int id; // The extracted ID
 
@@ -567,43 +659,39 @@ string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, s
 // Person edit
 string editPerson(vector<Person> &p, string command){
     string message = ""; // Return message
-    string table = ""; // What table to edit
     string field = ""; // What field to edit
     int id = 0; // ID of person to edit
     string newValue = ""; // New value
 
+    // Erase "edit -p "
+    command = command.erase(0,8);
+
     // Split the command by whitespace
     vector<string> split = splitString(command, " ");
 
-    if(split.size() < 5){
+    if(split.size() < 3){
         message = "Too few arguments";
         return message;
     }
 
-    // Remove "edit" from vector
-    split.erase(split.begin() + 0);
-
-    // Extract table
-    table = split[0];
-    split.erase(split.begin() + 0);
-
     // Extract field
     field = convert2Field(split[0], "person");
-    split.erase(split.begin() + 0);
 
     // Verify field
-    if(field == "-i"){
+    if(field == "id"){
         message = "ID cannot be edited";
         return message;
     }
     else if(field == "" || field == "-1"){
-        message = "Unknown field specified";
+        message = "Unknown field specified: " + split[0];
         return message;
     }
 
+    // Remove field from split
+    split.erase(split.begin() + 0);
+
     // Extract ID
     string strID = split[0]; // The ID, string.
-    split.erase(split.begin() + 0);
 
     // Verify ID
     if(!isNumber(strID)){
@@ -622,6 +710,9 @@ string editPerson(vector<Person> &p, string command){
         return message;
     }
 
+    // Remove id from split
+    split.erase(split.begin() + 0);
+
     // Assemble what is left of split vector into a string
     newValue = assembleString(split, " ");
 
@@ -631,14 +722,24 @@ string editPerson(vector<Person> &p, string command){
         return message;
     }
 
+    // Verify value if gender
+    if(field == "gender"){
+        if(newValue != "male" && newValue != "female"){
+            if(newValue == "f"){
+                newValue = "female";
+            }
+            else if(newValue == "m"){
+                newValue = "male";
+            }
+            else{
+                message = "Gender can only be male or female (m/f)";
+                return message;
+            }
+        }
+    }
+
     // Get name of person being edited
     string name = p[index].getName();
-    field = convert2Field(field, "person");
-
-    if(field == "" || field == "-1"){
-        message = "Unknown field specified";
-        return message;
-    }
 
     // Set new name
     message = editPersonDB(id, field, newValue);

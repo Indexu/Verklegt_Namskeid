@@ -47,6 +47,9 @@ std::string convert2Field(std::string searchString, std::string database);
 // Split string
 std::vector<std::string> splitString(std::string input, std::string delim);
 
+// Get arguments
+std::vector<std::string> getArgs(std::string query);
+
 // Assemble a string
 std::string assembleString(std::vector<std::string> inputVect, std::string delim);
 // Converts 1's and 0's to yes/no

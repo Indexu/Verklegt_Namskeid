@@ -38,3 +38,9 @@ Makefile*
 *.qmlproject.user.*
 
 .DS_Store
+
+# Binary files
+build-Verklegt1-Desktop_Qt_5_5_1_clang_64bit-Debug/Verklegt1
+
+# Other
+*.exe

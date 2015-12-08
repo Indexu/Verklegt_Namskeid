@@ -33,11 +33,13 @@ string getPersonsDB(vector<Person> &p, const char &sortColumn, const bool &desc)
 
         QSqlQuery query(db);
 
+        // Ascending or descending
         QString orderMethod = "ASC";
         if(desc || sortColumn == 'd'){
             orderMethod = "DESC";
         }
 
+        // Assemble ORDER BY
         QString sort = "";
         if(sortColumn =='n'){
             sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
@@ -58,6 +60,7 @@ string getPersonsDB(vector<Person> &p, const char &sortColumn, const bool &desc)
             sort = "ORDER BY date(date_of_death) "+ orderMethod + ", name " + orderMethod;
         }
 
+        // Query string
         QString queStr = "SELECT * FROM persons " + sort;
 
         // Query
@@ -212,7 +215,6 @@ string editPersonDB(const int &id, const string &column, const string &value){
 
         QString val = QString::fromStdString(value);
 
-        //query.bindValue(":col", col);
         query.bindValue(":val", val);
         query.bindValue(":id", id);
 
@@ -259,46 +261,58 @@ bool personIDExistsDB(const int &id, string &error){
 }
 
 // Search for a person in DB
-vector<Person> searchPersonDB(string &searchString, string &message, string &field){
+vector<Person> searchPersonDB(const string &searchString, string &message, const string &field, const string &sorting, const bool &desc){
     vector<Person> results; // Result vector
 
     if(db.open()){
         QSqlQuery query(db);
 
-        // Check if searching for gender - looks at the first charachter of the search string
-        if(field == "gender"){
-            if(tolower(searchString[0]) == 'm'){
-                query.prepare("SELECT * FROM persons WHERE gender = 'male'");
-            }
-            else if(tolower(searchString[0]) == 'f'){
-                query.prepare("SELECT * FROM persons WHERE gender = 'female'");
-            }
-            else{
-                message = "Unknown gender";
-                return results;
-            }
+        // Ascending or descending
+        QString orderMethod = "ASC";
+        if(desc){
+            orderMethod = "DESC";
         }
-        // If not searching for gender it searches either a specifield field, or every field in the table
-        else{
-            QString ss = QString::fromStdString(searchString);
-            // Searches through a specified field
-            if(field != ""){
-                query.prepare("SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'");
-                query.bindValue(":ss", ss);
-            }
-            // Searches through all the fields
-            else{
-                query.prepare("SELECT * FROM persons WHERE id LIKE '%'||:ss||'%'"
-                              "OR id LIKE '%'||:ss||'%'"
-                              "OR name LIKE '%'||:ss||'%'"
-                              "OR gender LIKE '%'||:ss||'%'"
-                              "OR date_of_birth LIKE '%'||:ss||'%'"
-                              "OR date_of_death LIKE '%'||:ss||'%'"
-                              "OR country LIKE '%'||:ss||'%'");
 
-                query.bindValue(":ss", ss);
-            }
+        // Assemble ORDER BY
+        QString sort = "";
+        if(sorting == "name"){
+            sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
         }
+        else if(sorting == "" && desc == true){
+            sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sorting != ""){
+            sort = "ORDER BY "+ QString::fromStdString(sorting) + " " + orderMethod + ", name " + orderMethod;
+        }
+
+        // The query string
+        QString queStr = "";
+
+        // QString searchString
+        QString ss = QString::fromStdString(searchString);
+        // Searches through a specified field
+        if(field != ""){
+            queStr = "SELECT * FROM persons WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'";
+        }
+        // Searches through all the fields
+        else{
+            queStr ="SELECT * FROM persons WHERE id LIKE '%'||:ss||'%'"
+                    "OR id LIKE '%'||:ss||'%'"
+                    "OR name LIKE '%'||:ss||'%'"
+                    "OR gender LIKE '%'||:ss||'%'"
+                    "OR date_of_birth LIKE '%'||:ss||'%'"
+                    "OR date_of_death LIKE '%'||:ss||'%'"
+                    "OR country LIKE '%'||:ss||'%'";
+        }
+
+        // Append sort
+        queStr += sort;
+
+        // Bind
+        query.bindValue(":ss", ss);
+
+        // Query
+        query.prepare(queStr);
 
         string name, gender, dob, dod, country;
         int id;
@@ -330,7 +344,6 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
 // ===== MACHINE =====
 // Get data
 string getMachinesDB(vector<Machine> &m,  const char &sortColumn, const bool &desc){
-
     // Open
     if(db.open()){
         // Empty vector
@@ -338,11 +351,13 @@ string getMachinesDB(vector<Machine> &m,  const char &sortColumn, const bool &de
 
         QSqlQuery query(db);
 
+        // Ascending or descending
         QString orderMethod = "ASC";
         if(desc || sortColumn == 'd'){
             orderMethod = "DESC";
         }
 
+        // Assemble ORDER BY
         QString sort = "";
         if(sortColumn =='n'){
             sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
@@ -363,6 +378,7 @@ string getMachinesDB(vector<Machine> &m,  const char &sortColumn, const bool &de
             sort = "ORDER BY system "+ orderMethod + ", name " + orderMethod;
         }
 
+        // The query string
         QString queStr = "SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
                          "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
                          "JOIN mtype ON (machines.mtype_id=mtype.id) "
@@ -441,13 +457,36 @@ string getMachineByIdDB(vector<Machine> &m, const int &id){
 }
 
 // Search for a machine
-vector<Machine> searchMachineDB(string &searchString, string &message, string &field){
+vector<Machine> searchMachineDB(const string &searchString, string &message, const string &field, const string &sorting, const bool &desc){
     vector<Machine> results; // Result vector
 
     if(db.open()){
         QSqlQuery query(db);
 
+        // Ascending or descending
+        QString orderMethod = "ASC";
+        if(desc){
+            orderMethod = "DESC";
+        }
+
+        // Assemble ORDER BY
+        QString sort = "";
+        if(sorting == "name"){
+            sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
+        }
+        else if(sorting == "" && desc == true){
+            sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sorting != ""){
+            sort = "ORDER BY "+ QString::fromStdString(sorting) + " " + orderMethod + ", name " + orderMethod;
+        }
+
+        // Query string
+        QString queStr = "";
+
+        // QString searchString
         QString ss = QString::fromStdString(searchString);
+
         // Searches through a specified field
         if(field != ""){
             QString qField = QString::fromStdString(field);
@@ -456,29 +495,35 @@ vector<Machine> searchMachineDB(string &searchString, string &message, string &f
                 qField.prepend("machines.");
             }
 
-            query.prepare("SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
-                          "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
-                          "JOIN mtype ON (machines.mtype_id=mtype.id) "
-                          "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
-                          "WHERE " + qField + " LIKE '%'||:ss||'%'");
-
-            query.bindValue(":ss", ss);
+            queStr = "SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
+                     "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
+                     "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                     "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
+                     "WHERE " + qField + " LIKE '%'||:ss||'%'";
         }
         // Searches through all the fields
         else{
-            query.prepare("SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
-                          "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
-                          "JOIN mtype ON (machines.mtype_id=mtype.id) "
-                          "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
-                          "WHERE machines.id LIKE '%'||:ss||'%'"
-                          "OR machines.name LIKE '%'||:ss||'%'"
-                          "OR year LIKE '%'||:ss||'%'"
-                          "OR built LIKE '%'||:ss||'%'"
-                          "OR type LIKE '%'||:ss||'%'"
-                          "OR system LIKE '%'||:ss||'%'");
-
-            query.bindValue(":ss", ss);
+            queStr = "SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
+                     "machines.built AS built, mtype.name AS type, num_sys.name AS system FROM machines "
+                     "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                     "JOIN num_sys ON (machines.num_sys_id=num_sys.id) "
+                     "WHERE machines.id LIKE '%'||:ss||'%' "
+                     "OR machines.name LIKE '%'||:ss||'%' "
+                     "OR year LIKE '%'||:ss||'%' "
+                     "OR built LIKE '%'||:ss||'%' "
+                     "OR type LIKE '%'||:ss||'%' "
+                     "OR system LIKE '%'||:ss||'%'";
         }
+
+        // Add sort
+        queStr += sort;
+
+        // Query
+        query.prepare(queStr);
+
+        // Bind
+        query.bindValue(":ss", ss);
+
         string name, type, system;
         int id, year;
         bool built;
@@ -649,11 +694,13 @@ string getTSDB(vector<TypeSystem> &ts, const char &table, const char &sortColumn
 
         QSqlQuery query(db);
 
+        // Ascending or descending
         QString orderMethod = "ASC";
         if(desc || sortColumn == 'd'){
             orderMethod = "DESC";
         }
 
+        // Assemble ORDER BY
         QString sort = "";
         if(sortColumn =='n'){
             sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
@@ -662,12 +709,14 @@ string getTSDB(vector<TypeSystem> &ts, const char &table, const char &sortColumn
             sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
         }
 
+        // Decide which table
         QString tab = "mtype";
 
         if(table == 's'){
             tab = "num_sys";
         }
 
+        // Query string
         QString queStr = "SELECT * FROM " + tab + " "
                          + sort;
 
@@ -704,11 +753,13 @@ string getPersonMachineDB(vector<PersonMachine> &pm, const char &sortColumn, con
 
         QSqlQuery query(db);
 
+        // Ascending or descending
         QString orderMethod = "ASC";
         if(desc || sortColumn == 'd'){
             orderMethod = "DESC";
         }
 
+        // Assemble ORDER BY
         QString sort = "";
         if(sortColumn =='p'){
             sort = "ORDER BY p_name "+ orderMethod + ", m_name " + orderMethod;
@@ -726,6 +777,7 @@ string getPersonMachineDB(vector<PersonMachine> &pm, const char &sortColumn, con
             sort = "ORDER BY m_system "+ orderMethod + ", m_name " + orderMethod;
         }
 
+        // Query string
         QString queStr = "SELECT pers_mach.id AS id, persons.name AS p_name, machines.name AS m_name, "
                          "mtype.name AS m_type, num_sys.name AS m_system, persons.country AS p_country FROM persons "
                          "JOIN pers_mach ON (persons.id=pers_mach.p_id) "
