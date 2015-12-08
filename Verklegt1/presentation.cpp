@@ -716,7 +716,7 @@ void help(string command) {
 
     // Add
     if (command == "add") {
-        cout << "Type add -p to add a person and add -m to add a machine" << endl;
+        cout << "Type add -p to add a person and add -m to add a machine." << endl;
         cout << "Follow the instructions on the screen." << endl;
         cout << "Type -1 in any steps to quit." << endl;
     }
@@ -725,112 +725,142 @@ void help(string command) {
         cout << "==================LIST MENU====================" << endl;
         cout << "Type help [command] for more detailed options." << endl;
         cout << "===============================================" << endl;
-        cout << "[ls -p] for more options to print out persons" << endl;
-        cout << "[ls -m] for more options to print out machines" << endl;
-        cout << "[ls -pm] for more options to print out connection between persons and machines in ascending orders" << endl;
+        cout << "[ls -p] is used to print out list of persons in ascending orders." << endl;
+        cout << "[ls -m] is used to print out list of machines in ascending orders." << endl;
+        cout << "[ls -pm] is used to print out list of connections between persons and machines in ascending orders." << endl;
     }
 
     // List options for persons
     else if (command == "ls -p") {
-        cout << "Type ls -p to print out list of persons in ascending orders" << endl;
-        cout << "For more options type ls -pm [field]" << endl << endl;
-        cout << "======[field]====== " << endl;
-        cout << "-n to print out orderd by persons names" << endl;
-        cout << "-g to print out orderd by persons gender" << endl;
-        cout << "-b to print out orderd by date of birth" << endl;
-        cout << "-e to print out orderd by date of death" << endl;
-        cout << "-c to print out orderd by persons countries" << endl;
-        cout << "Type -d after [field] to print out in descending orders" << endl;
+        cout << "===============================================" << endl;
+        cout << "For more detailed print options, type: ls -m [field]" << endl;
+        cout << "====================[field]==================== " << endl;
+        cout << "[-n] to print out orderd by persons names." << endl;
+        cout << "[-g] to print out orderd by persons gender." << endl;
+        cout << "[-b] to print out orderd by date of birth." << endl;
+        cout << "[-e] to print out orderd by date of death." << endl;
+        cout << "[-c] to print out orderd by persons countries." << endl;
+        cout << "Type [-d] after [field] to print out in descending orders." << endl;
     }
 
     // List options for machines
     else if (command == "ls -m") {
-        cout << "Type ls -m to print out list of machines in ascending orders" << endl;
-        cout << "For more options type ls -pm [field]" << endl << endl;
-        cout << "======[field]====== " << endl;
-        cout << "-n to print out orderd by machine names" << endl;
-        cout << "-y to print out orderd by machine years" << endl;
-        cout << "-b to print out orderd by machine built" << endl;
-        cout << "-t to print out orderd by machine types" << endl;
-        cout << "-s to print out orderd by machine systems" << endl;
-        cout << "Type -d after [field] to print out in descending orders" << endl;
+        cout << "===============================================" << endl;
+        cout << "For more detailed print options, type: ls -m [field]" << endl;
+        cout << "====================[field]==================== " << endl;
+        cout << "[-n] to print out orderd by machine names." << endl;
+        cout << "[-y] to print out orderd by machine years." << endl;
+        cout << "[-b] to print out orderd by machine built." << endl;
+        cout << "[-t] to print out orderd by machine types." << endl;
+        cout << "[-s] to print out orderd by machine systems." << endl;
+        cout << "Type [-d] after [field] to print out in descending orders." << endl;
     }
 
     // List options for persons and machines
     else if (command == "ls -pm") {
-        cout << "Type ls -pm to print out list of connections between persons and machines in ascending orders" << endl;
-        cout << "For more options type ls -pm [field]" << endl << endl;
-        cout << "======[field]====== " << endl;
-        cout << "-p to print out orderd by persons names" << endl;
-        cout << "-c to print out orderd by persons countries" << endl;
-        cout << "-m to print out orderd by machine names" << endl;
-        cout << "-t to print out orderd by machine types" << endl;
-        cout << "-s to print out orderd by machine systems" << endl;
-        cout << "Type -d after [field] to print out in descending orders" << endl;
+        cout << "===============================================" << endl;
+        cout << "For more detailed print options, type: ls -pm [field]" << endl;
+        cout << "====================[field]==================== " << endl;
+        cout << "[-p] to print out orderd by persons names." << endl;
+        cout << "[-c] to print out orderd by persons countries." << endl;
+        cout << "[-m] to print out orderd by machine names." << endl;
+        cout << "[-t] to print out orderd by machine types." << endl;
+        cout << "[-s] to print out orderd by machine systems." << endl;
+        cout << "Type [-d] after [field] to print out in descending orders." << endl;
     }
     // Search menu
     else if (command == "search") {
         cout << "==================SEARCH MENU====================" << endl;
         cout << "Type help [command] for more detailed options." << endl;
         cout << "===============================================" << endl;
-        cout << "[search -p] is used to search through all persons except gender" << endl;
-        cout << "[search -m] is used to search through all machines" << endl;
-
+        cout << "[search -p] [string] is used to search through all persons except gender." << endl;
+        cout << "[search -m] [string] is used to search through all machines." << endl;
+        cout << "[search -pm] [string] is used to search through all connections between persons and machines." << endl;
     }
 
     // Search options for persons
     else if (command == "search -p") {
-        /*cout << "search -p -a [string] returns search in ascending order" << endl;
-        cout << "search -p -d [string] returns search in descending order" << endl;
-        cout << "search -c [string] searches through the country column" << endl;
-        cout << "search -C [string] searches through the database case sensitive" << endl;
-        cout << "search -e [string] searches through the death date column" << endl;
-        cout << "search -g [string] searches through the date of gender column" << endl;
-        cout << "search -i [string] searches through the ID column" << endl;
-        cout << "search -n [string] searches through the name column" << endl;
-        cout << "search -z [string] returns search in descending order" << endl;
-        cout << "search [args] [male|female] searches for specified gender" << endl;
-        cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;*/
+        cout << "===============================================" << endl;
+        cout << "Search -p [field][sort][-d][value]" << endl;
+        cout << "====================[field]==================== " << endl;
+        cout << "[-n] searches through the name column." << endl;
+        cout << "[-g] searches through the gender column." << endl;
+        cout << "[-b] searches through the date of birth column." << endl;
+        cout << "[-e] searches through the death date column." << endl;
+        cout << "[-c] searches through the country column." << endl;
+        cout << "====================[sort]==================== " << endl;
+        cout << "[-sn] sorts search after name." << endl;
+        cout << "[-sg] sorts search after gender." << endl;
+        cout << "[-sb] sorts search after date of birth." << endl;
+        cout << "[-se] sorts search after date of death." << endl;
+        cout << "[-sc] sorts aearch after country." << endl;
+        cout << "Type [-d] to sort search in descending orders." << endl;
     }
 
     // Search options for machines
     else if (command == "search -m") {
-        //Unfinished
+        cout << "===============================================" << endl;
+        cout << "Search -m [field][sort][-d][value]" << endl;
+        cout << "====================[field]==================== " << endl;
+        cout << "[-n] searches through the name column." << endl;
+        cout << "[-y] searches through the year column." << endl;
+        cout << "[-b] searches through the built column." << endl;
+        cout << "[-t] searches through the type column." << endl;
+        cout << "[-s] searches through the system column." << endl;
+        cout << "====================[sort]==================== " << endl;
+        cout << "[-sn] sorts search after name." << endl;
+        cout << "[-sy] sorts search after year." << endl;
+        cout << "[-sb] sorts search after built." << endl;
+        cout << "[-st] sorts search after type." << endl;
+        cout << "[-ss] sorts aearch after system." << endl;
+        cout << "Type [-d] to sort search in descending orders." << endl;
     }
 
-    // Filter
+    // Filter menu
     else if (command == "filter") {
-        cout << "filter [string] filters out the string in all the columns except gender" << endl;
-        cout << "filter -a [string] returns filter in ascending order" << endl;
-        cout << "filter -b [string] filters out matches in the birth date column" << endl;
-        cout << "filter -c [string] filters out matches in the country column" << endl;
-        cout << "filter -C [string] filters out matches in the database case sensitive" << endl;
-        cout << "filter -d [string] filters out matches in the death date column" << endl;
-        cout << "filter -g [string] filters out matches in the date of gender column" << endl;
-        cout << "filter -i [string] filters out matches in the ID column" << endl;
-        cout << "filter -n [string] filters out matches in the names column" << endl;
-        cout << "filter -z [string] returns filter in descending order" << endl;
-        cout << "filter [args] [male|female] filter out a specified gender" << endl;
-        cout << "Any number of arguements are accepted in any order with the exception of only 1 sorting method defined." << endl;
-    }
+        cout << "==================FILTER MENU====================" << endl;
+        cout << "[filter -p] [string] is used to filter out all columns in persons." << endl;
+        cout << "[filter -m] [string] is used to filter out all columns in machines." << endl;
+        cout << "[filter -pm] [string] is used to filter out all connections between persons and machines." << endl;
+        cout << "===============================================" << endl;
+        cout << "Filter works like a reverse search. It uses the same [field] and [sort] as search." << endl;
+     }
+
     // Delete
     else if (command == "delete") {
-        cout << "delete [id] deletes the entry in the database with corresponding id" << endl;
+        cout << "delete [-p] [p_id] deletes the entry in the persons database with corresponding id." << endl;
+        cout << "delete [-m] [m_id] deletes the entry in the machines database with corresponding id." << endl;
+        cout << "delete [-pm] [pm_id] deletes the entry in the person and machine connection database with corresponding id." << endl;
     }
+
     // Edit
     else if (command == "edit") {
-        cout << "edit [field] [id] [value]" << endl;
-        cout << "edit -n [id] [value] replaces the name of the person of the specified id with the specified value" << endl;
-        cout << "edit -g [id] [value] replaces the gender of the person of the specified id. Accepted values are \"m\",\"male\",\"f\" and \"female\"" << endl;
-        cout << "edit -b [id] [value] replaces the birth date of the person of the specified id with the specified date" << endl;
-        cout << "edit -d [id] [value] replaces the death date of the person of the specified id with the specified date" << endl;
-        cout << "edit -c [id] [value] replaces the country of the person of the specified id with the specified value" << endl;
+        cout << "==================EDIT MENU====================" << endl;
+        cout << "edit [table] [field] [id] [value]" << endl;
+        cout << "===============================================" << endl;
+        cout << "edit -p -n [id] [value] replaces the name of the person of the specified id with the specified value." << endl;
+        cout << "edit -p -g [id] [value] replaces the gender of the person of the specified id. Accepted values are \"m\",\"male\",\"f\" and \"female\"" << endl;
+        cout << "edit -p -b [id] [value] replaces the birth date of the person of the specified id with the specified date." << endl;
+        cout << "edit -p -d [id] [value] replaces the death date of the person of the specified id with the specified date." << endl;
+        cout << "edit -p -c [id] [value] replaces the country of the person of the specified id with the specified value." << endl << endl;
+        cout << "edit -m -n [id] [value] replaces the name of the machine of the specified id with the specified value." << endl;
+        cout << "edit -m -y [id] [value] replaces the year of the machine of the specified id with the specified value." << endl;
+        cout << "edit -m -b [id] [value] replaces the built of the machine of the specified id. Accepted values are \"y\",\yes\", \"n\" and \"no\"" << endl;
+        cout << "edit -m -t [id] [value] replaces the type of the machine of the specified id. Accepted value for type are ID that already exist." << endl;
+        cout << "edit -m -s [id] [value] replaces the system of the machine of the specified id. Accepted value for system are ID that already exist." << endl;
     }
+
     // Edit
     else if (command == "quit" || command == "q") {
-        cout << "Safely exits the application" << endl;
-        cout << "[quit] and [q] are synonymous" << endl;
+        cout << "Safely exits the application." << endl;
+        cout << "[quit] and [q] are synonymous." << endl;
     }
+
+    //Con
+    else if (command == "con"){
+        cout << "con [ID person] [ID machine] to connect together machine and person." << endl;
+    }
+
     // Menu
     else if (command == "help") {
         cout << "==================HELP MENU====================" << endl;
@@ -843,9 +873,11 @@ void help(string command) {
         cout << "[search] is used to search for an item in the database." << endl;
         cout << "[filter] is used to filter out an item in the database." << endl;
         cout << "[edit] is used to edit a person's information in the database." << endl;
-        cout << "[clear] is used to clear the console window" << endl;
+        cout << "[con] is used to connect together machine and person." << endl;
+        cout << "[clear] is used to clear the console window." << endl;
         cout << "[quit] is used to quit the program." << endl;
     }
+
     // Error
     else {
         cout << "No help found for command: \"" << command << "\"\nSee help menu for instructions:" << endl;
