@@ -461,9 +461,9 @@ string delMachine(vector<Machine> &m, string &command){
         message = "| " + to_string(id) + " - " + name + " has been deleted.";
         populateMachineVector(m, ' ', false);
     }
-
     return message;
 }
+
 
 // Person Machine
 string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, string &command){
@@ -475,7 +475,6 @@ string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, s
         message = "ID is missing";
         return message;
     }
-
     // Remove "delete -pm "
     command = command.erase(0,11);
 
@@ -496,7 +495,6 @@ string delPM(vector<PersonMachine> &pm, vector<Person> &p, vector<Machine> &m, s
         message = "| Connection with ID: " + to_string(id) + " has been deleted.";
         populatePMVector(pm, "");
     }
-
     return message;
 }
 
