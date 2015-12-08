@@ -1,5 +1,6 @@
 #include "data.h"
 #include "QtSql"
+#include <iostream>
 
 using namespace std;
 
@@ -1062,16 +1063,23 @@ vector<PersonMachine> searchPMDB(const string &searchString, string &message, co
 
         // Searches through a specified field
         if(field != ""){
-            queStr += "WHERE " + QString::fromStdString(field) + " LIKE '%'||:ss||'%'";
+
+            QString qField = QString::fromStdString(field);
+
+            if(field == "id"){
+                qField.prepend("pers_mach.");
+            }
+
+            queStr += "WHERE " + qField + " LIKE '%'||:ss||'%'";
         }
         // Searches through all the fields
         else{
-            queStr +="WHERE id LIKE '%'||:ss||'%' "
-                    "OR p_name LIKE '%'||:ss||'%' "
-                    "OR m_name LIKE '%'||:ss||'%' "
-                    "OR m_type LIKE '%'||:ss||'%' "
-                    "OR m_system LIKE '%'||:ss||'%' "
-                    "OR p_country LIKE '%'||:ss||'%' ";
+            queStr += "WHERE pers_mach.id LIKE '%'||:ss||'%' "
+                      "OR p_name LIKE '%'||:ss||'%' "
+                      "OR m_name LIKE '%'||:ss||'%' "
+                      "OR m_type LIKE '%'||:ss||'%' "
+                      "OR m_system LIKE '%'||:ss||'%' "
+                      "OR p_country LIKE '%'||:ss||'%' ";
         }
 
         // Append sort
@@ -1082,6 +1090,11 @@ vector<PersonMachine> searchPMDB(const string &searchString, string &message, co
 
         // Bind
         query.bindValue(":ss", ss);
+
+        cout << "STRING: " << searchString << endl;
+        cout << "FIELD: " << field << endl;
+        cout << "SORTING: " << sorting << endl;
+        cout << "DESC: " << desc << endl;
 
         string p_name, p_country, m_name, m_type, m_system;
         int id;

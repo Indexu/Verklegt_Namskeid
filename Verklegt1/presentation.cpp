@@ -312,17 +312,17 @@ void loop(){
                             message = "Search command is missing flags. See help for instructions.";
                             cout << message << endl;
                         }
-                        else if (command == "search -pm"){
+                        else if (command.substr(0,11) == "search -pm "){
                             vector<PersonMachine> results = callSearchPMDB(command, message);
                             if (message == "") {
-                                displayPersonsMachines(pers_mach, longestPName, longestMName, longestMType, longestSName);
+                                displayPersonsMachines(results, longestPName, longestMName, longestMType, longestSName);
                             }
                             else {
                                 cout << message << endl;
                             }
                         }
                         // Searches through persons database
-                        else if (command.substr(0,9) == "search -p") {
+                        else if (command.substr(0,10) == "search -p ") {
                             vector<Person> results = callSearchPersonDB(command, message);
                             if (message == "") {
                                 displayPerson(results, longestPName);
@@ -332,7 +332,7 @@ void loop(){
                             }
                         }
                         // Searches through machine database
-                        else if (command.substr(0,9) == "search -m") {
+                        else if (command.substr(0,10) == "search -m ") {
                             vector<Machine> results = callSearchMachineDB(command, message);
                             if (message == "") {
                                 displayMachine(results, longestMName, longestMType);
