@@ -363,10 +363,45 @@ string delMachine(vector<Machine> &m, string &command){
         message = "| " + to_string(id) + " - " + name + " has been deleted.";
         populateMachineVector(m, "");
     }
-
     return message;
 }
 
+// Person-Machine
+string delPersonMachine(vector<PersonMachine> &pm, string &command){
+    string name, message = ""; // Return message
+    int id; // The extracted ID
+
+    // Check for missing ID
+    if(command.length() < 10){
+        message = "ID is missing";
+        return message;
+    }
+
+    // Remove "delete -c"
+    command = command.erase(0,10);
+
+    // Confirm the ID is a number
+    if(!isNumber(command)){
+        message = "ID must only contain digits";
+        return message;
+    }
+
+    // Convert to int
+    id = stoi(command);
+
+    // Get index
+    int index = getMIndexByID(pm, id);
+
+    // Delete
+    message = delPersMachDB(id);
+
+    // Success message
+    if(message == ""){
+        message = "| " + to_string(id) + " has been deleted.";
+        populatePMVector(pm, "");
+    }
+    return message;
+}
 
 // ===== EDIT =====
 // Person edit

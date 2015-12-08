@@ -241,6 +241,13 @@ void loop(){
                                 cout << message << endl;
                             }
                         }
+                        // Delete person-machine connection
+                        else if(command.substr(0,10) == "delete -c") {
+                            message = delPersMachDB(pers_mach, command);
+                            if (message != "") {
+                                cout << message << endl;
+                            }
+                        }
                         // Invalid flag
                         else{
                             cout << "First flag is invalid! Available flags are: -p for person, -m for machines." << endl;
