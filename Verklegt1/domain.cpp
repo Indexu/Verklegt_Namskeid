@@ -18,8 +18,8 @@ string populatePersonVector(vector<Person> &p, const char &sortColumn, const boo
 }
 
 // ===== POPULATE MACHINE VECTOR =====
-string populateMachineVector(vector<Machine> &m, const string &sorting){
-    return getMachinesDB(m, sorting);
+string populateMachineVector(vector<Machine> &m, const char &sortColumn, const bool &desc){
+    return getMachinesDB(m, sortColumn, desc);
 }
 
 // ===== POPULATE TYPES AND SYSTEMS VECTOR =====
@@ -92,6 +92,9 @@ vector<Person> listPersons(string &command, string &message){
         else if(split[0] == "-e"){
             sortColumn = 'e';
         }
+        else if(split[0] == ""){
+            sortColumn = ' ';
+        }
         else{
             message = "Invalid flag: \"" + command + "\"";
             return p;
@@ -100,31 +103,6 @@ vector<Person> listPersons(string &command, string &message){
 
     populatePersonVector(p, sortColumn, desc);
 
-    /*if(command == "-a"){
-        populatePersonVector(p, "a");
-    }
-    else if(command == "-z"){
-        populatePersonVector(p, "z");
-    }
-    else if(command == "-d"){
-        populatePersonVector(p, "d");
-    }
-    else if(command == "-g"){
-        populatePersonVector(p, "g");
-    }
-    else if(command == "-c"){
-        populatePersonVector(p, "c");
-    }
-    else if(command == "-b"){
-        populatePersonVector(p, "b");
-    }
-    else if(command == ""){
-        populatePersonVector(p, "");
-    }
-    else{
-        message = "Invalid flag: \"" + command + "\"";
-    }*/
-
     return p;
 }
 
@@ -132,32 +110,73 @@ vector<Person> listPersons(string &command, string &message){
 vector<Machine> listMachines(string &command, string &message){
     vector<Machine> m;
 
+    bool desc = false; // Descending flag
+    char sortColumn = ' '; // Which column to order by
+
+    // Erase "ls -m "
     command = command.erase(0,6);
 
-    if(command == "-a"){
-        populateMachineVector(m, "a");
+    // Split
+    vector<string> split = splitString(command, " ");
+
+    // Size check
+    if(split.size() > 2){
+        message = "Invalid ls command. See help for instructions.";
+        return m;
     }
-    else if(command == "-z"){
-        populateMachineVector(m, "z");
+    // Check descending flag
+    else if(split.size() == 2){
+        if(split[0] == split[1]){
+            message = "Flags cannot be the same. See help for instructions.";
+            return m;
+        }
+        else if(split[0] == "-d"){
+            split.erase(split.begin() + 0);
+            desc = true;
+        }
+        else if(split[1] == "-d"){
+            split.erase(split.begin() + 1);
+            desc = true;
+        }
+        else{
+            message = "Invalid ls command. See help for instructions.";
+            return m;
+        }
     }
-    else if(command == "-d"){
-        populateMachineVector(m, "d");
+
+    if(split.size() == 1){
+        if(split[0] == "-n"){
+            sortColumn = 'n';
+        }
+        else if(split[0] == "-d"){
+            sortColumn = 'd';
+            desc = true;
+        }
+        else if(split[0] == "-d"){
+            sortColumn = 'd';
+        }
+        else if(split[0] == "-y"){
+            sortColumn = 'y';
+        }
+        else if(split[0] == "-b"){
+            sortColumn = 'b';
+        }
+        else if(split[0] == "-t"){
+            sortColumn = 't';
+        }
+        else if(split[0] == "-s"){
+            sortColumn = 's';
+        }
+        else if(split[0] == ""){
+            sortColumn = ' ';
+        }
+        else{
+            message = "Invalid flag: \"" + command + "\"";
+            return m;
+        }
     }
-    else if(command == "-y"){
-        populateMachineVector(m, "y");
-    }
-    else if(command == "-t"){
-        populateMachineVector(m, "t");
-    }
-    else if(command == "-s"){
-        populateMachineVector(m, "s");
-    }
-    else if(command == ""){
-        populateMachineVector(m, "");
-    }
-    else{
-        message = "Invalid flag: \"" + command + "\"";
-    }
+
+    populateMachineVector(m, sortColumn, desc);
 
     return m;
 }
@@ -359,7 +378,7 @@ string addMachine(vector<Machine> &m, const string &name, const string &year, co
     addMachineDB(name, year, built, type, system);
 
     // Re-populate vector
-    populateMachineVector(m, "");
+    populateMachineVector(m, ' ', false);
 
     return "Machine " + name + " succesfully added.";
 }
@@ -440,7 +459,7 @@ string delMachine(vector<Machine> &m, string &command){
     // Success message
     if(message == ""){
         message = "| " + to_string(id) + " - " + name + " has been deleted.";
-        populateMachineVector(m, "");
+        populateMachineVector(m, ' ', false);
     }
 
     return message;
@@ -657,7 +676,7 @@ string editMachine(vector<Machine> &m, string command){
 
         // Confirmation message
         message = "ID " + strID + " - " + field + " of " + name + " changed to: " + newValue;
-        populateMachineVector(m, "");
+        populateMachineVector(m, ' ', false);
     }
     else{
         return message;
