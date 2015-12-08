@@ -346,3 +346,18 @@ string boolYesNo(bool num) {
     (num) ? yesNo = "yes" : yesNo = "no";
     return yesNo;
 }
+
+vector<string> getArgs(string query) {
+    vector<string> args = splitString(query, " ");
+    vector<string> result;
+
+    for (int i = 0; i < args.size(); i++) {
+        if (args[i].substr(0,1) == "-") {
+            result.push_back(args[i]);
+        }
+        else {
+            break;
+        }
+    }
+    return result;
+}
