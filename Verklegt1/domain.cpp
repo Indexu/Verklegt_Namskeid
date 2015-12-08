@@ -4,7 +4,6 @@
 #include "machine.h"
 #include "utility.h"
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
@@ -394,8 +393,6 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     // Erase command + -p/-m
     query.erase(0,10);
 
-    cout << "QUERY: " << query << endl;
-
     // Get arguments from the vector
     vector<string> arguments = getArgs(query);
 
@@ -455,12 +452,6 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     }
 
     sort = convert2Field(sort, "machine");
-
-    cout << "QUERY: " << query << endl;
-    cout << "STRING: " << searchString << endl;
-    cout << "ARG: " << arg << endl;
-    cout << "SORT: " << sort << endl;
-    cout << "DESC: " << desc << endl;
 
     results = searchMachineDB(searchString, message, arg, sort, desc);
 
