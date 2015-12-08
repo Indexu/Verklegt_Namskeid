@@ -327,6 +327,8 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     message = "";
     // Field flag
     string arg = "";
+    // Sorting flag
+    string sort = "";
 
     // Erase command + -p/-m
     query.erase(0,10);
@@ -340,7 +342,7 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
     string searchString = query;
     string field = convert2Field(arg, "person");
 
-    results = searchPersonDB(searchString, message, field);
+    results = searchPersonDB(searchString, message, field, sort);
 
     if(message == ""){
         if (results.empty()) {
@@ -358,12 +360,15 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     message = "";
     // Field flag
     string arg = "";
+    // Sorting flag
+    string sort = "";
 
     // Erase command + -p/-m
     query.erase(0,10);
+    vector<string> searchPerson = splitString(query, " ");
 
     // Get field flag
-    if(query.substr(0,1) == "-"){
+    if(searchPerson[0].substr(0,1) == "-" && searchPerson[0].length() == 2){
         arg = query.substr(0,2);
         query.erase(0,3);
     }
@@ -371,7 +376,7 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     string searchString = query;
     string field = convert2Field(arg, "machine");
 
-    results = searchMachineDB(searchString, message, field);
+    results = searchMachineDB(searchString, message, field, sort);
 
     if(message == ""){
         if (results.empty()) {

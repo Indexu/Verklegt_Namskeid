@@ -259,7 +259,7 @@ bool personIDExistsDB(const int &id, string &error){
 }
 
 // Search for a person in DB
-vector<Person> searchPersonDB(string &searchString, string &message, string &field){
+vector<Person> searchPersonDB(string &searchString, string &message, string &field, string sort){
     vector<Person> results; // Result vector
 
     if(db.open()){
@@ -330,7 +330,6 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
 // ===== MACHINE =====
 // Get data
 string getMachinesDB(vector<Machine> &m,  const char &sortColumn, const bool &desc){
-
     // Open
     if(db.open()){
         // Empty vector
@@ -441,7 +440,7 @@ string getMachineByIdDB(vector<Machine> &m, const int &id){
 }
 
 // Search for a machine
-vector<Machine> searchMachineDB(string &searchString, string &message, string &field){
+vector<Machine> searchMachineDB(string &searchString, string &message, string &field, string sort){
     vector<Machine> results; // Result vector
 
     if(db.open()){
