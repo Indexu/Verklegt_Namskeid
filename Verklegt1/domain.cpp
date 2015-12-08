@@ -400,36 +400,48 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     if (arguments.size() == 0){
         searchString = query;
     }
+    // Args = 1
     else if (arguments.size() == 1){
+        // Sort
         if (arguments[0].length() == 3){
             sort = arguments[0].erase(1,1);
             query.erase(0,4);
         }
+        // Descending
         else if(arguments[0] == "-d"){
             desc = true;
             query.erase(0,3);
         }
+        // Field
         else if (arguments[0].length() == 2){
             arg = convert2Field(arguments[0], "machine");
             query.erase(0,3);
         }
     }
+    // Args = 2
     else if (arguments.size() == 2){
+        // Arg
         arg = convert2Field(arguments[0], "machine");
 
+        // Sort
         if(arguments[2] != "-d"){
             sort = arguments[1].erase(1,1);
         }
+        // Descending
         else{
            desc = true;
         }
 
         query.erase(0,7);
     }
+    // Args = 3
     else if (arguments.size() == 3){
+        // Arg
         arg = convert2Field(arguments[0], "machine");
+        // Sort
         sort = arguments[1].erase(1,1);
 
+        // Descending
         if(arguments[2] != "-d"){
             message = "Invalid flag: " + arguments[2];
             return results;
@@ -440,21 +452,26 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
 
         query.erase(0,10);
     }
+    // Args > 3
     else {
         message = "Too many arguments.";
         return results;
     }
 
+    // What is left of query is the search string
     searchString = query;
 
     if (sort == "-d") {
         desc = true;
     }
 
+    // Sort to field
     sort = convert2Field(sort, "machine");
 
+    // Run
     results = searchMachineDB(searchString, message, arg, sort, desc);
 
+    // Check errors
     if(message == ""){
         if (results.empty()) {
             message = "No entries matched your search.";
