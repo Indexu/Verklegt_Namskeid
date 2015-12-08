@@ -347,11 +347,12 @@ string boolYesNo(bool num) {
     return yesNo;
 }
 
+// Get a vector of arguments from a string
 vector<string> getArgs(string query) {
     vector<string> args = splitString(query, " ");
     vector<string> result;
-
-    for (int i = 0; i < args.size(); i++) {
+    // Loop through the vector given by splitString and put arguments in results vector
+    for (int i = 0; i < (int)args.size(); i++) {
         if (args[i].substr(0,1) == "-") {
             result.push_back(args[i]);
         }
