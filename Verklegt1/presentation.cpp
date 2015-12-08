@@ -32,11 +32,11 @@ void loop(){
 
     if(message == ""){
         // Add data to persons vector
-        message = populatePersonVector(people, "");
+        message = populatePersonVector(people, ' ', false);
 
         if(message == ""){
             // Add data to machines vector
-            message = populateMachineVector(machines, "");
+            message = populateMachineVector(machines, ' ', false);
 
             // Add data to types vector
             if(message == ""){
@@ -227,7 +227,7 @@ void loop(){
                         }
                         // Delete person
                         else if(command.substr(0,10) == "delete -pm"){
-                            message = delPM(pers_mach, people, machines, command);
+                            message = delPM(pers_mach,people, machines, command);
 
                             if(message != ""){
                                 cout << message << endl;
@@ -514,7 +514,7 @@ void addProcessMachine(vector<Machine> &m, const vector<TypeSystem> &t, const ve
     // Type
     do{
         // Print options
-        for(size_t i = 0; i < t.size(); i++){
+        for(int i = 0; i < (int)t.size(); i++){
             cout << t[i].getId() << ". " << t[i].getName() << endl;
         }
 

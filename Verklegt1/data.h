@@ -12,7 +12,7 @@ std::string initDB();
 
 // == Persons ==
 // Get persons
-std::string getPersonsDB(std::vector<Person> &p, const std::string &sorting);
+std::string getPersonsDB(std::vector<Person> &p, const char &sortColumn, const bool &desc);
 // Get person by ID
 std::string getPersonByIdDB(std::vector<Person> &p, const int &id);
 // Add person
@@ -30,7 +30,7 @@ std::vector<Person> searchPersonDB(std::string &searchString, std::string &messa
 // Search for a machine
 std::vector<Machine> searchMachineDB(std::string &searchString, std::string &message, std::string &field);
 // Get machines
-std::string getMachinesDB(std::vector<Machine> &m, const std::string &sorting);
+std::string getMachinesDB(std::vector<Machine> &m, const char &sortColumn, const bool &desc);
 // Get machine by ID
 std::string getMachineByIdDB(std::vector<Machine> &m, const int &id);
 // Add machine

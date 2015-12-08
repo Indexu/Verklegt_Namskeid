@@ -24,7 +24,7 @@ string initDB(){
 // ===== PERSON =====
 
 // Get data
-string getPersonsDB(vector<Person> &p, const string &sorting){
+string getPersonsDB(vector<Person> &p, const char &sortColumn, const bool &desc){
 
     // Open
     if(db.open()){
@@ -33,15 +33,29 @@ string getPersonsDB(vector<Person> &p, const string &sorting){
 
         QSqlQuery query(db);
 
+        QString orderMethod = "ASC";
+        if(desc || sortColumn == 'd'){
+            orderMethod = "DESC";
+        }
+
         QString sort = "";
-        if(sorting == "a"){
-            sort = "ORDER BY name ASC, id ASC";
+        if(sortColumn =='n'){
+            sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
         }
-        else if(sorting == "z"){
-            sort = "ORDER BY name DESC, id DESC";
+        else if(sortColumn == 'd'){
+            sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
         }
-        else if(sorting == "d"){
-            sort = "ORDER BY id DESC, name DESC";
+        else if(sortColumn == 'g'){
+            sort = "ORDER BY gender "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sortColumn == 'c'){
+            sort = "ORDER BY country "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sortColumn == 'b'){
+            sort = "ORDER BY date(date_of_birth) "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sortColumn == 'e'){
+            sort = "ORDER BY date(date_of_death) "+ orderMethod + ", name " + orderMethod;
         }
 
         QString queStr = "SELECT * FROM persons " + sort;
@@ -315,7 +329,7 @@ vector<Person> searchPersonDB(string &searchString, string &message, string &fie
 
 // ===== MACHINE =====
 // Get data
-string getMachinesDB(vector<Machine> &m, const string &sorting){
+string getMachinesDB(vector<Machine> &m,  const char &sortColumn, const bool &desc){
 
     // Open
     if(db.open()){
@@ -324,15 +338,29 @@ string getMachinesDB(vector<Machine> &m, const string &sorting){
 
         QSqlQuery query(db);
 
+        QString orderMethod = "ASC";
+        if(desc || sortColumn == 'd'){
+            orderMethod = "DESC";
+        }
+
         QString sort = "";
-        if(sorting == "a"){
-            sort = "ORDER BY name ASC, id ASC";
+        if(sortColumn =='n'){
+            sort = "ORDER BY name "+ orderMethod + ", id " + orderMethod;
         }
-        else if(sorting == "z"){
-            sort = "ORDER BY name DESC, id DESC";
+        else if(sortColumn == 'd'){
+            sort = "ORDER BY id "+ orderMethod + ", name " + orderMethod;
         }
-        else if(sorting == "d"){
-            sort = "ORDER BY id DESC, name DESC";
+        else if(sortColumn == 'y'){
+            sort = "ORDER BY year "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sortColumn == 'b'){
+            sort = "ORDER BY built "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sortColumn == 't'){
+            sort = "ORDER BY type "+ orderMethod + ", name " + orderMethod;
+        }
+        else if(sortColumn == 's'){
+            sort = "ORDER BY system "+ orderMethod + ", name " + orderMethod;
         }
 
         QString queStr = "SELECT machines.id AS id, machines.name AS name, machines.year AS year, "

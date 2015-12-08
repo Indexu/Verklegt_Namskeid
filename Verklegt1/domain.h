@@ -11,10 +11,10 @@
 std::string startDB();
 
 // Populate people
-std::string populatePersonVector(std::vector<Person> &p, const std::string &sorting);
+std::string populatePersonVector(std::vector<Person> &p, const char &sortColumn, const bool &desc);
 
 // Populate machine
-std::string populateMachineVector(std::vector<Machine> &m, const std::string &sorting);
+std::string populateMachineVector(std::vector<Machine> &m, const char &sortColumn, const bool &desc);
 
 // Populate types and systems
 std::string populateTSVector(std::vector<TypeSystem> &ts, const std::string table, const std::string &sorting);
