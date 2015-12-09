@@ -32,16 +32,22 @@ std::vector<TypeSystem> listTS(std::string &command, std::string &message);
 std::vector<PersonMachine> listPM(std::string &command, std::string &message);
 
 // Searching for persons
-std::vector<Person> callSearchPersonDB(std::string &query, std::string &message);
+std::vector<Person> callSearchPersonDB(std::string &query, std::string &message, const bool &filter);
 
 // Searching for machines
-std::vector<Machine> callSearchMachineDB(std::string &query, std::string &message);
+std::vector<Machine> callSearchMachineDB(std::string &query, std::string &message, const bool &filter);
 
 // Searching for person-machine
-std::vector<PersonMachine> callSearchPMDB(std::string &query, std::string &message);
+std::vector<PersonMachine> callSearchPMDB(std::string &query, std::string &message, const bool &filter);
 
-// Filter
-std::vector<Person> filter(std::string &query, std::string &message);
+// Filter Person
+std::vector<Person> filterPerson(std::string &query, std::string &message);
+
+// Filter machine
+std::vector<Machine> filterMachine(std::string &query, std::string &message);
+
+// Filter person machine
+std::vector<PersonMachine> filterPM(std::string &query, std::string &message);
 
 // Add new person to DB
 std::string addPerson(std::vector<Person> &p, const std::string &name, const std::string &gender, const std::string &dob, const std::string &dod, const std::string &country);

@@ -6,8 +6,8 @@ Machine::Machine(int id, std::string n, int y, bool b, std::string t, std::strin
     Name = n;
     Year = y;
     Built = b;
-    type = t;
-    system = s;
+    Type = t;
+    System = s;
 }
 
 // GETTERS/SETTERS
@@ -49,18 +49,29 @@ void Machine::setName(std::string n) {
 
 // Get/set machine type
 std::string Machine::getType() const{
-    return type;
+    return Type;
 }
 
 void Machine::setType(std::string t) {
-    type = t;
+    Type = t;
 }
 
 // Get/set machine numerical system
 std::string Machine::getSystem() const{
-    return system;
+    return System;
 }
 
 void Machine::setSystem(std::string s) {
-    system = s;
+    System = s;
+}
+
+// Operator ==
+bool Machine::operator==(const Machine &m) const{
+    bool n = (Name == m.getName());
+    bool y = (Year == m.getYear());
+    bool b = (Built == m.getBuilt());
+    bool t = (Type == m.getType());
+    bool s = (System == m.getSystem());
+
+    return (n && y && b && t && s);
 }

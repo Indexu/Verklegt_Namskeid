@@ -65,4 +65,7 @@ bool stringBool(std::string s);
 // Parse search command
 std::string parseSearchArgs(std::string &query, std::string &searchString, std::vector<std::string> &arguments, std::string &arg, std::string &sort, bool &desc, const std::string &db);
 
+// Get command without value
+std::string getNoValueCommand(std::string query);
+
 #endif // UTILITY_H

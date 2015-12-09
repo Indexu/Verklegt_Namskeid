@@ -61,3 +61,14 @@ std::string PersonMachine::getM_System() const{
 void PersonMachine::setM_System(std::string m_system){
     M_System = m_system;
 }
+
+// Operator ==
+bool PersonMachine::operator==(const PersonMachine &pm) const{
+    bool pn = (P_Name == pm.getP_Name());
+    bool mn = (M_Name == pm.getM_Name());
+    bool c = (P_Country == pm.getP_Country());
+    bool t = (M_Type == pm.getM_Type());
+    bool s = (M_System == pm.getM_System());
+
+    return (pn && mn && c && t && s);
+}

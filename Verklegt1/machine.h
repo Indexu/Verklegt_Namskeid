@@ -7,8 +7,8 @@ class Machine{
     std::string Name;
     int Year;
     bool Built;
-    std::string type;
-    std::string system;
+    std::string Type;
+    std::string System;
 public:
     // Constructor
     Machine(int id, std::string n, int y, bool b, std::string t, std::string s);
@@ -37,6 +37,9 @@ public:
     // Get/set machine numerical system
     std::string getSystem() const;
     void setSystem(std::string s);
+
+    // Overload == operator
+    bool operator==(const Machine &p) const;
 
 };
 

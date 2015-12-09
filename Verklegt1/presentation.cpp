@@ -180,8 +180,17 @@ void loop(){
                             message = "Filter command is missing flags. See help for instructions.";
                             cout << message << endl;
                         }
+                        /*else if (command.substr(0,9) == "filter -pm") {
+                            vector<PersonMachine> results = filterPM(command, message);
+                            if (message == "") {
+                                displayPersonsMachines(results, longestPName, longestMName, longestMType, longestSName);
+                            }
+                            else {
+                                cout << message << endl;
+                            }
+                        }*/
                         else if (command.substr(0,9) == "filter -p") {
-                            vector<Person> results = filter(command, message);
+                            vector<Person> results = filterPerson(command, message);
                             if (message == "") {
                                 displayPerson(results, longestPName);
                             }
@@ -190,8 +199,13 @@ void loop(){
                             }
                         }
                         else if (command.substr(0,9) == "filter -m") {
-                            message = "DB_Machine not ready yet. Try filter -p for persons.";
-                            cout << message;
+                            vector<Machine> results = filterMachine(command, message);
+                            if (message == "") {
+                                displayMachine(results, longestMName, longestMType);
+                            }
+                            else {
+                                cout << message << endl;
+                            }
                         }
                         else {
                             message = "First flag is invalid! Available flags are: -p for person, -m for machines.";
@@ -312,7 +326,7 @@ void loop(){
                             cout << message << endl;
                         }
                         else if (command.substr(0,10) == "search -pm"){
-                            vector<PersonMachine> results = callSearchPMDB(command, message);
+                            vector<PersonMachine> results = callSearchPMDB(command, message, false);
                             if (message == "") {
                                 displayPersonsMachines(results, longestPName, longestMName, longestMType, longestSName);
                             }
@@ -322,7 +336,7 @@ void loop(){
                         }
                         // Searches through persons database
                         else if (command.substr(0,9) == "search -p") {
-                            vector<Person> results = callSearchPersonDB(command, message);
+                            vector<Person> results = callSearchPersonDB(command, message, false);
                             if (message == "") {
                                 displayPerson(results, longestPName);
                             }
@@ -332,7 +346,7 @@ void loop(){
                         }
                         // Searches through machine database
                         else if (command.substr(0,9) == "search -m") {
-                            vector<Machine> results = callSearchMachineDB(command, message);
+                            vector<Machine> results = callSearchMachineDB(command, message, false);
                             if (message == "") {
                                 displayMachine(results, longestMName, longestMType);
                             }
@@ -869,7 +883,7 @@ void help(string command) {
         cout << "==================FILTER MENU==================" << endl;
         cout << "[filter -p] is used to filter persons." << endl;
         cout << "[filter -m] is used to filter machines." << endl;
-        cout << "[filter -pm] is used to filter connections between persons and machines." << endl;
+        //cout << "[filter -pm] is used to filter connections between persons and machines." << endl;
      }
     // Filter options for persons
     else if (command == "filter -p") {
@@ -919,7 +933,7 @@ void help(string command) {
         cout << "Type [-d] to sort filter in a descending order." << endl;
     }
     // Filter options for person machine connections
-    else if (command == "filter -pm") {
+    /*else if (command == "filter -pm") {
         cout << "==================[filter -pm]=================" << endl;
         cout << endl;
         cout << "| filter -pm [field][sort][-d][value]" << endl;
@@ -940,7 +954,7 @@ void help(string command) {
         cout << "[-ss] sorts filter by system." << endl;
         cout << endl;
         cout << "Type [-d] to sort filter in a descending order." << endl;
-    }
+    }*/
 
     // Delete
     else if (command == "delete") {
@@ -979,7 +993,7 @@ void help(string command) {
         cout << endl;
         cout << "edit -m -n [id] [value] edits the name of the machine with the corresponding id with the specified value." << endl;
         cout << "edit -m -y [id] [value] edits the year of the machine with the corresponding id with the specified value." << endl;
-        cout << "edit -m -b [id] [value] edits the built of the machine with the corresponding id. Accepted values are \"y\",\yes\", \"n\" and \"no\"" << endl;
+        cout << "edit -m -b [id] [value] edits the built of the machine with the corresponding id. Accepted values are \"y\",\"yes\", \"n\" and \"no\"" << endl;
         cout << "edit -m -t [id] [value] edits the type of the machine with the corresponding id. Accepted values are IDs that already exist." << endl;
         cout << "edit -m -s [id] [value] edits the system of the machine with the corresponding id. Accepted values are IDs that already exist." << endl;
      }

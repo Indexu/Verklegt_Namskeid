@@ -37,6 +37,9 @@ public:
     // Get set machine system
     std::string getM_System() const;
     void setM_System(std::string m_system);
+
+    // Overload == operator
+    bool operator==(const PersonMachine &p) const;
 };
 
 #endif // PERSONMACHINE_H
