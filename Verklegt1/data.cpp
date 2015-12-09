@@ -1,31 +1,38 @@
 #include "data.h"
-#include "QtSql"
-#include <iostream>
 
 using namespace std;
 
 const QString DB_NAME = "verklegt.sqlite";
-QSqlDatabase db;
+const QString CON_NAME = "verklegtCon";
 
-// Initialize database connection
-string initDB(){
+// Get database connection
+QSqlDatabase getDBCon()
+{
+    QSqlDatabase db;
 
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    QString dbName = DB_NAME;
-    db.setDatabaseName(dbName);
-
-    if(!db.open()){
-        return "Unable to connect to database";
+    // If connection has already been made, return the connection
+    if(QSqlDatabase::contains(CON_NAME))
+    {
+        db = QSqlDatabase::database(CON_NAME);
     }
-    else{
-        return "";
+    // Make new connection
+    else
+    {
+        db = QSqlDatabase::addDatabase("QSQLITE", CON_NAME);
+        db.setDatabaseName(DB_NAME);
+
+        db.open();
     }
+
+    return db;
 }
 
 // ===== PERSON =====
 
 // Get data
 string getPersonsDB(vector<Person> &p, const char &sortColumn, const bool &desc){
+    // DB con
+    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -92,6 +99,8 @@ string getPersonsDB(vector<Person> &p, const char &sortColumn, const bool &desc)
 
 // Get person row by ID
 string getPersonByIdDB(vector<Person> &p, const int &id){
+    // DB con
+    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -133,6 +142,8 @@ string getPersonByIdDB(vector<Person> &p, const int &id){
 
 // Add Person
 string addPersonDB(const string &name, const string &gender, const string &dob, const string &dod, const string &country){
+    // DB con
+    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -171,6 +182,9 @@ string addPersonDB(const string &name, const string &gender, const string &dob, 
 string delPersonDB(const int &id){
     string error = "";
     if(personIDExistsDB(id, error)){
+        // DB con
+        QSqlDatabase db = getDBCon();
+
         // Open
         if(db.open()){
             QSqlQuery query(db);
@@ -202,6 +216,9 @@ string delPersonDB(const int &id){
 
 // Edit person
 string editPersonDB(const int &id, const string &column, const string &value){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
     // Open
     if(db.open()){
         QSqlQuery query(db);
@@ -234,6 +251,9 @@ string editPersonDB(const int &id, const string &column, const string &value){
 
 // Check if person ID exists in DB
 bool personIDExistsDB(const int &id, string &error){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
     // Open
     if(db.open()){
         bool exists = false;
@@ -263,7 +283,10 @@ bool personIDExistsDB(const int &id, string &error){
 
 // Search for a person in DB
 vector<Person> searchPersonDB(const string &searchString, string &message, const string &field, const string &sorting, const bool &desc){
-    vector<Person> results; // Result vector
+    // DB con
+    QSqlDatabase db = getDBCon();
+
+    vector<Person> results;
 
     if(db.open()){
         QSqlQuery query(db);
@@ -354,6 +377,9 @@ vector<Person> searchPersonDB(const string &searchString, string &message, const
 // ===== MACHINE =====
 // Get data
 string getMachinesDB(vector<Machine> &m,  const char &sortColumn, const bool &desc){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
     // Open
     if(db.open()){
         // Empty vector
@@ -424,6 +450,8 @@ string getMachinesDB(vector<Machine> &m,  const char &sortColumn, const bool &de
 
 // Get machine row by ID
 string getMachineByIdDB(vector<Machine> &m, const int &id){
+    // DB con
+    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -468,7 +496,10 @@ string getMachineByIdDB(vector<Machine> &m, const int &id){
 
 // Search for a machine
 vector<Machine> searchMachineDB(const string &searchString, string &message, const string &field, const string &sorting, const bool &desc){
-    vector<Machine> results; // Result vector
+    // DB con
+    QSqlDatabase db = getDBCon();
+
+    vector<Machine> results;
 
     if(db.open()){
         QSqlQuery query(db);
@@ -564,6 +595,8 @@ vector<Machine> searchMachineDB(const string &searchString, string &message, con
 
 // Add Machine
 string addMachineDB(const string &name, const string &year, const string &built, const string &type, const string &system){
+    // DB con
+    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -602,6 +635,9 @@ string addMachineDB(const string &name, const string &year, const string &built,
 string delMachineDB(const int &id){
     string error = "";
     if(machineIDExistsDB(id, error)){
+        // DB con
+        QSqlDatabase db = getDBCon();
+
         // Open
         if(db.open()){
             QSqlQuery query(db);
@@ -633,6 +669,9 @@ string delMachineDB(const int &id){
 
 // Edit machine
 string editMachineDB(const int &id, const string &column, const string &value){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
     // Open
     if(db.open()){
         QSqlQuery query(db);
@@ -650,10 +689,6 @@ string editMachineDB(const int &id, const string &column, const string &value){
         query.bindValue(":val", val);
         query.bindValue(":id", id);
 
-        cout << query.lastQuery().toStdString() << endl;
-        cout << "VALUE: " << val.toStdString() << endl;
-        cout << "ID: " << id << endl;
-
         if(!query.exec()){
             return query.lastError().text().toStdString();
         }
@@ -669,6 +704,9 @@ string editMachineDB(const int &id, const string &column, const string &value){
 
 // Check if machine ID exists in DB
 bool machineIDExistsDB(const int &id, string &error){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
     // Open
     if(db.open()){
         bool exists = false;
@@ -699,6 +737,8 @@ bool machineIDExistsDB(const int &id, string &error){
 // ===== Types and Systems =====
 // Get data
 string getTSDB(vector<TypeSystem> &ts, const char &table, const char &sortColumn, const bool &desc){
+    // DB con
+    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -757,6 +797,9 @@ string getTSDB(vector<TypeSystem> &ts, const char &table, const char &sortColumn
 
 // Check if type/system id exists
 bool TSExistsDB(const int &id, const string &tab, string &error){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
     // Open
     if(db.open()){
         bool exists = false;
@@ -788,6 +831,8 @@ bool TSExistsDB(const int &id, const string &tab, string &error){
 // ===== PERSON MACHINE =====
 // Get Person Machine
 string getPersonMachineDB(vector<PersonMachine> &pm, const char &sortColumn, const bool &desc){
+    // DB con
+    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -865,6 +910,9 @@ string addPersonMachineDB(const int &p_id, const int &m_id){
         if(machineIDExistsDB(m_id, error)){
             // Check if connection exists
             if(!connectionPMExistsDB(p_id, m_id, error)){
+                // DB con
+                QSqlDatabase db = getDBCon();
+
                 // Open
                 if(db.open()){
                     QSqlQuery query(db);
@@ -913,6 +961,9 @@ string addPersonMachineDB(const int &p_id, const int &m_id){
 string delPersMachDB(const int &id) {
     string error = "";
     if(persMachConnectionIDExistsDB(id, error)){
+        // DB con
+        QSqlDatabase db = getDBCon();
+
         // Open
         if(db.open()){
             QSqlQuery query(db);
@@ -944,6 +995,9 @@ string delPersMachDB(const int &id) {
 
 // Check if machine ID exists in DB
 bool persMachConnectionIDExistsDB(const int &id, string &error){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
     // Open
     if(db.open()){
         bool exists = false;
@@ -974,6 +1028,9 @@ bool persMachConnectionIDExistsDB(const int &id, string &error){
 
 // Check if connection exists between person and machine
 bool connectionPMExistsDB(const int &pid, const int &mid, string &error){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
     // Open
     if(db.open()){
         bool exists = false;
@@ -1006,6 +1063,8 @@ bool connectionPMExistsDB(const int &pid, const int &mid, string &error){
 
 // Get person-machine row by ID
 string getPMByIdDB(vector<PersonMachine> &pm, const int &id){
+    // DB con
+    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -1050,8 +1109,11 @@ string getPMByIdDB(vector<PersonMachine> &pm, const int &id){
 }
 
 // Search for a person machine connection in DB
-vector<PersonMachine> searchPMDB(const string &searchString, string &message, const string &field, const string &sorting, const bool &desc){
-    vector<PersonMachine> results; // Result vector
+vector<PersonMachine> searchPMDB(const string &searchString, string &message, const string &field, const string &sorting, const bool &desc){  
+    // DB con
+    QSqlDatabase db = getDBCon();
+
+    vector<PersonMachine> results;
 
     if(db.open()){
         QSqlQuery query(db);

@@ -27,9 +27,6 @@ void loop(){
     int longestSName; // Longest system name
     int currentId; // Current Id
 
-    // Connect to DB
-    message = startDB();
-
     if(message == ""){
         // Add data to persons vector
         message = populatePersonVector(people, ' ', false);
@@ -157,12 +154,12 @@ void loop(){
                         // List - Systems
                         else if(command.substr(0,5) == "ls -s"){
 
-                            // Get types
+                            // Get systems
                             systems = listTS(command, message);
 
                             // Check for errors
                             if(message == ""){
-                                // Display types
+                                // Display systems
                                 displayTS(systems, longestSName);
                             }
                             else{

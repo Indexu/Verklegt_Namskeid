@@ -7,9 +7,6 @@
 #include "personmachine.h"
 #include <vector>
 
-// Start database
-std::string startDB();
-
 // Populate people
 std::string populatePersonVector(std::vector<Person> &p, const char &sortColumn, const bool &desc);
 

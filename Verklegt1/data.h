@@ -6,9 +6,10 @@
 #include "machine.h"
 #include "typesystem.h"
 #include "personmachine.h"
+#include "QtSql"
 
-// Initialize DB
-std::string initDB();
+// Get database connection
+QSqlDatabase getDBCon();
 
 // == Persons ==
 // Get persons

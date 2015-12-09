@@ -7,10 +7,6 @@
 
 using namespace std;
 
-string startDB(){
-    return initDB();
-}
-
 // ===== POPULATE PERSON VECTOR =====
 string populatePersonVector(vector<Person> &p, const char &sortColumn, const bool &desc){
     return getPersonsDB(p, sortColumn, desc);
