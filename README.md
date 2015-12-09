@@ -56,22 +56,19 @@ skilaverkefni 2:
 
 
 * Nafn persónu
-
 * Kyn 
 * Fæðingardag
-
 * Dánardag (ef það á við)
-
 * Vélarnafn
 * Byggingarár
-
 * Hvort vélin var byggð
 * Vélartýpa
-
 * Vélarkerfi
-
 * Upprunarland  
 
 
 
 Við bættum líka við tengingum á milli persóna og tölva sem og að geta skoðað hver margar tölvu tengjast hverri persónu og öfugt ásamt því að geta leitað í tengingunum.
+
+Camel Case is the practice of writing compound words or phrases such that each word or abbreviation begins with a capital letter.
+Við notuðum líka Stroustrup indent style í forritinu okkar
