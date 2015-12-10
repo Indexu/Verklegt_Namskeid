@@ -39,6 +39,8 @@ private slots:
 
     void on_personFilterComboBox_currentIndexChanged(int index);
 
+    void on_personDeleteButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Data dataLayer;
