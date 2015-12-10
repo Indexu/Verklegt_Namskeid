@@ -23,12 +23,18 @@ public:
 
     void setTableProperties(QTableView *tab);
     void setFilterPerson(QString filterStr, QString searchString);
+    void searchPerson(QString searchString);
+    void filterPerson(QString searchString);
 
 private slots:
 
     void on_personFilterField_textChanged(const QString &arg1);
 
     void on_personSearchField_textChanged(const QString &arg1);
+
+    void on_personSearchComboBox_currentIndexChanged(int index);
+
+    void on_personFilterComboBox_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;

@@ -22,6 +22,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->personSearchComboBox->addItem("Death date");
     ui->personSearchComboBox->addItem("Country");
 
+    ui->personFilterComboBox->addItem("All");
+    ui->personFilterComboBox->addItem("ID");
+    ui->personFilterComboBox->addItem("Name");
+    ui->personFilterComboBox->addItem("Gender");
+    ui->personFilterComboBox->addItem("Birth date");
+    ui->personFilterComboBox->addItem("Death date");
+    ui->personFilterComboBox->addItem("Country");
+
     displayPersonTable();
     displayMachinesTable();
     displayPMTable();
@@ -133,12 +141,7 @@ void MainWindow::setFilterPerson(QString filterStr, QString searchString)
     db.close();
 }
 
-void MainWindow::on_personFilterField_textChanged(const QString &arg1)
-{
-
-}
-
-void MainWindow::on_personSearchField_textChanged(const QString &arg1)
+void MainWindow::searchPerson(QString searchString)
 {
     int column = ui->personSearchComboBox->currentIndex();
 
@@ -165,6 +168,62 @@ void MainWindow::on_personSearchField_textChanged(const QString &arg1)
         filterStr = "country LIKE '%%1%'";
     }
 
-    setFilterPerson(filterStr, arg1);
+    setFilterPerson(filterStr, searchString);
+}
 
+void MainWindow::filterPerson(QString searchString)
+{
+    int column = ui->personFilterComboBox->currentIndex();
+
+    QString filterStr = "";
+    if(column == 0){
+        filterStr = "id NOT LIKE '%%1%' AND name NOT LIKE '%%1%' AND gender NOT LIKE '%%1%' AND date_of_birth NOT LIKE '%%1%' AND date_of_death NOT LIKE '%%1%' AND country NOT LIKE '%%1%'";
+    }
+    else if(column == 1){
+        filterStr = "id NOT LIKE '%%1%'";
+    }
+    else if(column == 2){
+        filterStr = "name NOT LIKE '%%1%'";
+    }
+    else if(column == 3){
+        filterStr = "gender NOT LIKE '%%1%'";
+    }
+    else if(column == 4){
+        filterStr = "date_of_birth NOT LIKE '%%1%'";
+    }
+    else if(column == 5){
+        filterStr = "date_of_death NOT LIKE '%%1%'";
+    }
+    else if(column == 6){
+        filterStr = "country NOT LIKE '%%1%'";
+    }
+
+    if(filterStr == ""){
+        return;
+    }
+
+    setFilterPerson(filterStr, searchString);
+}
+
+void MainWindow::on_personFilterField_textChanged(const QString &arg1)
+{
+    filterPerson(arg1);
+}
+
+void MainWindow::on_personSearchField_textChanged(const QString &arg1)
+{
+    searchPerson(arg1);
+
+}
+
+void MainWindow::on_personSearchComboBox_currentIndexChanged(int index)
+{
+    QString searchString = ui->personSearchField->text();
+    searchPerson(searchString);
+}
+
+void MainWindow::on_personFilterComboBox_currentIndexChanged(int index)
+{
+    QString searchString = ui->personFilterField->text();
+    filterPerson(searchString);
 }
