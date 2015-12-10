@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     machine.cpp \
     personmachine.cpp \
     data.cpp \
-    services.cpp
+    services.cpp \
+    adddialog.cpp
 
 HEADERS  += mainwindow.h \
     person.h \
@@ -28,6 +29,8 @@ HEADERS  += mainwindow.h \
     utilities.h \
     data.h \
     constants.h \
-    services.h
+    services.h \
+    adddialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    adddialog.ui

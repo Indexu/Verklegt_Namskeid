@@ -18,6 +18,9 @@ public:
     QSqlTableModel* getMachineModel(QObject *parent);
     // Get connection model from data layer
     QSqlTableModel* getConnectionModel(QObject *parent);
+
+    void searchPerson(QSqlTableModel *personModel, const QString &searchString, const int &column, QString &error);
+    void filterPerson(QSqlTableModel *personModel, const QString &searchString, const int &column, QString &error);
 };
 
 #endif // SERVICES_H

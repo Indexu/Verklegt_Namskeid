@@ -25,6 +25,8 @@ public:
     QSqlTableModel *getMachineModel(QObject *parent);
     // Get connection model
     QSqlTableModel *getConnectionModel(QObject *parent);
+
+    void setFilterPerson(QSqlTableModel *personModel, const QString &filterStr, const QString &searchString, QString &error);
 };
 
 #endif // DATA_H

@@ -126,3 +126,14 @@ QSqlTableModel *Data::getConnectionModel(QObject *parent){
     // Return
     return model;
 }
+
+// Set the filter of personModel
+void Data::setFilterPerson(QSqlTableModel *personModel, const QString &filterStr, const QString &searchString, QString &error){
+    // Set filter
+    personModel->setFilter(filterStr.arg(searchString));
+
+    // Error
+    if(personModel->lastError().isValid()){
+        error = personModel->lastError().text();
+    }
+}

@@ -6,6 +6,7 @@
 #include <QTableView>
 #include "data.h"
 #include "services.h"
+#include "adddialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,16 +19,24 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    // Display functions
     void displayPersonTable();
     void displayMachinesTable();
     void displayConnectionsTable();
 
+    // Get models
     void getModels();
+    // Set model headers
+    void setModelHeaders();
+    // Add items to comboboxes
     void addToComboboxes();
+    // Set table properties
     void setTableProperties(QTableView *tab);
-    void setFilterPerson(QString filterStr, QString searchString);
-    void searchPerson(QString searchString);
-    void filterPerson(QString searchString);
+    // Check error
+    void checkError();
+    
+   
 
 private slots:
 
@@ -39,6 +48,8 @@ private slots:
 
     void on_personFilterComboBox_currentIndexChanged(int index);
 
+    void on_personAddButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Data dataLayer;
@@ -46,6 +57,7 @@ private:
     QSqlTableModel *personModel;
     QSqlTableModel *machineModel;
     QSqlTableModel *connectionsModel;
+    QString error;
 };
 
 #endif // MAINWINDOW_H
