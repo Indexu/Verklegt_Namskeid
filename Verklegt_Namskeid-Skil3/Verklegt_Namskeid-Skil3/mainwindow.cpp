@@ -40,12 +40,7 @@ void MainWindow::displayPersonTable(){
     model->setHeaderData(5, Qt::Horizontal, tr("Country"));
 
     ui->personTable->setModel(model);
-    ui->personTable->horizontalHeader()->setStretchLastSection(true);
-    ui->personTable->horizontalHeader()->setSectionsClickable(true);
-    ui->personTable->setAlternatingRowColors(true);
-    ui->personTable->setSortingEnabled(true);
-    ui->personTable->sortByColumn(0, Qt::AscendingOrder);
-    ui->personTable->resizeColumnsToContents();
+    setTableProperties(ui->personTable);
     ui->personTable->show();
 }
 
@@ -65,12 +60,7 @@ void MainWindow::displayMachinesTable(){
     model->setHeaderData(5, Qt::Horizontal, tr("System"));
 
     ui->machineTable->setModel(model);
-    ui->machineTable->horizontalHeader()->setStretchLastSection(true);
-    ui->machineTable->horizontalHeader()->setSectionsClickable(true);
-    ui->machineTable->setAlternatingRowColors(true);
-    ui->machineTable->setSortingEnabled(true);
-    ui->machineTable->sortByColumn(0, Qt::AscendingOrder);
-    ui->machineTable->resizeColumnsToContents();
+    setTableProperties(ui->machineTable);
     ui->machineTable->show();
 }
 
@@ -90,11 +80,16 @@ void MainWindow::displayPMTable(){
     model->setHeaderData(5, Qt::Horizontal, tr("Country"));
 
     ui->PMTable->setModel(model);
-    ui->PMTable->horizontalHeader()->setStretchLastSection(true);
-    ui->PMTable->horizontalHeader()->setSectionsClickable(true);
-    ui->PMTable->setAlternatingRowColors(true);
-    ui->PMTable->setSortingEnabled(true);
-    ui->PMTable->sortByColumn(0, Qt::AscendingOrder);
-    ui->PMTable->resizeColumnsToContents();
+    setTableProperties(ui->PMTable);
     ui->PMTable->show();
+}
+
+void MainWindow::setTableProperties(QTableView *tab)
+{
+    tab->horizontalHeader()->setStretchLastSection(true);
+    tab->horizontalHeader()->setSectionsClickable(true);
+    tab->setAlternatingRowColors(true);
+    tab->setSortingEnabled(true);
+    tab->sortByColumn(0, Qt::AscendingOrder);
+    tab->resizeColumnsToContents();
 }

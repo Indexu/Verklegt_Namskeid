@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QTableView>
 #include "data.h"
 
 namespace Ui {
@@ -19,6 +20,8 @@ public:
     void displayPersonTable();
     void displayMachinesTable();
     void displayPMTable();
+
+    void setTableProperties(QTableView *tab);
 
 private slots:
 
