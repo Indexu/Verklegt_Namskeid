@@ -6,12 +6,21 @@
 #include <QDebug>
 #include <QSqlDatabase>
 #include <QSqlTableModel>
+#include <QSqlQuery>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->personSearchComboBox->addItem("All");
+    ui->personSearchComboBox->addItem("ID");
+    ui->personSearchComboBox->addItem("Name");
+    ui->personSearchComboBox->addItem("Gender");
+    ui->personSearchComboBox->addItem("Birth date");
+    ui->personSearchComboBox->addItem("Death date");
+    ui->personSearchComboBox->addItem("Country");
 
     displayPersonTable();
     displayMachinesTable();
@@ -92,4 +101,70 @@ void MainWindow::setTableProperties(QTableView *tab)
     tab->setSortingEnabled(true);
     tab->sortByColumn(0, Qt::AscendingOrder);
     tab->resizeColumnsToContents();
+}
+
+void MainWindow::setFilterPerson(QString filterStr, QString searchString)
+{
+    QSqlDatabase db = dataLayer.getDBCon();
+
+    QSqlTableModel *model = new QSqlTableModel(this, db);
+
+    model->setTable(constants::TABLE_PERSON);
+    model->setEditStrategy(QSqlTableModel::OnFieldChange);
+
+    model->setFilter(filterStr.arg(searchString));
+
+    model->select();
+
+    if(model->lastError().isValid()){
+        ui->personSearchField->setText("");
+        QMessageBox::warning(this, "SQl Error", model->lastError().text());
+    }
+
+    model->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    model->setHeaderData(2, Qt::Horizontal, tr("Gender"));
+    model->setHeaderData(3, Qt::Horizontal, tr("Date of birth"));
+    model->setHeaderData(4, Qt::Horizontal, tr("Date of death"));
+    model->setHeaderData(5, Qt::Horizontal, tr("Country"));
+
+    ui->personTable->setModel(model);
+
+    db.close();
+}
+
+void MainWindow::on_personFilterField_textChanged(const QString &arg1)
+{
+
+}
+
+void MainWindow::on_personSearchField_textChanged(const QString &arg1)
+{
+    int column = ui->personSearchComboBox->currentIndex();
+
+    QString filterStr = "";
+    if(column == 0){
+        filterStr = "id LIKE '%%1%' OR name LIKE '%%1%' OR gender LIKE '%%1%' OR date_of_birth LIKE '%%1%' OR date_of_death LIKE '%%1%' OR country LIKE '%%1%'";
+    }
+    else if(column == 1){
+        filterStr = "id LIKE '%%1%'";
+    }
+    else if(column == 2){
+        filterStr = "name LIKE '%%1%'";
+    }
+    else if(column == 3){
+        filterStr = "gender LIKE '%%1%'";
+    }
+    else if(column == 4){
+        filterStr = "date_of_birth LIKE '%%1%'";
+    }
+    else if(column == 5){
+        filterStr = "date_of_death LIKE '%%1%'";
+    }
+    else if(column == 6){
+        filterStr = "country LIKE '%%1%'";
+    }
+
+    setFilterPerson(filterStr, arg1);
+
 }

@@ -22,8 +22,13 @@ public:
     void displayPMTable();
 
     void setTableProperties(QTableView *tab);
+    void setFilterPerson(QString filterStr, QString searchString);
 
 private slots:
+
+    void on_personFilterField_textChanged(const QString &arg1);
+
+    void on_personSearchField_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
