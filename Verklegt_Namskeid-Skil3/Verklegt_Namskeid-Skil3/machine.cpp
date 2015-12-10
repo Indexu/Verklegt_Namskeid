@@ -1,7 +1,12 @@
 #include "machine.h"
 
+// Default
+Machine::Machine(){
+
+}
+
 // Constructor
-Machine::Machine(int id, std::string n, int y, bool b, std::string t, std::string s){
+Machine::Machine(int id, QString n, int y, bool b, QString t, QString s){
     Id = id;
     Name = n;
     Year = y;
@@ -39,29 +44,29 @@ void Machine::setBuilt(bool b) {
 }
 
 // Get/set machine name
-std::string Machine::getName() const{
+QString Machine::getName() const{
     return Name;
 }
 
-void Machine::setName(std::string n) {
+void Machine::setName(QString n) {
     Name = n;
 }
 
 // Get/set machine type
-std::string Machine::getType() const{
+QString Machine::getType() const{
     return Type;
 }
 
-void Machine::setType(std::string t) {
+void Machine::setType(QString t) {
     Type = t;
 }
 
 // Get/set machine numerical system
-std::string Machine::getSystem() const{
+QString Machine::getSystem() const{
     return System;
 }
 
-void Machine::setSystem(std::string s) {
+void Machine::setSystem(QString s) {
     System = s;
 }
 

@@ -1,17 +1,21 @@
 #ifndef MACHINE_H
 #define MACHINE_H
-#include <string>
+
+#include <QString>
 
 class Machine{
     int Id;
-    std::string Name;
+    QString Name;
     int Year;
     bool Built;
-    std::string Type;
-    std::string System;
+    QString Type;
+    QString System;
 public:
+    // Default
+    Machine();
+
     // Constructor
-    Machine(int id, std::string n, int y, bool b, std::string t, std::string s);
+    Machine(int id, QString n, int y, bool b, QString t, QString s);
 
     // GETTERS/SETTERS
     // Get/set machine ID
@@ -27,16 +31,16 @@ public:
     void setBuilt(bool b);
 
     // Get/set machine name
-    std::string getName() const;
-    void setName(std::string n);
+    QString getName() const;
+    void setName(QString n);
 
     // Get/set machine type
-    std::string getType() const;
-    void setType(std::string t);
+    QString getType() const;
+    void setType(QString t);
 
     // Get/set machine numerical system
-    std::string getSystem() const;
-    void setSystem(std::string s);
+    QString getSystem() const;
+    void setSystem(QString s);
 
     // Overload == operator
     bool operator==(const Machine &p) const;

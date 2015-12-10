@@ -1,7 +1,7 @@
 #include "personmachine.h"
 
 // Constructor
-PersonMachine::PersonMachine(int id, std::string p_name, std::string p_country, std::string m_name, std::string m_type, std::string m_system){
+PersonMachine::PersonMachine(int id, QString p_name, QString p_country, QString m_name, QString m_type, QString m_system){
     Id = id;
     P_Name = p_name;
     P_Country = p_country;
@@ -20,45 +20,45 @@ void PersonMachine::setId(int id){
 }
 
 // Get set person name
-std::string PersonMachine::getP_Name() const{
+QString PersonMachine::getP_Name() const{
     return P_Name;
 }
 
-void PersonMachine::setP_Name(std::string p_name){
+void PersonMachine::setP_Name(QString p_name){
     P_Name = p_name;
 }
 
 // Get set person country
-std::string PersonMachine::getP_Country() const{
+QString PersonMachine::getP_Country() const{
     return P_Country;
 }
 
-void PersonMachine::setP_Country(std::string p_country){
+void PersonMachine::setP_Country(QString p_country){
     P_Country = p_country;
 }
 
 // Get set machine name
-std::string PersonMachine::getM_Name() const{
+QString PersonMachine::getM_Name() const{
     return M_Name;
 }
 
-void PersonMachine::setM_Name(std::string m_name){
+void PersonMachine::setM_Name(QString m_name){
     M_Name = m_name;
 }
 
 // Get set machine type
-std::string PersonMachine::getM_Type() const{
+QString PersonMachine::getM_Type() const{
     return M_Type;
 }
-void PersonMachine::setM_Type(std::string m_type){
+void PersonMachine::setM_Type(QString m_type){
     M_Type = m_type;
 }
 
 // Get set machine system
-std::string PersonMachine::getM_System() const{
+QString PersonMachine::getM_System() const{
     return M_System;
 }
-void PersonMachine::setM_System(std::string m_system){
+void PersonMachine::setM_System(QString m_system){
     M_System = m_system;
 }
 

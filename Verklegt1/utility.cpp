@@ -471,3 +471,23 @@ string parseSearchArgs(string &query, string &searchString, vector<string> &argu
 
     return "";
 }
+
+// Get a command without the value
+string getNoValueCommand(string query){
+    vector<string> split = splitString(query, " ");
+    vector<string> result;
+
+    // Add base command
+    result.push_back(split[0]);
+
+    // Loop through the vector given by splitString and put arguments in results vector
+    for (int i = 1; i < (int)split.size(); i++) {
+        if (split[i].substr(0,1) == "-") {
+            result.push_back(split[i]);
+        }
+        else {
+            break;
+        }
+    }
+    return assembleString(result, " ");
+}

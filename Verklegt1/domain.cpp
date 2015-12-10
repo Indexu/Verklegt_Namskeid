@@ -339,7 +339,7 @@ vector<PersonMachine> listPM(string &command, string &message){
 
 // ===== SEARCH =====
 // Person search
-vector<Person> callSearchPersonDB(string &query, string &message) {
+vector<Person> callSearchPersonDB(string &query, string &message,  const bool &filter) {
     // Result vector
     vector<Person> results;
     // Reset message
@@ -378,7 +378,7 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
         message = "Invalid sort option";
         return results;
     }
-    else if(searchString == ""){
+    else if(searchString == "" && !filter){
         message = "Missing search query";
         return results;
     }
@@ -396,7 +396,7 @@ vector<Person> callSearchPersonDB(string &query, string &message) {
 }
 
 // Machine search
-vector<Machine> callSearchMachineDB(string &query, string &message) {
+vector<Machine> callSearchMachineDB(string &query, string &message, const bool &filter) {
     // Result vector
     vector<Machine> results;
     // Reset message
@@ -435,7 +435,7 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
         message = "Invalid sort option";
         return results;
     }
-    else if(searchString == ""){
+    else if(searchString == "" && !filter){
         message = "Missing search query";
         return results;
     }
@@ -452,7 +452,7 @@ vector<Machine> callSearchMachineDB(string &query, string &message) {
     return results;
 }
 // Person-machine search
-vector<PersonMachine> callSearchPMDB(string &query, string &message) {
+vector<PersonMachine> callSearchPMDB(string &query, string &message, const bool &filter) {
     // Result vector
     vector<PersonMachine> results;
     // Reset message
@@ -491,7 +491,7 @@ vector<PersonMachine> callSearchPMDB(string &query, string &message) {
         message = "Invalid sort option";
         return results;
     }
-    else if(searchString == ""){
+    else if(searchString == "" && !filter){
         message = "Missing search query";
         return results;
     }
@@ -509,44 +509,141 @@ vector<PersonMachine> callSearchPMDB(string &query, string &message) {
 }
 
 // ===== Filter =====
-vector<Person> filter(string &query, string &message){
-    // Everyone
-    vector<Person> p;
+// Person filter
+vector<Person> filterPerson(string &query, string &message){
+    // No value command
+    string noValCommand = getNoValueCommand(query);
+
     // Search
-    vector<Person> results = callSearchPersonDB(query, message);
+    vector<Person> results = callSearchPersonDB(query, message, false);
 
-    // If successful search
+    if(message != ""){
+        return results;
+    }
+
+    // Everyone
+    vector<Person> p = callSearchPersonDB(noValCommand, message, true);
+
     if(message == ""){
-        // Get all persons
-        message = populatePersonVector(p, ' ', false);
+        // Whether or not add the person
+        bool addPerson;
 
-        if(message == ""){
-            // Whether or not add the person
-            bool addPerson;
-
-            for(unsigned int i = 0; i < p.size(); i++){
-                addPerson = true;
-                // Check search results
-                if(results.size() != 0){
-                    for(unsigned int j = 0; j < results.size(); j++){
-                        // Remove search match and do not add the person
-                        if(p[i] == results[j]){
-                            results.erase(results.begin() + j);
-                            addPerson = false;
-                        }
+        for(unsigned int i = 0; i < p.size(); i++){
+            addPerson = true;
+            // Check search results
+            if(results.size() != 0){
+                for(unsigned int j = 0; j < results.size(); j++){
+                    // Remove search match and do not add the person
+                    if(p[i] == results[j]){
+                        results.erase(results.begin() + j);
+                        addPerson = false;
                     }
                 }
+            }
 
-                // Add the person if true
-                if(addPerson){
-                    results.push_back(p[i]);
-                }
+            // Add the person if true
+            if(addPerson){
+                results.push_back(p[i]);
             }
         }
     }
     // If no match in search, add all.
-    else if(results.size() == 0 && message[0] != 'O'){
+    else if(results.size() == 0 && message == ""){
         results = p;
+        message = "";
+    }
+
+    return results;
+}
+
+// Machine filter
+vector<Machine> filterMachine(string &query, string &message){
+    // No value command
+    string noValCommand = getNoValueCommand(query);
+
+    // Search
+    vector<Machine> results = callSearchMachineDB(query, message, false);
+
+    if(message != ""){
+        return results;
+    }
+
+    // Everyone
+    vector<Machine> m = callSearchMachineDB(noValCommand, message, true);
+
+    if(message == ""){
+        // Whether or not add the machine
+        bool addMachine;
+
+        for(unsigned int i = 0; i < m.size(); i++){
+            addMachine = true;
+            // Check search results
+            if(results.size() != 0){
+                for(unsigned int j = 0; j < results.size(); j++){
+                    // Remove search match and do not add the machine
+                    if(m[i] == results[j]){
+                        results.erase(results.begin() + j);
+                        addMachine = false;
+                    }
+                }
+            }
+
+            // Add the person if true
+            if(addMachine){
+                results.push_back(m[i]);
+            }
+        }
+    }
+    // If no match in search, add all.
+    else if(results.size() == 0 && message == ""){
+        results = m;
+        message = "";
+    }
+
+    return results;
+}
+
+// Person machine filter
+vector<PersonMachine> filterPM(string &query, string &message){
+    // No value command
+    string noValCommand = getNoValueCommand(query);
+
+    // Search
+    vector<PersonMachine> results = callSearchPMDB(query, message, false);
+
+    if(message != ""){
+        return results;
+    }
+
+    // Everyone
+    vector<PersonMachine> pm = callSearchPMDB(noValCommand, message, true);
+
+    if(message == ""){
+        // Whether or not add the person-machine
+        bool addPM;
+
+        for(unsigned int i = 0; i < pm.size(); i++){
+            addPM = true;
+            // Check search results
+            if(results.size() != 0){
+                for(unsigned int j = 0; j < results.size(); j++){
+                    // Remove search match and do not add the person machine
+                    if(pm[i] == results[j]){
+                        results.erase(results.begin() + j);
+                        addPM = false;
+                    }
+                }
+            }
+
+            // Add the person if true
+            if(addPM){
+                results.push_back(pm[i]);
+            }
+        }
+    }
+    // If no match in search, add all.
+    else if(results.size() == 0 && message == ""){
+        results = pm;
         message = "";
     }
 
