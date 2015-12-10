@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     person.cpp \
     machine.cpp \
     personmachine.cpp \
-    data.cpp
+    data.cpp \
+    services.cpp
 
 HEADERS  += mainwindow.h \
     person.h \
@@ -26,6 +27,7 @@ HEADERS  += mainwindow.h \
     personmachine.h \
     utilities.h \
     data.h \
-    constants.h
+    constants.h \
+    services.h
 
 FORMS    += mainwindow.ui

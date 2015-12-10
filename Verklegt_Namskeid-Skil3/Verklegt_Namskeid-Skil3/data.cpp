@@ -5,6 +5,12 @@ Data::Data(){
 
 }
 
+// Deconstructor
+Data::~Data(){
+    QSqlDatabase db = Data::getDBCon();
+    db.close();
+}
+
 // Get database connection
 QSqlDatabase Data::getDBCon(){
 
@@ -19,12 +25,7 @@ QSqlDatabase Data::getDBCon(){
         db = QSqlDatabase::addDatabase("QSQLITE", constants::CON_NAME);
         db.setDatabaseName(constants::DB_NAME);
 
-        if(!db.open()){
-            qDebug("UNABLE TO CONNECT TO DB");
-        }
-        else{
-            qDebug("DB CONNECTED");
-        }
+        db.open();
     }
 
     return db;
@@ -73,4 +74,55 @@ QVector<Person> Data::getPersons(){
     db.close();
 
     return p;
+}
+
+// Create and return person model
+QSqlTableModel* Data::getPersonModel(QObject *parent){
+    // Database connection
+    QSqlDatabase db = Data::getDBCon();
+
+    // Connect model to DB
+    QSqlTableModel *model = new QSqlTableModel(parent, db);
+
+    // Connect model to table
+    model->setTable(constants::TABLE_PERSON);
+    model->setEditStrategy(QSqlTableModel::OnFieldChange);
+    model->select();
+
+    // Return
+    return model;
+}
+
+// Create and return machine model
+QSqlTableModel *Data::getMachineModel(QObject *parent){
+    // Database connection
+    QSqlDatabase db = Data::getDBCon();
+
+    // Connect model to DB
+    QSqlTableModel *model = new QSqlTableModel(parent, db);
+
+    // Connect model to table
+    model->setTable(constants::TABLE_MACHINE);
+    model->setEditStrategy(QSqlTableModel::OnFieldChange);
+    model->select();
+
+    // Return
+    return model;
+}
+
+// Create and return connection model
+QSqlTableModel *Data::getConnectionModel(QObject *parent){
+    // Database connection
+    QSqlDatabase db = Data::getDBCon();
+
+    // Connect model to DB
+    QSqlTableModel *model = new QSqlTableModel(parent, db);
+
+    // Connect model to table
+    model->setTable(constants::TABLE_CONNECTIONS);
+    model->setEditStrategy(QSqlTableModel::OnFieldChange);
+    model->select();
+
+    // Return
+    return model;
 }

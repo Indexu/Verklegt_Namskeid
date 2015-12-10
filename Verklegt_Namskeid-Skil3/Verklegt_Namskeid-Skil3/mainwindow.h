@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QTableView>
 #include "data.h"
+#include "services.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,8 +20,10 @@ public:
     ~MainWindow();
     void displayPersonTable();
     void displayMachinesTable();
-    void displayPMTable();
+    void displayConnectionsTable();
 
+    void getModels();
+    void addToComboboxes();
     void setTableProperties(QTableView *tab);
     void setFilterPerson(QString filterStr, QString searchString);
     void searchPerson(QString searchString);
@@ -39,6 +42,10 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Data dataLayer;
+    Services servicesLayer;
+    QSqlTableModel *personModel;
+    QSqlTableModel *machineModel;
+    QSqlTableModel *connectionsModel;
 };
 
 #endif // MAINWINDOW_H
