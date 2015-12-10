@@ -208,3 +208,30 @@ void MainWindow::on_personAddButton_clicked(){
     AddDialog *addDialog = new AddDialog(this);
     addDialog->exec();
 }
+
+
+void MainWindow::on_personDeleteButton_clicked()
+{
+    QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
+    QModelIndex index = selection.at(0);
+    int numRows = selection.count();
+    int rowIndex = index.row();
+
+    // Warning if too many rows are selected
+    if (numRows > 1) {
+        QMessageBox::warning(this, "Warning!", "Too many rows selected!");
+        return;
+    }
+    // Confirmation pop-up
+    QMessageBox::StandardButton ans;
+    ans = QMessageBox::question(this, "Confirmation", "Are you sure you want to delete?", QMessageBox::Yes|QMessageBox::No);
+    if (ans == QMessageBox::Yes) {
+        personModel->removeRows(rowIndex, numRows);
+        personModel->submitAll();
+        qDebug("DELETED");
+    }
+    else {
+        qDebug("*NOT* DELETED");
+        return;
+    }
+}

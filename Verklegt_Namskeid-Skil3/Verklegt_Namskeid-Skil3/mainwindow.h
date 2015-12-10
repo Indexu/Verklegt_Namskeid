@@ -50,6 +50,8 @@ private slots:
 
     void on_personAddButton_clicked();
 
+    void on_personDeleteButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Data dataLayer;
