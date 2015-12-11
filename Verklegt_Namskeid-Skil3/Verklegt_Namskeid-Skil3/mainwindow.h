@@ -7,6 +7,7 @@
 #include "data.h"
 #include "services.h"
 #include "adddialog.h"
+#include "editpersondialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -57,6 +58,8 @@ private slots:
     void on_personDeleteButton_clicked();
 
     void on_personTable_clicked(const QModelIndex &index);
+
+    void on_personTable_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;

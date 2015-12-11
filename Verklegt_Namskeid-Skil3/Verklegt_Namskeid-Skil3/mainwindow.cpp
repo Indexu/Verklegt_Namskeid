@@ -297,3 +297,9 @@ void MainWindow::on_personTable_clicked(const QModelIndex &index){
     // Enable delete button
     ui->personDeleteButton->setEnabled(true);
 }
+
+void MainWindow::on_personTable_doubleClicked(const QModelIndex &index)
+{
+    editPersonDialog editDialog;
+    editDialog.exec();
+}
