@@ -27,6 +27,8 @@ public:
 
     // Get models
     void getModels();
+    // Configure tables
+    void configTables();
     // Set model headers
     void setModelHeaders();
     // Add items to comboboxes

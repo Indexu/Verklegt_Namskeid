@@ -17,10 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // ===== SETUP =====
     // Initialize error
     error = "";
-    // Get all database models
-    getModels();
-    // Set headers
-    setModelHeaders();
+    // Configure tables
+    configTables();
     // Add items to comboboxes
     addToComboboxes();
     // Display tables
@@ -41,28 +39,24 @@ MainWindow::~MainWindow(){
 
 // Display entire person table
 void MainWindow::displayPersonTable(){
-    //Reset filter
-    personModel->setFilter("");
+    // Get all persons
+    if(!servicesLayer.getAllPersons(personModel, error)){
+        checkError();
+    }
     // Attatch to table
     ui->personTable->setModel(personModel);
-    // Set properties
-    setTableProperties(ui->personTable);
 }
 
 // Display entire machine table
 void MainWindow::displayMachinesTable(){
     // Attatch to table
     ui->machineTable->setModel(machineModel);
-    // Set properties
-    setTableProperties(ui->machineTable);
 }
 
 // Display entire connections table
 void MainWindow::displayConnectionsTable(){
     // Attatch to table
     ui->connectionsTable->setModel(connectionsModel);
-    // Set properties
-    setTableProperties(ui->connectionsTable);
 }
 
 // Get all models
@@ -70,6 +64,20 @@ void MainWindow::getModels(){
     personModel = servicesLayer.getPersonModel(this);
     machineModel = servicesLayer.getMachineModel(this);
     connectionsModel = servicesLayer.getConnectionModel(this);
+}
+
+// Configure the tables
+void MainWindow::configTables(){
+    // Get all database models
+    getModels();
+
+    // Set headers
+    setModelHeaders();
+
+    // Set properties
+    setTableProperties(ui->personTable);
+    setTableProperties(ui->machineTable);
+    setTableProperties(ui->connectionsTable);
 }
 
 // Set model headers (columns)
@@ -141,7 +149,10 @@ void MainWindow::checkError(){
 void MainWindow::on_personFilterField_textChanged(const QString &arg1){
     // If search criteria is empty, display all
     if(arg1.isEmpty()){
-        displayPersonTable();
+        // Get all persons
+        if(!servicesLayer.getAllPersons(personModel, error)){
+            checkError();
+        }
         return;
     }
 
@@ -157,7 +168,10 @@ void MainWindow::on_personFilterField_textChanged(const QString &arg1){
 void MainWindow::on_personSearchField_textChanged(const QString &arg1){
     // If search criteria is empty, display all
     if(arg1.isEmpty()){
-        displayPersonTable();
+        // Get all persons
+        if(!servicesLayer.getAllPersons(personModel, error)){
+            checkError();
+        }
         return;
     }
 
@@ -176,7 +190,10 @@ void MainWindow::on_personSearchComboBox_currentIndexChanged(int index){
 
     // If search criteria is empty, display all
     if(searchString.isEmpty()){
-        displayPersonTable();
+        // Get all persons
+        if(!servicesLayer.getAllPersons(personModel, error)){
+            checkError();
+        }
         return;
     }
 
@@ -193,7 +210,10 @@ void MainWindow::on_personFilterComboBox_currentIndexChanged(int index){
 
     // If search criteria is empty, display all
     if(searchString.isEmpty()){
-        displayPersonTable();
+        // Get all persons
+        if(!servicesLayer.getAllPersons(personModel, error)){
+            checkError();
+        }
         return;
     }
 
@@ -205,14 +225,28 @@ void MainWindow::on_personFilterComboBox_currentIndexChanged(int index){
 
 // Person add button
 void MainWindow::on_personAddButton_clicked(){
-    AddDialog *addDialog = new AddDialog(this);
-    addDialog->exec();
+    // Display dialog
+    AddDialog addDialog;
+    addDialog.exec();
+
+    // Add
+    if(!servicesLayer.addPerson(addDialog.getPerson(), error)){
+        checkError();
+    }
+    else{
+        displayPersonTable();
+    }
 }
 
-
-void MainWindow::on_personDeleteButton_clicked()
-{
+// Person delete button
+void MainWindow::on_personDeleteButton_clicked(){
     QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
+
+    // No rows
+    if (selection.isEmpty()) {
+        return;
+    }
+
     QModelIndex index = selection.at(0);
     int numRows = selection.count();
     int rowIndex = index.row();
@@ -222,16 +256,17 @@ void MainWindow::on_personDeleteButton_clicked()
         QMessageBox::warning(this, "Warning!", "Too many rows selected!");
         return;
     }
+
     // Confirmation pop-up
     QMessageBox::StandardButton ans;
     ans = QMessageBox::question(this, "Confirmation", "Are you sure you want to delete?", QMessageBox::Yes|QMessageBox::No);
     if (ans == QMessageBox::Yes) {
         personModel->removeRows(rowIndex, numRows);
         personModel->submitAll();
+        displayPersonTable();
         qDebug("DELETED");
     }
     else {
         qDebug("*NOT* DELETED");
-        return;
     }
 }

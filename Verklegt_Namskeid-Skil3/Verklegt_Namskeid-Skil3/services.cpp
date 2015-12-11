@@ -19,6 +19,10 @@ QSqlTableModel *Services::getConnectionModel(QObject *parent){
     return dataLayer.getConnectionModel(parent);
 }
 
+bool Services::getAllPersons(QSqlTableModel *personModel, QString &error){
+    return dataLayer.getAllPersons(personModel, error);
+}
+
 // Search for a person
 void Services::searchPerson(QSqlTableModel *personModel, const QString &searchString, const int &column, QString &error){
     QString filterStr = "";
@@ -99,5 +103,12 @@ void Services::filterPerson(QSqlTableModel *personModel, const QString &searchSt
 
     // call setFilter
     dataLayer.setFilterPerson(personModel, filterStr, searchString, error);
+}
+
+bool Services::addPerson(const Person &p, QString &error){
+    qDebug() << "=SERVICES BEGIN=";
+    dataLayer.addPerson(p, error);
+    qDebug() << "=SERVICES END=";
+    return true;
 }
 

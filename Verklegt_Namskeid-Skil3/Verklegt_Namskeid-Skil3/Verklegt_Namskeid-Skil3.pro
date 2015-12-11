@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     personmachine.cpp \
     data.cpp \
     services.cpp \
-    adddialog.cpp
+    adddialog.cpp \
+    utilities.cpp
 
 HEADERS  += mainwindow.h \
     person.h \

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>317</width>
-    <height>364</height>
+    <width>277</width>
+    <height>416</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,12 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="label_6">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;Add Person&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
@@ -25,77 +31,84 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="widget" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Name</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit"/>
-      </item>
-     </layout>
+    <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Name</string>
+     </property>
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="widget_3" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <widget class="QLineEdit" name="addPersonNameField">
+     <property name="frame">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_3">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Gender</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="addPersonGenderCombobox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <item>
+      <property name="text">
+       <string>Female</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Male</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Gender</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QLabel" name="label_4">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <item>
-         <property name="text">
-          <string>Female</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Male</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QWidget" name="widget_4" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QLabel" name="label_4">
         <property name="text">
          <string>Date of birth</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QDateEdit" name="dateEdit">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="displayFormat">
-         <string>yyyy/MM/dd</string>
-        </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
+       <widget class="QLabel" name="dateErrorLabel">
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -103,28 +116,77 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="widget_5" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <widget class="QDateEdit" name="addPersonBirthDate">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumDateTime">
+      <datetime>
+       <hour>23</hour>
+       <minute>59</minute>
+       <second>59</second>
+       <year>7999</year>
+       <month>12</month>
+       <day>30</day>
+      </datetime>
+     </property>
+     <property name="minimumDateTime">
+      <datetime>
+       <hour>0</hour>
+       <minute>0</minute>
+       <second>0</second>
+       <year>1752</year>
+       <month>9</month>
+       <day>14</day>
+      </datetime>
+     </property>
+     <property name="displayFormat">
+      <string>yyyy-MM-dd</string>
+     </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
+     </property>
+     <property name="date">
+      <date>
+       <year>1939</year>
+       <month>9</month>
+       <day>1</day>
+      </date>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_2" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QLabel" name="label_5">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>Date of death</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QDateEdit" name="dateEdit_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <widget class="QCheckBox" name="aliveCheckbox">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
         </property>
-        <property name="displayFormat">
-         <string>yyyy/MM/dd</string>
-        </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
+        <property name="text">
+         <string>Alive</string>
         </property>
        </widget>
       </item>
@@ -132,20 +194,43 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="widget_2" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Country</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit_2"/>
-      </item>
-     </layout>
+    <widget class="QDateEdit" name="addPersonDeathDate">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="displayFormat">
+      <string>yyyy-MM-dd</string>
+     </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
+     </property>
+     <property name="date">
+      <date>
+       <year>2001</year>
+       <month>9</month>
+       <day>11</day>
+      </date>
+     </property>
     </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Country</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="addPersonCountryField"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

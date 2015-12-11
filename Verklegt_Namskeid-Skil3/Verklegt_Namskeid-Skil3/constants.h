@@ -9,6 +9,7 @@ namespace constants{
     const QString TABLE_PERSON = "persons";
     const QString TABLE_MACHINE = "machinesView";
     const QString TABLE_CONNECTIONS = "pers_machView";
+    const QString DATE_FORMAT = "yyyy-MM-dd";
 }
 
 #endif // CONSTANTS

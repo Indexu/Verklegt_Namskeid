@@ -5,7 +5,6 @@
 #include <vector>
 
 class Person{
-    int Id;
     QString Name;
     QString Gender;
     QString DateOfBirth;
@@ -16,10 +15,7 @@ public:
     Person();
 
     // Constructor
-    Person(int id, QString n, QString g, QString dob, QString dod, QString c);
-
-    // Get id
-    int getId() const;
+    Person(QString n, QString g, QString dob, QString dod, QString c);
 
     // Get set name
     QString getName() const;
@@ -44,6 +40,8 @@ public:
     // Overload == operator
     bool operator==(const Person &p) const;
 
+    // Overload assignment operator
+    void operator=(const Person &p );
 };
 
 #endif // PERSON

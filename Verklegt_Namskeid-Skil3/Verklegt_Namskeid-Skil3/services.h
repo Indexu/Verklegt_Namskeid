@@ -3,6 +3,7 @@
 
 #include <QSqlTableModel>
 #include "data.h"
+#include "person.h"
 
 class Services
 {
@@ -19,8 +20,14 @@ public:
     // Get connection model from data layer
     QSqlTableModel* getConnectionModel(QObject *parent);
 
+    bool getAllPersons(QSqlTableModel *personModel, QString &error);
+
+    // Search person
     void searchPerson(QSqlTableModel *personModel, const QString &searchString, const int &column, QString &error);
+    // Filter person
     void filterPerson(QSqlTableModel *personModel, const QString &searchString, const int &column, QString &error);
+
+    bool addPerson(const Person &p, QString &error);
 };
 
 #endif // SERVICES_H

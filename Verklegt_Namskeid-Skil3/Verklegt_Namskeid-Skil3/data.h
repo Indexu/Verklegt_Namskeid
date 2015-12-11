@@ -26,7 +26,11 @@ public:
     // Get connection model
     QSqlTableModel *getConnectionModel(QObject *parent);
 
+    bool getAllPersons(QSqlTableModel *personModel, QString &error);
+
     void setFilterPerson(QSqlTableModel *personModel, const QString &filterStr, const QString &searchString, QString &error);
+
+    bool addPerson(const Person &p, QString &error);
 };
 
 #endif // DATA_H

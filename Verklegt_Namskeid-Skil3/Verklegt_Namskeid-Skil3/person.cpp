@@ -2,22 +2,20 @@
 
 // Default
 Person::Person(){
-
+    Name = "";
+    Gender = "";
+    DateOfBirth = "";
+    DateOfDeath = "";
+    Country = "";
 }
 
 // Constructor
-Person::Person(int id, QString n, QString g, QString dob, QString dod, QString c){
-    Id = id;
+Person::Person(QString n, QString g, QString dob, QString dod, QString c){
     Name = n;
     Gender = g;
     DateOfBirth = dob;
     DateOfDeath = dod;
     Country = c;
-}
-
-// Get id
-int Person::getId() const{
-    return Id;
 }
 
 // Get set name
@@ -69,4 +67,13 @@ bool Person::operator==(const Person &p) const{
     bool c = (Country == p.getCountry());
 
     return (n && g && b && d && c);
+}
+
+// Operator =
+void Person::operator=(const Person &p){
+    Name = p.getName();
+    Gender = p.getGender();
+    DateOfBirth = p.getDateOfBirth();
+    DateOfDeath = p.getDateOfDeath();
+    Country = p.getCountry();
 }

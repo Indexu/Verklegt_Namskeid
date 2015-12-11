@@ -58,16 +58,14 @@ QVector<Person> Data::getPersons(){
     }
 
     QString name, gender, dob, dod, country;
-    int id;
     while(query.next()){
-        id = query.value("id").toInt();
         name = query.value("name").toString();
         gender = query.value("gender").toString();
         dob = query.value("date_of_birth").toString();
         dod = query.value("date_of_death").toString();
         country = query.value("country").toString();
 
-        Person temp(id, name, gender, dob, dod, country);
+        Person temp(name, gender, dob, dod, country);
         p.push_back(temp);
     }
     // Close
@@ -127,6 +125,27 @@ QSqlTableModel *Data::getConnectionModel(QObject *parent){
     return model;
 }
 
+bool Data::getAllPersons(QSqlTableModel *personModel, QString &error){
+    // Database connection
+    QSqlDatabase db = Data::getDBCon();
+
+    if(db.open()){
+        // Connect model to table
+        personModel->setFilter("");
+
+        if(personModel->select()){
+            return true;
+        }
+        else{
+            error = "Unable to access table";
+        }
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+    return false;
+}
+
 // Set the filter of personModel
 void Data::setFilterPerson(QSqlTableModel *personModel, const QString &filterStr, const QString &searchString, QString &error){
     // Set filter
@@ -136,4 +155,43 @@ void Data::setFilterPerson(QSqlTableModel *personModel, const QString &filterStr
     if(personModel->lastError().isValid()){
         error = personModel->lastError().text();
     }
+}
+
+bool Data::addPerson(const Person &p, QString &error){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
+    // Open
+    if(db.open()){
+        qDebug() << "DB IS OPEN";
+        QSqlQuery query(db);
+        qDebug() << "QUERY CREATED";
+        query.prepare("INSERT INTO persons (name, gender, date_of_birth, date_of_death, country) "
+                          "VALUES (:name, :gender, :dob, :dod, :country)");
+        qDebug() << "QUERY PREPARED";
+
+        query.bindValue(":name", p.getName());
+        query.bindValue(":gender", p.getGender());
+        query.bindValue(":dob", p.getDateOfBirth());
+        query.bindValue(":dod", p.getDateOfDeath());
+        query.bindValue(":country", p.getCountry());
+
+        qDebug() << "VALUES BOUND";
+
+        if(!query.exec()){
+            qDebug() << "QUERY EXEC ERROR";
+            error = query.lastError().text();
+            return false;
+        }
+        qDebug() << "QUERY DONE";
+        // Close
+        db.close();
+        qDebug() << "DB IS CLOSED";
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
 }
