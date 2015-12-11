@@ -4,19 +4,22 @@
 #include <QDialog>
 
 namespace Ui {
-class editpersondialog;
+class editPersonDialog;
 }
 
-class editpersondialog : public QDialog
+class editPersonDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit editpersondialog(QWidget *parent = 0);
-    ~editpersondialog();
+    explicit editPersonDialog(QWidget *parent = 0);
+    ~editPersonDialog();
+
+private slots:
+    void on_pushButton_clicked();
 
 private:
-    Ui::editpersondialog *ui;
+    Ui::editPersonDialog *ui;
 };
 
 #endif // EDITPERSONDIALOG_H

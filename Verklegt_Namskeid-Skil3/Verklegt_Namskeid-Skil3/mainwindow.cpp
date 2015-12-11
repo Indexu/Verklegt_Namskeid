@@ -329,4 +329,10 @@ void MainWindow::on_personTable_clicked(const QModelIndex &index){
 // People context menu -> Delete
 void MainWindow::on_actionDeletePerson_triggered(){
     deletePerson();
+
+}
+
+void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
+    editPersonDialog editDialog;
+    editDialog.exec();
 }
