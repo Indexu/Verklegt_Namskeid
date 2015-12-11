@@ -252,25 +252,49 @@ bool Data::personIDExistsDB(const int &id, QString &error){
     return false;
 }
 
-bool Data::getPerson(const Person &p, QString &error){
+bool Data::getPerson(Person &p, QString &error){
     QSqlDatabase db = getDBCon();
     if (db.open()){
         int id = p.getId();
 
         QSqlQuery query(db);
-        query.prepare("SELECT id FROM persons "
+        query.prepare("SELECT * FROM persons "
                       "WHERE id = :id");
         query.bindValue(":id",id);
-        QString name, gender, dob, dod, country;
-        name = query.value("name").toString();
-        gender = query.value("gender").toString();
-        dob = query.value("date_of_birth").toString();
-        dod = query.value("date_of_death").toString();
-        country = query.value("country").toString();
 
-        Person p(id, name, gender, dob, dod, country);
+        if(!query.exec()){
+            error = query.lastError().text();
+            return false;
+        }
+
+        QString name, gender, dob, dod, country;
+
+        if (query.next()) {
+            name = query.value("name").toString();
+            gender = query.value("gender").toString();
+            dob = query.value("date_of_birth").toString();
+            dod = query.value("date_of_death").toString();
+            country = query.value("country").toString();
+
+            p.setName(name);
+            p.setGender(gender);
+            p.setDateOfBirth(dob);
+            p.setDateOfDeath(dod);
+            p.setCountry(country);
+
+            qDebug() << p.getCountry();
+        }
+        else{
+            qDebug() << "No person, id: " << p.getId();
+        }
+
+        db.close();
+        
+        return true;
     }
     else{
         error = "Unable to connect to database";
+        return false;
     }
+    return false;
 }

@@ -43,7 +43,10 @@
     </rect>
    </property>
    <property name="displayFormat">
-    <string>dd/MM/yyyy</string>
+    <string>yyyy-MM-dd</string>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -113,7 +116,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QCheckBox" name="checkBox">
+     <widget class="QCheckBox" name="aliveCheckBox">
       <property name="text">
        <string>Alive</string>
       </property>
@@ -180,7 +183,10 @@
     </datetime>
    </property>
    <property name="displayFormat">
-    <string>dd/MM/yyyy</string>
+    <string>yyyy-MM-dd</string>
+   </property>
+   <property name="calendarPopup">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">

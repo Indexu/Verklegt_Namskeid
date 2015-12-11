@@ -335,9 +335,11 @@ void MainWindow::on_actionDeletePerson_triggered(){
 void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
 
     QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
-    QModelIndex index = selection.at(i);
-    int id = ui->personTable->model()->data(index).toInt();
+    QModelIndex dex = selection.at(0);
+    int id = ui->personTable->model()->data(dex).toInt();
 
+
+    QString error;
     Person p;
 
     p.setId(id);
@@ -347,11 +349,9 @@ void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
         return;
     }
 
-
-
     editPersonDialog editDialog;
-
     editDialog.setPerson(p);
+    editDialog.setFields();
 
     editDialog.exec();
 }

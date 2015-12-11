@@ -32,6 +32,8 @@ public:
     bool addPerson(const Person &p, QString &error);
     // Delete person
     bool deletePerson(const int id, QString &error);
+    // Get person
+    bool getPerson(Person &p, QString &error);
 };
 
 #endif // SERVICES_H

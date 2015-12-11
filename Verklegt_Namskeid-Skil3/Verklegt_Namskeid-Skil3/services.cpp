@@ -120,3 +120,9 @@ bool Services::deletePerson(const int id, QString &error){
     return false;
 }
 
+bool Services::getPerson(Person &p, QString &error){
+    dataLayer.getPerson(p, error);
+    qDebug() << p.getCountry();
+    return true;
+}
+

@@ -37,7 +37,7 @@ public:
     // Delete person
     bool deletePerson(const int &id, QString &error);
     // Get person
-    bool getPerson(const Person &p, QString &error);
+    bool getPerson(Person &p, QString &error);
 
     // Check if person ID exists
     bool personIDExistsDB(const int &id, QString &error);
