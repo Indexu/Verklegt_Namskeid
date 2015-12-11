@@ -333,6 +333,11 @@ void MainWindow::on_actionDeletePerson_triggered(){
 }
 
 void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
+    QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
+    QModelIndex index = selection.at(i);
+    int id = ui->personTable->model()->data(index).toInt();
+
     editPersonDialog editDialog;
+    editDialog.setId(id);
     editDialog.exec();
 }
