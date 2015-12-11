@@ -1,0 +1,15 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\person.o
+./debug\machine.o
+./debug\personmachine.o
+./debug\data.o
+./debug\services.o
+./debug\adddialog.o
+./debug\utilities.o
+./debug\editpersondialog.o
+./debug\moc_mainwindow.o
+./debug\moc_adddialog.o
+./debug\moc_editpersondialog.o
+);
