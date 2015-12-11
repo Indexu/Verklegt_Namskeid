@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     data.cpp \
     services.cpp \
     adddialog.cpp \
-    utilities.cpp
+    utilities.cpp \
+    editpersondialog.cpp
 
 HEADERS  += mainwindow.h \
     person.h \
@@ -31,7 +32,9 @@ HEADERS  += mainwindow.h \
     data.h \
     constants.h \
     services.h \
-    adddialog.h
+    adddialog.h \
+    editpersondialog.h
 
 FORMS    += mainwindow.ui \
-    adddialog.ui
+    adddialog.ui \
+    editpersondialog.ui
