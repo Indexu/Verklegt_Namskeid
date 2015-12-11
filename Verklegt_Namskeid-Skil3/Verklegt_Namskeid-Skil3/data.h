@@ -40,12 +40,8 @@ public:
     bool editPerson(const Person &p, QString &error);
 
     // Get person
-<<<<<<< HEAD
     bool getPerson(Person &p, QString &error);
 
-=======
-    bool getPerson(const Person &p, QString &error);
->>>>>>> origin/master
     // Check if person ID exists
     bool personIDExistsDB(const int &id, QString &error);
 };

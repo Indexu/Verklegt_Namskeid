@@ -47,6 +47,8 @@ public:
     void checkError();
     // Delete person
     void deletePerson();
+    // Edit person
+    void editPerson();
 
 private slots:
     void personContextMenuSlot(const QPoint& pos);
@@ -68,6 +70,8 @@ private slots:
     void on_actionDeletePerson_triggered();
 
     void on_personTable_doubleClicked(const QModelIndex &index);
+
+    void on_actionEditPerson_triggered();
 
 private:
     Ui::MainWindow *ui;

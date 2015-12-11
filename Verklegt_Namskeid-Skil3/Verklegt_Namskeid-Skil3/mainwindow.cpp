@@ -322,24 +322,8 @@ void MainWindow::deletePerson(){
     }
 }
 
-// Person delete button
-void MainWindow::on_personDeleteButton_clicked(){
-    deletePerson();
-}
-
-// Person table -> click row
-void MainWindow::on_personTable_clicked(const QModelIndex &index){
-    // Enable delete button
-    ui->personDeleteButton->setEnabled(true);
-}
-
-// People context menu -> Delete
-void MainWindow::on_actionDeletePerson_triggered(){
-    deletePerson();
-}
-
-void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
-
+// Edit person
+void MainWindow::editPerson(){
     QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
     QModelIndex dex = selection.at(0);
     int id = ui->personTable->model()->data(dex).toInt();
@@ -360,4 +344,30 @@ void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
     editDialog.setFields();
 
     editDialog.exec();
+}
+
+// Person delete button
+void MainWindow::on_personDeleteButton_clicked(){
+    deletePerson();
+}
+
+// Person table -> click row
+void MainWindow::on_personTable_clicked(const QModelIndex &index){
+    // Enable delete button
+    ui->personDeleteButton->setEnabled(true);
+}
+
+// People context menu -> Delete
+void MainWindow::on_actionDeletePerson_triggered(){
+    deletePerson();
+}
+
+// Double click person table row
+void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
+    editPerson();
+}
+
+// People context menu -> Edit
+void MainWindow::on_actionEditPerson_triggered(){
+    editPerson();
 }

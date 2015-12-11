@@ -124,15 +124,14 @@ bool Services::deletePerson(const int id, QString &error){
     return false;
 }
 
-<<<<<<< HEAD
 bool Services::getPerson(Person &p, QString &error){
     dataLayer.getPerson(p, error);
     qDebug() << p.getCountry();
     return true;
-=======
+}
+
 // Edit person
 bool Services::editPerson(const Person &p, QString &error){
     return dataLayer.editPerson(p, error);
->>>>>>> origin/master
 }
 
