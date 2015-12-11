@@ -20,6 +20,7 @@ public:
     // Get connection model from data layer
     QSqlTableModel* getConnectionModel(QObject *parent);
 
+    // Get all persons
     bool getAllPersons(QSqlTableModel *personModel, QString &error);
 
     // Search person
@@ -27,7 +28,10 @@ public:
     // Filter person
     void filterPerson(QSqlTableModel *personModel, const QString &searchString, const int &column, QString &error);
 
+    // Add person
     bool addPerson(const Person &p, QString &error);
+    // Delete person
+    bool deletePerson(const int id, QString &error);
 };
 
 #endif // SERVICES_H

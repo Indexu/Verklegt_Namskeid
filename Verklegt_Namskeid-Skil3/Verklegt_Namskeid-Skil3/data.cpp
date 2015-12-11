@@ -157,18 +157,17 @@ void Data::setFilterPerson(QSqlTableModel *personModel, const QString &filterStr
     }
 }
 
+// Add person
 bool Data::addPerson(const Person &p, QString &error){
     // DB con
     QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
-        qDebug() << "DB IS OPEN";
         QSqlQuery query(db);
-        qDebug() << "QUERY CREATED";
+
         query.prepare("INSERT INTO persons (name, gender, date_of_birth, date_of_death, country) "
                           "VALUES (:name, :gender, :dob, :dod, :country)");
-        qDebug() << "QUERY PREPARED";
 
         query.bindValue(":name", p.getName());
         query.bindValue(":gender", p.getGender());
@@ -176,22 +175,79 @@ bool Data::addPerson(const Person &p, QString &error){
         query.bindValue(":dod", p.getDateOfDeath());
         query.bindValue(":country", p.getCountry());
 
-        qDebug() << "VALUES BOUND";
-
         if(!query.exec()){
-            qDebug() << "QUERY EXEC ERROR";
             error = query.lastError().text();
             return false;
         }
-        qDebug() << "QUERY DONE";
+
         // Close
         db.close();
-        qDebug() << "DB IS CLOSED";
         return true;
     }
     else{
         error = "Unable to connect to database";
     }
 
+    return false;
+}
+
+// Delete person
+bool Data::deletePerson(const int &id, QString &error){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        query.prepare("DELETE FROM persons "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            error = query.lastError().text();
+            return false;
+        }
+
+        // Close
+        db.close();
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+        return false;
+    }
+}
+
+// Check if person ID exists
+bool Data::personIDExistsDB(const int &id, QString &error){
+// DB con
+    QSqlDatabase db = getDBCon();
+
+    // Open
+    if(db.open()){
+        bool exists = false;
+        QSqlQuery query(db);
+
+        query.prepare("SELECT id FROM persons "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            error = query.lastError().text();
+        }
+        else if(query.next()){
+             exists = true;
+        }
+
+        // Close
+        db.close();
+        return exists;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
     return false;
 }

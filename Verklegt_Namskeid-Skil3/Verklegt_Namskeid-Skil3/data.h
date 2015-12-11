@@ -26,11 +26,19 @@ public:
     // Get connection model
     QSqlTableModel *getConnectionModel(QObject *parent);
 
+    // Get all persons
     bool getAllPersons(QSqlTableModel *personModel, QString &error);
 
+    // Set the filter of persons
     void setFilterPerson(QSqlTableModel *personModel, const QString &filterStr, const QString &searchString, QString &error);
 
+    // Add person
     bool addPerson(const Person &p, QString &error);
+    // Delete person
+    bool deletePerson(const int &id, QString &error);
+
+    // Check if person ID exists
+    bool personIDExistsDB(const int &id, QString &error);
 };
 
 #endif // DATA_H

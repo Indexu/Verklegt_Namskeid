@@ -25,12 +25,14 @@ public:
     void displayMachinesTable();
     void displayConnectionsTable();
 
-    // Get models
-    void getModels();
     // Configure tables
     void configTables();
+    // Get models
+    void getModels();
     // Set model headers
     void setModelHeaders();
+    // Set table models
+    void setTableModels();
     // Add items to comboboxes
     void addToComboboxes();
     // Set table properties
@@ -53,6 +55,8 @@ private slots:
     void on_personAddButton_clicked();
 
     void on_personDeleteButton_clicked();
+
+    void on_personTable_clicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;

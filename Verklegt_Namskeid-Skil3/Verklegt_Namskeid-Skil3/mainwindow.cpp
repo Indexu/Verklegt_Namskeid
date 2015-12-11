@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent) :
     displayMachinesTable();
     displayConnectionsTable();
 
+    // Disable delete button
+    ui->personDeleteButton->setEnabled(false);
+
 }
 // Deconstructor
 MainWindow::~MainWindow(){
@@ -43,20 +46,16 @@ void MainWindow::displayPersonTable(){
     if(!servicesLayer.getAllPersons(personModel, error)){
         checkError();
     }
-    // Attatch to table
-    ui->personTable->setModel(personModel);
 }
 
 // Display entire machine table
 void MainWindow::displayMachinesTable(){
-    // Attatch to table
-    ui->machineTable->setModel(machineModel);
+
 }
 
 // Display entire connections table
 void MainWindow::displayConnectionsTable(){
-    // Attatch to table
-    ui->connectionsTable->setModel(connectionsModel);
+
 }
 
 // Get all models
@@ -66,6 +65,13 @@ void MainWindow::getModels(){
     connectionsModel = servicesLayer.getConnectionModel(this);
 }
 
+// Set table models
+void MainWindow::setTableModels(){
+    ui->personTable->setModel(personModel);
+    ui->machineTable->setModel(machineModel);
+    ui->connectionsTable->setModel(connectionsModel);
+}
+
 // Configure the tables
 void MainWindow::configTables(){
     // Get all database models
@@ -73,6 +79,9 @@ void MainWindow::configTables(){
 
     // Set headers
     setModelHeaders();
+
+    // Set table models
+    setTableModels();
 
     // Set properties
     setTableProperties(ui->personTable);
@@ -129,6 +138,8 @@ void MainWindow::addToComboboxes(){
 
 // Set table properties
 void MainWindow::setTableProperties(QTableView *tab){
+    tab->setSelectionBehavior(QAbstractItemView::SelectRows);
+    tab->verticalHeader()->hide();
     tab->horizontalHeader()->setStretchLastSection(true);
     tab->horizontalHeader()->setSectionsClickable(true);
     tab->setAlternatingRowColors(true);
@@ -229,17 +240,21 @@ void MainWindow::on_personAddButton_clicked(){
     AddDialog addDialog;
     addDialog.exec();
 
-    // Add
-    if(!servicesLayer.addPerson(addDialog.getPerson(), error)){
-        checkError();
-    }
-    else{
-        displayPersonTable();
+    // Confirm add
+    if(addDialog.getAddClick()){
+        // Add
+        if(!servicesLayer.addPerson(addDialog.getPerson(), error)){
+            checkError();
+        }
+        else{
+            displayPersonTable();
+        }
     }
 }
 
 // Person delete button
 void MainWindow::on_personDeleteButton_clicked(){
+    // Get row
     QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
 
     // No rows
@@ -247,26 +262,38 @@ void MainWindow::on_personDeleteButton_clicked(){
         return;
     }
 
-    QModelIndex index = selection.at(0);
-    int numRows = selection.count();
-    int rowIndex = index.row();
+    QString deleteConfirmMessage = "";
 
-    // Warning if too many rows are selected
-    if (numRows > 1) {
-        QMessageBox::warning(this, "Warning!", "Too many rows selected!");
-        return;
+    if(selection.count() == 1){
+        deleteConfirmMessage = "Are you sure you want to delete?";
+    }
+    else if(selection.count() > 1){
+        deleteConfirmMessage = "Are you sure you want to delete " + QString::number(selection.count()) + " entries?";
     }
 
-    // Confirmation pop-up
-    QMessageBox::StandardButton ans;
-    ans = QMessageBox::question(this, "Confirmation", "Are you sure you want to delete?", QMessageBox::Yes|QMessageBox::No);
+    int ans = QMessageBox::question(this, "Confirmation", deleteConfirmMessage, QMessageBox::Yes|QMessageBox::No);
     if (ans == QMessageBox::Yes) {
-        personModel->removeRows(rowIndex, numRows);
-        personModel->submitAll();
-        displayPersonTable();
-        qDebug("DELETED");
+        for(int i = 0; i < selection.count(); i++){
+            // Get first column (id)
+            QModelIndex index = selection.at(i);
+
+            // Get id column data
+            int id = ui->personTable->model()->data(index).toInt();
+
+            if(!servicesLayer.deletePerson(id, error)){
+                checkError();
+                return;
+            }
+        }
+
+        if(!servicesLayer.getAllPersons(personModel, error)){
+            checkError();
+        }
     }
-    else {
-        qDebug("*NOT* DELETED");
-    }
+}
+
+// Person table -> click row
+void MainWindow::on_personTable_clicked(const QModelIndex &index){
+    // Enable delete button
+    ui->personDeleteButton->setEnabled(true);
 }

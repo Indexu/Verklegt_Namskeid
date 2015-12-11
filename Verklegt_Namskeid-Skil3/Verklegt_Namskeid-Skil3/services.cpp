@@ -106,9 +106,17 @@ void Services::filterPerson(QSqlTableModel *personModel, const QString &searchSt
 }
 
 bool Services::addPerson(const Person &p, QString &error){
-    qDebug() << "=SERVICES BEGIN=";
-    dataLayer.addPerson(p, error);
-    qDebug() << "=SERVICES END=";
-    return true;
+    return dataLayer.addPerson(p, error);
+}
+
+bool Services::deletePerson(const int id, QString &error){
+    if(dataLayer.personIDExistsDB(id, error)){
+        return dataLayer.deletePerson(id, error);
+    }
+    else if(error.isEmpty()){
+        error = "ID: " + QString::number(id) + " not found.";
+    }
+
+    return false;
 }
 
