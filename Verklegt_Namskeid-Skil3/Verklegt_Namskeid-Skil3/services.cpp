@@ -7,108 +7,112 @@ Services::Services(){
 
 // ===== MODELS =====
 // Get person model from data layer
-QSqlTableModel *Services::getPersonModel(QObject *parent){
-    return dataLayer.getPersonModel(parent);
+QSqlQueryModel *Services::getPersonModel(){
+    return dataLayer.getPersonModel();
 }
 // Get machine model from data layer
-QSqlTableModel *Services::getMachineModel(QObject *parent){
-    return dataLayer.getMachineModel(parent);
+QSqlQueryModel *Services::getMachineModel(){
+    return dataLayer.getMachineModel();
 }
 // Get connection model from data layer
-QSqlTableModel *Services::getConnectionModel(QObject *parent){
-    return dataLayer.getConnectionModel(parent);
+QSqlQueryModel *Services::getConnectionModel(){
+    return dataLayer.getConnectionModel();
 }
 
-bool Services::getAllPersons(QSqlTableModel *personModel, QString &error){
+// Get all persons
+bool Services::getAllPersons(QSqlQueryModel *personModel, QString &error){
     return dataLayer.getAllPersons(personModel, error);
 }
 
 // Search for a person
-void Services::searchPerson(QSqlTableModel *personModel, const QString &searchString, const int &column, QString &error){
+bool Services::searchPerson(QSqlQueryModel *personModel, const QString &searchString, const int &column, QString &error){
     QString filterStr = "";
 
     // All
     if(column == 0){
-        filterStr = "id LIKE '%%1%' OR name LIKE '%%1%' OR gender LIKE '%%1%' OR date_of_birth LIKE '%%1%' OR date_of_death LIKE '%%1%' OR country LIKE '%%1%'";
+        filterStr = "id LIKE '%'||:ss||'%' OR name LIKE '%'||:ss||'%' OR gender LIKE '%'||:ss||'%' OR date_of_birth LIKE '%'||:ss||'%' OR date_of_death LIKE '%'||:ss||'%' OR country LIKE '%'||:ss||'%'";
     }
     // ID
     else if(column == 1){
-        filterStr = "id LIKE '%%1%'";
+        filterStr = "id LIKE '%'||:ss||'%'";
     }
     // Name
     else if(column == 2){
-        filterStr = "name LIKE '%%1%'";
+        filterStr = "name LIKE '%'||:ss||'%'";
     }
     // Gender
     else if(column == 3){
-        filterStr = "gender LIKE '%%1%'";
+        filterStr = "gender LIKE '%'||:ss||'%'";
     }
     // Date of birth
     else if(column == 4){
-        filterStr = "date_of_birth LIKE '%%1%'";
+        filterStr = "date_of_birth LIKE '%'||:ss||'%'";
     }
     // Date of death
     else if(column == 5){
-        filterStr = "date_of_death LIKE '%%1%'";
+        filterStr = "date_of_death LIKE '%'||:ss||'%'";
     }
     // Country
     else if(column == 6){
-        filterStr = "country LIKE '%%1%'";
+        filterStr = "country LIKE '%'||:ss||'%'";
     }
     else{
         error = "This is weird... the column is invalid";
-        return;
+        return false;
     }
 
     // call setFilter
-    dataLayer.setFilterPerson(personModel, filterStr, searchString, error);
+    return dataLayer.filterPerson(personModel, filterStr, searchString, error);
 }
 
-void Services::filterPerson(QSqlTableModel *personModel, const QString &searchString, const int &column, QString &error)
+// Filter person
+bool Services::filterPerson(QSqlQueryModel *personModel, const QString &searchString, const int &column, QString &error)
 {
     QString filterStr = "";
 
     // All
     if(column == 0){
-        filterStr = "id NOT LIKE '%%1%' AND name NOT LIKE '%%1%' AND gender NOT LIKE '%%1%' AND date_of_birth NOT LIKE '%%1%' AND date_of_death NOT LIKE '%%1%' AND country NOT LIKE '%%1%'";
+        filterStr = "id NOT LIKE '%'||:ss||'%' AND name NOT LIKE '%'||:ss||'%' AND gender NOT LIKE '%'||:ss||'%' AND date_of_birth NOT LIKE '%'||:ss||'%' AND date_of_death NOT LIKE '%'||:ss||'%' AND country NOT LIKE '%'||:ss||'%'";
     }
     // ID
     else if(column == 1){
-        filterStr = "id NOT LIKE '%%1%'";
+        filterStr = "id NOT LIKE '%'||:ss||'%'";
     }
     // Name
     else if(column == 2){
-        filterStr = "name NOT LIKE '%%1%'";
+        filterStr = "name NOT LIKE '%'||:ss||'%'";
     }
     // Gender
     else if(column == 3){
-        filterStr = "gender NOT LIKE '%%1%'";
+        filterStr = "gender NOT LIKE '%'||:ss||'%'";
     }
     // Date of birth
     else if(column == 4){
-        filterStr = "date_of_birth NOT LIKE '%%1%'";
+        filterStr = "date_of_birth NOT LIKE '%'||:ss||'%'";
     }
     // Date of death
     else if(column == 5){
-        filterStr = "date_of_death NOT LIKE '%%1%'";
+        filterStr = "date_of_death NOT LIKE '%'||:ss||'%'";
     }
     // Country
     else if(column == 6){
-        filterStr = "country NOT LIKE '%%1%'";
+        filterStr = "country NOT LIKE '%'||:ss||'%'";
     }
     else{
         error = "This is weird... the column is invalid";
-        return;
+        return false;
     }
 
     // call setFilter
-    dataLayer.setFilterPerson(personModel, filterStr, searchString, error);
+    return dataLayer.filterPerson(personModel, filterStr, searchString, error);
 }
 
+// Add person
 bool Services::addPerson(const Person &p, QString &error){
     return dataLayer.addPerson(p, error);
 }
 
+// Delete person
 bool Services::deletePerson(const int id, QString &error){
     if(dataLayer.personIDExistsDB(id, error)){
         return dataLayer.deletePerson(id, error);
@@ -120,9 +124,15 @@ bool Services::deletePerson(const int id, QString &error){
     return false;
 }
 
+<<<<<<< HEAD
 bool Services::getPerson(Person &p, QString &error){
     dataLayer.getPerson(p, error);
     qDebug() << p.getCountry();
     return true;
+=======
+// Edit person
+bool Services::editPerson(const Person &p, QString &error){
+    return dataLayer.editPerson(p, error);
+>>>>>>> origin/master
 }
 

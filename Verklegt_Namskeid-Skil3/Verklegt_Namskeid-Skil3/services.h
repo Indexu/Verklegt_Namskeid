@@ -1,7 +1,7 @@
 #ifndef SERVICES_H
 #define SERVICES_H
 
-#include <QSqlTableModel>
+#include <QSqlQueryModel>
 #include "data.h"
 #include "person.h"
 
@@ -14,26 +14,31 @@ public:
     Services();
 
     // Get person model from data layer
-    QSqlTableModel* getPersonModel(QObject *parent);
+    QSqlQueryModel *getPersonModel();
     // Get machine model from data layer
-    QSqlTableModel* getMachineModel(QObject *parent);
+    QSqlQueryModel* getMachineModel();
     // Get connection model from data layer
-    QSqlTableModel* getConnectionModel(QObject *parent);
+    QSqlQueryModel* getConnectionModel();
 
     // Get all persons
-    bool getAllPersons(QSqlTableModel *personModel, QString &error);
+    bool getAllPersons(QSqlQueryModel *personModel, QString &error);
 
     // Search person
-    void searchPerson(QSqlTableModel *personModel, const QString &searchString, const int &column, QString &error);
+    bool searchPerson(QSqlQueryModel *personModel, const QString &searchString, const int &column, QString &error);
     // Filter person
-    void filterPerson(QSqlTableModel *personModel, const QString &searchString, const int &column, QString &error);
+    bool filterPerson(QSqlQueryModel *personModel, const QString &searchString, const int &column, QString &error);
 
     // Add person
     bool addPerson(const Person &p, QString &error);
     // Delete person
     bool deletePerson(const int id, QString &error);
+<<<<<<< HEAD
     // Get person
     bool getPerson(Person &p, QString &error);
+=======
+    // Edit person
+    bool editPerson(const Person &p, QString &error);
+>>>>>>> origin/master
 };
 
 #endif // SERVICES_H

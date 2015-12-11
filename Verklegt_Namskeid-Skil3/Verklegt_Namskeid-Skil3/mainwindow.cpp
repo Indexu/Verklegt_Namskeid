@@ -2,11 +2,7 @@
 #include "ui_mainwindow.h"
 #include "utilities.h"
 #include "constants.h"
-#include <QMessageBox>
 #include <QDebug>
-#include <QSqlDatabase>
-#include <QSqlTableModel>
-#include <QSqlQuery>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -71,9 +67,9 @@ void MainWindow::displayConnectionsTable(){
 
 // Get all models
 void MainWindow::getModels(){
-    personModel = servicesLayer.getPersonModel(this);
-    machineModel = servicesLayer.getMachineModel(this);
-    connectionsModel = servicesLayer.getConnectionModel(this);
+    personModel = servicesLayer.getPersonModel();
+    machineModel = servicesLayer.getMachineModel();
+    connectionsModel = servicesLayer.getConnectionModel();
 }
 
 // Set table models
@@ -81,6 +77,7 @@ void MainWindow::setTableModels(){
     ui->personTable->setModel(personModel);
     ui->machineTable->setModel(machineModel);
     ui->connectionsTable->setModel(connectionsModel);
+
 }
 
 // Configure the tables
@@ -192,10 +189,11 @@ void MainWindow::on_personFilterField_textChanged(const QString &arg1){
 
     // What field is selected
     int column = ui->personSearchComboBox->currentIndex();
-    // Call filterPerson
-    servicesLayer.filterPerson(personModel, arg1, column, error);
-    // Check error
-    checkError();
+
+    // Call searchPerson
+    if(!servicesLayer.filterPerson(personModel, arg1, column, error)){
+        checkError();
+    }
 }
 
 // Person search field -> Text changed
@@ -211,10 +209,12 @@ void MainWindow::on_personSearchField_textChanged(const QString &arg1){
 
     // What field is selected
     int column = ui->personSearchComboBox->currentIndex();
+
     // Call searchPerson
-    servicesLayer.searchPerson(personModel, arg1, column, error);
-    // Check error
-    checkError();
+    if(!servicesLayer.searchPerson(personModel, arg1, column, error)){
+        checkError();
+    }
+
 }
 
 // Person search combobox -> Index changed
@@ -232,9 +232,9 @@ void MainWindow::on_personSearchComboBox_currentIndexChanged(int index){
     }
 
     // Call searchPerson
-    servicesLayer.searchPerson(personModel, searchString, index, error);
-    // Check error
-    checkError();
+    if(!servicesLayer.searchPerson(personModel, searchString, index, error)){
+        checkError();
+    }
 }
 
 // Person filter combobox -> Index changed
@@ -251,10 +251,10 @@ void MainWindow::on_personFilterComboBox_currentIndexChanged(int index){
         return;
     }
 
-    // Call filterPerson
-    servicesLayer.filterPerson(personModel, searchString, index, error);
-    // Check error
-    checkError();
+    // Call searchPerson
+    if(!servicesLayer.filterPerson(personModel, searchString, index, error)){
+        checkError();
+    }
 }
 
 // Person add button
@@ -287,15 +287,20 @@ void MainWindow::deletePerson(){
 
     QString deleteConfirmMessage = "";
 
+    // Single row
     if(selection.count() == 1){
         deleteConfirmMessage = "Are you sure you want to delete?";
     }
+    // Multiple rows
     else if(selection.count() > 1){
         deleteConfirmMessage = "Are you sure you want to delete " + QString::number(selection.count()) + " entries?";
     }
 
+    // Confirmation window
     int ans = QMessageBox::question(this, "Confirmation", deleteConfirmMessage, QMessageBox::Yes|QMessageBox::No);
+    // Check answer
     if (ans == QMessageBox::Yes) {
+        // Loop over rows
         for(int i = 0; i < selection.count(); i++){
             // Get first column (id)
             QModelIndex index = selection.at(i);
@@ -303,12 +308,14 @@ void MainWindow::deletePerson(){
             // Get id column data
             int id = ui->personTable->model()->data(index).toInt();
 
+            // Delete
             if(!servicesLayer.deletePerson(id, error)){
                 checkError();
                 return;
             }
         }
 
+        // Get call persons
         if(!servicesLayer.getAllPersons(personModel, error)){
             checkError();
         }
@@ -329,7 +336,6 @@ void MainWindow::on_personTable_clicked(const QModelIndex &index){
 // People context menu -> Delete
 void MainWindow::on_actionDeletePerson_triggered(){
     deletePerson();
-
 }
 
 void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){

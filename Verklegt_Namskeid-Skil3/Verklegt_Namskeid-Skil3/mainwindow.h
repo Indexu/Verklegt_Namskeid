@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QSqlQueryModel>
 #include <QTableView>
+#include <QMessageBox>
 #include <QMenu>
 #include "data.h"
 #include "services.h"
@@ -71,9 +73,9 @@ private:
     Ui::MainWindow *ui;
     Data dataLayer;
     Services servicesLayer;
-    QSqlTableModel *personModel;
-    QSqlTableModel *machineModel;
-    QSqlTableModel *connectionsModel;
+    QSqlQueryModel *personModel;
+    QSqlQueryModel *machineModel;
+    QSqlQueryModel *connectionsModel;
     QString error;
     QMenu personContextMenu;
 };
