@@ -39,6 +39,8 @@ public:
     // Edit person
     bool editPerson(const Person &p, QString &error);
 
+    // Get person
+    bool getPerson(const Person &p, QString &error);
     // Check if person ID exists
     bool personIDExistsDB(const int &id, QString &error);
 };

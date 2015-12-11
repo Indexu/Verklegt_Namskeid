@@ -305,3 +305,26 @@ bool Data::personIDExistsDB(const int &id, QString &error){
     }
     return false;
 }
+
+bool Data::getPerson(const Person &p, QString &error){
+    QSqlDatabase db = getDBCon();
+    if (db.open()){
+        int id = p.getId();
+
+        QSqlQuery query(db);
+        query.prepare("SELECT id FROM persons "
+                      "WHERE id = :id");
+        query.bindValue(":id",id);
+        QString name, gender, dob, dod, country;
+        name = query.value("name").toString();
+        gender = query.value("gender").toString();
+        dob = query.value("date_of_birth").toString();
+        dod = query.value("date_of_death").toString();
+        country = query.value("country").toString();
+
+        Person p(id, name, gender, dob, dod, country);
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+}
