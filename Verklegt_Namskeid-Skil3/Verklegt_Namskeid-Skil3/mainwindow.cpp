@@ -29,7 +29,18 @@ MainWindow::MainWindow(QWidget *parent) :
     // Disable delete button
     ui->personDeleteButton->setEnabled(false);
 
+    // Set the context menus
+    setContextMenus();
 }
+
+// Person context menu
+void MainWindow::personContextMenuSlot(const QPoint& pos){
+    // Set
+    QPoint mappedPos = ui->personTable->mapToGlobal(pos);
+
+    personContextMenu.exec(mappedPos);
+}
+
 // Deconstructor
 MainWindow::~MainWindow(){
     // Delete models
@@ -148,6 +159,18 @@ void MainWindow::setTableProperties(QTableView *tab){
     tab->resizeColumnsToContents();
 }
 
+// Set context menus
+void MainWindow::setContextMenus(){
+    // Person context menu
+    ui->personTable->setContextMenuPolicy(Qt::CustomContextMenu);
+    personContextMenu.addAction(ui->actionEditPerson);
+    personContextMenu.addAction(ui->actionPersonConnectToMachine);
+    personContextMenu.addAction(ui->actionDeletePerson);
+
+    connect(ui->personTable, SIGNAL(customContextMenuRequested(const QPoint&)),
+        this, SLOT(personContextMenuSlot(const QPoint&)));
+}
+
 // Display error if there is an error
 void MainWindow::checkError(){
     if(!error.isEmpty()){
@@ -252,8 +275,8 @@ void MainWindow::on_personAddButton_clicked(){
     }
 }
 
-// Person delete button
-void MainWindow::on_personDeleteButton_clicked(){
+// Delete person
+void MainWindow::deletePerson(){
     // Get row
     QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
 
@@ -292,8 +315,18 @@ void MainWindow::on_personDeleteButton_clicked(){
     }
 }
 
+// Person delete button
+void MainWindow::on_personDeleteButton_clicked(){
+    deletePerson();
+}
+
 // Person table -> click row
 void MainWindow::on_personTable_clicked(const QModelIndex &index){
     // Enable delete button
     ui->personDeleteButton->setEnabled(true);
+}
+
+// People context menu -> Delete
+void MainWindow::on_actionDeletePerson_triggered(){
+    deletePerson();
 }

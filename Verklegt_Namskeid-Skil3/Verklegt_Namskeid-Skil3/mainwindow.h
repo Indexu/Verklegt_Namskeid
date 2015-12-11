@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QTableView>
+#include <QMenu>
 #include "data.h"
 #include "services.h"
 #include "adddialog.h"
@@ -37,12 +38,15 @@ public:
     void addToComboboxes();
     // Set table properties
     void setTableProperties(QTableView *tab);
+    // Set context menus
+    void setContextMenus();
     // Check error
     void checkError();
-    
-   
+    // Delete person
+    void deletePerson();
 
 private slots:
+    void personContextMenuSlot(const QPoint& pos);
 
     void on_personFilterField_textChanged(const QString &arg1);
 
@@ -58,6 +62,8 @@ private slots:
 
     void on_personTable_clicked(const QModelIndex &index);
 
+    void on_actionDeletePerson_triggered();
+
 private:
     Ui::MainWindow *ui;
     Data dataLayer;
@@ -66,6 +72,7 @@ private:
     QSqlTableModel *machineModel;
     QSqlTableModel *connectionsModel;
     QString error;
+    QMenu personContextMenu;
 };
 
 #endif // MAINWINDOW_H

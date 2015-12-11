@@ -5,6 +5,7 @@
 #include <vector>
 
 class Person{
+    int Id;
     QString Name;
     QString Gender;
     QString DateOfBirth;
@@ -14,8 +15,15 @@ public:
     // Default
     Person();
 
-    // Constructor
+    // Constructor - without ID
     Person(QString n, QString g, QString dob, QString dod, QString c);
+
+    // Constructor - with ID
+    Person(int i, QString n, QString g, QString dob, QString dod, QString c);
+
+    // Get set name
+    int getId() const;
+    void setId(int i);
 
     // Get set name
     QString getName() const;

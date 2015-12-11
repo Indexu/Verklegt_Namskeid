@@ -113,7 +113,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QTableView" name="personTable"/>
+         <widget class="QTableView" name="personTable">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -160,6 +164,21 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionDeletePerson">
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionEditPerson">
+   <property name="text">
+    <string>Edit</string>
+   </property>
+  </action>
+  <action name="actionPersonConnectToMachine">
+   <property name="text">
+    <string>Connect to machine...</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

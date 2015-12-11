@@ -2,6 +2,7 @@
 
 // Default
 Person::Person(){
+    Id = 0;
     Name = "";
     Gender = "";
     DateOfBirth = "";
@@ -9,13 +10,31 @@ Person::Person(){
     Country = "";
 }
 
-// Constructor
+// Constructor - without ID
 Person::Person(QString n, QString g, QString dob, QString dod, QString c){
     Name = n;
     Gender = g;
     DateOfBirth = dob;
     DateOfDeath = dod;
     Country = c;
+}
+
+// Constructor - with ID
+Person::Person(int i, QString n, QString g, QString dob, QString dod, QString c){
+    Id = i;
+    Name = n;
+    Gender = g;
+    DateOfBirth = dob;
+    DateOfDeath = dod;
+    Country = c;
+}
+
+// Get set ID
+int Person::getId() const{
+    return Id;
+}
+void Person::setId(int i){
+    Id = i;
 }
 
 // Get set name
