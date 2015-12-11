@@ -75,69 +75,60 @@ QVector<Person> Data::getPersons(){
 }
 
 // Create and return person model
-QSqlTableModel* Data::getPersonModel(QObject *parent){
+QSqlQueryModel *Data::getPersonModel(){
     // Database connection
     QSqlDatabase db = Data::getDBCon();
 
     // Connect model to DB
-    QSqlTableModel *model = new QSqlTableModel(parent, db);
+    QSqlQueryModel *model = new QSqlQueryModel();
 
-    // Connect model to table
-    model->setTable(constants::TABLE_PERSON);
-    model->setEditStrategy(QSqlTableModel::OnFieldChange);
-    model->select();
+    model->setQuery("SELECT * FROM persons", db);
 
     // Return
     return model;
 }
 
 // Create and return machine model
-QSqlTableModel *Data::getMachineModel(QObject *parent){
+QSqlQueryModel *Data::getMachineModel(){
     // Database connection
     QSqlDatabase db = Data::getDBCon();
 
     // Connect model to DB
-    QSqlTableModel *model = new QSqlTableModel(parent, db);
+    QSqlQueryModel *model = new QSqlQueryModel();
 
-    // Connect model to table
-    model->setTable(constants::TABLE_MACHINE);
-    model->setEditStrategy(QSqlTableModel::OnFieldChange);
-    model->select();
+    model->setQuery("SELECT * FROM machinesView", db);
 
     // Return
     return model;
 }
 
 // Create and return connection model
-QSqlTableModel *Data::getConnectionModel(QObject *parent){
+QSqlQueryModel *Data::getConnectionModel(){
     // Database connection
     QSqlDatabase db = Data::getDBCon();
 
     // Connect model to DB
-    QSqlTableModel *model = new QSqlTableModel(parent, db);
+    QSqlQueryModel *model = new QSqlQueryModel();
 
-    // Connect model to table
-    model->setTable(constants::TABLE_CONNECTIONS);
-    model->setEditStrategy(QSqlTableModel::OnFieldChange);
-    model->select();
+    model->setQuery("SELECT * FROM pers_machView", db);
 
     // Return
     return model;
 }
 
-bool Data::getAllPersons(QSqlTableModel *personModel, QString &error){
+bool Data::getAllPersons(QSqlQueryModel *personModel, QString &error){
     // Database connection
     QSqlDatabase db = Data::getDBCon();
 
     if(db.open()){
         // Connect model to table
-        personModel->setFilter("");
+        personModel->setQuery("SELECT * FROM persons", db);
 
-        if(personModel->select()){
-            return true;
+        if(personModel->lastError().isValid()){
+            error = "Unable to access table";
         }
         else{
-            error = "Unable to access table";
+            return true;
         }
     }
     else{
@@ -147,14 +138,38 @@ bool Data::getAllPersons(QSqlTableModel *personModel, QString &error){
 }
 
 // Set the filter of personModel
-void Data::setFilterPerson(QSqlTableModel *personModel, const QString &filterStr, const QString &searchString, QString &error){
-    // Set filter
-    personModel->setFilter(filterStr.arg(searchString));
+bool Data::filterPerson(QSqlQueryModel *personModel, const QString &filterStr, const QString &searchString, QString &error){
+    QSqlDatabase db = getDBCon();
 
-    // Error
-    if(personModel->lastError().isValid()){
-        error = personModel->lastError().text();
+    if(db.open()){
+        QSqlQuery query(db);
+
+        // Prepare
+        query.prepare("SELECT * FROM persons "
+                      "WHERE " + filterStr);
+        // Bind
+        query.bindValue(":ss", searchString);
+
+        // Query error
+        if(!query.exec()){
+            error = query.lastError().text();
+            return false;
+        }
+
+        // Set Query
+        personModel->setQuery(query);
+
+        // Model Error
+        if(personModel->lastError().isValid()){
+            error = personModel->lastError().text();
+            return false;
+        }
     }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
 }
 
 // Add person
@@ -218,6 +233,45 @@ bool Data::deletePerson(const int &id, QString &error){
         error = "Unable to connect to database";
         return false;
     }
+}
+
+// Edit person
+bool Data::editPerson(const Person &p, QString &error){
+    // DB con
+    QSqlDatabase db = getDBCon();
+
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        query.prepare("UPDATE persons "
+                      "SET name = :name, "
+                      "gender = :gender, "
+                      "date_of_birth = :dob, "
+                      "date_of_death = :dod, "
+                      "country = :country "
+                      "WHERE id = :id");
+
+        query.bindValue(":name", p.getName());
+        query.bindValue(":gender", p.getGender());
+        query.bindValue(":dob", p.getDateOfBirth());
+        query.bindValue(":dod", p.getDateOfDeath());
+        query.bindValue(":country", p.getCountry());
+
+        if(!query.exec()){
+            error = query.lastError().text();
+            return false;
+        }
+
+        // Close
+        db.close();
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
 }
 
 // Check if person ID exists

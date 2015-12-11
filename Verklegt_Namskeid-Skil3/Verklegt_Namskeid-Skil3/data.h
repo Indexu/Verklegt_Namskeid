@@ -20,22 +20,24 @@ public:
     QVector<Person> getPersons();
 
     // Get person model
-    QSqlTableModel *getPersonModel(QObject *parent);
+    QSqlQueryModel *getPersonModel();
     // Get machine model
-    QSqlTableModel *getMachineModel(QObject *parent);
+    QSqlQueryModel *getMachineModel();
     // Get connection model
-    QSqlTableModel *getConnectionModel(QObject *parent);
+    QSqlQueryModel *getConnectionModel();
 
     // Get all persons
-    bool getAllPersons(QSqlTableModel *personModel, QString &error);
+    bool getAllPersons(QSqlQueryModel *personModel, QString &error);
 
     // Set the filter of persons
-    void setFilterPerson(QSqlTableModel *personModel, const QString &filterStr, const QString &searchString, QString &error);
+    bool filterPerson(QSqlQueryModel *personModel, const QString &filterStr, const QString &searchString, QString &error);
 
     // Add person
     bool addPerson(const Person &p, QString &error);
     // Delete person
     bool deletePerson(const int &id, QString &error);
+    // Edit person
+    bool editPerson(const Person &p, QString &error);
 
     // Check if person ID exists
     bool personIDExistsDB(const int &id, QString &error);
