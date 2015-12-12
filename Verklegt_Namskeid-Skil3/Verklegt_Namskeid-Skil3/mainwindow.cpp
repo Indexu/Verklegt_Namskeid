@@ -9,12 +9,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     // ===== SETUP =====
     // Initialize error
     error = "";
     // Configure tables
     configTables();
+
     // Add items to comboboxes
     addToComboboxes();
     // Display tables
@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Set the context menus
     setContextMenus();
+
 }
 
 // Person context menu
@@ -40,9 +41,14 @@ void MainWindow::personContextMenuSlot(const QPoint& pos){
 // Deconstructor
 MainWindow::~MainWindow(){
     // Delete models
-    delete personModel;
-    delete machineModel;
-    delete connectionsModel;
+    delete personQueryModel;
+    delete personProxyModel;
+
+    delete machineQueryModel;
+    delete machineProxyModel;
+
+    delete connectionsQueryModel;
+    delete connectionsProxyModel;
 
     delete ui;
 }
@@ -50,14 +56,17 @@ MainWindow::~MainWindow(){
 // Display entire person table
 void MainWindow::displayPersonTable(){
     // Get all persons
-    if(!servicesLayer.getAllPersons(personModel, error)){
+    if(!servicesLayer.getAllPersons(personQueryModel, error)){
         checkError();
     }
 }
 
 // Display entire machine table
 void MainWindow::displayMachinesTable(){
-
+    // Get all persons
+    if(!servicesLayer.getAllMachines(machineQueryModel, error)){
+        checkError();
+    }
 }
 
 // Display entire connections table
@@ -67,16 +76,16 @@ void MainWindow::displayConnectionsTable(){
 
 // Get all models
 void MainWindow::getModels(){
-    personModel = servicesLayer.getPersonModel();
-    machineModel = servicesLayer.getMachineModel();
-    connectionsModel = servicesLayer.getConnectionModel();
+    personProxyModel = servicesLayer.getPersonModel(personQueryModel);
+    machineProxyModel = servicesLayer.getMachineModel(machineQueryModel);
+    connectionsProxyModel = servicesLayer.getConnectionModel(connectionsQueryModel);
 }
 
 // Set table models
 void MainWindow::setTableModels(){
-    ui->personTable->setModel(personModel);
-    ui->machineTable->setModel(machineModel);
-    ui->connectionsTable->setModel(connectionsModel);
+    ui->personTable->setModel(personProxyModel);
+    ui->machineTable->setModel(machineProxyModel);
+    ui->connectionsTable->setModel(connectionsProxyModel);
 
 }
 
@@ -100,28 +109,28 @@ void MainWindow::configTables(){
 // Set model headers (columns)
 void MainWindow::setModelHeaders(){
     // Set Person headers
-    personModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-    personModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-    personModel->setHeaderData(2, Qt::Horizontal, tr("Gender"));
-    personModel->setHeaderData(3, Qt::Horizontal, tr("Date of birth"));
-    personModel->setHeaderData(4, Qt::Horizontal, tr("Date of death"));
-    personModel->setHeaderData(5, Qt::Horizontal, tr("Country"));
+    personProxyModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    personProxyModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    personProxyModel->setHeaderData(2, Qt::Horizontal, tr("Gender"));
+    personProxyModel->setHeaderData(3, Qt::Horizontal, tr("Date of birth"));
+    personProxyModel->setHeaderData(4, Qt::Horizontal, tr("Date of death"));
+    personProxyModel->setHeaderData(5, Qt::Horizontal, tr("Country"));
 
     // Set machine headers
-    machineModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-    machineModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-    machineModel->setHeaderData(2, Qt::Horizontal, tr("Year"));
-    machineModel->setHeaderData(3, Qt::Horizontal, tr("Built"));
-    machineModel->setHeaderData(4, Qt::Horizontal, tr("Type"));
-    machineModel->setHeaderData(5, Qt::Horizontal, tr("System"));
+    machineQueryModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    machineQueryModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+    machineQueryModel->setHeaderData(2, Qt::Horizontal, tr("Year"));
+    machineQueryModel->setHeaderData(3, Qt::Horizontal, tr("Built"));
+    machineQueryModel->setHeaderData(4, Qt::Horizontal, tr("Type"));
+    machineQueryModel->setHeaderData(5, Qt::Horizontal, tr("System"));
 
     // Set column names
-    connectionsModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-    connectionsModel->setHeaderData(1, Qt::Horizontal, tr("Person"));
-    connectionsModel->setHeaderData(2, Qt::Horizontal, tr("Machine"));
-    connectionsModel->setHeaderData(3, Qt::Horizontal, tr("Type"));
-    connectionsModel->setHeaderData(4, Qt::Horizontal, tr("System"));
-    connectionsModel->setHeaderData(5, Qt::Horizontal, tr("Country"));
+    connectionsQueryModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    connectionsQueryModel->setHeaderData(1, Qt::Horizontal, tr("Person"));
+    connectionsQueryModel->setHeaderData(2, Qt::Horizontal, tr("Machine"));
+    connectionsQueryModel->setHeaderData(3, Qt::Horizontal, tr("Type"));
+    connectionsQueryModel->setHeaderData(4, Qt::Horizontal, tr("System"));
+    connectionsQueryModel->setHeaderData(5, Qt::Horizontal, tr("Country"));
 }
 
 // Add to search/filter comboboxes
@@ -154,6 +163,7 @@ void MainWindow::setTableProperties(QTableView *tab){
     tab->setSortingEnabled(true);
     tab->sortByColumn(0, Qt::AscendingOrder);
     tab->resizeColumnsToContents();
+    tab->horizontalHeader()->setHighlightSections(false);
 }
 
 // Set context menus
@@ -181,7 +191,7 @@ void MainWindow::on_personFilterField_textChanged(const QString &arg1){
     // If search criteria is empty, display all
     if(arg1.isEmpty()){
         // Get all persons
-        if(!servicesLayer.getAllPersons(personModel, error)){
+        if(!servicesLayer.getAllPersons(personQueryModel, error)){
             checkError();
         }
         return;
@@ -191,7 +201,7 @@ void MainWindow::on_personFilterField_textChanged(const QString &arg1){
     int column = ui->personSearchComboBox->currentIndex();
 
     // Call searchPerson
-    if(!servicesLayer.filterPerson(personModel, arg1, column, error)){
+    if(!servicesLayer.filterPerson(personQueryModel, arg1, column, error)){
         checkError();
     }
 }
@@ -201,7 +211,7 @@ void MainWindow::on_personSearchField_textChanged(const QString &arg1){
     // If search criteria is empty, display all
     if(arg1.isEmpty()){
         // Get all persons
-        if(!servicesLayer.getAllPersons(personModel, error)){
+        if(!servicesLayer.getAllPersons(personQueryModel, error)){
             checkError();
         }
         return;
@@ -211,7 +221,7 @@ void MainWindow::on_personSearchField_textChanged(const QString &arg1){
     int column = ui->personSearchComboBox->currentIndex();
 
     // Call searchPerson
-    if(!servicesLayer.searchPerson(personModel, arg1, column, error)){
+    if(!servicesLayer.searchPerson(personQueryModel, arg1, column, error)){
         checkError();
     }
 
@@ -225,14 +235,14 @@ void MainWindow::on_personSearchComboBox_currentIndexChanged(int index){
     // If search criteria is empty, display all
     if(searchString.isEmpty()){
         // Get all persons
-        if(!servicesLayer.getAllPersons(personModel, error)){
+        if(!servicesLayer.getAllPersons(personQueryModel, error)){
             checkError();
         }
         return;
     }
 
     // Call searchPerson
-    if(!servicesLayer.searchPerson(personModel, searchString, index, error)){
+    if(!servicesLayer.searchPerson(personQueryModel, searchString, index, error)){
         checkError();
     }
 }
@@ -245,14 +255,14 @@ void MainWindow::on_personFilterComboBox_currentIndexChanged(int index){
     // If search criteria is empty, display all
     if(searchString.isEmpty()){
         // Get all persons
-        if(!servicesLayer.getAllPersons(personModel, error)){
+        if(!servicesLayer.getAllPersons(personQueryModel, error)){
             checkError();
         }
         return;
     }
 
     // Call searchPerson
-    if(!servicesLayer.filterPerson(personModel, searchString, index, error)){
+    if(!servicesLayer.filterPerson(personQueryModel, searchString, index, error)){
         checkError();
     }
 }
@@ -316,7 +326,7 @@ void MainWindow::deletePerson(){
         }
 
         // Get call persons
-        if(!servicesLayer.getAllPersons(personModel, error)){
+        if(!servicesLayer.getAllPersons(personQueryModel, error)){
             checkError();
         }
     }
@@ -324,26 +334,39 @@ void MainWindow::deletePerson(){
 
 // Edit person
 void MainWindow::editPerson(){
+    // Get row
     QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
-    QModelIndex dex = selection.at(0);
-    int id = ui->personTable->model()->data(dex).toInt();
+    QModelIndex index = selection.at(0);
+    // Get ID
+    int id = ui->personTable->model()->data(index).toInt();
 
-
-    QString error;
+    // Empty person
     Person p;
-
+    // Set person ID to the ID of the row
     p.setId(id);
 
+    // Get the person info by ID
     if(!servicesLayer.getPerson(p, error)){
         checkError();
         return;
     }
 
+    // Edit dialog
     editPersonDialog editDialog;
+    // Forward person to edit dialog
     editDialog.setPerson(p);
+    // Set the fields
     editDialog.setFields();
+    // Exec window
     editDialog.exec();
+<<<<<<< HEAD
     if (editDialog.getSaveClick()) {
+=======
+
+    // If saved
+    if (editDialog.getSaveClick()) {
+        // If error, show error, else update table
+>>>>>>> origin/master
         if (!servicesLayer.editPerson(editDialog.getPerson(), error)) {
             checkError();
         }

@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QSqlQueryModel>
+#include <QSqlTableModel>
+#include <QSortFilterProxyModel>
 #include <QTableView>
 #include <QMessageBox>
 #include <QMenu>
@@ -77,9 +79,16 @@ private:
     Ui::MainWindow *ui;
     Data dataLayer;
     Services servicesLayer;
-    QSqlQueryModel *personModel;
-    QSqlQueryModel *machineModel;
-    QSqlQueryModel *connectionsModel;
+
+    QSqlQueryModel *personQueryModel;
+    QSortFilterProxyModel *personProxyModel;
+
+    QSqlQueryModel *machineQueryModel;
+    QSortFilterProxyModel *machineProxyModel;
+
+    QSqlQueryModel *connectionsQueryModel;
+    QSortFilterProxyModel *connectionsProxyModel;
+
     QString error;
     QMenu personContextMenu;
 };

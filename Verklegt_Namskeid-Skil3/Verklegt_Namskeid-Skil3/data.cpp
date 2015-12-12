@@ -7,7 +7,7 @@ Data::Data(){
 
 // Deconstructor
 Data::~Data(){
-    QSqlDatabase db = Data::getDBCon();
+    QSqlDatabase db = getDBCon();
     db.close();
 }
 
@@ -34,7 +34,7 @@ QSqlDatabase Data::getDBCon(){
 // Get data
 QVector<Person> Data::getPersons(){
     // DB con
-    QSqlDatabase db = Data::getDBCon();
+    QSqlDatabase db = getDBCon();
 
     QVector<Person> p;
 
@@ -75,60 +75,73 @@ QVector<Person> Data::getPersons(){
 }
 
 // Create and return person model
-QSqlQueryModel *Data::getPersonModel(){
+QSortFilterProxyModel *Data::getPersonModel(QSqlQueryModel *&personQueryModel){
     // Database connection
-    QSqlDatabase db = Data::getDBCon();
+    QSqlDatabase db = getDBCon();
 
-    // Connect model to DB
-    QSqlQueryModel *model = new QSqlQueryModel();
+    // Initialize Query model
+    personQueryModel = new QSqlQueryModel();
 
-    model->setQuery("SELECT * FROM persons", db);
+    // Initial data
+    personQueryModel->setQuery("SELECT * FROM persons", db);
+
+    // Create proxy model for sorting
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel();
+    proxy->setSourceModel(personQueryModel);
 
     // Return
-    return model;
+    return proxy;
 }
 
 // Create and return machine model
-QSqlQueryModel *Data::getMachineModel(){
+QSortFilterProxyModel *Data::getMachineModel(QSqlQueryModel *&machineQueryModel){
     // Database connection
-    QSqlDatabase db = Data::getDBCon();
+    QSqlDatabase db = getDBCon();
 
-    // Connect model to DB
-    QSqlQueryModel *model = new QSqlQueryModel();
+    // Initialize Query model
+    machineQueryModel = new QSqlQueryModel();
 
-    model->setQuery("SELECT * FROM machinesView", db);
+    // Initial data
+    machineQueryModel->setQuery("SELECT * FROM machinesView", db);
+
+    // Create proxy model for sorting
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel();
+    proxy->setSourceModel(machineQueryModel);
 
     // Return
-    return model;
+    return proxy;
 }
 
 // Create and return connection model
-QSqlQueryModel *Data::getConnectionModel(){
+QSortFilterProxyModel *Data::getConnectionModel(QSqlQueryModel *&connectionQueryModel){
     // Database connection
-    QSqlDatabase db = Data::getDBCon();
+    QSqlDatabase db = getDBCon();
 
-    // Connect model to DB
-    QSqlQueryModel *model = new QSqlQueryModel();
+    // Initialize Query model
+    connectionQueryModel = new QSqlQueryModel();
 
-    model->setQuery("SELECT * FROM pers_machView", db);
+    // Initial data
+    connectionQueryModel->setQuery("SELECT * FROM pers_machView", db);
+
+    // Create proxy model for sorting
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel();
+    proxy->setSourceModel(connectionQueryModel);
 
     // Return
-    return model;
+    return proxy;
 }
 
-bool Data::getAllPersons(QSqlQueryModel *personModel, QString &error){
+bool Data::getAllPersons(QSqlQueryModel *personQueryModel, QString &error){
     // Database connection
-    QSqlDatabase db = Data::getDBCon();
+    QSqlDatabase db = getDBCon();
 
     if(db.open()){
         // Connect model to table
-        personModel->setQuery("SELECT * FROM persons", db);
+        personQueryModel->setQuery("SELECT * FROM persons", db);
 
-        if(personModel->lastError().isValid()){
-            error = personModel->lastError().text();
-        }
-        else{
-            return true;
+        if(personQueryModel->lastError().isValid()){
+            error = personQueryModel->lastError().text();
+            return false;
         }
     }
     else{
@@ -138,7 +151,7 @@ bool Data::getAllPersons(QSqlQueryModel *personModel, QString &error){
 }
 
 // Set the filter of personModel
-bool Data::filterPerson(QSqlQueryModel *personModel, const QString &filterStr, const QString &searchString, QString &error){
+bool Data::filterPerson(QSqlQueryModel *personQueryModel, const QString &filterStr, const QString &searchString, QString &error){
     QSqlDatabase db = getDBCon();
 
     if(db.open()){
@@ -157,11 +170,11 @@ bool Data::filterPerson(QSqlQueryModel *personModel, const QString &filterStr, c
         }
 
         // Set Query
-        personModel->setQuery(query);
+        personQueryModel->setQuery(query);
 
         // Model Error
-        if(personModel->lastError().isValid()){
-            error = personModel->lastError().text();
+        if(personQueryModel->lastError().isValid()){
+            error = personQueryModel->lastError().text();
             return false;
         }
     }
@@ -347,6 +360,27 @@ bool Data::getPerson(Person &p, QString &error){
     else{
         error = "Unable to connect to database";
         return false;
+    }
+    return false;
+}
+
+// ==== Machines ====
+// Get all machines
+bool Data::getAllMachines(QSqlQueryModel *machineQueryModel, QString &error){
+    // Database connection
+    QSqlDatabase db = getDBCon();
+
+    if(db.open()){
+        // Connect model to table
+        machineQueryModel->setQuery("SELECT * FROM machinesView", db);
+
+        if(machineQueryModel->lastError().isValid()){
+            error = machineQueryModel->lastError().text();
+            return false;
+        }
+    }
+    else{
+        error = "Unable to connect to database";
     }
     return false;
 }
