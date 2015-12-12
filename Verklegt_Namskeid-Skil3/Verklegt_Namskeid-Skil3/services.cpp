@@ -7,21 +7,21 @@ Services::Services(){
 
 // ===== MODELS =====
 // Get person model from data layer
-QSqlQueryModel *Services::getPersonModel(){
-    return dataLayer.getPersonModel();
+QSortFilterProxyModel *Services::getPersonModel(QSqlQueryModel *&personQueryModel){
+    return dataLayer.getPersonModel(personQueryModel);
 }
 // Get machine model from data layer
-QSqlQueryModel *Services::getMachineModel(){
-    return dataLayer.getMachineModel();
+QSortFilterProxyModel *Services::getMachineModel(QSqlQueryModel *&machineQueryModel){
+    return dataLayer.getMachineModel(machineQueryModel);
 }
 // Get connection model from data layer
-QSqlQueryModel *Services::getConnectionModel(){
-    return dataLayer.getConnectionModel();
+QSortFilterProxyModel *Services::getConnectionModel(QSqlQueryModel *&connectionQueryModel){
+    return dataLayer.getConnectionModel(connectionQueryModel);
 }
 
 // Get all persons
-bool Services::getAllPersons(QSqlQueryModel *personModel, QString &error){
-    return dataLayer.getAllPersons(personModel, error);
+bool Services::getAllPersons(QSqlQueryModel *personQueryModel, QString &error){
+    return dataLayer.getAllPersons(personQueryModel, error);
 }
 
 // Search for a person
@@ -134,4 +134,8 @@ bool Services::editPerson(const Person &p, QString &error){
     return dataLayer.editPerson(p, error);
 }
 
-
+// ==== Machines ====
+// Get all machines
+bool Services::getAllMachines(QSqlQueryModel *machineQueryModel, QString &error){
+    return dataLayer.getAllMachines(machineQueryModel, error);
+}

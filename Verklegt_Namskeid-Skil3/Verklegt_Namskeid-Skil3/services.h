@@ -14,31 +14,31 @@ public:
     Services();
 
     // Get person model from data layer
-    QSqlQueryModel *getPersonModel();
+    QSortFilterProxyModel *getPersonModel(QSqlQueryModel *&personQueryModel);
     // Get machine model from data layer
-    QSqlQueryModel* getMachineModel();
+    QSortFilterProxyModel* getMachineModel(QSqlQueryModel *&machineQueryModel);
     // Get connection model from data layer
-    QSqlQueryModel* getConnectionModel();
+    QSortFilterProxyModel *getConnectionModel(QSqlQueryModel *&connectionQueryModel);
 
+    // ==== Persons ====
     // Get all persons
-    bool getAllPersons(QSqlQueryModel *personModel, QString &error);
-
+    bool getAllPersons(QSqlQueryModel *personQueryModel, QString &error);
     // Search person
     bool searchPerson(QSqlQueryModel *personModel, const QString &searchString, const int &column, QString &error);
     // Filter person
     bool filterPerson(QSqlQueryModel *personModel, const QString &searchString, const int &column, QString &error);
-
     // Add person
     bool addPerson(const Person &p, QString &error);
     // Delete person
     bool deletePerson(const int id, QString &error);
-
     // Edit person
     bool editPerson(const Person &p, QString &error);
-
     // Get person
     bool getPerson(Person &p, QString &error);
 
+    // ==== Machines ====
+    // Get all persons
+    bool getAllMachines(QSqlQueryModel *machineQueryModel, QString &error);
 };
 
 #endif // SERVICES_H
