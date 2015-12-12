@@ -262,7 +262,6 @@ bool Data::editPerson(const Person &p, QString &error){
             error = query.lastError().text();
             return false;
         }
-
         // Close
         db.close();
         return true;
@@ -335,8 +334,6 @@ bool Data::getPerson(Person &p, QString &error){
             p.setDateOfBirth(dob);
             p.setDateOfDeath(dod);
             p.setCountry(country);
-
-            qDebug() << p.getCountry();
         }
         else{
             qDebug() << "No person, id: " << p.getId();

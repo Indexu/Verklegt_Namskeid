@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>229</width>
-    <height>381</height>
+    <width>249</width>
+    <height>385</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,11 +59,22 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Date of birth</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Date of birth</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="dateErrorLabel">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QDateEdit" name="editPersonDateOfBirth">
@@ -136,7 +147,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="editSaveButton">
        <property name="text">
         <string>Save</string>
        </property>
@@ -157,7 +168,7 @@
   <tabstop>editPersonDateOfDeath</tabstop>
   <tabstop>editPersonCountryField</tabstop>
   <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_2</tabstop>
+  <tabstop>editSaveButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

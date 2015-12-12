@@ -342,8 +342,22 @@ void MainWindow::editPerson(){
     editPersonDialog editDialog;
     editDialog.setPerson(p);
     editDialog.setFields();
-
     editDialog.exec();
+
+    if (editDialog.getSaveClick()) {
+        qDebug() << "MAIN: " << editDialog.getPerson().getName();
+        qDebug() << "MAIN: " << editDialog.getPerson().getGender();
+        qDebug() << "MAIN: " << editDialog.getPerson().getDateOfBirth();
+        qDebug() << "MAIN: " << editDialog.getPerson().getDateOfDeath();
+        qDebug() << "MAIN: " << editDialog.getPerson().getCountry();
+
+        if (!servicesLayer.editPerson(editDialog.getPerson(), error)) {
+            checkError();
+        }
+        else{
+            displayPersonTable();
+        }
+    }
 }
 
 // Person delete button

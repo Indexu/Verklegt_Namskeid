@@ -32,6 +32,7 @@ public:
     bool addPerson(const Person &p, QString &error);
     // Delete person
     bool deletePerson(const int id, QString &error);
+
     // Edit person
     bool editPerson(const Person &p, QString &error);
 
