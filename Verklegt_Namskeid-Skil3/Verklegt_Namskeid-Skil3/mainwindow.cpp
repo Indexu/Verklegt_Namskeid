@@ -343,8 +343,9 @@ void MainWindow::editPerson(){
     editDialog.setPerson(p);
     editDialog.setFields();
     editDialog.exec();
-
+    qDebug() << "MAIN5: " << editDialog.getPerson().getId();
     if (editDialog.getSaveClick()) {
+        qDebug() << "MAIN: " << editDialog.getPerson().getId();
         qDebug() << "MAIN: " << editDialog.getPerson().getName();
         qDebug() << "MAIN: " << editDialog.getPerson().getGender();
         qDebug() << "MAIN: " << editDialog.getPerson().getDateOfBirth();

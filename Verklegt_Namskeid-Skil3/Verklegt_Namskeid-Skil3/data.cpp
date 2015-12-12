@@ -125,7 +125,7 @@ bool Data::getAllPersons(QSqlQueryModel *personModel, QString &error){
         personModel->setQuery("SELECT * FROM persons", db);
 
         if(personModel->lastError().isValid()){
-            error = "Unable to access table";
+            error = personModel->lastError().text();
         }
         else{
             return true;
@@ -252,6 +252,7 @@ bool Data::editPerson(const Person &p, QString &error){
                       "country = :country "
                       "WHERE id = :id");
 
+        query.bindValue(":id", p.getId());
         query.bindValue(":name", p.getName());
         query.bindValue(":gender", p.getGender());
         query.bindValue(":dob", p.getDateOfBirth());

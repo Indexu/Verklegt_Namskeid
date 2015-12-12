@@ -90,6 +90,7 @@ bool Person::operator==(const Person &p) const{
 
 // Operator =
 void Person::operator=(const Person &p){
+    Id = p.getId();
     Name = p.getName();
     Gender = p.getGender();
     DateOfBirth = p.getDateOfBirth();

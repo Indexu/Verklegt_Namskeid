@@ -124,15 +124,14 @@ bool Services::deletePerson(const int id, QString &error){
     return false;
 }
 
-// Get person from
+// Get person, by ID stored in &p
 bool Services::getPerson(Person &p, QString &error){
-    dataLayer.getPerson(p, error);
-    return true;
+    return dataLayer.getPerson(p, error);
 }
 
+// Edit person
 bool Services::editPerson(const Person &p, QString &error){
-    dataLayer.editPerson(p, error);
-    return true;
+    return dataLayer.editPerson(p, error);
 }
 
 

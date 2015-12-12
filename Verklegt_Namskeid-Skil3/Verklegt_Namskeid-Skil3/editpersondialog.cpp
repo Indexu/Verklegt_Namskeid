@@ -145,7 +145,7 @@ void editPersonDialog::on_editPersonCountryField_textChanged(const QString &arg1
 // Gender changes
 void editPersonDialog::on_editPersonGender_currentIndexChanged(const QString &arg1)
 {
-    editPerson.setGender(arg1);
+    editPerson.setGender(arg1.toLower());
     verifyInputs();
 }
 
@@ -174,7 +174,7 @@ void editPersonDialog::on_editSaveButton_clicked()
 {
     // Set values to person editPerson when saved
     editPerson.setName(ui->editPersonNameField->text());
-    editPerson.setGender(ui->editPersonGender->currentText());
+    editPerson.setGender(ui->editPersonGender->currentText().toLower());
     editPerson.setDateOfBirth(ui->editPersonDateOfBirth->date().toString(constants::DATE_FORMAT));
     // Check if alive checkbox is checked
     if (ui->aliveCheckBox->isChecked()) {
