@@ -11,6 +11,7 @@ editPersonDialog::editPersonDialog(QWidget *parent) :
 
     // Set save confirmation to false
     saveClick = false;
+    changesMade = false;
 
     // Set minimum dates
     ui->editPersonDateOfBirth->setMinimumDate(QDate(100, 1, 1));
@@ -94,6 +95,7 @@ void editPersonDialog::setFields()
         gender = 1;
     }
     ui->editPersonGender->setCurrentIndex(gender);
+    backUp = editPerson;
     verifyInputs();
 }
 
@@ -113,6 +115,11 @@ Person editPersonDialog::getPerson()
 bool editPersonDialog::getSaveClick()
 {
     return saveClick;
+}
+
+// Get if changes are made
+bool editPersonDialog::getChangesMade() {
+    return changesMade;
 }
 
 // Alive check box - click
@@ -185,5 +192,13 @@ void editPersonDialog::on_editSaveButton_clicked()
     }
     editPerson.setCountry(ui->editPersonCountryField->text());
     saveClick = true;
+    // Checks if changes were made. Have a better look at why the program crashes when creating a new private variable of type Person.
+    /*if (editPerson == backUp) {
+        qDebug() << "No changes were made." <<  backUp.getName();
+    }
+    else{
+        qDebug() << "Changes were made" << backUp.getName();
+    }*/
+
     this->close();
 }

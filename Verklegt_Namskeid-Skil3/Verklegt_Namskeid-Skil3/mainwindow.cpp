@@ -343,15 +343,7 @@ void MainWindow::editPerson(){
     editDialog.setPerson(p);
     editDialog.setFields();
     editDialog.exec();
-    qDebug() << "MAIN5: " << editDialog.getPerson().getId();
     if (editDialog.getSaveClick()) {
-        qDebug() << "MAIN: " << editDialog.getPerson().getId();
-        qDebug() << "MAIN: " << editDialog.getPerson().getName();
-        qDebug() << "MAIN: " << editDialog.getPerson().getGender();
-        qDebug() << "MAIN: " << editDialog.getPerson().getDateOfBirth();
-        qDebug() << "MAIN: " << editDialog.getPerson().getDateOfDeath();
-        qDebug() << "MAIN: " << editDialog.getPerson().getCountry();
-
         if (!servicesLayer.editPerson(editDialog.getPerson(), error)) {
             checkError();
         }
@@ -377,7 +369,7 @@ void MainWindow::on_actionDeletePerson_triggered(){
     deletePerson();
 }
 
-// Double click person table row
+// Double click person table row to edit entry
 void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
     editPerson();
 }

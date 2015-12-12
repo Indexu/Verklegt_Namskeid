@@ -137,7 +137,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="cancelButton">
        <property name="text">
         <string>Cancel</string>
        </property>
@@ -167,7 +167,7 @@
   <tabstop>aliveCheckBox</tabstop>
   <tabstop>editPersonDateOfDeath</tabstop>
   <tabstop>editPersonCountryField</tabstop>
-  <tabstop>pushButton</tabstop>
+  <tabstop>cancelButton</tabstop>
   <tabstop>editSaveButton</tabstop>
  </tabstops>
  <resources/>
