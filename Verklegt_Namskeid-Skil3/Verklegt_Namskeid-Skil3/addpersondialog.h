@@ -1,5 +1,5 @@
-#ifndef ADDDIALOG_H
-#define ADDDIALOG_H
+#ifndef AddPersonDialog_H
+#define AddPersonDialog_H
 
 #include <QDialog>
 #include <QPushButton>
@@ -8,16 +8,16 @@
 #include "constants.h"
 
 namespace Ui {
-class AddDialog;
+class AddPersonDialog;
 }
 
-class AddDialog : public QDialog
+class AddPersonDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit AddDialog(QWidget *parent = 0);
-    ~AddDialog();
+    explicit AddPersonDialog(QWidget *parent = 0);
+    ~AddPersonDialog();
 
     // Get person
     Person getPerson();
@@ -46,9 +46,9 @@ private slots:
     void on_cancelButton_clicked();
 
 private:
-    Ui::AddDialog *ui;
+    Ui::AddPersonDialog *ui;
     Person newPerson;
     bool addClick;
 };
 
-#endif // ADDDIALOG_H
+#endif // AddPersonDialog_H

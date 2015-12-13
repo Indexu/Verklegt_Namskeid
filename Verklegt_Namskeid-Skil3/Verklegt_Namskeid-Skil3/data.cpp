@@ -131,6 +131,7 @@ QSortFilterProxyModel *Data::getConnectionModel(QSqlQueryModel *&connectionQuery
     return proxy;
 }
 
+// Get all persons
 bool Data::getAllPersons(QSqlQueryModel *personQueryModel, QString &error){
     // Database connection
     QSqlDatabase db = getDBCon();
@@ -143,6 +144,8 @@ bool Data::getAllPersons(QSqlQueryModel *personQueryModel, QString &error){
             error = personQueryModel->lastError().text();
             return false;
         }
+
+        return true;
     }
     else{
         error = "Unable to connect to database";
@@ -177,6 +180,8 @@ bool Data::filterPerson(QSqlQueryModel *personQueryModel, const QString &filterS
             error = personQueryModel->lastError().text();
             return false;
         }
+
+        return true;
     }
     else{
         error = "Unable to connect to database";
@@ -319,6 +324,7 @@ bool Data::personIDExistsDB(const int &id, QString &error){
     return false;
 }
 
+// Get person by ID
 bool Data::getPerson(Person &p, QString &error){
     QSqlDatabase db = getDBCon();
     if (db.open()){
@@ -378,6 +384,8 @@ bool Data::getAllMachines(QSqlQueryModel *machineQueryModel, QString &error){
             error = machineQueryModel->lastError().text();
             return false;
         }
+
+        return true;
     }
     else{
         error = "Unable to connect to database";
