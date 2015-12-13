@@ -95,7 +95,6 @@ void editPersonDialog::setFields()
         gender = 1;
     }
     ui->editPersonGender->setCurrentIndex(gender);
-    backUp = editPerson;
     verifyInputs();
 }
 

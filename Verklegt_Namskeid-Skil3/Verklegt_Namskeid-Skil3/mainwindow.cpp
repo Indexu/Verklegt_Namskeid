@@ -359,14 +359,10 @@ void MainWindow::editPerson(){
     editDialog.setFields();
     // Exec window
     editDialog.exec();
-<<<<<<< HEAD
-    if (editDialog.getSaveClick()) {
-=======
 
     // If saved
     if (editDialog.getSaveClick()) {
         // If error, show error, else update table
->>>>>>> origin/master
         if (!servicesLayer.editPerson(editDialog.getPerson(), error)) {
             checkError();
         }
