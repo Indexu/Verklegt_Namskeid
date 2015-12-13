@@ -11,7 +11,7 @@
 #include <QMenu>
 #include "data.h"
 #include "services.h"
-#include "adddialog.h"
+#include "addpersondialog.h"
 #include "editpersondialog.h"
 
 namespace Ui {
@@ -47,33 +47,41 @@ public:
     void setContextMenus();
     // Check error
     void checkError();
+    // Update person results label
+    void updatePersonResults();
+    // Check if re-search
+    void checkPersonSearch();
+    // Disable Person edit and delete buttons
+    void disableEditDeletePersonButtons();
+    // Search person
+    void searchPerson(QString searchString,int column);
     // Delete person
     void deletePerson();
     // Edit person
     void editPerson();
 
 private slots:
-    void personContextMenuSlot(const QPoint& pos);
-
-    void on_personFilterField_textChanged(const QString &arg1);
-
     void on_personSearchField_textChanged(const QString &arg1);
 
     void on_personSearchComboBox_currentIndexChanged(int index);
 
-    void on_personFilterComboBox_currentIndexChanged(int index);
-
     void on_personAddButton_clicked();
-
-    void on_personDeleteButton_clicked();
-
-    void on_personTable_clicked(const QModelIndex &index);
 
     void on_actionDeletePerson_triggered();
 
     void on_personTable_doubleClicked(const QModelIndex &index);
 
     void on_actionEditPerson_triggered();
+
+    void on_personFilterCheckBox_clicked();
+
+    void on_personDeleteButton_clicked();
+
+    void on_personTable_clicked(const QModelIndex &index);
+
+    void on_personTable_customContextMenuRequested(const QPoint &pos);
+
+    void on_personEditButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -91,6 +99,7 @@ private:
 
     QString error;
     QMenu personContextMenu;
+
 };
 
 #endif // MAINWINDOW_H

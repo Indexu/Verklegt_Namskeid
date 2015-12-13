@@ -10,6 +10,7 @@ namespace constants{
     const QString TABLE_MACHINE = "machinesView";
     const QString TABLE_CONNECTIONS = "pers_machView";
     const QString DATE_FORMAT = "yyyy-MM-dd";
+    const int STATUSBAR_MESSAGE_TIME = 3000;
 }
 
 #endif // CONSTANTS

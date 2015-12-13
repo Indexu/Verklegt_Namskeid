@@ -22,20 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
     displayMachinesTable();
     displayConnectionsTable();
 
-    // Disable delete button
-    ui->personDeleteButton->setEnabled(false);
-
     // Set the context menus
     setContextMenus();
 
-}
-
-// Person context menu
-void MainWindow::personContextMenuSlot(const QPoint& pos){
-    // Set
-    QPoint mappedPos = ui->personTable->mapToGlobal(pos);
-
-    personContextMenu.exec(mappedPos);
 }
 
 // Deconstructor
@@ -55,10 +44,17 @@ MainWindow::~MainWindow(){
 
 // Display entire person table
 void MainWindow::displayPersonTable(){
+    // Disable Person edit and delete buttons
+    disableEditDeletePersonButtons();
+
     // Get all persons
     if(!servicesLayer.getAllPersons(personQueryModel, error)){
         checkError();
+        return;
     }
+
+    // Update results
+    updatePersonResults();
 }
 
 // Display entire machine table
@@ -143,14 +139,6 @@ void MainWindow::addToComboboxes(){
     ui->personSearchComboBox->addItem("Birth date");
     ui->personSearchComboBox->addItem("Death date");
     ui->personSearchComboBox->addItem("Country");
-    // Person filter
-    ui->personFilterComboBox->addItem("All");
-    ui->personFilterComboBox->addItem("ID");
-    ui->personFilterComboBox->addItem("Name");
-    ui->personFilterComboBox->addItem("Gender");
-    ui->personFilterComboBox->addItem("Birth date");
-    ui->personFilterComboBox->addItem("Death date");
-    ui->personFilterComboBox->addItem("Country");
 }
 
 // Set table properties
@@ -170,12 +158,9 @@ void MainWindow::setTableProperties(QTableView *tab){
 void MainWindow::setContextMenus(){
     // Person context menu
     ui->personTable->setContextMenuPolicy(Qt::CustomContextMenu);
-    personContextMenu.addAction(ui->actionEditPerson);
     personContextMenu.addAction(ui->actionPersonConnectToMachine);
+    personContextMenu.addAction(ui->actionEditPerson);
     personContextMenu.addAction(ui->actionDeletePerson);
-
-    connect(ui->personTable, SIGNAL(customContextMenuRequested(const QPoint&)),
-        this, SLOT(personContextMenuSlot(const QPoint&)));
 }
 
 // Display error if there is an error
@@ -186,103 +171,142 @@ void MainWindow::checkError(){
     }
 }
 
-// Person filter field -> Text changed
-void MainWindow::on_personFilterField_textChanged(const QString &arg1){
-    // If search criteria is empty, display all
-    if(arg1.isEmpty()){
-        // Get all persons
-        if(!servicesLayer.getAllPersons(personQueryModel, error)){
-            checkError();
-        }
-        return;
-    }
+// Update the persons label displaying the number of results
+void MainWindow::updatePersonResults(){
+    QString results = QString::number(ui->personTable->verticalHeader()->count());
 
-    // What field is selected
-    int column = ui->personSearchComboBox->currentIndex();
-
-    // Call searchPerson
-    if(!servicesLayer.filterPerson(personQueryModel, arg1, column, error)){
-        checkError();
-    }
+    ui->personResultsLabel->setText("Results: " + results);
 }
 
-// Person search field -> Text changed
-void MainWindow::on_personSearchField_textChanged(const QString &arg1){
-    // If search criteria is empty, display all
-    if(arg1.isEmpty()){
-        // Get all persons
-        if(!servicesLayer.getAllPersons(personQueryModel, error)){
-            checkError();
-        }
-        return;
-    }
-
-    // What field is selected
-    int column = ui->personSearchComboBox->currentIndex();
-
-    // Call searchPerson
-    if(!servicesLayer.searchPerson(personQueryModel, arg1, column, error)){
-        checkError();
-    }
-
-}
-
-// Person search combobox -> Index changed
-void MainWindow::on_personSearchComboBox_currentIndexChanged(int index){
+// Check search
+void MainWindow::checkPersonSearch(){
     // Search string
     QString searchString = ui->personSearchField->text();
 
     // If search criteria is empty, display all
     if(searchString.isEmpty()){
         // Get all persons
-        if(!servicesLayer.getAllPersons(personQueryModel, error)){
-            checkError();
-        }
+        displayPersonTable();
         return;
     }
 
-    // Call searchPerson
-    if(!servicesLayer.searchPerson(personQueryModel, searchString, index, error)){
-        checkError();
-    }
+    // What field is selected
+    int column = ui->personSearchComboBox->currentIndex();
+
+    // Search
+    searchPerson(searchString, column);
 }
 
-// Person filter combobox -> Index changed
-void MainWindow::on_personFilterComboBox_currentIndexChanged(int index){
+// Disable Person edit and delete buttons
+void MainWindow::disableEditDeletePersonButtons(){
+    // Disable delete button
+    ui->personDeleteButton->setEnabled(false);
+    // Disable edit button
+    ui->personEditButton->setEnabled(false);
+}
+
+// Person search
+void MainWindow::searchPerson(QString searchString, int column){
+    // Filter
+    if(ui->personFilterCheckBox->isChecked()){
+        // Call filterPerson
+        if(!servicesLayer.filterPerson(personQueryModel, searchString, column, error)){
+            checkError();
+            return;
+        }
+    }
+    //Search
+    else{
+        // Call searchPerson
+        if(!servicesLayer.searchPerson(personQueryModel, searchString, column, error)){
+            checkError();
+            return;
+        }
+    }
+
+    // Update results
+    updatePersonResults();
+}
+
+// Person search field -> Text changed
+void MainWindow::on_personSearchField_textChanged(const QString &arg1){
+    // Disable Person edit and delete buttons
+    disableEditDeletePersonButtons();
+
+    // If search criteria is empty, display all
+    if(arg1.isEmpty()){
+        // Get all persons
+        displayPersonTable();
+        return;
+    }
+
+    // What field is selected
+    int column = ui->personSearchComboBox->currentIndex();
+
+    // Search
+    searchPerson(arg1, column);
+}
+
+// Person search combobox -> Index changed
+void MainWindow::on_personSearchComboBox_currentIndexChanged(int index){
+    // Disable Person edit and delete buttons
+    disableEditDeletePersonButtons();
+
     // Search string
-    QString searchString = ui->personFilterField->text();
+    QString searchString = ui->personSearchField->text();
 
     // If search criteria is empty, display all
     if(searchString.isEmpty()){
         // Get all persons
-        if(!servicesLayer.getAllPersons(personQueryModel, error)){
-            checkError();
-        }
+        displayPersonTable();
         return;
     }
 
-    // Call searchPerson
-    if(!servicesLayer.filterPerson(personQueryModel, searchString, index, error)){
-        checkError();
-    }
+    // Search
+    searchPerson(searchString, index);
+}
+
+// Person filter checkbox -> Clicked
+void MainWindow::on_personFilterCheckBox_clicked(){
+    // Disable Person edit and delete buttons
+    disableEditDeletePersonButtons();
+
+    checkPersonSearch();
 }
 
 // Person add button
 void MainWindow::on_personAddButton_clicked(){
     // Display dialog
-    AddDialog addDialog;
+    AddPersonDialog addDialog;
     addDialog.exec();
 
     // Confirm add
     if(addDialog.getAddClick()){
+        // Disable Person edit and delete buttons
+        disableEditDeletePersonButtons();
+
         // Add
         if(!servicesLayer.addPerson(addDialog.getPerson(), error)){
             checkError();
+            return;
         }
         else{
-            displayPersonTable();
+            checkPersonSearch();
         }
+
+        // Status bar message
+        ui->statusBar->showMessage(addDialog.getPerson().getName() + " added", constants::STATUSBAR_MESSAGE_TIME);
     }
+}
+
+// Person delete button
+void MainWindow::on_personDeleteButton_clicked(){
+    deletePerson();
+}
+
+// Person edit button
+void MainWindow::on_personEditButton_clicked(){
+    editPerson();
 }
 
 // Delete person
@@ -295,23 +319,62 @@ void MainWindow::deletePerson(){
         return;
     }
 
+    int numRows = selection.count();
     QString deleteConfirmMessage = "";
+    QString statusBarMessage = "";
+
+    QVector<Person> personsToBeDeleted;
+
+    for(int i = 0; i < numRows;i++){
+        // Get first column (id)
+        QModelIndex index = selection.at(i);
+        // Get id column data
+        int id = ui->personTable->model()->data(index).toInt();
+
+        // An empty person
+        Person p;
+        // Set person ID to the ID of the row
+        p.setId(id);
+
+        // Get the person info by ID
+        if(!servicesLayer.getPerson(p, error)){
+            checkError();
+            return;
+        }
+
+        // Add to vector
+        personsToBeDeleted.push_back(p);
+    }
 
     // Single row
-    if(selection.count() == 1){
-        deleteConfirmMessage = "Are you sure you want to delete?";
+    if(numRows == 1){
+        deleteConfirmMessage = "Are you sure you want to delete " + personsToBeDeleted[0].getName() + "?";
+        statusBarMessage = personsToBeDeleted[0].getName() + " deleted";
     }
-    // Multiple rows
-    else if(selection.count() > 1){
-        deleteConfirmMessage = "Are you sure you want to delete " + QString::number(selection.count()) + " entries?";
+    // Rows less than 11
+    else if(numRows > 1 && numRows < 11){
+
+        deleteConfirmMessage = "Are you sure you want to delete:\n";
+
+        // Loop over names
+        for(int i = 0; i < numRows;i++){
+            deleteConfirmMessage += personsToBeDeleted[i].getName() + "\n";
+        }
+
+        statusBarMessage = QString::number(numRows) + " entries deleted";
+    }
+    // More than 10
+    else{
+        deleteConfirmMessage = "Are you sure you want to delete these " + QString::number(selection.count()) + " entries?";
+        statusBarMessage = QString::number(numRows) + " entries deleted";
     }
 
     // Confirmation window
-    int ans = QMessageBox::question(this, "Confirmation", deleteConfirmMessage, QMessageBox::Yes|QMessageBox::No);
+    int ans = QMessageBox::question(this, "Confirmation", deleteConfirmMessage, QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
     // Check answer
     if (ans == QMessageBox::Yes) {
         // Loop over rows
-        for(int i = 0; i < selection.count(); i++){
+        for(int i = 0; i < numRows; i++){
             // Get first column (id)
             QModelIndex index = selection.at(i);
 
@@ -325,10 +388,14 @@ void MainWindow::deletePerson(){
             }
         }
 
-        // Get call persons
-        if(!servicesLayer.getAllPersons(personQueryModel, error)){
-            checkError();
-        }
+        // Disable Person edit and delete buttons
+        disableEditDeletePersonButtons();
+
+        // Status bar update
+        ui->statusBar->showMessage(statusBarMessage, constants::STATUSBAR_MESSAGE_TIME);
+
+        // Re-display
+        checkPersonSearch();
     }
 }
 
@@ -340,7 +407,7 @@ void MainWindow::editPerson(){
     // Get ID
     int id = ui->personTable->model()->data(index).toInt();
 
-    // Empty person
+    // An empty person
     Person p;
     // Set person ID to the ID of the row
     p.setId(id);
@@ -365,22 +432,18 @@ void MainWindow::editPerson(){
         // If error, show error, else update table
         if (!servicesLayer.editPerson(editDialog.getPerson(), error)) {
             checkError();
+            return;
         }
         else{
-            displayPersonTable();
+            checkPersonSearch();
         }
+
+        // Set status bar message
+        ui->statusBar->showMessage("Edit complete", constants::STATUSBAR_MESSAGE_TIME);
+
+        // Disable Person edit and delete buttons
+        disableEditDeletePersonButtons();
     }
-}
-
-// Person delete button
-void MainWindow::on_personDeleteButton_clicked(){
-    deletePerson();
-}
-
-// Person table -> click row
-void MainWindow::on_personTable_clicked(const QModelIndex &index){
-    // Enable delete button
-    ui->personDeleteButton->setEnabled(true);
 }
 
 // People context menu -> Delete
@@ -393,7 +456,42 @@ void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
     editPerson();
 }
 
-// People context menu -> Edit
+// Persons context menu -> Edit
 void MainWindow::on_actionEditPerson_triggered(){
     editPerson();
+}
+
+// Person table -> Clicked
+void MainWindow::on_personTable_clicked(const QModelIndex &index){
+    // Enable delete button
+    ui->personDeleteButton->setEnabled(true);
+    // Enable edit button
+    ui->personEditButton->setEnabled(true);
+}
+
+// Person table -> Context menu
+void MainWindow::on_personTable_customContextMenuRequested(const QPoint &pos){
+    // Get row
+    QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
+
+    // No rows
+    if (selection.isEmpty()) {
+        return;
+    }
+    // Multiple rows
+    else if(selection.count() > 1){
+        // Disable Connection option
+        personContextMenu.actions().at(0)->setEnabled(false);
+        // Disable Edit option
+        personContextMenu.actions().at(1)->setEnabled(false);
+    }
+    else{
+        // Enable Connection option
+        personContextMenu.actions().at(0)->setEnabled(true);
+        // Enable Edit option
+        personContextMenu.actions().at(1)->setEnabled(true);
+    }
+
+    // Display menu
+    personContextMenu.exec(QCursor::pos());
 }

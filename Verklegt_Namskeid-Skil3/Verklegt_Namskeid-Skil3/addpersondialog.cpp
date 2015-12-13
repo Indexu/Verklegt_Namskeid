@@ -1,11 +1,11 @@
-#include "adddialog.h"
-#include "ui_adddialog.h"
+#include "AddPersonDialog.h"
+#include "ui_AddPersonDialog.h"
 #include <QMessageBox>
 #include <QDebug>
 
-AddDialog::AddDialog(QWidget *parent) :
+AddPersonDialog::AddPersonDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::AddDialog)
+    ui(new Ui::AddPersonDialog)
 {
     ui->setupUi(this);
 
@@ -17,7 +17,7 @@ AddDialog::AddDialog(QWidget *parent) :
     ui->addPersonDeathDate->setMinimumDate(QDate(100, 1, 1));
 
     // Set initial gender
-    newPerson.setGender(ui->addPersonGenderCombobox->currentText());
+    newPerson.setGender(ui->addPersonGenderCombobox->currentText().toLower());
 
     // Set initial dates
     newPerson.setDateOfBirth(ui->addPersonBirthDate->date().toString(constants::DATE_FORMAT));
@@ -27,17 +27,17 @@ AddDialog::AddDialog(QWidget *parent) :
     verifyInputs();
 }
 
-AddDialog::~AddDialog()
+AddPersonDialog::~AddPersonDialog()
 {
     delete ui;
 }
 
-Person AddDialog::getPerson(){
+Person AddPersonDialog::getPerson(){
     return newPerson;
 }
 
 // Verify Name and Country
-void AddDialog::verifyInputs(){
+void AddPersonDialog::verifyInputs(){
     bool nameValid = false, countryValid = false, datesValid = false;
 
     // Name
@@ -90,24 +90,24 @@ void AddDialog::verifyInputs(){
 }
 
 // Get add click
-bool AddDialog::getAddClick(){
+bool AddPersonDialog::getAddClick(){
     return addClick;
 }
 
 // Name field changes
-void AddDialog::on_addPersonNameField_textChanged(const QString &arg1){
+void AddPersonDialog::on_addPersonNameField_textChanged(const QString &arg1){
     newPerson.setName(arg1);
     verifyInputs();
 }
 
 // Country field changes
-void AddDialog::on_addPersonCountryField_textChanged(const QString &arg1){
+void AddPersonDialog::on_addPersonCountryField_textChanged(const QString &arg1){
     newPerson.setCountry(arg1);
     verifyInputs();
 }
 
 // Alive checkbox
-void AddDialog::on_aliveCheckbox_clicked(bool checked){
+void AddPersonDialog::on_aliveCheckbox_clicked(bool checked){
     // Checked
     if(checked){
         // Disable death picker
@@ -128,29 +128,29 @@ void AddDialog::on_aliveCheckbox_clicked(bool checked){
 }
 
 // Date of birth changes
-void AddDialog::on_addPersonBirthDate_dateChanged(const QDate &date){
+void AddPersonDialog::on_addPersonBirthDate_dateChanged(const QDate &date){
     newPerson.setDateOfBirth(date.toString(constants::DATE_FORMAT));
     verifyInputs();
 }
 
 // Date of death changes
-void AddDialog::on_addPersonDeathDate_dateChanged(const QDate &date){
+void AddPersonDialog::on_addPersonDeathDate_dateChanged(const QDate &date){
     newPerson.setDateOfDeath(date.toString(constants::DATE_FORMAT));
     verifyInputs();
 }
 
 // Gender changes
-void AddDialog::on_addPersonGenderCombobox_currentIndexChanged(const QString &arg1){
+void AddPersonDialog::on_addPersonGenderCombobox_currentIndexChanged(const QString &arg1){
     newPerson.setGender(arg1.toLower());
 }
 
 // Add button -> click
-void AddDialog::on_addButton_clicked(){
+void AddPersonDialog::on_addButton_clicked(){
     addClick = true;
     this->close();
 }
 
 // Cancel button -> click
-void AddDialog::on_cancelButton_clicked(){
+void AddPersonDialog::on_cancelButton_clicked(){
     this->close();
 }

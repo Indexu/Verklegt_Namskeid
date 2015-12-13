@@ -20,9 +20,9 @@ SOURCES += main.cpp\
     personmachine.cpp \
     data.cpp \
     services.cpp \
-    adddialog.cpp \
     utilities.cpp \
-    editpersondialog.cpp
+    editpersondialog.cpp \
+    addpersondialog.cpp
 
 HEADERS  += mainwindow.h \
     person.h \
@@ -32,9 +32,9 @@ HEADERS  += mainwindow.h \
     data.h \
     constants.h \
     services.h \
-    adddialog.h \
-    editpersondialog.h
+    editpersondialog.h \
+    addpersondialog.h
 
 FORMS    += mainwindow.ui \
-    adddialog.ui \
-    editpersondialog.ui
+    editpersondialog.ui \
+    addpersondialog.ui

@@ -41,7 +41,6 @@ private slots:
 
     void on_editSaveButton_clicked();
 
-
 private:
     Ui::editPersonDialog *ui;
     Person editPerson;

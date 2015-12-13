@@ -37,7 +37,7 @@
            <item>
             <widget class="QGroupBox" name="groupBox">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -54,6 +54,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QPushButton" name="personEditButton">
+                <property name="text">
+                 <string>Edit</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QPushButton" name="personDeleteButton">
                 <property name="text">
                  <string>Delete</string>
@@ -64,49 +71,32 @@
             </widget>
            </item>
            <item>
-            <widget class="QTabWidget" name="personTabs">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string>Search</string>
              </property>
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <widget class="QWidget" name="tab">
-              <attribute name="title">
-               <string>Search</string>
-              </attribute>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <item>
-                <widget class="QComboBox" name="personSearchComboBox">
-                 <property name="currentText">
-                  <string/>
-                 </property>
-                 <property name="currentIndex">
-                  <number>-1</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="personSearchField"/>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_2">
-              <attribute name="title">
-               <string>Filter</string>
-              </attribute>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <item>
-                <widget class="QComboBox" name="personFilterComboBox"/>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="personFilterField"/>
-               </item>
-              </layout>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="QCheckBox" name="personFilterCheckBox">
+                <property name="text">
+                 <string>Filter</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="personSearchComboBox">
+                <property name="currentText">
+                 <string/>
+                </property>
+                <property name="currentIndex">
+                 <number>-1</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="personSearchField"/>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>
@@ -119,6 +109,13 @@
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="personResultsLabel">
+          <property name="text">
+           <string>Results: 0</string>
           </property>
          </widget>
         </item>
