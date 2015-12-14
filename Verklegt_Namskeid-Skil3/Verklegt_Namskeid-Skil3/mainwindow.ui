@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tableTabs">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="personsTableTab">
        <attribute name="title">
@@ -261,6 +261,21 @@
   <action name="actionPersonConnectToMachine">
    <property name="text">
     <string>Connect to machine...</string>
+   </property>
+  </action>
+  <action name="actionDeleteMachine">
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionEditMachine">
+   <property name="text">
+    <string>Edit</string>
+   </property>
+  </action>
+  <action name="actionConnectToPerson">
+   <property name="text">
+    <string>Connect to person...</string>
    </property>
   </action>
  </widget>

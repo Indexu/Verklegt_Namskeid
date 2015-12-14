@@ -118,6 +118,14 @@ private slots:
 
     void on_actionPersonConnectToMachine_triggered();
 
+    void on_actionDeleteMachine_triggered();
+
+    void on_actionEditMachine_triggered();
+
+    void on_actionConnectToPerson_triggered();
+
+    void on_machineTable_customContextMenuRequested(const QPoint &pos);
+
 private:
     Ui::MainWindow *ui;
     Data dataLayer;
@@ -133,7 +141,10 @@ private:
     QSortFilterProxyModel *connectionsProxyModel;
 
     QString error;
+
     QMenu personContextMenu;
+    QMenu machineContextMenu;
+    QMenu connectionContextMenu;
 
 };
 

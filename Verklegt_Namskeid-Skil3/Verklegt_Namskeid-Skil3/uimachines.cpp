@@ -280,3 +280,50 @@ void MainWindow::on_machineTable_clicked(const QModelIndex &index){
         ui->machinesEditButton->setEnabled(true);
     }
 }
+
+// Machine table -> Context menu
+/*
+ * QPoint &pos is not used due to when it's used
+ * it returns the context menu a bit above the cursor.
+ * QCursor::pos is used instead.
+ */
+void MainWindow::on_machineTable_customContextMenuRequested(const QPoint &pos){
+    // Get row
+    QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
+
+    // No rows
+    if (selection.isEmpty()) {
+        return;
+    }
+    // Multiple rows
+    else if(selection.count() > 1){
+        // Disable Connection option
+        machineContextMenu.actions().at(0)->setEnabled(false);
+        // Disable Edit option
+        machineContextMenu.actions().at(1)->setEnabled(false);
+    }
+    else{
+        // Enable Connection option
+        machineContextMenu.actions().at(0)->setEnabled(true);
+        // Enable Edit option
+        machineContextMenu.actions().at(1)->setEnabled(true);
+    }
+
+    // Display menu
+    machineContextMenu.exec(QCursor::pos());
+}
+
+// Machine context menu -> Delete
+void MainWindow::on_actionDeleteMachine_triggered(){
+    deleteMachine();
+}
+
+// Machine context menu -> Edit
+void MainWindow::on_actionEditMachine_triggered(){
+
+}
+
+// Machine context menu -> Connect
+void MainWindow::on_actionConnectToPerson_triggered(){
+
+}
