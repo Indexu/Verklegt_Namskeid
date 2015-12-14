@@ -5,7 +5,17 @@ Machine::Machine(){
 
 }
 
-// Constructor
+// Constructor - without ID
+Machine::Machine(QString n, int y, bool b, QString t, QString s){
+    Id = 0;
+    Name = n;
+    Year = y;
+    Built = b;
+    Type = t;
+    System = s;
+}
+
+// Constructor - with ID
 Machine::Machine(int id, QString n, int y, bool b, QString t, QString s){
     Id = id;
     Name = n;

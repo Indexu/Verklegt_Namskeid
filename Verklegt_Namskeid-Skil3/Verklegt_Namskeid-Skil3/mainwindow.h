@@ -2,9 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QPushButton>
 #include <QSqlQueryModel>
-#include <QSqlTableModel>
 #include <QSortFilterProxyModel>
 #include <QTableView>
 #include <QMessageBox>
@@ -13,6 +11,10 @@
 #include "services.h"
 #include "addpersondialog.h"
 #include "editpersondialog.h"
+#include "addmachinedialog.h"
+#include "utilities.h"
+#include "constants.h"
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -47,6 +49,8 @@ public:
     void setContextMenus();
     // Check error
     void checkError();
+
+    // === Person ===
     // Update person results label
     void updatePersonResults();
     // Check if re-search
@@ -59,6 +63,20 @@ public:
     void deletePerson();
     // Edit person
     void editPerson();
+
+    // === Machine ===
+    // Update machine results label
+    void updateMachineResults();
+    // Check if re-search
+    void checkMachineSearch();
+    // Disable machine edit and delete buttons
+    void disableEditDeleteMachineButtons();
+    // Search machine
+    void searchMachine(QString searchString,int column);
+    // Delete machine
+    void deleteMachine();
+    // Edit machine
+    void editMachine();
 
 private slots:
     void on_personSearchField_textChanged(const QString &arg1);
@@ -82,6 +100,14 @@ private slots:
     void on_personTable_customContextMenuRequested(const QPoint &pos);
 
     void on_personEditButton_clicked();
+
+    void on_machinesFilterCheckBox_clicked();
+
+    void on_machinesSearchComboBox_currentIndexChanged(int index);
+
+    void on_machinesSearchField_textChanged(const QString &arg1);
+
+    void on_machinesAddButton_clicked();
 
 private:
     Ui::MainWindow *ui;

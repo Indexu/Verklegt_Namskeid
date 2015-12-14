@@ -4,6 +4,7 @@
 #include <QSqlQueryModel>
 #include "data.h"
 #include "person.h"
+#include "machine.h"
 
 class Services
 {
@@ -24,13 +25,13 @@ public:
     // Get all persons
     bool getAllPersons(QSqlQueryModel *personQueryModel, QString &error);
     // Search person
-    bool searchPerson(QSqlQueryModel *personModel, const QString &searchString, const int &column, QString &error);
+    bool searchPerson(QSqlQueryModel *personQueryModel, const QString &searchString, const int &column, QString &error);
     // Filter person
-    bool filterPerson(QSqlQueryModel *personModel, const QString &searchString, const int &column, QString &error);
+    bool filterPerson(QSqlQueryModel *personQueryModel, const QString &searchString, const int &column, QString &error);
     // Add person
     bool addPerson(const Person &p, QString &error);
     // Delete person
-    bool deletePerson(const int id, QString &error);
+    bool deletePerson(const QVector<Person> &p, QString &error);
     // Edit person
     bool editPerson(const Person &p, QString &error);
     // Get person
@@ -39,6 +40,15 @@ public:
     // ==== Machines ====
     // Get all persons
     bool getAllMachines(QSqlQueryModel *machineQueryModel, QString &error);
+    // Search machine
+    bool searchMachine(QSqlQueryModel *machineQueryModel, const QString &searchString, const int &column, QString &error);
+    // Filter machine
+    bool filterMachine(QSqlQueryModel *machineQueryModel, const QString &searchString, const int &column, QString &error);
+    // Add machine
+    bool addMachine(const Machine &m, const int &type_id, const int &sys_id, QString &error);
+
+    // ==== Types and Systems ====
+    bool getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error);
 };
 
 #endif // SERVICES_H

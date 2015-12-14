@@ -14,7 +14,10 @@ public:
     // Default
     Machine();
 
-    // Constructor
+    // Constructor - without ID
+    Machine(QString n, int y, bool b, QString t, QString s);
+
+    // Constructor - with ID
     Machine(int id, QString n, int y, bool b, QString t, QString s);
 
     // GETTERS/SETTERS

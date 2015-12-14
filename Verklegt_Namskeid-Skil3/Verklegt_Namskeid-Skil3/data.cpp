@@ -2,18 +2,6 @@
 
 // Constructor
 Data::Data(){
-
-}
-
-// Deconstructor
-Data::~Data(){
-    QSqlDatabase db = getDBCon();
-    db.close();
-}
-
-// Get database connection
-QSqlDatabase Data::getDBCon(){
-
     // If connection has already been made, return the connection
     if(QSqlDatabase::contains(constants::CON_NAME))
     {
@@ -27,57 +15,15 @@ QSqlDatabase Data::getDBCon(){
 
         db.open();
     }
-
-    return db;
 }
 
-// Get data
-QVector<Person> Data::getPersons(){
-    // DB con
-    QSqlDatabase db = getDBCon();
-
-    QVector<Person> p;
-
-    if(!db.isOpen()){
-        db.open();
-    }
-
-    QSqlQuery query(db);
-
-    // Query string
-    QString queStr = "SELECT * FROM persons";
-
-    qDebug() << "PATH: " << QDir::currentPath();
-
-    query.prepare(queStr);
-
-    // Query
-    if(!query.exec()){
-        qDebug() << query.executedQuery();
-        qDebug() << query.lastError().text();
-    }
-
-    QString name, gender, dob, dod, country;
-    while(query.next()){
-        name = query.value("name").toString();
-        gender = query.value("gender").toString();
-        dob = query.value("date_of_birth").toString();
-        dod = query.value("date_of_death").toString();
-        country = query.value("country").toString();
-
-        Person temp(name, gender, dob, dod, country);
-        p.push_back(temp);
-    }
-    // Close
+// Deconstructor
+Data::~Data(){
     db.close();
-
-    return p;
 }
 
 // Create and return person model
 QSortFilterProxyModel *Data::getPersonModel(QSqlQueryModel *&personQueryModel){
-    // Database connection
-    QSqlDatabase db = getDBCon();
 
     // Initialize Query model
     personQueryModel = new QSqlQueryModel();
@@ -95,8 +41,6 @@ QSortFilterProxyModel *Data::getPersonModel(QSqlQueryModel *&personQueryModel){
 
 // Create and return machine model
 QSortFilterProxyModel *Data::getMachineModel(QSqlQueryModel *&machineQueryModel){
-    // Database connection
-    QSqlDatabase db = getDBCon();
 
     // Initialize Query model
     machineQueryModel = new QSqlQueryModel();
@@ -114,9 +58,6 @@ QSortFilterProxyModel *Data::getMachineModel(QSqlQueryModel *&machineQueryModel)
 
 // Create and return connection model
 QSortFilterProxyModel *Data::getConnectionModel(QSqlQueryModel *&connectionQueryModel){
-    // Database connection
-    QSqlDatabase db = getDBCon();
-
     // Initialize Query model
     connectionQueryModel = new QSqlQueryModel();
 
@@ -133,8 +74,6 @@ QSortFilterProxyModel *Data::getConnectionModel(QSqlQueryModel *&connectionQuery
 
 // Get all persons
 bool Data::getAllPersons(QSqlQueryModel *personQueryModel, QString &error){
-    // Database connection
-    QSqlDatabase db = getDBCon();
 
     if(db.open()){
         // Connect model to table
@@ -155,7 +94,6 @@ bool Data::getAllPersons(QSqlQueryModel *personQueryModel, QString &error){
 
 // Set the filter of personModel
 bool Data::filterPerson(QSqlQueryModel *personQueryModel, const QString &filterStr, const QString &searchString, QString &error){
-    QSqlDatabase db = getDBCon();
 
     if(db.open()){
         QSqlQuery query(db);
@@ -192,8 +130,6 @@ bool Data::filterPerson(QSqlQueryModel *personQueryModel, const QString &filterS
 
 // Add person
 bool Data::addPerson(const Person &p, QString &error){
-    // DB con
-    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -225,21 +161,34 @@ bool Data::addPerson(const Person &p, QString &error){
 }
 
 // Delete person
-bool Data::deletePerson(const int &id, QString &error){
-    // DB con
-    QSqlDatabase db = getDBCon();
+bool Data::deletePerson(const QVector<Person> &p, QString &error){
 
     // Open
     if(db.open()){
         QSqlQuery query(db);
 
-        query.prepare("DELETE FROM persons "
-                      "WHERE id = :id");
+        // Start of query
+        QString queStr = "DELETE FROM persons "
+                         "WHERE id IN (";
 
-        query.bindValue(":id", id);
+        // Add IDs to be deleted to query
+        for(int i = 0; i < p.size(); i++){
+            queStr += QString::number(p[i].getId());
 
+            if((i+1) != p.size()){
+                queStr += ", ";
+            }
+        }
+
+        // Close query
+        queStr += ")";
+
+        // Prepare
+        query.prepare(queStr);
+
+        // Execute
         if(!query.exec()){
-            error = query.lastError().text();
+            error = query.executedQuery();
             return false;
         }
 
@@ -255,8 +204,6 @@ bool Data::deletePerson(const int &id, QString &error){
 
 // Edit person
 bool Data::editPerson(const Person &p, QString &error){
-    // DB con
-    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -294,8 +241,6 @@ bool Data::editPerson(const Person &p, QString &error){
 
 // Check if person ID exists
 bool Data::personIDExistsDB(const int &id, QString &error){
-// DB con
-    QSqlDatabase db = getDBCon();
 
     // Open
     if(db.open()){
@@ -326,7 +271,7 @@ bool Data::personIDExistsDB(const int &id, QString &error){
 
 // Get person by ID
 bool Data::getPerson(Person &p, QString &error){
-    QSqlDatabase db = getDBCon();
+
     if (db.open()){
         int id = p.getId();
 
@@ -373,8 +318,7 @@ bool Data::getPerson(Person &p, QString &error){
 // ==== Machines ====
 // Get all machines
 bool Data::getAllMachines(QSqlQueryModel *machineQueryModel, QString &error){
-    // Database connection
-    QSqlDatabase db = getDBCon();
+
 
     if(db.open()){
         // Connect model to table
@@ -390,5 +334,123 @@ bool Data::getAllMachines(QSqlQueryModel *machineQueryModel, QString &error){
     else{
         error = "Unable to connect to database";
     }
+    return false;
+}
+
+// Filter machine
+bool Data::filterMachine(QSqlQueryModel *machineQueryModel, const QString &filterStr, const QString &searchString, QString &error){
+    if(db.open()){
+        QSqlQuery query(db);
+
+        // Prepare
+        query.prepare("SELECT * FROM machinesView "
+                      "WHERE " + filterStr);
+        // Bind
+        query.bindValue(":ss", searchString);
+
+        // Query error
+        if(!query.exec()){
+            error = query.lastError().text();
+            return false;
+        }
+
+        // Set Query
+        machineQueryModel->setQuery(query);
+
+        // Model Error
+        if(machineQueryModel->lastError().isValid()){
+            error = machineQueryModel->lastError().text();
+            return false;
+        }
+
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
+}
+
+// Add machine
+bool Data::addMachine(const Machine &m, const int &type_id, const int &sys_id, QString &error){
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        query.prepare("INSERT INTO machines (name, year, built, mtype_id, num_sys_id) "
+                          "VALUES (:name, :year, :built, :mtype_id, :num_sys_id)");
+
+        query.bindValue(":name", m.getName());
+        query.bindValue(":year", m.getYear());
+        query.bindValue(":built", m.getBuilt());
+        query.bindValue(":mtype_id", type_id);
+        query.bindValue(":num_sys_id", sys_id);
+
+        if(!query.exec()){
+            error = query.lastError().text();
+            return false;
+        }
+
+        // Close
+        db.close();
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
+}
+
+// Get all names from types or systems
+bool Data::getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error){
+// Open
+    if(db.open()){
+        // Empty vector
+        typeSystems.clear();
+
+        QSqlQuery query(db);
+
+        // Query string
+        QString queStr = "";
+
+        // Which table to select from
+        if(getTypes){
+            queStr = "SELECT * FROM mtype";
+        }
+        else{
+            queStr = "SELECT * FROM num_sys";
+        }
+
+        // Query
+        query.exec(queStr);
+
+        // Error
+        if(query.lastError().isValid()){
+            error = query.lastError().text();
+            return false;
+        }
+
+        // Get values in vector
+        QString name;
+        int id;
+        while(query.next()){
+            id = query.value("id").toInt();
+            name = query.value("name").toString();
+
+            TypeSystem temp(id, name);
+
+            typeSystems.push_back(temp);
+        }
+
+        // Close
+        db.close();
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
     return false;
 }

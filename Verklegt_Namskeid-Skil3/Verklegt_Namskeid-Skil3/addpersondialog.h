@@ -2,10 +2,10 @@
 #define AddPersonDialog_H
 
 #include <QDialog>
-#include <QPushButton>
 #include "person.h"
 #include "utilities.h"
 #include "constants.h"
+#include <QDebug>
 
 namespace Ui {
 class AddPersonDialog;

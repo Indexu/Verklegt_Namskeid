@@ -127,6 +127,8 @@ void editPersonDialog::on_aliveCheckBox_clicked(bool checked)
         QString death = ui->editPersonDateOfBirth->date().toString(constants::DATE_FORMAT);
         editPerson.setDateOfDeath(death);
     }
+
+    verifyInputs();
 }
 // Person name changes
 void editPersonDialog::on_editPersonNameField_textChanged(const QString &arg1)

@@ -1,7 +1,5 @@
 #include "AddPersonDialog.h"
 #include "ui_AddPersonDialog.h"
-#include <QMessageBox>
-#include <QDebug>
 
 AddPersonDialog::AddPersonDialog(QWidget *parent) :
     QDialog(parent),

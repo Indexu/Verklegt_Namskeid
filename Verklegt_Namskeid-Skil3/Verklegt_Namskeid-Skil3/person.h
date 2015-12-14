@@ -2,7 +2,6 @@
 #define PERSON
 
 #include <QString>
-#include <vector>
 
 class Person{
     int Id;

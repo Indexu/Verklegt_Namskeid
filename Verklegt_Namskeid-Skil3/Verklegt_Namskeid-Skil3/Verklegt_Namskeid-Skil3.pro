@@ -22,7 +22,12 @@ SOURCES += main.cpp\
     services.cpp \
     utilities.cpp \
     editpersondialog.cpp \
-    addpersondialog.cpp
+    addpersondialog.cpp \
+    uiperson.cpp \
+    uimachines.cpp \
+    uiconnections.cpp \
+    addmachinedialog.cpp \
+    typesystem.cpp
 
 HEADERS  += mainwindow.h \
     person.h \
@@ -33,8 +38,11 @@ HEADERS  += mainwindow.h \
     constants.h \
     services.h \
     editpersondialog.h \
-    addpersondialog.h
+    addpersondialog.h \
+    addmachinedialog.h \
+    typesystem.h
 
 FORMS    += mainwindow.ui \
     editpersondialog.ui \
-    addpersondialog.ui
+    addpersondialog.ui \
+    addmachinedialog.ui
