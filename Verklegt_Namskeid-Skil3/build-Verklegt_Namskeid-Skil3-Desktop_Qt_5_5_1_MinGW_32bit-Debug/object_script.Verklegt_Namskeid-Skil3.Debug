@@ -6,10 +6,10 @@ INPUT(
 ./debug\personmachine.o
 ./debug\data.o
 ./debug\services.o
-./debug\adddialog.o
 ./debug\utilities.o
 ./debug\editpersondialog.o
+./debug\addpersondialog.o
 ./debug\moc_mainwindow.o
-./debug\moc_adddialog.o
 ./debug\moc_editpersondialog.o
+./debug\moc_addpersondialog.o
 );

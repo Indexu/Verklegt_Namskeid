@@ -6,10 +6,10 @@ INPUT(
 ./release\personmachine.o
 ./release\data.o
 ./release\services.o
-./release\adddialog.o
 ./release\utilities.o
 ./release\editpersondialog.o
+./release\addpersondialog.o
 ./release\moc_mainwindow.o
-./release\moc_adddialog.o
 ./release\moc_editpersondialog.o
+./release\moc_addpersondialog.o
 );
