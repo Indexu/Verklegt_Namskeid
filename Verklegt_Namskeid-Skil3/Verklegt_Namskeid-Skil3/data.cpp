@@ -167,8 +167,33 @@ bool Data::deletePerson(const QVector<Person> &p, QString &error){
     if(db.open()){
         QSqlQuery query(db);
 
-        // Start of query
-        QString queStr = "DELETE FROM persons "
+        // Start of delete from connections query
+        QString queStr = "DELETE FROM pers_mach "
+                         "WHERE p_id IN (";
+
+        // Add IDs to be deleted to query
+        for(int i = 0; i < p.size(); i++){
+            queStr += QString::number(p[i].getId());
+
+            if((i+1) != p.size()){
+                queStr += ", ";
+            }
+        }
+
+        // Close delete from connections query
+        queStr += ")";
+
+        // Prepare delete from connections
+        query.prepare(queStr);
+
+        // Execute delete from connections
+        if(!query.exec()){
+            error = query.executedQuery();
+            return false;
+        }
+
+        // Start of delete from persons query
+        queStr = "DELETE FROM persons "
                          "WHERE id IN (";
 
         // Add IDs to be deleted to query
@@ -180,13 +205,13 @@ bool Data::deletePerson(const QVector<Person> &p, QString &error){
             }
         }
 
-        // Close query
+        // Close delete from persons query
         queStr += ")";
 
-        // Prepare
+        // Prepare delete from persons
         query.prepare(queStr);
 
-        // Execute
+        // Execute delete from persons
         if(!query.exec()){
             error = query.executedQuery();
             return false;
