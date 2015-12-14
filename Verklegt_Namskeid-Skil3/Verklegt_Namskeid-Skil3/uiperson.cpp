@@ -288,6 +288,64 @@ void MainWindow::editPerson(){
     }
 }
 
+// Connect to machine
+void MainWindow::connectToMachine(){
+    // Get row
+    QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
+
+    // No rows
+    if (selection.isEmpty()) {
+        return;
+    }
+
+    // Get first column (id)
+    QModelIndex index = selection.at(0);
+    // Get id column data
+    int p_id = ui->personTable->model()->data(index).toInt();
+
+    ConnectToMachine connectionDialog;
+
+    // Setup
+    connectionDialog.setModel(machineProxyModel);
+    connectionDialog.displayTable();
+
+    // Connect
+    if(connectionDialog.exec()){
+        // Get machine ID
+        int m_id = connectionDialog.getId();
+
+        // Make the connection
+        if(!servicesLayer.addConnection(p_id, m_id, error)){
+            checkError();
+            return;
+        }
+        else{
+            // Get the machine
+            Machine m;
+            m.setId(m_id);
+            if(!servicesLayer.getMachine(m, error)){
+                checkError();
+                return;
+            }
+
+            // Get the person
+            Person p;
+            p.setId(p_id);
+            if(!servicesLayer.getPerson(p, error)){
+                checkError();
+                return;
+            }
+
+            QString statusBarMessage = "Connected " + p.getName() + " and " + m.getName();
+
+            ui->statusBar->showMessage(statusBarMessage, constants::STATUSBAR_MESSAGE_TIME);
+
+            // Refresh connections table
+            displayConnectionsTable();
+        }
+    }
+}
+
 // People context menu -> Delete
 void MainWindow::on_actionDeletePerson_triggered(){
     deletePerson();
@@ -303,6 +361,11 @@ void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
 // Persons context menu -> Edit
 void MainWindow::on_actionEditPerson_triggered(){
     editPerson();
+}
+
+// Persons context menu -> Connect
+void MainWindow::on_actionPersonConnectToMachine_triggered(){
+    connectToMachine();
 }
 
 // Person table -> Clicked

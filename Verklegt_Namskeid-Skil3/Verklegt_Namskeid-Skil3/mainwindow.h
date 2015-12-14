@@ -12,6 +12,7 @@
 #include "addpersondialog.h"
 #include "editpersondialog.h"
 #include "addmachinedialog.h"
+#include "connecttomachine.h"
 #include "utilities.h"
 #include "constants.h"
 #include <QDebug>
@@ -63,6 +64,8 @@ public:
     void deletePerson();
     // Edit person
     void editPerson();
+    // Connect to machine
+    void connectToMachine();
 
     // === Machine ===
     // Update machine results label
@@ -112,6 +115,8 @@ private slots:
     void on_machinesDeleteButton_clicked();
 
     void on_machineTable_clicked(const QModelIndex &index);
+
+    void on_actionPersonConnectToMachine_triggered();
 
 private:
     Ui::MainWindow *ui;

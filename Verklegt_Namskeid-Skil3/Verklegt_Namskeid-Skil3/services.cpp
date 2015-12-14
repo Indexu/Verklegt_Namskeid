@@ -230,6 +230,14 @@ bool Services::addMachine(const Machine &m, const int &type_id, const int &sys_i
 
 // Delete machine
 bool Services::deleteMachine(const QVector<Machine> &m, QString &error){
+
+    for(int i = 0; i < m.size(); i++){
+        if(!dataLayer.machineIDExistsDB(m[i].getId(), error)){
+            error = "ID: " + QString::number(m[i].getId()) + " not found.";
+            return false;
+        }
+    }
+
     return dataLayer.deleteMachine(m, error);
 }
 
@@ -241,4 +249,28 @@ bool Services::getMachine(Machine &m, QString &error){
 // Get all types or systems
 bool Services::getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error){
     return dataLayer.getAllTypesSystems(typeSystems, getTypes, error);
+}
+
+// ==== CONNECTIONS ====
+// Get all connections
+bool Services::getAllConnections(QSqlQueryModel *connectionQueryModel, QString &error){
+    return dataLayer.getAllConnections(connectionQueryModel, error);
+}
+
+// Add connection
+bool Services::addConnection(const int &p_id, const int &m_id, QString &error){
+    if(!dataLayer.personIDExistsDB(p_id, error)){
+        error = "Person ID: " + QString::number(p_id) + " not found.";
+        return false;
+    }
+    else if(!dataLayer.machineIDExistsDB(m_id, error)){
+        error = "Machine ID: " + QString::number(m_id) + " not found.";
+        return false;
+    }
+    else if(dataLayer.connectionExists(p_id, m_id, error)){
+        error = "Connection already exists!";
+        return false;
+    }
+
+    return dataLayer.addConnection(p_id, m_id, error);
 }

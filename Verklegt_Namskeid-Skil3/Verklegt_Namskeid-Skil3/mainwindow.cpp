@@ -40,11 +40,6 @@ MainWindow::~MainWindow(){
     delete ui;
 }
 
-// Display entire connections table
-void MainWindow::displayConnectionsTable(){
-
-}
-
 // Get all models
 void MainWindow::getModels(){
     personProxyModel = servicesLayer.getPersonModel(personQueryModel);
@@ -154,5 +149,3 @@ void MainWindow::checkError(){
         error = "";
     }
 }
-
-
