@@ -316,6 +316,11 @@ void MainWindow::on_personTable_clicked(const QModelIndex &index){
 }
 
 // Person table -> Context menu
+/*
+ * QPoint &pos is not used due to when it's used
+ * it returns the context menu a bit above the cursor.
+ * QCursor::pos is used instead.
+ */
 void MainWindow::on_personTable_customContextMenuRequested(const QPoint &pos){
     // Get row
     QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();

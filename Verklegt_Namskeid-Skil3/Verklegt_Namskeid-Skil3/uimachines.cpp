@@ -72,6 +72,87 @@ void MainWindow::searchMachine(QString searchString, int column){
     updateMachineResults();
 }
 
+// Delete machine
+void MainWindow::deleteMachine(){
+    // Get row
+    QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
+
+    // No rows
+    if (selection.isEmpty()) {
+        return;
+    }
+
+    int numRows = selection.count();
+    QString deleteConfirmMessage = "";
+    QString statusBarMessage = "";
+
+    QVector<Machine> machinesToBeDeleted;
+
+    for(int i = 0; i < numRows;i++){
+        // Get first column (id)
+        QModelIndex index = selection.at(i);
+        // Get id column data
+        int id = ui->machineTable->model()->data(index).toInt();
+
+        // An empty person
+        Machine m;
+        // Set person ID to the ID of the row
+        m.setId(id);
+
+        // Get the person info by ID
+        if(!servicesLayer.getMachine(m, error)){
+            checkError();
+            return;
+        }
+
+        // Add to vector
+        machinesToBeDeleted.push_back(m);
+    }
+
+    // Single row
+    if(numRows == 1){
+        deleteConfirmMessage = "Are you sure you want to delete " + machinesToBeDeleted[0].getName() + "?";
+        statusBarMessage = machinesToBeDeleted[0].getName() + " deleted";
+    }
+    // Rows less than 11
+    else if(numRows > 1 && numRows < 11){
+
+        deleteConfirmMessage = "Are you sure you want to delete:\n";
+
+        // Loop over names
+        for(int i = 0; i < numRows;i++){
+            deleteConfirmMessage += machinesToBeDeleted[i].getName() + "\n";
+        }
+
+        statusBarMessage = QString::number(numRows) + " entries deleted";
+    }
+    // More than 10
+    else{
+        deleteConfirmMessage = "Are you sure you want to delete these " + QString::number(selection.count()) + " entries?";
+        statusBarMessage = QString::number(numRows) + " entries deleted";
+    }
+
+    // Confirmation window
+    int ans = QMessageBox::question(this, "Confirmation", deleteConfirmMessage, QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
+    // Check answer
+    if (ans == QMessageBox::Yes) {
+        // Delete
+        if(!servicesLayer.deleteMachine(machinesToBeDeleted, error)){
+            checkError();
+            return;
+        }
+
+        // Disable Person edit and delete buttons
+        disableEditDeleteMachineButtons();
+
+        // Status bar update
+        ui->statusBar->showMessage(statusBarMessage, constants::STATUSBAR_MESSAGE_TIME);
+
+        // Re-display
+        checkMachineSearch();
+    }
+}
+
 // Machines filter checkbox -> clicked
 void MainWindow::on_machinesFilterCheckBox_clicked(){
     checkMachineSearch();
@@ -182,5 +263,20 @@ void MainWindow::on_machinesAddButton_clicked(){
 
         // Status bar message
         ui->statusBar->showMessage(addDialog.getMachine().getName() + " added", constants::STATUSBAR_MESSAGE_TIME);
+    }
+}
+
+// Delete machine button -> clicked
+void MainWindow::on_machinesDeleteButton_clicked(){
+    deleteMachine();
+}
+
+// Machine table -> clicked
+void MainWindow::on_machineTable_clicked(const QModelIndex &index){
+    if(index.isValid()){
+        // Enable delete button
+        ui->machinesDeleteButton->setEnabled(true);
+        // Enable edit button
+        ui->machinesEditButton->setEnabled(true);
     }
 }

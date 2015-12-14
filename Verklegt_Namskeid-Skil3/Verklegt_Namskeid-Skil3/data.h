@@ -48,6 +48,10 @@ public:
     bool filterMachine(QSqlQueryModel *machineQueryModel, const QString &filterStr, const QString &searchString, QString &error);
     // Add machine
     bool addMachine(const Machine &m, const int &type_id, const int &sys_id, QString &error);
+    // Delete machine
+    bool deleteMachine(const QVector<Machine> &m, QString &error);
+    // Get machine
+    bool getMachine(Machine &m, QString &error);
 
     // ==== Types / Systems ====
     // Get all types / systems

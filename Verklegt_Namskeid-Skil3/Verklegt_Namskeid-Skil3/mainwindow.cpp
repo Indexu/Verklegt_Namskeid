@@ -154,3 +154,5 @@ void MainWindow::checkError(){
         error = "";
     }
 }
+
+

@@ -228,6 +228,16 @@ bool Services::addMachine(const Machine &m, const int &type_id, const int &sys_i
     return dataLayer.addMachine(m, type_id, sys_id, error);
 }
 
+// Delete machine
+bool Services::deleteMachine(const QVector<Machine> &m, QString &error){
+    return dataLayer.deleteMachine(m, error);
+}
+
+// Get machine
+bool Services::getMachine(Machine &m, QString &error){
+    return dataLayer.getMachine(m, error);
+}
+
 // Get all types or systems
 bool Services::getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error){
     return dataLayer.getAllTypesSystems(typeSystems, getTypes, error);

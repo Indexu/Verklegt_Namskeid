@@ -109,6 +109,10 @@ private slots:
 
     void on_machinesAddButton_clicked();
 
+    void on_machinesDeleteButton_clicked();
+
+    void on_machineTable_clicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     Data dataLayer;
