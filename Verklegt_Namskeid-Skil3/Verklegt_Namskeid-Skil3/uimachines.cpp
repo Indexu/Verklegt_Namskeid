@@ -153,6 +153,63 @@ void MainWindow::deleteMachine(){
     }
 }
 
+void MainWindow::connectToPerson(){
+    // Get row
+    QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
+
+    // No rows
+    if (selection.isEmpty()) {
+        return;
+    }
+
+    // Get first column (id)
+    QModelIndex index = selection.at(0);
+    // Get id column data
+    int m_id = ui->machineTable->model()->data(index).toInt();
+
+    ConnectToPerson connectionDialog;
+
+    // Setup
+    connectionDialog.setModel(personProxyModel);
+    connectionDialog.displayTable();
+
+    // Connect
+    if(connectionDialog.exec()){
+        // Get person ID
+        int p_id = connectionDialog.getId();
+
+        // Make the connection
+        if(!servicesLayer.addConnection(p_id, m_id, error)){
+            checkError();
+            return;
+        }
+        else{
+            // Get the machine
+            Machine m;
+            m.setId(m_id);
+            if(!servicesLayer.getMachine(m, error)){
+                checkError();
+                return;
+            }
+
+            // Get the person
+            Person p;
+            p.setId(p_id);
+            if(!servicesLayer.getPerson(p, error)){
+                checkError();
+                return;
+            }
+
+            QString statusBarMessage = "Connected " + m.getName() + " and " + p.getName();
+
+            ui->statusBar->showMessage(statusBarMessage, constants::STATUSBAR_MESSAGE_TIME);
+
+            // Refresh connections table
+            displayConnectionsTable();
+        }
+    }
+}
+
 // Machines filter checkbox -> clicked
 void MainWindow::on_machinesFilterCheckBox_clicked(){
     checkMachineSearch();
@@ -325,5 +382,5 @@ void MainWindow::on_actionEditMachine_triggered(){
 
 // Machine context menu -> Connect
 void MainWindow::on_actionConnectToPerson_triggered(){
-
+    connectToPerson();
 }

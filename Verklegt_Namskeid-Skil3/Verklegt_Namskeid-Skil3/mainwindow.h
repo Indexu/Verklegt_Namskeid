@@ -13,6 +13,7 @@
 #include "editpersondialog.h"
 #include "addmachinedialog.h"
 #include "connecttomachine.h"
+#include "connecttoperson.h"
 #include "utilities.h"
 #include "constants.h"
 #include <QDebug>
@@ -80,6 +81,8 @@ public:
     void deleteMachine();
     // Edit machine
     void editMachine();
+    // Connect to person
+    void connectToPerson();
 
 private slots:
     void on_personSearchField_textChanged(const QString &arg1);
