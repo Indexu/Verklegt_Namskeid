@@ -123,4 +123,14 @@ void AddMachineDialog::on_systemCombobox_currentIndexChanged(const QString &arg1
     newMachine.setSystem(arg1);
 }
 
-
+// Year unknown checkbox -> clicked
+void AddMachineDialog::on_yearUnknownCheckbox_clicked(bool checked){
+    if(checked){
+        newMachine.setYear(0);
+        ui->yearEdit->setEnabled(false);
+    }
+    else{
+        newMachine.setYear(ui->yearEdit->date().year());
+        ui->yearEdit->setEnabled(true);
+    }
+}

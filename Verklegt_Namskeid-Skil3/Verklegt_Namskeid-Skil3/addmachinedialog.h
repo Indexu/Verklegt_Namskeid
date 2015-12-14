@@ -53,6 +53,8 @@ private slots:
 
     void on_typeCombobox_currentIndexChanged(const QString &arg1);
 
+    void on_yearUnknownCheckbox_clicked(bool checked);
+
 private:
     Ui::AddMachineDialog *ui;
     Machine newMachine;

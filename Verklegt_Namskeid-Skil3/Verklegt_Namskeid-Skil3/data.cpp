@@ -407,7 +407,15 @@ bool Data::addMachine(const Machine &m, const int &type_id, const int &sys_id, Q
                           "VALUES (:name, :year, :built, :mtype_id, :num_sys_id)");
 
         query.bindValue(":name", m.getName());
-        query.bindValue(":year", m.getYear());
+
+        // Check year
+        if(m.getYear() == 0){
+            query.bindValue(":year", "");
+        }
+        else{
+            query.bindValue(":year", m.getYear());
+        }
+
         query.bindValue(":built", m.getBuilt());
         query.bindValue(":mtype_id", type_id);
         query.bindValue(":num_sys_id", sys_id);
@@ -545,7 +553,7 @@ bool Data::getMachine(Machine &m, QString &error){
 
 // Get all names from types or systems
 bool Data::getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error){
-// Open
+    // Open
     if(db.open()){
         // Empty vector
         typeSystems.clear();
