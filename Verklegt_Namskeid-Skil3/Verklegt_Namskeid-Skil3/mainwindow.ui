@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Person Ex Machina</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/images/computerman.png</normaloff>:/icons/images/computerman.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -319,42 +323,72 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionDeletePerson">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/images/cross.png</normaloff>:/icons/images/cross.png</iconset>
+   </property>
    <property name="text">
     <string>Delete</string>
    </property>
   </action>
   <action name="actionEditPerson">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/images/minus.png</normaloff>:/icons/images/minus.png</iconset>
+   </property>
    <property name="text">
     <string>Edit</string>
    </property>
   </action>
   <action name="actionPersonConnectToMachine">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/images/right.png</normaloff>:/icons/images/right.png</iconset>
+   </property>
    <property name="text">
     <string>Connect to machine...</string>
    </property>
   </action>
   <action name="actionDeleteMachine">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/images/cross.png</normaloff>:/icons/images/cross.png</iconset>
+   </property>
    <property name="text">
     <string>Delete</string>
    </property>
   </action>
   <action name="actionEditMachine">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/images/minus.png</normaloff>:/icons/images/minus.png</iconset>
+   </property>
    <property name="text">
     <string>Edit</string>
    </property>
   </action>
   <action name="actionConnectToPerson">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/images/right.png</normaloff>:/icons/images/right.png</iconset>
+   </property>
    <property name="text">
     <string>Connect to person...</string>
    </property>
   </action>
   <action name="actionDeleteConnection">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/images/cross.png</normaloff>:/icons/images/cross.png</iconset>
+   </property>
    <property name="text">
     <string>Delete connection</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

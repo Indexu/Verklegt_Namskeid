@@ -55,3 +55,6 @@ FORMS    += mainwindow.ui \
     ui/editmachinedialog.ui \
     ui/connecttomachine.ui \
     ui/connecttoperson.ui
+
+RESOURCES += \
+    resources.qrc
