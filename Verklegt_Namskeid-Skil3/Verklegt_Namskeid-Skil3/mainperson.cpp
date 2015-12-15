@@ -295,6 +295,7 @@ void MainWindow::deletePerson(){
 
         // Re-display
         checkPersonSearch();
+        displayConnectionsTable();
     }
 }
 
@@ -335,6 +336,7 @@ void MainWindow::editPerson(){
         }
         else{
             checkPersonSearch();
+            displayConnectionsTable();
         }
 
         // Set status bar message

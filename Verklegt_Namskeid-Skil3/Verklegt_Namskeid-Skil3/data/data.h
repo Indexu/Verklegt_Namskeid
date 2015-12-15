@@ -18,6 +18,8 @@ public:
     // Deconstructor
     ~Data();
 
+    // Check to see if DB contains necessary tables
+    void checkDB();
     // Create all the tables and views
     void setupDB();
 
@@ -28,6 +30,10 @@ public:
     QSortFilterProxyModel *getMachineModel(QSqlQueryModel *&machineQueryModel);
     // Get connection model
     QSortFilterProxyModel *getConnectionModel(QSqlQueryModel *&connectionQueryModel);
+    // Get type model
+    QSortFilterProxyModel *getTypeModel(QSqlQueryModel *&typeQueryModel);
+    // Get system model
+    QSortFilterProxyModel *getSystemModel(QSqlQueryModel *&systemQueryModel);
 
     // ==== Person ====
     // Get all persons
@@ -61,10 +67,6 @@ public:
     // Check if machine ID exists
     bool machineIDExistsDB(const int &id, QString &error);
 
-    // ==== Types / Systems ====
-    // Get all types / systems
-    bool getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error);
-
     // ==== Connections ====
     // Get all connections
     bool getAllConnections(QSqlQueryModel *connectionQueryModel, QString &error);
@@ -80,6 +82,29 @@ public:
     bool connectionIDExistsDB(const int &id, QString &error);
     // Get Connection
     bool getConnection(PersonMachine &pm, QString error);
+
+    // ==== Types / Systems ====
+    // Get all types
+    bool getAllTypes(QSqlQueryModel *typeQueryModel, QString &error);
+    // Get all systems
+    bool getAllSystems(QSqlQueryModel *systemQueryModel, QString &error);
+    // Set the filter of type
+    bool filterType(QSqlQueryModel *typeQueryModel, const QString &filterStr, const QString &searchString, QString &error);
+    // Set the filter of system
+    bool filterSystem(QSqlQueryModel *systemQueryModel, const QString &filterStr, const QString &searchString, QString &error);
+    // Add type / system
+    bool addTypeSystem(const QString &ts, const bool &type, QString &error);
+    // Delete type / system
+    bool deleteTypeSystem(const QVector<TypeSystem> &ts, const bool &type, QString &error);
+    // Get type / system
+    bool getTypeSystem(TypeSystem &ts, const bool &type, QString &error);
+    // Edit type / system
+    bool editTypeSystem(const TypeSystem &ts, const bool &type, QString &error);
+    // Check if type / system ID exists in DB
+    bool typeSystemIDExistsDB(const int &id, const bool &type, QString &error);
+
+    // Get all types / system into vector
+    bool getAllTypesSystemsVector(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error);
 };
 
 #endif // DATA_H

@@ -15,14 +15,37 @@ Data::Data(){
 
         db.open();
 
-        // Create tables
-        setupDB();
+        checkDB();
     }
 }
 
 // Deconstructor
 Data::~Data(){
     db.close();
+}
+
+// Check for tables
+void Data::checkDB(){
+    if(db.isOpen()){
+        QSqlQuery query(db);
+
+        query.prepare("SELECT * FROM sqlite_master");
+
+        query.exec();
+
+        // Count tables
+        int tableCount = 0;
+        while(query.next()){
+            if (query.value("type").toString() == "table"){
+                tableCount++;
+            }
+        }
+
+        // Setup if necessary
+        if(tableCount != 6){
+            setupDB();
+        }
+    }
 }
 
 // Create the tables and views
@@ -202,3 +225,36 @@ QSortFilterProxyModel *Data::getConnectionModel(QSqlQueryModel *&connectionQuery
     // Return
     return proxy;
 }
+
+// Create and return type model
+QSortFilterProxyModel *Data::getTypeModel(QSqlQueryModel *&typeQueryModel){
+    // Initialize Query model
+    typeQueryModel = new QSqlQueryModel();
+
+    // Initial data
+    typeQueryModel->setQuery("SELECT * FROM mtype", db);
+
+    // Create proxy model for sorting
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel();
+    proxy->setSourceModel(typeQueryModel);
+
+    // Return
+    return proxy;
+}
+
+// Create and return system model
+QSortFilterProxyModel *Data::getSystemModel(QSqlQueryModel *&systemQueryModel){
+    // Initialize Query model
+    systemQueryModel = new QSqlQueryModel();
+
+    // Initial data
+    systemQueryModel->setQuery("SELECT * FROM num_sys", db);
+
+    // Create proxy model for sorting
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel();
+    proxy->setSourceModel(systemQueryModel);
+
+    // Return
+    return proxy;
+}
+

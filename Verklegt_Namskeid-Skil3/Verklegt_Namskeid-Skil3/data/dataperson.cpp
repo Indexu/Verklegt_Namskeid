@@ -22,7 +22,6 @@ bool Data::getAllPersons(QSqlQueryModel *personQueryModel, QString &error){
 
 // Set the filter of personModel
 bool Data::filterPerson(QSqlQueryModel *personQueryModel, const QString &filterStr, const QString &searchString, QString &error){
-
     if(db.open()){
         QSqlQuery query(db);
 
@@ -58,7 +57,6 @@ bool Data::filterPerson(QSqlQueryModel *personQueryModel, const QString &filterS
 
 // Add person
 bool Data::addPerson(const Person &p, QString &error){
-
     // Open
     if(db.open()){
         QSqlQuery query(db);
@@ -90,7 +88,6 @@ bool Data::addPerson(const Person &p, QString &error){
 
 // Delete person
 bool Data::deletePerson(const QVector<Person> &p, QString &error){
-
     // Open
     if(db.open()){
         QSqlQuery query(db);
@@ -157,7 +154,6 @@ bool Data::deletePerson(const QVector<Person> &p, QString &error){
 
 // Edit person
 bool Data::editPerson(const Person &p, QString &error){
-
     // Open
     if(db.open()){
         QSqlQuery query(db);
@@ -255,6 +251,7 @@ bool Data::getPerson(Person &p, QString &error){
         }
         else{
             error = "Person ID: " + QString::number(p.getId()) + " not found.";
+            return false;
         }
 
         db.close();
@@ -265,5 +262,4 @@ bool Data::getPerson(Person &p, QString &error){
         error = "Unable to connect to database";
         return false;
     }
-    return false;
 }

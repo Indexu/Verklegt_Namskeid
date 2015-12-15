@@ -22,6 +22,10 @@ public:
     QSortFilterProxyModel* getMachineModel(QSqlQueryModel *&machineQueryModel);
     // Get connection model from data layer
     QSortFilterProxyModel *getConnectionModel(QSqlQueryModel *&connectionQueryModel);
+    // Get type model from data layer
+    QSortFilterProxyModel *getTypeModel(QSqlQueryModel *&typeQueryModel);
+    // Get system model from data layer
+    QSortFilterProxyModel *getSystemModel(QSqlQueryModel *&systemQueryModel);
 
     // ==== Persons ====
     // Get all persons
@@ -55,10 +59,6 @@ public:
     // Edit machine
     bool editMachine(Machine &m, const int &type_id, const int &sys_id, QString &error);
 
-    // ==== Types / Systems ====
-    // Get all types / systems
-    bool getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error);
-
     // ==== Connections ====
     // Get all connections
     bool getAllConnections(QSqlQueryModel *connectionQueryModel, QString &error);
@@ -72,6 +72,32 @@ public:
     bool filterConnection(QSqlQueryModel *connectionQueryModel, const QString &searchString, const int &column, QString &error);
     // Get Connection
     bool getConnection(PersonMachine &pm, QString error);
+
+    // ==== Types ====
+    // Get all types
+    bool getAllTypesSystems(QSqlQueryModel *typeQueryModel, QString &error);
+    // Get all systems
+    bool getAllSystems(QSqlQueryModel *systemQueryModel, QString &error);
+    // Search type
+    bool searchType(QSqlQueryModel *typeQueryModel, const QString &searchString, const int &column, QString &error);
+    // Filter type
+    bool filterType(QSqlQueryModel *typeQueryModel, const QString &searchString, const int &column, QString &error);
+    // Search system
+    bool searchSystem(QSqlQueryModel *systemQueryModel, const QString &searchString, const int &column, QString &error);
+    // Filter system
+    bool filterSystem(QSqlQueryModel *systemQueryModel, const QString &searchString, const int &column, QString &error);
+    // Add type / system
+    bool addTypeSystem(const QString &ts, const bool &type, QString &error);
+    // Delete type / system
+    bool deleteTypeSystem(const QVector<TypeSystem> &ts, const bool &type, QString &error);
+    // Get type / system
+    bool getTypeSystem(TypeSystem &ts, const bool &type, QString &error);
+    // Edit type / system
+    bool editTypeSystem(const TypeSystem &ts, const bool &type, QString &error);
+
+    // ==== Types / Systems ====
+    // Get all types / systems
+    bool getAllTypesSystemsVector(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error);
 };
 
 #endif // SERVICES_H

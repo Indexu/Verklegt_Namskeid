@@ -187,6 +187,7 @@ bool Data::getConnection(PersonMachine &pm, QString error){
         }
         else{
             error = "No connection, id: " + QString::number(pm.getId());
+            return false;
         }
 
         db.close();
@@ -196,7 +197,6 @@ bool Data::getConnection(PersonMachine &pm, QString error){
         error = "Unable to connect to database";
         return false;
     }
-    return false;
 }
 
 // Check if pers_mach ID exists

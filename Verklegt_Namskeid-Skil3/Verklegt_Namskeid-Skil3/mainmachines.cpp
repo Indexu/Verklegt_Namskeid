@@ -198,6 +198,7 @@ void MainWindow::deleteMachine(){
 
         // Re-display
         checkMachineSearch();
+        displayConnectionsTable();
     }
 }
 
@@ -268,7 +269,7 @@ void MainWindow::on_machinesAddButton_clicked(){
     QVector<TypeSystem> types;
 
     // Get types
-    if(!servicesLayer.getAllTypesSystems(types, 1, error)){
+    if(!servicesLayer.getAllTypesSystemsVector(types, 1, error)){
         checkError();
         return;
     }
@@ -279,7 +280,7 @@ void MainWindow::on_machinesAddButton_clicked(){
     QVector<TypeSystem> systems;
 
     // Get systems
-    if(!servicesLayer.getAllTypesSystems(systems, 0, error)){
+    if(!servicesLayer.getAllTypesSystemsVector(systems, 0, error)){
         checkError();
         return;
     }
@@ -411,14 +412,14 @@ void MainWindow::editMachine() {
 
     QVector<TypeSystem> types;
     // Get types
-    if(!servicesLayer.getAllTypesSystems(types, 1, error)){
+    if(!servicesLayer.getAllTypesSystemsVector(types, 1, error)){
         checkError();
         return;
     }
 
     QVector<TypeSystem> systems;
     // Get systems
-    if(!servicesLayer.getAllTypesSystems(systems, 0, error)){
+    if(!servicesLayer.getAllTypesSystemsVector(systems, 0, error)){
         checkError();
         return;
     }
@@ -479,6 +480,7 @@ void MainWindow::editMachine() {
         }
         else{
             checkMachineSearch();
+            displayConnectionsTable();
         }
         // Status bar message
         ui->statusBar->showMessage(editDialog.getMachine().getName() + " edited", constants::STATUSBAR_MESSAGE_TIME);

@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     displayPersonTable();
     displayMachinesTable();
     displayConnectionsTable();
+    displayTypesTable();
+    displaySystemsTable();
 
     // Set the context menus
     setContextMenus();
@@ -38,6 +40,12 @@ MainWindow::~MainWindow(){
     delete connectionsQueryModel;
     delete connectionsProxyModel;
 
+    delete typeQueryModel;
+    delete typeProxyModel;
+
+    delete systemQueryModel;
+    delete systemProxyModel;
+
     delete ui;
 }
 
@@ -46,6 +54,8 @@ void MainWindow::getModels(){
     personProxyModel = servicesLayer.getPersonModel(personQueryModel);
     machineProxyModel = servicesLayer.getMachineModel(machineQueryModel);
     connectionsProxyModel = servicesLayer.getConnectionModel(connectionsQueryModel);
+    typeProxyModel = servicesLayer.getTypeModel(typeQueryModel);
+    systemProxyModel = servicesLayer.getSystemModel(systemQueryModel);
 }
 
 // Connect signals currentRowChanged to slots
@@ -59,6 +69,16 @@ void MainWindow::connectCurrentRowChanged(){
     connect(ui->machineTable->selectionModel(),
            SIGNAL(currentRowChanged(QModelIndex ,QModelIndex)),
            this, SLOT(machineTableCurrentRowChanged(QModelIndex ,QModelIndex)));
+
+    // Types table
+    connect(ui->typesTable->selectionModel(),
+           SIGNAL(currentRowChanged(QModelIndex ,QModelIndex)),
+           this, SLOT(typesTableCurrentRowChanged(QModelIndex ,QModelIndex)));
+
+    // Systems table
+    connect(ui->systemsTable->selectionModel(),
+           SIGNAL(currentRowChanged(QModelIndex ,QModelIndex)),
+           this, SLOT(systemsTableCurrentRowChanged(QModelIndex ,QModelIndex)));
 }
 
 // Set table models
@@ -66,7 +86,8 @@ void MainWindow::setTableModels(){
     ui->personTable->setModel(personProxyModel);
     ui->machineTable->setModel(machineProxyModel);
     ui->connectionsTable->setModel(connectionsProxyModel);
-
+    ui->typesTable->setModel(typeProxyModel);
+    ui->systemsTable->setModel(systemProxyModel);
 }
 
 // Configure the tables
@@ -84,6 +105,8 @@ void MainWindow::configTables(){
     setTableProperties(ui->personTable);
     setTableProperties(ui->machineTable);
     setTableProperties(ui->connectionsTable);
+    setTableProperties(ui->typesTable);
+    setTableProperties(ui->systemsTable);
 
     // Connect slots
     connectCurrentRowChanged();
@@ -114,6 +137,14 @@ void MainWindow::setModelHeaders(){
     connectionsQueryModel->setHeaderData(3, Qt::Horizontal, tr("Type"));
     connectionsQueryModel->setHeaderData(4, Qt::Horizontal, tr("System"));
     connectionsQueryModel->setHeaderData(5, Qt::Horizontal, tr("Country"));
+
+    // Set Type headers
+    typeProxyModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    typeProxyModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+
+    // Set System headers
+    systemProxyModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+    systemProxyModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
 }
 
 // Add to search/filter comboboxes
@@ -144,6 +175,16 @@ void MainWindow::addToComboboxes(){
     ui->connectionsSearchComboBox->addItem("Type");
     ui->connectionsSearchComboBox->addItem("System");
     ui->connectionsSearchComboBox->addItem("Country");
+
+    // Type search
+    ui->typesSearchComboBox->addItem("All");
+    ui->typesSearchComboBox->addItem("ID");
+    ui->typesSearchComboBox->addItem("Name");
+
+    // System search
+    ui->systemSearchComboBox->addItem("All");
+    ui->systemSearchComboBox->addItem("ID");
+    ui->systemSearchComboBox->addItem("Name");
 }
 
 // Set table properties
@@ -176,6 +217,16 @@ void MainWindow::setContextMenus(){
     // Connection context menu
     ui->connectionsTable->setContextMenuPolicy(Qt::CustomContextMenu);
     connectionContextMenu.addAction(ui->actionDeleteConnection);
+
+    // Type context menu
+    ui->typesTable->setContextMenuPolicy(Qt::CustomContextMenu);
+    typeContextMenu.addAction(ui->actionEditType);
+    typeContextMenu.addAction(ui->actionDeleteType);
+
+    // System context menu
+    ui->systemsTable->setContextMenuPolicy(Qt::CustomContextMenu);
+    systemContextMenu.addAction(ui->actionEditSystem);
+    systemContextMenu.addAction(ui->actionDeleteSystem);  
 }
 
 // Display error if there is an error

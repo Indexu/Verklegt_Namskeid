@@ -196,6 +196,7 @@ bool Data::getMachine(Machine &m, QString &error){
         }
         else{
             error = "Machine ID: " + QString::number(m.getId()) + " not found.";
+            return false;
         }
 
         db.close();
@@ -205,7 +206,6 @@ bool Data::getMachine(Machine &m, QString &error){
         error = "Unable to connect to database";
         return false;
     }
-    return false;
 }
 // Edit machine
 bool Data::editMachine(const Machine &m, const int &type_id, const int &sys_id, QString &error){

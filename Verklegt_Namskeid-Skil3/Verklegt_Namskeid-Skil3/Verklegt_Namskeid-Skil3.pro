@@ -35,7 +35,15 @@ SOURCES += main.cpp\
     data/dataperson.cpp \
     data/datamachine.cpp \
     data/dataconnection.cpp \
-    data/datatypesystem.cpp
+    data/datatypesystem.cpp \
+    maintype.cpp \
+    ui/addtypesystemdialog.cpp \
+    ui/edittypesystemdialog.cpp \
+    mainsystem.cpp \
+    domain/servicesperson.cpp \
+    domain/servicesmachine.cpp \
+    domain/servicesconnection.cpp \
+    domain/servicestypesystem.cpp
 
 HEADERS  += mainwindow.h \
     models/person.h \
@@ -52,7 +60,9 @@ HEADERS  += mainwindow.h \
     ui/editmachinedialog.h \
     ui/connecttomachine.h \
     ui/connecttoperson.h \
-    ui/addconnectiondialog.h
+    ui/addconnectiondialog.h \
+    ui/addtypesystemdialog.h \
+    ui/edittypesystemdialog.h
 
 FORMS    += mainwindow.ui \
     ui/editpersondialog.ui \
@@ -61,7 +71,9 @@ FORMS    += mainwindow.ui \
     ui/editmachinedialog.ui \
     ui/connecttomachine.ui \
     ui/connecttoperson.ui \
-    ui/addconnectiondialog.ui
+    ui/addconnectiondialog.ui \
+    ui/addtypesystemdialog.ui \
+    ui/edittypesystemdialog.ui
 
 RESOURCES += \
     resources.qrc
