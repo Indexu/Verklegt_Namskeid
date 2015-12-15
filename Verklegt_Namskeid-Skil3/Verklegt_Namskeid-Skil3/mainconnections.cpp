@@ -11,6 +11,9 @@ void MainWindow::displayConnectionsTable(){
         checkError();
     }
 
+    // Resize columns
+    utilities::resizeTableColumns(ui->connectionsTable);
+
     // Update results
     updateConnectionResults();
 }
@@ -41,6 +44,9 @@ void MainWindow::searchConnections(QString searchString, int column){
             return;
         }
     }
+
+    // Resize columns
+    utilities::resizeTableColumns(ui->connectionsTable);
 
     // Update results
     updateConnectionResults();

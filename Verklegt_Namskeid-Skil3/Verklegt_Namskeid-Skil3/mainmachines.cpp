@@ -15,6 +15,9 @@ void MainWindow::displayMachinesTable(){
         return;
     }
 
+    // Resize columns
+    utilities::resizeTableColumns(ui->machineTable);
+
     // Update results
     updateMachineResults();
 }
@@ -72,6 +75,9 @@ void MainWindow::searchMachine(QString searchString, int column){
             return;
         }
     }
+
+    // Resize columns
+    utilities::resizeTableColumns(ui->machineTable);
 
     // Update results
     updateMachineResults();

@@ -15,6 +15,9 @@ void MainWindow::displayPersonTable(){
         return;
     }
 
+    // Resize columns
+    utilities::resizeTableColumns(ui->personTable);
+
     // Update results
     updatePersonResults();
 }
@@ -72,6 +75,9 @@ void MainWindow::searchPerson(QString searchString, int column){
             return;
         }
     }
+
+    // Resize columns
+    utilities::resizeTableColumns(ui->personTable);
 
     // Update results
     updatePersonResults();

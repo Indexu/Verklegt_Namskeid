@@ -31,4 +31,11 @@ namespace utilities{
         return table->model()->data(index.model()->index(index.row(), col)).toString();
     }
 
+    // Resize columns
+    void resizeTableColumns(QTableView *table){
+        table->setVisible(false);
+        table->resizeColumnsToContents();
+        table->setVisible(true);
+    }
+
 }
