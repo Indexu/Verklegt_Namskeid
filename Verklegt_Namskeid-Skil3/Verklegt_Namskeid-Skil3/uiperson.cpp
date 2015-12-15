@@ -23,6 +23,15 @@ void MainWindow::updatePersonResults(){
     ui->personResultsLabel->setText("Results: " + results);
 }
 
+// Disable Person edit and delete buttons
+void MainWindow::disableEditDeletePersonButtons(){
+    // Disable delete button
+    ui->personDeleteButton->setEnabled(false);
+    // Disable edit button
+    ui->personEditButton->setEnabled(false);
+}
+
+// === SEARCH ===
 // Check search
 void MainWindow::checkPersonSearch(){
     // Search string
@@ -40,14 +49,6 @@ void MainWindow::checkPersonSearch(){
 
     // Search
     searchPerson(searchString, column);
-}
-
-// Disable Person edit and delete buttons
-void MainWindow::disableEditDeletePersonButtons(){
-    // Disable delete button
-    ui->personDeleteButton->setEnabled(false);
-    // Disable edit button
-    ui->personEditButton->setEnabled(false);
 }
 
 // Person search
@@ -119,7 +120,8 @@ void MainWindow::on_personFilterCheckBox_clicked(){
     checkPersonSearch();
 }
 
-// Person add button
+// === BUTTONS ===
+// Person add button -> clicked
 void MainWindow::on_personAddButton_clicked(){
     // Display dialog
     AddPersonDialog addDialog;
@@ -144,16 +146,34 @@ void MainWindow::on_personAddButton_clicked(){
     }
 }
 
-// Person delete button
+// Person delete button -> clicked
 void MainWindow::on_personDeleteButton_clicked(){
     deletePerson();
 }
 
-// Person edit button
+// Person edit button -> clicked
 void MainWindow::on_personEditButton_clicked(){
     editPerson();
 }
 
+// Double click person table row
+void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
+    if(index.isValid()){
+        editPerson();
+    }
+}
+
+// Person table -> Clicked
+void MainWindow::on_personTable_clicked(const QModelIndex &index){
+    if(index.isValid()){
+        // Enable delete button
+        ui->personDeleteButton->setEnabled(true);
+        // Enable edit button
+        ui->personEditButton->setEnabled(true);
+    }
+}
+
+// === DELETE ===
 // Delete person
 void MainWindow::deletePerson(){
     // Get row
@@ -235,6 +255,7 @@ void MainWindow::deletePerson(){
     }
 }
 
+// === EDIT ===
 // Edit person
 void MainWindow::editPerson(){
     // Get row
@@ -288,6 +309,7 @@ void MainWindow::editPerson(){
     }
 }
 
+// === CONNECT ===
 // Connect to machine
 void MainWindow::connectToMachine(){
     // Get row
@@ -346,16 +368,10 @@ void MainWindow::connectToMachine(){
     }
 }
 
+// === CONTEXT MENU ===
 // People context menu -> Delete
 void MainWindow::on_actionDeletePerson_triggered(){
     deletePerson();
-}
-
-// Double click person table row
-void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
-    if(index.isValid()){
-        editPerson();
-    }
 }
 
 // Persons context menu -> Edit
@@ -366,16 +382,6 @@ void MainWindow::on_actionEditPerson_triggered(){
 // Persons context menu -> Connect
 void MainWindow::on_actionPersonConnectToMachine_triggered(){
     connectToMachine();
-}
-
-// Person table -> Clicked
-void MainWindow::on_personTable_clicked(const QModelIndex &index){
-    if(index.isValid()){
-        // Enable delete button
-        ui->personDeleteButton->setEnabled(true);
-        // Enable edit button
-        ui->personEditButton->setEnabled(true);
-    }
 }
 
 // Person table -> Context menu

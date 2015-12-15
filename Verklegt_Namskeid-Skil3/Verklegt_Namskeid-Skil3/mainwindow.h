@@ -76,8 +76,6 @@ public:
     void checkMachineSearch();
     // Disable machine edit and delete buttons
     void disableEditDeleteMachineButtons();
-    // Enable machine edit and delete buttons
-    void enableEditDeleteMachineButtons();
     // Search machine
     void searchMachine(QString searchString,int column);
     // Delete machine

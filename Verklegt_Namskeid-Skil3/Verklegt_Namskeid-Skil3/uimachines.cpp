@@ -22,6 +22,13 @@ void MainWindow::updateMachineResults(){
     ui->machinesResultsLabel->setText("Results: " + results);
 }
 
+// Disable machine edit and delete buttons
+void MainWindow::disableEditDeleteMachineButtons(){
+    ui->machinesDeleteButton->setEnabled(false);
+    ui->machinesEditButton->setEnabled(false);
+}
+
+// === SEARCH ===
 // Check if re-search
 void MainWindow::checkMachineSearch(){
     QString searchString = ui->machinesSearchField->text();
@@ -42,20 +49,6 @@ void MainWindow::checkMachineSearch(){
     // Search
     searchMachine(searchString, column);
 }
-
-// Disable machine edit and delete buttons
-void MainWindow::disableEditDeleteMachineButtons(){
-    ui->machinesDeleteButton->setEnabled(false);
-    ui->machinesEditButton->setEnabled(false);
-}
-
-
-// Enable machine edit and delete buttons
-void MainWindow::enableEditDeleteMachineButtons(){
-    ui->machinesDeleteButton->setEnabled(true);
-    ui->machinesEditButton->setEnabled(true);
-}
-
 
 // Search machines
 void MainWindow::searchMachine(QString searchString, int column){
@@ -80,6 +73,49 @@ void MainWindow::searchMachine(QString searchString, int column){
     updateMachineResults();
 }
 
+// Machines filter checkbox -> clicked
+void MainWindow::on_machinesFilterCheckBox_clicked(){
+    checkMachineSearch();
+}
+
+// Machines search combobox -> Index changed
+void MainWindow::on_machinesSearchComboBox_currentIndexChanged(int index){
+    QString searchString = ui->machinesSearchField->text();
+
+    // If search criteria is empty, display all
+    if(searchString.isEmpty()){
+        // Get all machines
+        displayMachinesTable();
+        return;
+    }
+
+    // Disable Machine edit and delete buttons
+    disableEditDeleteMachineButtons();
+
+    // Search
+    searchMachine(searchString, index);
+}
+
+// Machines search field -> Text changed
+void MainWindow::on_machinesSearchField_textChanged(const QString &arg1){
+    // If search criteria is empty, display all
+    if(arg1.isEmpty()){
+        // Get all machines
+        displayMachinesTable();
+        return;
+    }
+
+    // Disable Machine edit and delete buttons
+    disableEditDeleteMachineButtons();
+
+    // What field is selected
+    int column = ui->machinesSearchComboBox->currentIndex();
+
+    // Search
+    searchMachine(arg1, column);
+}
+
+// === DELETE ===
 // Delete machine
 void MainWindow::deleteMachine(){
     // Get row
@@ -161,6 +197,8 @@ void MainWindow::deleteMachine(){
     }
 }
 
+// === CONNECT ===
+// Connect to person
 void MainWindow::connectToPerson(){
     // Get row
     QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
@@ -218,48 +256,7 @@ void MainWindow::connectToPerson(){
     }
 }
 
-// Machines filter checkbox -> clicked
-void MainWindow::on_machinesFilterCheckBox_clicked(){
-    checkMachineSearch();
-}
-
-// Machines search combobox -> Index changed
-void MainWindow::on_machinesSearchComboBox_currentIndexChanged(int index){
-    QString searchString = ui->machinesSearchField->text();
-
-    // If search criteria is empty, display all
-    if(searchString.isEmpty()){
-        // Get all machines
-        displayMachinesTable();
-        return;
-    }
-
-    // Disable Machine edit and delete buttons
-    disableEditDeleteMachineButtons();
-
-    // Search
-    searchMachine(searchString, index);
-}
-
-// Machines search field -> Text changed
-void MainWindow::on_machinesSearchField_textChanged(const QString &arg1){
-    // If search criteria is empty, display all
-    if(arg1.isEmpty()){
-        // Get all machines
-        displayMachinesTable();
-        return;
-    }
-
-    // Disable Machine edit and delete buttons
-    disableEditDeleteMachineButtons();
-
-    // What field is selected
-    int column = ui->machinesSearchComboBox->currentIndex();
-
-    // Search
-    searchMachine(arg1, column);
-}
-
+// === BUTTONS ===
 // Machine add button -> Clicked
 void MainWindow::on_machinesAddButton_clicked(){
     // Display dialog
@@ -353,11 +350,13 @@ void MainWindow::on_machinesEditButton_clicked()
 }
 
 // Machine table -> double clicked
-void MainWindow::on_machineTable_doubleClicked(const QModelIndex &index)
-{
-    editMachine();
+void MainWindow::on_machineTable_doubleClicked(const QModelIndex &index){
+    if(index.isValid()){
+        editMachine();
+    }
 }
 
+// === EDIT ===
 // Edit machine function
 void MainWindow::editMachine() {
     // Edit machine dialog
@@ -457,6 +456,22 @@ void MainWindow::editMachine() {
     }
 }
 
+// === CONTEXT MENU ===
+// Machine context menu -> Delete
+void MainWindow::on_actionDeleteMachine_triggered(){
+    deleteMachine();
+}
+
+// Machine context menu -> Edit
+void MainWindow::on_actionEditMachine_triggered(){
+    editMachine();
+}
+
+// Machine context menu -> Connect
+void MainWindow::on_actionConnectToPerson_triggered(){
+    connectToPerson();
+}
+
 // Machine table -> Context menu
 /*
  * QPoint &pos is not used due to when it's used
@@ -487,19 +502,4 @@ void MainWindow::on_machineTable_customContextMenuRequested(const QPoint &pos){
 
     // Display menu
     machineContextMenu.exec(QCursor::pos());
-}
-
-// Machine context menu -> Delete
-void MainWindow::on_actionDeleteMachine_triggered(){
-    deleteMachine();
-}
-
-// Machine context menu -> Edit
-void MainWindow::on_actionEditMachine_triggered(){
-    editMachine();
-}
-
-// Machine context menu -> Connect
-void MainWindow::on_actionConnectToPerson_triggered(){
-    connectToPerson();
 }
