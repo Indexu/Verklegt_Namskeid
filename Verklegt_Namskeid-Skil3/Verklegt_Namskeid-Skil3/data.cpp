@@ -548,6 +548,49 @@ bool Data::getMachine(Machine &m, QString &error){
     }
     return false;
 }
+// Edit machine
+bool Data::editMachine(const Machine &m, const int &type_id, const int &sys_id, QString &error){
+
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        query.prepare("UPDATE machines "
+                      "SET name = :name, "
+                      "year = :year, "
+                      "built = :built, "
+                      "mtype_id = :mtype_id, "
+                      "num_sys_id = :num_sys_id "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", m.getId());
+        query.bindValue(":name", m.getName());
+        // Check year
+        if (m.getYear() == 0){
+            query.bindValue(":year", "");
+        }
+        else{
+            query.bindValue(":year", m.getYear());
+        }
+        query.bindValue(":built", m.getBuilt());
+        query.bindValue(":mtype_id", type_id);
+        query.bindValue(":num_sys_id", sys_id);
+
+        if(!query.exec()){
+            error = query.lastError().text();
+            return false;
+        }
+        // Close
+        db.close();
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
+}
+
 
 // Check if machine ID exists
 bool Data::machineIDExistsDB(const int &id, QString &error){

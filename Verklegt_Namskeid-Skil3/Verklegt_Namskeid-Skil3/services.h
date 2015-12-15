@@ -50,6 +50,8 @@ public:
     bool deleteMachine(const QVector<Machine> &m, QString &error);
     // Get machine
     bool getMachine(Machine &m, QString &error);
+    // Edit machine
+    bool editMachine(Machine &m, const int &type_id, const int &sys_id, QString &error);
 
     // ==== Types / Systems ====
     // Get all types / systems
