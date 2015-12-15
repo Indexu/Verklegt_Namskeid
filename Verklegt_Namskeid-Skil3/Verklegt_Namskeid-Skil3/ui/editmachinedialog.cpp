@@ -1,7 +1,7 @@
 #include "editmachinedialog.h"
 #include "ui_editmachinedialog.h"
-#include "constants.h"
 #include <QDebug>
+
 editMachineDialog::editMachineDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::editMachineDialog)

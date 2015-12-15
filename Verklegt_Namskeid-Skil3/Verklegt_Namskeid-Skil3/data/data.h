@@ -1,35 +1,36 @@
-#ifndef SERVICES_H
-#define SERVICES_H
+#ifndef DATA_H
+#define DATA_H
 
-#include <QSqlQueryModel>
-#include "data.h"
-#include "person.h"
-#include "machine.h"
-#include "personmachine.h"
-#include "typesystem.h"
+#include <QtSql>
+#include "utilities/constants.h"
+#include "models/person.h"
+#include "models/machine.h"
+#include "models/personmachine.h"
+#include "models/typesystem.h"
+#include <QDebug>
 
-class Services
+class Data
 {
-    // Data layer instance
-    Data dataLayer;
+    QSqlDatabase db;
 public:
     // Constructor
-    Services();
+    Data();
+    // Deconstructor
+    ~Data();
 
-    // Get person model from data layer
+    // ==== MODELS ====
+    // Get person model
     QSortFilterProxyModel *getPersonModel(QSqlQueryModel *&personQueryModel);
-    // Get machine model from data layer
-    QSortFilterProxyModel* getMachineModel(QSqlQueryModel *&machineQueryModel);
-    // Get connection model from data layer
+    // Get machine model
+    QSortFilterProxyModel *getMachineModel(QSqlQueryModel *&machineQueryModel);
+    // Get connection model
     QSortFilterProxyModel *getConnectionModel(QSqlQueryModel *&connectionQueryModel);
 
-    // ==== Persons ====
+    // ==== Person ====
     // Get all persons
     bool getAllPersons(QSqlQueryModel *personQueryModel, QString &error);
-    // Search person
-    bool searchPerson(QSqlQueryModel *personQueryModel, const QString &searchString, const int &column, QString &error);
-    // Filter person
-    bool filterPerson(QSqlQueryModel *personQueryModel, const QString &searchString, const int &column, QString &error);
+    // Set the filter of persons
+    bool filterPerson(QSqlQueryModel *personModel, const QString &filterStr, const QString &searchString, QString &error);
     // Add person
     bool addPerson(const Person &p, QString &error);
     // Delete person
@@ -38,14 +39,14 @@ public:
     bool editPerson(const Person &p, QString &error);
     // Get person
     bool getPerson(Person &p, QString &error);
+    // Check if person ID exists
+    bool personIDExistsDB(const int &id, QString &error);
 
     // ==== Machines ====
     // Get all persons
     bool getAllMachines(QSqlQueryModel *machineQueryModel, QString &error);
-    // Search machine
-    bool searchMachine(QSqlQueryModel *machineQueryModel, const QString &searchString, const int &column, QString &error);
-    // Filter machine
-    bool filterMachine(QSqlQueryModel *machineQueryModel, const QString &searchString, const int &column, QString &error);
+    // Set the filter of machines
+    bool filterMachine(QSqlQueryModel *machineQueryModel, const QString &filterStr, const QString &searchString, QString &error);
     // Add machine
     bool addMachine(const Machine &m, const int &type_id, const int &sys_id, QString &error);
     // Delete machine
@@ -53,7 +54,9 @@ public:
     // Get machine
     bool getMachine(Machine &m, QString &error);
     // Edit machine
-    bool editMachine(Machine &m, const int &type_id, const int &sys_id, QString &error);
+    bool editMachine(const Machine &m, const int &type_id, const int &sys_id, QString &error);
+    // Check if machine ID exists
+    bool machineIDExistsDB(const int &id, QString &error);
 
     // ==== Types / Systems ====
     // Get all types / systems
@@ -66,12 +69,14 @@ public:
     bool addConnection(const int &p_id, const int &m_id, QString &error);
     // Delete connection
     bool deleteConnection(const QVector<PersonMachine> &pm, QString &error);
-    // Search connection
-    bool searchConnection(QSqlQueryModel *connectionQueryModel, const QString &searchString, const int &column, QString &error);
-    // Filter connection
-    bool filterConnection(QSqlQueryModel *connectionQueryModel, const QString &searchString, const int &column, QString &error);
+    // Check if connections exists
+    bool connectionExists(const int &p_id, const int &m_id, QString &error);
+    // Set the filter of connections
+    bool filterConnection(QSqlQueryModel *connectionQueryModel, const QString &filterStr, const QString &searchString, QString &error);
+    // Check if pers_mach ID exists in DB
+    bool connectionIDExistsDB(const int &id, QString &error);
     // Get Connection
     bool getConnection(PersonMachine &pm, QString error);
 };
 
-#endif // SERVICES_H
+#endif // DATA_H

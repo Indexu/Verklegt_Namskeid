@@ -2,9 +2,9 @@
 #define AddPersonDialog_H
 
 #include <QDialog>
-#include "person.h"
-#include "utilities.h"
-#include "constants.h"
+#include "models/person.h"
+#include "utilities/utilities.h"
+#include "utilities/constants.h"
 #include <QDebug>
 
 namespace Ui {

@@ -2,8 +2,8 @@
 #define EDITPERSONDIALOG_H
 
 #include <QDialog>
-#include "person.h"
-#include "constants.h"
+#include "models/person.h"
+#include "utilities/constants.h"
 
 namespace Ui {
 class editPersonDialog;

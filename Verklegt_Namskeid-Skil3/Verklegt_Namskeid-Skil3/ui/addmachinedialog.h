@@ -2,8 +2,8 @@
 #define ADDMACHINEDIALOG_H
 
 #include <QDialog>
-#include "machine.h"
-#include "typesystem.h"
+#include "models/machine.h"
+#include "models/typesystem.h"
 #include <QDebug>
 
 namespace Ui {

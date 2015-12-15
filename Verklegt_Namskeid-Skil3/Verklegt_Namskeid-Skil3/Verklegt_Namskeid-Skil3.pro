@@ -15,43 +15,43 @@ CONFIG += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    person.cpp \
-    machine.cpp \
-    personmachine.cpp \
-    data.cpp \
-    services.cpp \
-    utilities.cpp \
-    editpersondialog.cpp \
-    addpersondialog.cpp \
-    uiperson.cpp \
-    uimachines.cpp \
-    uiconnections.cpp \
-    addmachinedialog.cpp \
-    typesystem.cpp \
-    editmachinedialog.cpp \
-    connecttomachine.cpp \
-    connecttoperson.cpp
+    models/person.cpp \
+    models/machine.cpp \
+    models/personmachine.cpp \
+    data/data.cpp \
+    domain/services.cpp \
+    utilities/utilities.cpp \
+    ui/editpersondialog.cpp \
+    ui/addpersondialog.cpp \
+    ui/addmachinedialog.cpp \
+    models/typesystem.cpp \
+    ui/editmachinedialog.cpp \
+    ui/connecttomachine.cpp \
+    ui/connecttoperson.cpp \
+    mainconnections.cpp \
+    mainmachines.cpp \
+    mainperson.cpp
 
 HEADERS  += mainwindow.h \
-    person.h \
-    machine.h \
-    personmachine.h \
-    utilities.h \
-    data.h \
-    constants.h \
-    services.h \
-    editpersondialog.h \
-    addpersondialog.h \
-    addmachinedialog.h \
-    typesystem.h \
-    editmachinedialog.h \
-    connecttomachine.h \
-    connecttoperson.h
+    models/person.h \
+    models/machine.h \
+    models/personmachine.h \
+    utilities/utilities.h \
+    data/data.h \
+    utilities/constants.h \
+    domain/services.h \
+    ui/editpersondialog.h \
+    ui/addpersondialog.h \
+    ui/addmachinedialog.h \
+    models/typesystem.h \
+    ui/editmachinedialog.h \
+    ui/connecttomachine.h \
+    ui/connecttoperson.h
 
 FORMS    += mainwindow.ui \
-    editpersondialog.ui \
-    addpersondialog.ui \
-    addmachinedialog.ui \
-    editmachinedialog.ui \
-    connecttomachine.ui \
-    connecttoperson.ui
+    ui/editpersondialog.ui \
+    ui/addpersondialog.ui \
+    ui/addmachinedialog.ui \
+    ui/editmachinedialog.ui \
+    ui/connecttomachine.ui \
+    ui/connecttoperson.ui

@@ -7,16 +7,16 @@
 #include <QTableView>
 #include <QMessageBox>
 #include <QMenu>
-#include "data.h"
-#include "services.h"
-#include "addpersondialog.h"
-#include "editpersondialog.h"
-#include "addmachinedialog.h"
-#include "editmachinedialog.h"
-#include "connecttomachine.h"
-#include "connecttoperson.h"
-#include "utilities.h"
-#include "constants.h"
+#include "data/data.h"
+#include "domain/services.h"
+#include "ui/addpersondialog.h"
+#include "ui/editpersondialog.h"
+#include "ui/addmachinedialog.h"
+#include "ui/editmachinedialog.h"
+#include "ui/connecttomachine.h"
+#include "ui/connecttoperson.h"
+#include "utilities/utilities.h"
+#include "utilities/constants.h"
 #include <QDebug>
 
 namespace Ui {

@@ -1,9 +1,9 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-#include "person.h"
-#include "machine.h"
-#include "personmachine.h"
+#include "models/person.h"
+#include "models/machine.h"
+#include "models/personmachine.h"
 #include <regex>
 #include <string>
 #include <QTableView>
