@@ -348,6 +348,11 @@
     <string>Connect to person...</string>
    </property>
   </action>
+  <action name="actionDeleteConnection">
+   <property name="text">
+    <string>Delete connection</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

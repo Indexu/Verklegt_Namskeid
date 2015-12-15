@@ -154,6 +154,10 @@ private slots:
 
     void on_connectionsSearchField_textChanged(const QString &arg1);
 
+    void on_connectionsTable_customContextMenuRequested(const QPoint &pos);
+
+    void on_actionDeleteConnection_triggered();
+
 private:
     Ui::MainWindow *ui;
     Data dataLayer;

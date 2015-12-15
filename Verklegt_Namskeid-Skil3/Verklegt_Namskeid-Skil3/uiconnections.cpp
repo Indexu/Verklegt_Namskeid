@@ -197,3 +197,28 @@ void MainWindow::on_connectionsTable_clicked(const QModelIndex &index){
 void MainWindow::on_connectionsDeleteButton_clicked(){
     deleteConnection();
 }
+
+// === CONTEXT MENU ===
+// Connections context menu -> delete
+void MainWindow::on_actionDeleteConnection_triggered(){
+    deleteConnection();
+}
+
+// Connections table -> context menu
+/*
+ * QPoint &pos is not used due to when it's used
+ * it returns the context menu a bit above the cursor.
+ * QCursor::pos is used instead.
+ */
+void MainWindow::on_connectionsTable_customContextMenuRequested(const QPoint &pos){
+    // Get row
+    QModelIndexList selection = ui->connectionsTable->selectionModel()->selectedRows();
+
+    // No rows
+    if (selection.isEmpty()) {
+        return;
+    }
+
+    // Display menu
+    connectionContextMenu.exec(QCursor::pos());
+}

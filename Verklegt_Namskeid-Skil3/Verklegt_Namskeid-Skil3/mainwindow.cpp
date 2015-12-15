@@ -155,6 +155,10 @@ void MainWindow::setContextMenus(){
     machineContextMenu.addAction(ui->actionConnectToPerson);
     machineContextMenu.addAction(ui->actionEditMachine);
     machineContextMenu.addAction(ui->actionDeleteMachine);
+
+    // Connection context menu
+    ui->connectionsTable->setContextMenuPolicy(Qt::CustomContextMenu);
+    connectionContextMenu.addAction(ui->actionDeleteConnection);
 }
 
 // Display error if there is an error
