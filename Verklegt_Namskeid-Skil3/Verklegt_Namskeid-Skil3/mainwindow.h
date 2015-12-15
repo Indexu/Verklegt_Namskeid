@@ -52,7 +52,7 @@ public:
     // Check error
     void checkError();
 
-    // === Person ===
+    // ==== Persons ====
     // Update person results label
     void updatePersonResults();
     // Check if re-search
@@ -68,7 +68,7 @@ public:
     // Connect to machine
     void connectToMachine();
 
-    // === Machine ===
+    // ==== Machines ====
     // Update machine results label
     void updateMachineResults();
     // Check if re-search
@@ -83,6 +83,10 @@ public:
     void editMachine();
     // Connect to person
     void connectToPerson();
+
+    // ==== Connections ====
+    // Update connections results label
+    void updateConnectionResults();
 
 private slots:
     void on_personSearchField_textChanged(const QString &arg1);
@@ -128,6 +132,10 @@ private slots:
     void on_actionConnectToPerson_triggered();
 
     void on_machineTable_customContextMenuRequested(const QPoint &pos);
+
+    void on_connectionsDeleteButton_clicked();
+
+    void on_connectionsTable_clicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;
