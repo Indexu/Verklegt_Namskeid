@@ -20,11 +20,8 @@ Við völdum að hafa eftirfarandi gögn um hverja persónu:
 
 * Nafn
 * Kyn 
-
 * Fæðingardag
-
 * Dánardag (ef það á við)
-
 * Upprunaland  
   
 
@@ -56,7 +53,7 @@ skilaverkefni 2:
 
 
 * Nafn persónu
-* Kyn 
+* Kyn
 * Fæðingardag
 * Dánardag (ef það á við)
 * Vélarnafn
@@ -81,9 +78,7 @@ að við bútuðum forritið niður í viðeigandi skrár og flokkuðum þær sv
 Við útfærðum forritið okkar þannig að það eru 3 flipar:  
 
 * Persons
-
-* Machines 
-
+* Machines
 * Connections  
   
 
@@ -92,15 +87,10 @@ Við útfærðum forritið okkar þannig að það eru 3 flipar:
 raða eftir:  
 
 * Auðkenni
-
-* Nafni 
-
+* Nafni
 * Kyni
-
 * Fæðingardegi
-
 * Dánardegi (ef það á við)
-
 * Landi  
   
 
@@ -109,22 +99,28 @@ raða eftir:
 til að tengja persónu við vél, breyta eða eyða manneskju.      
 
 
-
 Í Machines flipanum er hægt að nota search og filter, fyrir allar niðurstöður eða velja einn flokk. Bæta við vél, breyta vél og  eyða vél. Það er hægt að raða eftir:  
 
 * Auðkenni
-
 * Nafni 
-
 * Byggingarári (ef á við)
-
 * Var hún byggð
-
 * Vélartýpu
-
 * Vélargerð  
   
 
 
 Það er bæði hægt að raða í hækkandi og lækkandi röð. Það er hægt að tvísmella á hvaða röð sem er til að breyta vélinni, eins er hægt að hægri smella á hvaða röð sem 
-er til að tengja vél við persónu, breyta eða eyða vél.
+er til að tengja vél við persónu, breyta eða eyða vél.  
+  
+Í Connections flipanum er hægt að nota search og filter, fyrir allar niðurstöður eða velja einn flokk. Bæta við tengingu og eyða tengingu. Það er 
+hægt að raða eftir:  
+
+* Auðkenni
+* Nafni persónu
+* Nafni vélar
+* Vélartýpu
+* Vélargerð  
+* Upprunarlandi
+  
+Það er bæði hægt að raða í hækkandi og lækkandi röð. Það er hægt að tvísmella á hvaða röð sem er til að eyða tengingunni.
