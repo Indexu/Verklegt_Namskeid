@@ -328,12 +328,52 @@ void MainWindow::on_machinesDeleteButton_clicked(){
 }
 
 // Machine table -> clicked
+/*
+ * Used in conjunction with currentRowChanged to have
+ * desired effect of enabling and disabling buttons
+ */
 void MainWindow::on_machineTable_clicked(const QModelIndex &index){
     if(index.isValid()){
+        // Get rows
+        QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
+
+        // If multiple rows
+        if (selection.count() > 1) {
+            // Disable edit button
+            ui->machinesEditButton->setEnabled(false);
+        }
+        // Single selection
+        else{
+            // Enable edit button
+            ui->machinesEditButton->setEnabled(true);
+        }
+    }
+}
+
+// Machine table -> Current row changes
+/*
+ * QModelIndex &current and QModelIndex &previous are not
+ * sed simply because we only want the functionality of
+ * the QItemSelectionModel::CurrentRowChanged() signal
+ */
+void MainWindow::machineTableCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous){
+    if(current.isValid()){
         // Enable delete button
         ui->machinesDeleteButton->setEnabled(true);
-        // Enable edit button
-        ui->machinesEditButton->setEnabled(true);
+
+        // Get rows
+        QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
+
+        // If multiple rows
+        if (selection.count() > 1) {
+            // Disable edit button
+            ui->machinesEditButton->setEnabled(false);
+        }
+        // Single selection
+        else{
+            // Enable edit button
+            ui->machinesEditButton->setEnabled(true);
+        }
     }
 }
 

@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     // ===== SETUP =====
     // Initialize error
     error = "";
@@ -47,6 +48,19 @@ void MainWindow::getModels(){
     connectionsProxyModel = servicesLayer.getConnectionModel(connectionsQueryModel);
 }
 
+// Connect signals currentRowChanged to slots
+void MainWindow::connectCurrentRowChanged(){
+    // Person table
+    connect(ui->personTable->selectionModel(),
+           SIGNAL(currentRowChanged(QModelIndex ,QModelIndex)),
+           this, SLOT(personTableCurrentRowChanged(QModelIndex ,QModelIndex)));
+
+    // Machine table
+    connect(ui->machineTable->selectionModel(),
+           SIGNAL(currentRowChanged(QModelIndex ,QModelIndex)),
+           this, SLOT(machineTableCurrentRowChanged(QModelIndex ,QModelIndex)));
+}
+
 // Set table models
 void MainWindow::setTableModels(){
     ui->personTable->setModel(personProxyModel);
@@ -70,6 +84,9 @@ void MainWindow::configTables(){
     setTableProperties(ui->personTable);
     setTableProperties(ui->machineTable);
     setTableProperties(ui->connectionsTable);
+
+    // Connect slots
+    connectCurrentRowChanged();
 }
 
 // Set model headers (columns)

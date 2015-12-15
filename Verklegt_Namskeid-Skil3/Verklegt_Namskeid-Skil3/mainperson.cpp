@@ -166,12 +166,53 @@ void MainWindow::on_personTable_doubleClicked(const QModelIndex &index){
 }
 
 // Person table -> Clicked
+/*
+ * Used in conjunction with currentRowChanged to have
+ * desired effect of enabling and disabling buttons
+ */
 void MainWindow::on_personTable_clicked(const QModelIndex &index){
     if(index.isValid()){
+        // Get rows
+        QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
+
+        // If multiple rows
+        if (selection.count() > 1) {
+            // Disable edit button
+            ui->personEditButton->setEnabled(false);
+        }
+        // Single selection
+        else{
+            // Enable edit button
+            ui->personEditButton->setEnabled(true);
+        }
+    }
+}
+
+// Person table -> Current row changes
+/*
+ * QModelIndex &previous is not used simply
+ * because we only want the functionality of
+ * the QItemSelectionModel::CurrentRowChanged()
+ * signal
+ */
+void MainWindow::personTableCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous){
+    if(current.isValid()){
         // Enable delete button
         ui->personDeleteButton->setEnabled(true);
-        // Enable edit button
-        ui->personEditButton->setEnabled(true);
+
+        // Get rows
+        QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
+
+        // If multiple rows
+        if (selection.count() > 1) {
+            // Disable edit button
+            ui->personEditButton->setEnabled(false);
+        }
+        // Single selection
+        else{
+            // Enable edit button
+            ui->personEditButton->setEnabled(true);
+        }
     }
 }
 

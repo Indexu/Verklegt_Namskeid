@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Add Connection</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
@@ -38,6 +38,13 @@
        <item>
         <widget class="QTableView" name="personsTable"/>
        </item>
+       <item>
+        <widget class="QLabel" name="personSelectedLabel">
+         <property name="text">
+          <string>Selected: </string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
@@ -51,6 +58,13 @@
        </item>
        <item>
         <widget class="QTableView" name="machinesTable"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="machineSelectedLabel">
+         <property name="text">
+          <string>Selected: </string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

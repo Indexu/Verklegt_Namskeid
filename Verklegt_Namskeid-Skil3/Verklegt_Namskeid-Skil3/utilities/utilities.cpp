@@ -26,4 +26,9 @@ namespace utilities{
         return ids;
     }
 
+    // Get column data
+    QString getColumnData(QTableView *table, const QModelIndex &index, int const &col){
+        return table->model()->data(index.model()->index(index.row(), col)).toString();
+    }
+
 }

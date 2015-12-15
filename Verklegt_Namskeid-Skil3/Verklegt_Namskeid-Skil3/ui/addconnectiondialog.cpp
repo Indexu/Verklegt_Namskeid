@@ -83,12 +83,24 @@ int AddConnectionDialog::getMachineId(){
 
 // Persons table -> clicked
 void AddConnectionDialog::on_personsTable_clicked(const QModelIndex &index){
+    // Get name
+    QString name = utilities::getColumnData(ui->personsTable, index, 1);
+
+    // Display name
+    ui->personSelectedLabel->setText("Selected: " + name);
+
     personValid = index.isValid();
     verifyIds();
 }
 
 // Machines table -> clicked
 void AddConnectionDialog::on_machinesTable_clicked(const QModelIndex &index){
+    // Get name
+    QString name = utilities::getColumnData(ui->machinesTable, index, 1);
+
+    // Display name
+    ui->machineSelectedLabel->setText("Selected: " + name);
+
     machineValid = index.isValid();
     verifyIds();
 }

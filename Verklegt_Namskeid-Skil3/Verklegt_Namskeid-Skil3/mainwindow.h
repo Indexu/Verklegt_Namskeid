@@ -41,6 +41,8 @@ public:
     void configTables();
     // Get models
     void getModels();
+    // Connect currentRowChanged signals to slots for tables
+    void connectCurrentRowChanged();
     // Set model headers
     void setModelHeaders();
     // Set table models
@@ -160,6 +162,10 @@ private slots:
     void on_actionDeleteConnection_triggered();
 
     void on_addConnectionButton_clicked();
+
+    void personTableCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous);
+
+    void machineTableCurrentRowChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
     Ui::MainWindow *ui;
