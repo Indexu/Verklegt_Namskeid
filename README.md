@@ -71,4 +71,60 @@ skilaverkefni 2:
 Við bættum líka við tengingum á milli persóna og tölva sem og að geta skoðað hver margar tölvu tengjast hverri persónu og öfugt ásamt því að geta leitað í tengingunum.
 
 Camel Case is the practice of writing compound words or phrases such that each word or abbreviation begins with a capital letter.
-Við notuðum líka Stroustrup indent style í forritinu okkar
+Við notuðum líka Stroustrup indent style í forritinu okkar  
+  
+##### Skilaverkefni 3  
+
+Þriðja skilaverkefnið okkar var útbúa GUI viðmót með ofboðslega fallegum tökkum og svona skemmtilegheitum. Bakvinnsla forritsins okkar var eiginlega sú sama nema það 
+að við bútuðum forritið niður í viðeigandi skrár og flokkuðum þær svo í möppur.  
+
+Við útfærðum forritið okkar þannig að það eru 3 flipar:  
+
+* Persons
+
+* Machines 
+
+* Connections  
+  
+
+
+Í Persons flipanum er hægt að nota search og filter, fyrir allar niðurstöður eða velja einn flokk. Bæta við persónu, breyta persónu og  eyða persónu. Það er hægt að 
+raða eftir:  
+
+* Auðkenni
+
+* Nafni 
+
+* Kyni
+
+* Fæðingardegi
+
+* Dánardegi (ef það á við)
+
+* Landi  
+  
+
+
+Það er bæði hægt að raða í hækkandi og lækkandi röð. Það er hægt að tvísmella á hvaða röð sem er til að breyta henni, eins er hægt að hægri smella á hvaða röð sem er 
+til að tengja persónu við vél, breyta eða eyða manneskju.      
+
+
+
+Í Machines flipanum er hægt að nota search og filter, fyrir allar niðurstöður eða velja einn flokk. Bæta við vél, breyta vél og  eyða vél. Það er hægt að raða eftir:  
+
+* Auðkenni
+
+* Nafni 
+
+* Byggingarári (ef á við)
+
+* Var hún byggð
+
+* Vélartýpu
+
+* Vélargerð  
+  
+
+
+Það er bæði hægt að raða í hækkandi og lækkandi röð. Það er hægt að tvísmella á hvaða röð sem er til að breyta vélinni, eins er hægt að hægri smella á hvaða röð sem 
+er til að tengja vél við persónu, breyta eða eyða vél.
