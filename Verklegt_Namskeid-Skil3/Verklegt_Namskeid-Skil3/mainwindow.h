@@ -12,6 +12,7 @@
 #include "addpersondialog.h"
 #include "editpersondialog.h"
 #include "addmachinedialog.h"
+#include "editmachinedialog.h"
 #include "utilities.h"
 #include "constants.h"
 #include <QDebug>
@@ -71,6 +72,8 @@ public:
     void checkMachineSearch();
     // Disable machine edit and delete buttons
     void disableEditDeleteMachineButtons();
+    // Enable machine edit and delete buttons
+    void enableEditDeleteMachineButtons();
     // Search machine
     void searchMachine(QString searchString,int column);
     // Delete machine
@@ -112,6 +115,10 @@ private slots:
     void on_machinesDeleteButton_clicked();
 
     void on_machineTable_clicked(const QModelIndex &index);
+
+    void on_machinesEditButton_clicked();
+
+    void on_machineTable_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;

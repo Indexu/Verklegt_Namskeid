@@ -49,6 +49,14 @@ void MainWindow::disableEditDeleteMachineButtons(){
     ui->machinesEditButton->setEnabled(false);
 }
 
+
+// Enable machine edit and delete buttons
+void MainWindow::enableEditDeleteMachineButtons(){
+    ui->machinesDeleteButton->setEnabled(true);
+    ui->machinesEditButton->setEnabled(true);
+}
+
+
 // Search machines
 void MainWindow::searchMachine(QString searchString, int column){
     // Filter
@@ -278,5 +286,116 @@ void MainWindow::on_machineTable_clicked(const QModelIndex &index){
         ui->machinesDeleteButton->setEnabled(true);
         // Enable edit button
         ui->machinesEditButton->setEnabled(true);
+    }
+}
+
+// Edit machine button -> click
+void MainWindow::on_machinesEditButton_clicked()
+{
+    editMachine();
+}
+
+// Machine table -> double clicked
+void MainWindow::on_machineTable_doubleClicked(const QModelIndex &index)
+{
+    editMachine();
+}
+
+// Edit machine function
+void MainWindow::editMachine() {
+    // Edit machine dialog
+    editMachineDialog editDialog;
+
+    QVector<TypeSystem> types;
+
+    // Get types
+    if(!servicesLayer.getAllTypesSystems(types, 1, error)){
+        checkError();
+        return;
+    }
+
+    // Set types
+    editDialog.setTypes(types);
+
+    QVector<TypeSystem> systems;
+
+    // Get systems
+    if(!servicesLayer.getAllTypesSystems(systems, 0, error)){
+        checkError();
+        return;
+    }
+
+    // Set systems
+    editDialog.setSystems(systems);
+
+    // Add to comboboxes
+    editDialog.addToComboboxes();
+
+    // Get row
+    QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
+
+    // If no rows
+    if (selection.isEmpty() || selection.count() > 1) {
+        qDebug() << "Only one row can be edited at a time";
+        return;
+    }
+
+    QModelIndex index = selection.at(0);
+    // Get ID
+    int id = ui->machineTable->model()->data(index).toInt();
+
+    // Create an empty machine
+    Machine m;
+    // Set machine ID to the ID of the row
+    m.setId(id);
+
+    // Get the person info by ID
+    if(!servicesLayer.getMachine(m, error)){
+        checkError();
+        return;
+    }
+
+    // Set machine's initial values
+    editDialog.setMachine(m);
+    // Set field values
+    editDialog.setFields();
+    // Exec window
+    editDialog.exec();
+
+    // Disable edit/delete buttons
+    disableEditDeleteMachineButtons();
+
+    // Check if 'save' button was clicked
+    if (editDialog.getSaveClick()) {
+        // Get the edited machine
+        m = editDialog.getMachine();
+
+        // Get type ID
+        int type_id = 0;
+        for(int i = 0; i < types.size(); i++){
+            if(m.getType() == types[i].getName()){
+                type_id = types[i].getId();
+                break;
+            }
+        }
+
+        // Get system ID
+        int system_id = 0;
+        for(int i = 0; i < systems.size(); i++){
+            if(m.getSystem() == systems[i].getName()){
+                system_id = systems[i].getId();
+                break;
+            }
+        }
+        // Edit machine in DB
+        if(!servicesLayer.editMachine(m, type_id, system_id, error)){
+            checkError();
+            return;
+        }
+        else{
+            checkMachineSearch();
+        }
+        // Status bar message
+        ui->statusBar->showMessage(editDialog.getMachine().getName() + " edited", constants::STATUSBAR_MESSAGE_TIME);
     }
 }

@@ -238,6 +238,11 @@ bool Services::getMachine(Machine &m, QString &error){
     return dataLayer.getMachine(m, error);
 }
 
+// Edit machine
+bool Services::editMachine(Machine &m, const int &type_id, const int &sys_id, QString &error){
+    return dataLayer.editMachine(m, type_id, sys_id, error);
+}
+
 // Get all types or systems
 bool Services::getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error){
     return dataLayer.getAllTypesSystems(typeSystems, getTypes, error);
