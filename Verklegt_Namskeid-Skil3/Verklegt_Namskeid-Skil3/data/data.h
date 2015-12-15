@@ -18,6 +18,9 @@ public:
     // Deconstructor
     ~Data();
 
+    // Create all the tables and views
+    void setupDB();
+
     // ==== MODELS ====
     // Get person model
     QSortFilterProxyModel *getPersonModel(QSqlQueryModel *&personQueryModel);

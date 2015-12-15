@@ -186,8 +186,6 @@ void MainWindow::deleteConnection(){
     }
 }
 
-// === ADD ===
-
 // === BUTTONS ===
 // Connections table -> clicked
 void MainWindow::on_connectionsTable_clicked(const QModelIndex &index){

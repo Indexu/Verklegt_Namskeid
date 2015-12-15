@@ -14,12 +14,142 @@ Data::Data(){
         db.setDatabaseName(constants::DB_NAME);
 
         db.open();
+
+        // Create tables
+        setupDB();
     }
 }
 
 // Deconstructor
 Data::~Data(){
     db.close();
+}
+
+// Create the tables and views
+void Data::setupDB(){
+    if(db.open()){
+        QSqlQuery query(db);
+
+        // Persons
+        QString create = "CREATE TABLE 'persons' "
+                         "("
+                         "'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , "
+                         "'name' TEXT NOT NULL , "
+                         "'gender' TEXT NOT NULL , "
+                         "'date_of_birth' TEXT NOT NULL , "
+                         "'date_of_death' TEXT, "
+                         "'country' TEXT NOT NULL "
+                         ")";
+        // Prepare
+        query.prepare(create);
+        // Execute
+        query.exec();
+
+        // Machine types
+        create = "CREATE TABLE 'mtype' "
+                 "("
+                 "'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , "
+                 "'name' TEXT NOT NULL "
+                 ")";
+        // Prepare
+        query.prepare(create);
+        // Execute
+        query.exec();
+
+        // Machine number systems
+        create = "CREATE TABLE 'num_sys' "
+                 "("
+                 "'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE , "
+                 "'name' TEXT NOT NULL "
+                 ")";
+        // Prepare
+        query.prepare(create);
+        // Execute
+        query.exec();
+
+        // Machines
+        create = "CREATE TABLE 'machines' "
+                 "("
+                 "'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,"
+                 "'name' TEXT NOT NULL, "
+                 "'year' TEXT DEFAULT ('-') NOT NULL,"
+                 "'built' BOOL NOT NULL, "
+                 "'mtype_id' INTEGER NOT NULL, "
+                 "'num_sys_id' INTEGER NOT NULL, "
+                 "FOREIGN KEY(mtype_id) REFERENCES mtype(id), "
+                 "FOREIGN KEY(num_sys_id) REFERENCES num_sys(id)"
+                 ")";
+        // Prepare
+        query.prepare(create);
+        // Execute
+        query.exec();
+
+        // Person Machine relations table
+        create = "CREATE TABLE 'pers_mach' "
+                 "("
+                 "'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE ,"
+                 "'p_id' INTEGER , "
+                 "'m_id' INTEGER , "
+                 "FOREIGN KEY(p_id) REFERENCES persons(id), "
+                 "FOREIGN KEY(m_id) REFERENCES machines(id)"
+                 ")";
+        // Prepare
+        query.prepare(create);
+        // Execute
+        query.exec();
+
+        // Machines view
+        create = "CREATE VIEW 'machinesView' AS "
+                 "SELECT machines.id AS id, machines.name AS name, machines.year AS year, "
+                 "machines.built AS built, mtype.name AS type, num_sys.name AS system "
+                 "FROM machines "
+                 "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                 "JOIN num_sys ON (machines.num_sys_id=num_sys.id)";
+        // Prepare
+        query.prepare(create);
+        // Execute
+        query.exec();
+
+        // Person Machine relations view
+        create = "CREATE VIEW 'pers_machView' AS "
+                 "SELECT pers_mach.id AS id, persons.name AS p_name, machines.name AS m_name, "
+                 "mtype.name AS m_type, num_sys.name AS m_system, persons.country AS p_country "
+                 "FROM persons "
+                 "JOIN pers_mach ON (persons.id=pers_mach.p_id) "
+                 "JOIN machines ON (pers_mach.m_id=machines.id) "
+                 "JOIN mtype ON (machines.mtype_id=mtype.id) "
+                 "JOIN num_sys ON (machines.num_sys_id=num_sys.id)";
+        // Prepare
+        query.prepare(create);
+        // Execute
+        query.exec();
+
+
+        // == Insert basic types and systems ==
+
+        // Types
+        create = "INSERT INTO mtype (name) "
+                 "VALUES "
+                 "('Electromechanical'), "
+                 "('Automatic Machine'), "
+                 "('Mechanical'), "
+                 "('Electronic')";
+        // Prepare
+        query.prepare(create);
+        // Execute
+        query.exec();
+
+        // Number systems
+        create = "INSERT INTO num_sys (name) "
+                 "VALUES "
+                 "('Binary'), "
+                 "('Character'), "
+                 "('Decimal')";
+        // Prepare
+        query.prepare(create);
+        // Execute
+        query.exec();
+    }
 }
 
 // ==== MODELS ====
