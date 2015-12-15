@@ -455,7 +455,7 @@ void MainWindow::editMachine() {
         // Status bar message
         ui->statusBar->showMessage(editDialog.getMachine().getName() + " edited", constants::STATUSBAR_MESSAGE_TIME);
     }
-
+}
 
 // Machine table -> Context menu
 /*

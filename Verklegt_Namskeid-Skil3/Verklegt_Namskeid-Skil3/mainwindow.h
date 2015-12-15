@@ -12,12 +12,9 @@
 #include "addpersondialog.h"
 #include "editpersondialog.h"
 #include "addmachinedialog.h"
-<<<<<<< HEAD
 #include "editmachinedialog.h"
-=======
 #include "connecttomachine.h"
 #include "connecttoperson.h"
->>>>>>> origin/master
 #include "utilities.h"
 #include "constants.h"
 #include <QDebug>
@@ -125,11 +122,10 @@ private slots:
 
     void on_machineTable_clicked(const QModelIndex &index);
 
-<<<<<<< HEAD
     void on_machinesEditButton_clicked();
 
     void on_machineTable_doubleClicked(const QModelIndex &index);
-=======
+
     void on_actionPersonConnectToMachine_triggered();
 
     void on_actionDeleteMachine_triggered();
@@ -139,7 +135,6 @@ private slots:
     void on_actionConnectToPerson_triggered();
 
     void on_machineTable_customContextMenuRequested(const QPoint &pos);
->>>>>>> origin/master
 
 private:
     Ui::MainWindow *ui;

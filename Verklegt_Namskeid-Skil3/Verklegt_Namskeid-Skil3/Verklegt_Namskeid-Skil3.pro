@@ -28,7 +28,7 @@ SOURCES += main.cpp\
     uiconnections.cpp \
     addmachinedialog.cpp \
     typesystem.cpp \
-    editmachinedialog.cpp
+    editmachinedialog.cpp \
     connecttomachine.cpp \
     connecttoperson.cpp
 
@@ -44,7 +44,7 @@ HEADERS  += mainwindow.h \
     addpersondialog.h \
     addmachinedialog.h \
     typesystem.h \
-    editmachinedialog.h
+    editmachinedialog.h \
     connecttomachine.h \
     connecttoperson.h
 
@@ -52,6 +52,6 @@ FORMS    += mainwindow.ui \
     editpersondialog.ui \
     addpersondialog.ui \
     addmachinedialog.ui \
-    editmachinedialog.ui
+    editmachinedialog.ui \
     connecttomachine.ui \
     connecttoperson.ui
