@@ -121,7 +121,9 @@ bool Services::deletePerson(const QVector<Person> &p, QString &error){
 
     for(int i = 0; i < p.size(); i++){
         if(!dataLayer.personIDExistsDB(p[i].getId(), error)){
-            error = "ID: " + QString::number(p[i].getId()) + " not found.";
+            if(error.isEmpty()){
+                error = "Person ID: " + QString::number(p[i].getId()) + " not found.";
+            }
             return false;
         }
     }
@@ -240,7 +242,9 @@ bool Services::deleteMachine(const QVector<Machine> &m, QString &error){
 
     for(int i = 0; i < m.size(); i++){
         if(!dataLayer.machineIDExistsDB(m[i].getId(), error)){
-            error = "ID: " + QString::number(m[i].getId()) + " not found.";
+            if(error.isEmpty()){
+                error = "Machine ID: " + QString::number(m[i].getId()) + " not found.";
+            }
             return false;
         }
     }
@@ -285,6 +289,20 @@ bool Services::addConnection(const int &p_id, const int &m_id, QString &error){
     }
 
     return dataLayer.addConnection(p_id, m_id, error);
+}
+
+// Delete connection
+bool Services::deleteConnection(const QVector<PersonMachine> &pm, QString &error){
+    for(int i = 0; i < pm.size(); i++){
+        if(!dataLayer.connectionIDExistsDB(pm[i].getId(), error)){
+            if(error.isEmpty()){
+                error = "Connection ID: " + QString::number(pm[i].getId()) + " not found.";
+            }
+            return false;
+        }
+    }
+
+    return dataLayer.deleteConnection(pm, error);
 }
 
 // Search connections
@@ -371,4 +389,9 @@ bool Services::filterConnection(QSqlQueryModel *connectionQueryModel, const QStr
 
     // call setFilter
     return dataLayer.filterConnection(connectionQueryModel, filterStr, searchString, error);
+}
+
+// Get connection
+bool Services::getConnection(PersonMachine &pm, QString error){
+    return dataLayer.getConnection(pm, error);
 }

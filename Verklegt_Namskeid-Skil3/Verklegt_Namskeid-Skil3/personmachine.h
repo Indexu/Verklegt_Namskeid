@@ -12,6 +12,9 @@ class PersonMachine
     QString M_Type;
     QString M_System;
 public:
+    // Default
+    PersonMachine();
+
     // Constructor
     PersonMachine(int id, QString p_name, QString p_country, QString m_name, QString m_type, QString m_system);
 

@@ -1,5 +1,15 @@
 #include "personmachine.h"
 
+// Default
+PersonMachine::PersonMachine(){
+    Id = 0;
+    P_Name = "";
+    P_Country = "";
+    M_Name = "";
+    M_Type = "";
+    M_System = "";
+}
+
 // Constructor
 PersonMachine::PersonMachine(int id, QString p_name, QString p_country, QString m_name, QString m_type, QString m_system){
     Id = id;

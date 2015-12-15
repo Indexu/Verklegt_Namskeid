@@ -187,8 +187,8 @@ void MainWindow::deletePerson(){
     QString deleteConfirmMessage = "";
     QString statusBarMessage = "";
 
+    // Get all the persons that are about to be deleted
     QVector<Person> personsToBeDeleted;
-
     for(int i = 0; i < numRows;i++){
         // An empty person
         Person p;

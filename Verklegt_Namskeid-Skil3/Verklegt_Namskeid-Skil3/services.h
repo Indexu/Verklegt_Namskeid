@@ -5,6 +5,8 @@
 #include "data.h"
 #include "person.h"
 #include "machine.h"
+#include "personmachine.h"
+#include "typesystem.h"
 
 class Services
 {
@@ -62,10 +64,14 @@ public:
     bool getAllConnections(QSqlQueryModel *connectionQueryModel, QString &error);
     // Add connection
     bool addConnection(const int &p_id, const int &m_id, QString &error);
+    // Delete connection
+    bool deleteConnection(const QVector<PersonMachine> &pm, QString &error);
     // Search connection
     bool searchConnection(QSqlQueryModel *connectionQueryModel, const QString &searchString, const int &column, QString &error);
     // Filter connection
     bool filterConnection(QSqlQueryModel *connectionQueryModel, const QString &searchString, const int &column, QString &error);
+    // Get Connection
+    bool getConnection(PersonMachine &pm, QString error);
 };
 
 #endif // SERVICES_H

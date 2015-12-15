@@ -5,6 +5,7 @@
 #include "constants.h"
 #include "person.h"
 #include "machine.h"
+#include "personmachine.h"
 #include "typesystem.h"
 #include <QDebug>
 
@@ -66,10 +67,16 @@ public:
     bool getAllConnections(QSqlQueryModel *connectionQueryModel, QString &error);
     // Add connection
     bool addConnection(const int &p_id, const int &m_id, QString &error);
+    // Delete connection
+    bool deleteConnection(const QVector<PersonMachine> &pm, QString &error);
     // Check if connections exists
     bool connectionExists(const int &p_id, const int &m_id, QString &error);
     // Set the filter of connections
     bool filterConnection(QSqlQueryModel *connectionQueryModel, const QString &filterStr, const QString &searchString, QString &error);
+    // Check if pers_mach ID exists in DB
+    bool connectionIDExistsDB(const int &id, QString &error);
+    // Get Connection
+    bool getConnection(PersonMachine &pm, QString error);
 };
 
 #endif // DATA_H

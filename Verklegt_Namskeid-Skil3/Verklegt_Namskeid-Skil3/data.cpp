@@ -326,7 +326,7 @@ bool Data::getPerson(Person &p, QString &error){
             p.setCountry(country);
         }
         else{
-            error = "No person, id: " + QString::number(p.getId());
+            error = "Person ID: " + QString::number(p.getId()) + " not found.";
         }
 
         db.close();
@@ -469,7 +469,7 @@ bool Data::deleteMachine(const QVector<Machine> &m, QString &error){
         queStr = "DELETE FROM machines "
                  "WHERE id IN (";
 
-        // Add IDs to be machines to query
+        // Add IDs to be deleted to query
         for(int i = 0; i < m.size(); i++){
             queStr += QString::number(m[i].getId());
 
@@ -536,7 +536,7 @@ bool Data::getMachine(Machine &m, QString &error){
             m.setSystem(system);
         }
         else{
-            error = "No person, id: " + QString::number(m.getId());
+            error = "Machine ID: " + QString::number(m.getId()) + " not found.";
         }
 
         db.close();
@@ -721,6 +721,47 @@ bool Data::addConnection(const int &p_id, const int &m_id, QString &error){
     return false;
 }
 
+// Delete connection
+bool Data::deleteConnection(const QVector<PersonMachine> &pm, QString &error){
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        // Start of delete from machines query
+        QString queStr = "DELETE FROM pers_mach "
+                 "WHERE id IN (";
+
+        // Add IDs to be deleted to query
+        for(int i = 0; i < pm.size(); i++){
+            queStr += QString::number(pm[i].getId());
+
+            if((i+1) != pm.size()){
+                queStr += ", ";
+            }
+        }
+
+        // Close delete from machines query
+        queStr += ")";
+
+        // Prepare delete from machines
+        query.prepare(queStr);
+
+        // Execute delete from machines
+        if(!query.exec()){
+            error = query.executedQuery();
+            return false;
+        }
+
+        // Close
+        db.close();
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+        return false;
+    }
+}
+
 // Check if connection between Person and Machine exists
 bool Data::connectionExists(const int &p_id, const int &m_id, QString &error){
     // Open
@@ -785,5 +826,77 @@ bool Data::filterConnection(QSqlQueryModel *connectionQueryModel, const QString 
         error = "Unable to connect to database";
     }
 
+    return false;
+}
+
+// Get Connection
+bool Data::getConnection(PersonMachine &pm, QString error){
+    if (db.open()){
+        int id = pm.getId();
+
+        QSqlQuery query(db);
+        query.prepare("SELECT * FROM pers_machView "
+                      "WHERE id = :id");
+
+        query.bindValue(":id",id);
+
+        if(!query.exec()){
+            error = query.lastError().text();
+            return false;
+        }
+
+        QString p_name, m_name, m_type, m_system, p_country;
+        if (query.next()) {
+            p_name = query.value("p_name").toString();
+            m_name = query.value("m_name").toString();
+            m_type = query.value("m_type").toString();
+            m_system = query.value("m_system").toString();
+            p_country = query.value("p_country").toString();
+
+            pm.setP_Name(p_name);
+            pm.setM_Name(m_name);
+            pm.setM_Type(m_type);
+            pm.setM_System(m_system);
+            pm.setP_Country(p_country);
+        }
+        else{
+            error = "No connection, id: " + QString::number(pm.getId());
+        }
+
+        db.close();
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+        return false;
+    }
+    return false;
+}
+
+// Check if pers_mach ID exists
+bool Data::connectionIDExistsDB(const int &id, QString &error){
+    if(db.open()){
+        bool exists = false;
+        QSqlQuery query(db);
+
+        query.prepare("SELECT id FROM pers_mach "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            error = query.lastError().text();
+        }
+        else if(query.next()){
+             exists = true;
+        }
+
+        // Close
+        db.close();
+        return exists;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
     return false;
 }

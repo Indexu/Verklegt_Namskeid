@@ -46,6 +46,85 @@ void MainWindow::searchConnections(QString searchString, int column){
     updateConnectionResults();
 }
 
+// Delete connection
+void MainWindow::deleteConnection(){
+    QVector<int> ids = utilities::getSelectedTableViewIds(ui->connectionsTable);
+
+    // No rows
+    if (ids.isEmpty()) {
+        return;
+    }
+
+    int numRows = ids.size();
+    QString deleteConfirmMessage = "";
+    QString statusBarMessage = "";
+
+    // Get all the connection that are about to be deleted
+    QVector<PersonMachine> connectionsToBeDeleted;
+    for(int i = 0; i < numRows;i++){
+        // An empty connections
+        PersonMachine pm;
+        // Set person ID to the ID of the row
+        pm.setId(ids[i]);
+
+        // Get the person info by ID
+        if(!servicesLayer.getConnection(pm, error)){
+            checkError();
+            return;
+        }
+
+        // Add to vector
+        connectionsToBeDeleted.push_back(pm);
+    }
+
+    // Single row
+    if(numRows == 1){
+        deleteConfirmMessage = "Are you sure you want to delete the connection between "
+                               + connectionsToBeDeleted[0].getP_Name() + " and "
+                               + connectionsToBeDeleted[0].getM_Name() + " ?";
+
+        statusBarMessage = "Connection between " + connectionsToBeDeleted[0].getP_Name() + " and "
+                                                 + connectionsToBeDeleted[0].getM_Name() + " deleted";
+    }
+    // Rows less than 11
+    else if(numRows > 1 && numRows < 11){
+
+        deleteConfirmMessage = "Are you sure you want to delete the connections between:\n";
+
+        // Loop over names
+        for(int i = 0; i < numRows;i++){
+            deleteConfirmMessage += connectionsToBeDeleted[i].getP_Name() + " and " + connectionsToBeDeleted[i].getM_Name() + "\n";
+        }
+
+        statusBarMessage = QString::number(numRows) + " entries deleted";
+    }
+    // More than 10
+    else{
+        deleteConfirmMessage = "Are you sure you want to delete these " + QString::number(numRows) + " connections?";
+        statusBarMessage = QString::number(numRows) + " entries deleted";
+    }
+
+    // Confirmation window
+    int ans = QMessageBox::question(this, "Confirmation", deleteConfirmMessage, QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
+    // Check answer
+    if (ans == QMessageBox::Yes) {
+        // Delete
+        if(!servicesLayer.deleteConnection(connectionsToBeDeleted, error)){
+            checkError();
+            return;
+        }
+
+        // Disable delete button
+        ui->connectionsDeleteButton->setEnabled(false);
+
+        // Status bar update
+        ui->statusBar->showMessage(statusBarMessage, constants::STATUSBAR_MESSAGE_TIME);
+
+        // Re-display
+        checkConnectionsSearch();
+    }
+}
+
 // Check connections search
 void MainWindow::checkConnectionsSearch(){
     QString searchString = ui->connectionsSearchField->text();
@@ -116,5 +195,5 @@ void MainWindow::on_connectionsTable_clicked(const QModelIndex &index){
 
 // Delete button -> clicked
 void MainWindow::on_connectionsDeleteButton_clicked(){
-
+    deleteConnection();
 }

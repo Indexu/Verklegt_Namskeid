@@ -92,6 +92,8 @@ public:
     void checkConnectionsSearch();
     // Search connections
     void searchConnections(QString searchString,int column);
+    // Delete connection
+    void deleteConnection();
 
 private slots:
     void on_personSearchField_textChanged(const QString &arg1);

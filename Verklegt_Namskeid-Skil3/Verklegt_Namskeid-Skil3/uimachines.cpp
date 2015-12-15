@@ -129,15 +129,15 @@ void MainWindow::deleteMachine(){
     QString deleteConfirmMessage = "";
     QString statusBarMessage = "";
 
+    // Get all the machines that are about to be deleted
     QVector<Machine> machinesToBeDeleted;
-
     for(int i = 0; i < numRows;i++){
-        // An empty person
+        // An empty machine
         Machine m;
-        // Set person ID to the ID of the row
-        m.setId(ids[0]);
+        // Set machine ID to the ID of the row
+        m.setId(ids[i]);
 
-        // Get the person info by ID
+        // Get the machine info by ID
         if(!servicesLayer.getMachine(m, error)){
             checkError();
             return;
