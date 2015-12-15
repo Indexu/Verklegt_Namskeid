@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     ui/connecttoperson.cpp \
     mainconnections.cpp \
     mainmachines.cpp \
-    mainperson.cpp
+    mainperson.cpp \
+    ui/addconnectiondialog.cpp
 
 HEADERS  += mainwindow.h \
     models/person.h \
@@ -46,7 +47,8 @@ HEADERS  += mainwindow.h \
     models/typesystem.h \
     ui/editmachinedialog.h \
     ui/connecttomachine.h \
-    ui/connecttoperson.h
+    ui/connecttoperson.h \
+    ui/addconnectiondialog.h
 
 FORMS    += mainwindow.ui \
     ui/editpersondialog.ui \
@@ -54,7 +56,8 @@ FORMS    += mainwindow.ui \
     ui/addmachinedialog.ui \
     ui/editmachinedialog.ui \
     ui/connecttomachine.ui \
-    ui/connecttoperson.ui
+    ui/connecttoperson.ui \
+    ui/addconnectiondialog.ui
 
 RESOURCES += \
     resources.qrc

@@ -246,6 +246,13 @@
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_8">
               <item>
+               <widget class="QPushButton" name="addConnectionButton">
+                <property name="text">
+                 <string>Add connection</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QPushButton" name="connectionsDeleteButton">
                 <property name="text">
                  <string>Delete connection</string>

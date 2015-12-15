@@ -15,6 +15,7 @@
 #include "ui/editmachinedialog.h"
 #include "ui/connecttomachine.h"
 #include "ui/connecttoperson.h"
+#include "ui/addconnectiondialog.h"
 #include "utilities/utilities.h"
 #include "utilities/constants.h"
 #include <QDebug>
@@ -157,6 +158,8 @@ private slots:
     void on_connectionsTable_customContextMenuRequested(const QPoint &pos);
 
     void on_actionDeleteConnection_triggered();
+
+    void on_addConnectionButton_clicked();
 
 private:
     Ui::MainWindow *ui;

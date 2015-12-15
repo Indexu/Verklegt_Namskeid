@@ -18,7 +18,7 @@ public:
     ~ConnectToMachine();
 
     // Set the table model
-    void setModel(QSortFilterProxyModel *&m);
+    void setModel(QSortFilterProxyModel *m);
 
     // Display the table
     void displayTable();

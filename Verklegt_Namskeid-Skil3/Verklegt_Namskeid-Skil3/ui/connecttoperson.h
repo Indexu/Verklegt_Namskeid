@@ -18,7 +18,7 @@ public:
     ~ConnectToPerson();
 
     // Set the table model
-    void setModel(QSortFilterProxyModel *&p);
+    void setModel(QSortFilterProxyModel *p);
 
     // Display the table
     void displayTable();

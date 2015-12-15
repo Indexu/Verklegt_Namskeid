@@ -20,7 +20,7 @@ ConnectToMachine::~ConnectToMachine()
 }
 
 // Set model
-void ConnectToMachine::setModel(QSortFilterProxyModel *&m){
+void ConnectToMachine::setModel(QSortFilterProxyModel *m){
     machinesConnectionModel = m;
 }
 

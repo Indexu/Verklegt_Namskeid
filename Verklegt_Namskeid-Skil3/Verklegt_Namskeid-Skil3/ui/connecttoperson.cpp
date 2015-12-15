@@ -20,7 +20,7 @@ ConnectToPerson::~ConnectToPerson()
 }
 
 // Set model
-void ConnectToPerson::setModel(QSortFilterProxyModel *&p){
+void ConnectToPerson::setModel(QSortFilterProxyModel *p){
     personsConnectionModel = p;
 }
 
