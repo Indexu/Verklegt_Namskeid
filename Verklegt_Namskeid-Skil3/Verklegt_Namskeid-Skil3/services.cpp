@@ -30,7 +30,9 @@ bool Services::searchPerson(QSqlQueryModel *personQueryModel, const QString &sea
 
     // All
     if(column == 0){
-        filterStr = "id LIKE '%'||:ss||'%' OR name LIKE '%'||:ss||'%' OR gender LIKE '%'||:ss||'%' OR date_of_birth LIKE '%'||:ss||'%' OR date_of_death LIKE '%'||:ss||'%' OR country LIKE '%'||:ss||'%'";
+        filterStr = "id LIKE '%'||:ss||'%' OR name LIKE '%'||:ss||'%' OR gender LIKE '%'||:ss||'%' "
+                    "OR date_of_birth LIKE '%'||:ss||'%' OR date_of_death LIKE '%'||:ss||'%' "
+                    "OR country LIKE '%'||:ss||'%'";
     }
     // ID
     else if(column == 1){
@@ -72,7 +74,9 @@ bool Services::filterPerson(QSqlQueryModel *personQueryModel, const QString &sea
 
     // All
     if(column == 0){
-        filterStr = "id NOT LIKE '%'||:ss||'%' AND name NOT LIKE '%'||:ss||'%' AND gender NOT LIKE '%'||:ss||'%' AND date_of_birth NOT LIKE '%'||:ss||'%' AND date_of_death NOT LIKE '%'||:ss||'%' AND country NOT LIKE '%'||:ss||'%'";
+        filterStr = "id NOT LIKE '%'||:ss||'%' AND name NOT LIKE '%'||:ss||'%' "
+                    "AND gender NOT LIKE '%'||:ss||'%' AND date_of_birth NOT LIKE '%'||:ss||'%' "
+                    "AND date_of_death NOT LIKE '%'||:ss||'%' AND country NOT LIKE '%'||:ss||'%'";
     }
     // ID
     else if(column == 1){
@@ -147,7 +151,8 @@ bool Services::searchMachine(QSqlQueryModel *machineQueryModel, const QString &s
 
     // All
     if(column == 0){
-        filterStr = "id LIKE '%'||:ss||'%' OR name LIKE '%'||:ss||'%' OR year LIKE '%'||:ss||'%' OR built LIKE '%'||:ss||'%' OR type LIKE '%'||:ss||'%' OR system LIKE '%'||:ss||'%'";
+        filterStr = "id LIKE '%'||:ss||'%' OR name LIKE '%'||:ss||'%' OR year LIKE '%'||:ss||'%' "
+                    "OR built LIKE '%'||:ss||'%' OR type LIKE '%'||:ss||'%' OR system LIKE '%'||:ss||'%'";
     }
     // ID
     else if(column == 1){
@@ -188,7 +193,9 @@ bool Services::filterMachine(QSqlQueryModel *machineQueryModel, const QString &s
 
     // All
     if(column == 0){
-        filterStr = "id NOT LIKE '%'||:ss||'%' AND name NOT LIKE '%'||:ss||'%' AND year NOT LIKE '%'||:ss||'%' AND built NOT LIKE '%'||:ss||'%' AND type NOT LIKE '%'||:ss||'%' AND system NOT LIKE '%'||:ss||'%'";
+        filterStr = "id NOT LIKE '%'||:ss||'%' AND name NOT LIKE '%'||:ss||'%' "
+                    "AND year NOT LIKE '%'||:ss||'%' AND built NOT LIKE '%'||:ss||'%' "
+                    "AND type NOT LIKE '%'||:ss||'%' AND system NOT LIKE '%'||:ss||'%'";
     }
     // ID
     else if(column == 1){
@@ -278,4 +285,90 @@ bool Services::addConnection(const int &p_id, const int &m_id, QString &error){
     }
 
     return dataLayer.addConnection(p_id, m_id, error);
+}
+
+// Search connections
+bool Services::searchConnection(QSqlQueryModel *connectionQueryModel, const QString &searchString, const int &column, QString &error){
+    QString filterStr = "";
+
+    // All
+    if(column == 0){
+        filterStr = "id LIKE '%'||:ss||'%' OR p_name LIKE '%'||:ss||'%' "
+                    "OR m_name LIKE '%'||:ss||'%' OR m_type LIKE '%'||:ss||'%' "
+                    "OR m_system LIKE '%'||:ss||'%' OR p_country LIKE '%'||:ss||'%'";
+    }
+    // ID
+    else if(column == 1){
+        filterStr = "id LIKE '%'||:ss||'%'";
+    }
+    // Name
+    else if(column == 2){
+        filterStr = "p_name LIKE '%'||:ss||'%'";
+    }
+    // Year
+    else if(column == 3){
+        filterStr = "m_name LIKE '%'||:ss||'%'";
+    }
+    // Built
+    else if(column == 4){
+        filterStr = "m_type LIKE '%'||:ss||'%'";
+    }
+    // Type
+    else if(column == 5){
+        filterStr = "m_system LIKE '%'||:ss||'%'";
+    }
+    // System
+    else if(column == 6){
+        filterStr = "p_country LIKE '%'||:ss||'%'";
+    }
+    else{
+        error = "This is weird... the column is invalid";
+        return false;
+    }
+
+    // call setFilter
+    return dataLayer.filterConnection(connectionQueryModel, filterStr, searchString, error);
+}
+
+// Filter connections
+bool Services::filterConnection(QSqlQueryModel *connectionQueryModel, const QString &searchString, const int &column, QString &error){
+    QString filterStr = "";
+
+    // All
+    if(column == 0){
+        filterStr = "id NOT LIKE '%'||:ss||'%' AND p_name NOT LIKE '%'||:ss||'%' "
+                    "AND m_name NOT LIKE '%'||:ss||'%' AND m_type NOT LIKE '%'||:ss||'%' "
+                    "AND m_system NOT LIKE '%'||:ss||'%' AND p_country NOT LIKE '%'||:ss||'%'";
+    }
+    // ID
+    else if(column == 1){
+        filterStr = "id NOT LIKE '%'||:ss||'%'";
+    }
+    // Name
+    else if(column == 2){
+        filterStr = "p_name NOT LIKE '%'||:ss||'%'";
+    }
+    // Year
+    else if(column == 3){
+        filterStr = "m_name NOT LIKE '%'||:ss||'%'";
+    }
+    // Built
+    else if(column == 4){
+        filterStr = "m_type NOT LIKE '%'||:ss||'%'";
+    }
+    // Type
+    else if(column == 5){
+        filterStr = "m_system NOT LIKE '%'||:ss||'%'";
+    }
+    // System
+    else if(column == 6){
+        filterStr = "p_country NOT LIKE '%'||:ss||'%'";
+    }
+    else{
+        error = "This is weird... the column is invalid";
+        return false;
+    }
+
+    // call setFilter
+    return dataLayer.filterConnection(connectionQueryModel, filterStr, searchString, error);
 }

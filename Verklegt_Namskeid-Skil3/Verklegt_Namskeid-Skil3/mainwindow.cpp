@@ -118,6 +118,15 @@ void MainWindow::addToComboboxes(){
     ui->machinesSearchComboBox->addItem("Built");
     ui->machinesSearchComboBox->addItem("Type");
     ui->machinesSearchComboBox->addItem("System");
+
+    // Connection search
+    ui->connectionsSearchComboBox->addItem("All");
+    ui->connectionsSearchComboBox->addItem("ID");
+    ui->connectionsSearchComboBox->addItem("Person");
+    ui->connectionsSearchComboBox->addItem("Machine");
+    ui->connectionsSearchComboBox->addItem("Type");
+    ui->connectionsSearchComboBox->addItem("System");
+    ui->connectionsSearchComboBox->addItem("Country");
 }
 
 // Set table properties

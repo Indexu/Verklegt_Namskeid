@@ -68,6 +68,8 @@ public:
     bool addConnection(const int &p_id, const int &m_id, QString &error);
     // Check if connections exists
     bool connectionExists(const int &p_id, const int &m_id, QString &error);
+    // Set the filter of connections
+    bool filterConnection(QSqlQueryModel *connectionQueryModel, const QString &filterStr, const QString &searchString, QString &error);
 };
 
 #endif // DATA_H

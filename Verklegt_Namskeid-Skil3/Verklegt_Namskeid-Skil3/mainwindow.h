@@ -88,6 +88,10 @@ public:
     // ==== Connections ====
     // Update connections results label
     void updateConnectionResults();
+    // Check if re-search
+    void checkConnectionsSearch();
+    // Search connections
+    void searchConnections(QString searchString,int column);
 
 private slots:
     void on_personSearchField_textChanged(const QString &arg1);
@@ -141,6 +145,12 @@ private slots:
     void on_connectionsDeleteButton_clicked();
 
     void on_connectionsTable_clicked(const QModelIndex &index);
+
+    void on_connectionsFilterCheckBox_clicked();
+
+    void on_connectionsSearchComboBox_currentIndexChanged(int index);
+
+    void on_connectionsSearchField_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;

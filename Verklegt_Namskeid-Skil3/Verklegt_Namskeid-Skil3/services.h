@@ -62,6 +62,10 @@ public:
     bool getAllConnections(QSqlQueryModel *connectionQueryModel, QString &error);
     // Add connection
     bool addConnection(const int &p_id, const int &m_id, QString &error);
+    // Search connection
+    bool searchConnection(QSqlQueryModel *connectionQueryModel, const QString &searchString, const int &column, QString &error);
+    // Filter connection
+    bool filterConnection(QSqlQueryModel *connectionQueryModel, const QString &searchString, const int &column, QString &error);
 };
 
 #endif // SERVICES_H
