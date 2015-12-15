@@ -12,7 +12,12 @@
 #include "addpersondialog.h"
 #include "editpersondialog.h"
 #include "addmachinedialog.h"
+<<<<<<< HEAD
 #include "editmachinedialog.h"
+=======
+#include "connecttomachine.h"
+#include "connecttoperson.h"
+>>>>>>> origin/master
 #include "utilities.h"
 #include "constants.h"
 #include <QDebug>
@@ -64,6 +69,8 @@ public:
     void deletePerson();
     // Edit person
     void editPerson();
+    // Connect to machine
+    void connectToMachine();
 
     // === Machine ===
     // Update machine results label
@@ -80,6 +87,8 @@ public:
     void deleteMachine();
     // Edit machine
     void editMachine();
+    // Connect to person
+    void connectToPerson();
 
 private slots:
     void on_personSearchField_textChanged(const QString &arg1);
@@ -116,9 +125,21 @@ private slots:
 
     void on_machineTable_clicked(const QModelIndex &index);
 
+<<<<<<< HEAD
     void on_machinesEditButton_clicked();
 
     void on_machineTable_doubleClicked(const QModelIndex &index);
+=======
+    void on_actionPersonConnectToMachine_triggered();
+
+    void on_actionDeleteMachine_triggered();
+
+    void on_actionEditMachine_triggered();
+
+    void on_actionConnectToPerson_triggered();
+
+    void on_machineTable_customContextMenuRequested(const QPoint &pos);
+>>>>>>> origin/master
 
 private:
     Ui::MainWindow *ui;
@@ -135,7 +156,10 @@ private:
     QSortFilterProxyModel *connectionsProxyModel;
 
     QString error;
+
     QMenu personContextMenu;
+    QMenu machineContextMenu;
+    QMenu connectionContextMenu;
 
 };
 

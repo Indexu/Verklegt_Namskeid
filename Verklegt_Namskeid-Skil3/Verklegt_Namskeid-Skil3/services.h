@@ -53,8 +53,15 @@ public:
     // Edit machine
     bool editMachine(Machine &m, const int &type_id, const int &sys_id, QString &error);
 
-    // ==== Types and Systems ====
+    // ==== Types / Systems ====
+    // Get all types / systems
     bool getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error);
+
+    // ==== Connections ====
+    // Get all connections
+    bool getAllConnections(QSqlQueryModel *connectionQueryModel, QString &error);
+    // Add connection
+    bool addConnection(const int &p_id, const int &m_id, QString &error);
 };
 
 #endif // SERVICES_H

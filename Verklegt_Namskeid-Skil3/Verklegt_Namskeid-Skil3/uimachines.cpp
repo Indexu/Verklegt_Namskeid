@@ -161,6 +161,63 @@ void MainWindow::deleteMachine(){
     }
 }
 
+void MainWindow::connectToPerson(){
+    // Get row
+    QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
+
+    // No rows
+    if (selection.isEmpty()) {
+        return;
+    }
+
+    // Get first column (id)
+    QModelIndex index = selection.at(0);
+    // Get id column data
+    int m_id = ui->machineTable->model()->data(index).toInt();
+
+    ConnectToPerson connectionDialog;
+
+    // Setup
+    connectionDialog.setModel(personProxyModel);
+    connectionDialog.displayTable();
+
+    // Connect
+    if(connectionDialog.exec()){
+        // Get person ID
+        int p_id = connectionDialog.getId();
+
+        // Make the connection
+        if(!servicesLayer.addConnection(p_id, m_id, error)){
+            checkError();
+            return;
+        }
+        else{
+            // Get the machine
+            Machine m;
+            m.setId(m_id);
+            if(!servicesLayer.getMachine(m, error)){
+                checkError();
+                return;
+            }
+
+            // Get the person
+            Person p;
+            p.setId(p_id);
+            if(!servicesLayer.getPerson(p, error)){
+                checkError();
+                return;
+            }
+
+            QString statusBarMessage = "Connected " + m.getName() + " and " + p.getName();
+
+            ui->statusBar->showMessage(statusBarMessage, constants::STATUSBAR_MESSAGE_TIME);
+
+            // Refresh connections table
+            displayConnectionsTable();
+        }
+    }
+}
+
 // Machines filter checkbox -> clicked
 void MainWindow::on_machinesFilterCheckBox_clicked(){
     checkMachineSearch();
@@ -398,4 +455,51 @@ void MainWindow::editMachine() {
         // Status bar message
         ui->statusBar->showMessage(editDialog.getMachine().getName() + " edited", constants::STATUSBAR_MESSAGE_TIME);
     }
+
+
+// Machine table -> Context menu
+/*
+ * QPoint &pos is not used due to when it's used
+ * it returns the context menu a bit above the cursor.
+ * QCursor::pos is used instead.
+ */
+void MainWindow::on_machineTable_customContextMenuRequested(const QPoint &pos){
+    // Get row
+    QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
+
+    // No rows
+    if (selection.isEmpty()) {
+        return;
+    }
+    // Multiple rows
+    else if(selection.count() > 1){
+        // Disable Connection option
+        machineContextMenu.actions().at(0)->setEnabled(false);
+        // Disable Edit option
+        machineContextMenu.actions().at(1)->setEnabled(false);
+    }
+    else{
+        // Enable Connection option
+        machineContextMenu.actions().at(0)->setEnabled(true);
+        // Enable Edit option
+        machineContextMenu.actions().at(1)->setEnabled(true);
+    }
+
+    // Display menu
+    machineContextMenu.exec(QCursor::pos());
+}
+
+// Machine context menu -> Delete
+void MainWindow::on_actionDeleteMachine_triggered(){
+    deleteMachine();
+}
+
+// Machine context menu -> Edit
+void MainWindow::on_actionEditMachine_triggered(){
+    editMachine();
+}
+
+// Machine context menu -> Connect
+void MainWindow::on_actionConnectToPerson_triggered(){
+    connectToPerson();
 }

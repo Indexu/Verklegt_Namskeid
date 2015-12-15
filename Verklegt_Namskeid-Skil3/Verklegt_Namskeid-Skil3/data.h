@@ -52,12 +52,25 @@ public:
     bool deleteMachine(const QVector<Machine> &m, QString &error);
     // Get machine
     bool getMachine(Machine &m, QString &error);
+<<<<<<< HEAD
     // Edit machine
     bool editMachine(const Machine &m, const int &type_id, const int &sys_id, QString &error);
+=======
+    // Check if machine ID exists
+    bool machineIDExistsDB(const int &id, QString &error);
+>>>>>>> origin/master
 
     // ==== Types / Systems ====
     // Get all types / systems
     bool getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error);
+
+    // ==== Connections ====
+    // Get all connections
+    bool getAllConnections(QSqlQueryModel *connectionQueryModel, QString &error);
+    // Add connection
+    bool addConnection(const int &p_id, const int &m_id, QString &error);
+    // Check if connections exists
+    bool connectionExists(const int &p_id, const int &m_id, QString &error);
 };
 
 #endif // DATA_H

@@ -40,11 +40,6 @@ MainWindow::~MainWindow(){
     delete ui;
 }
 
-// Display entire connections table
-void MainWindow::displayConnectionsTable(){
-
-}
-
 // Get all models
 void MainWindow::getModels(){
     personProxyModel = servicesLayer.getPersonModel(personQueryModel);
@@ -145,6 +140,12 @@ void MainWindow::setContextMenus(){
     personContextMenu.addAction(ui->actionPersonConnectToMachine);
     personContextMenu.addAction(ui->actionEditPerson);
     personContextMenu.addAction(ui->actionDeletePerson);
+
+    // Machine context menu
+    ui->machineTable->setContextMenuPolicy(Qt::CustomContextMenu);
+    machineContextMenu.addAction(ui->actionConnectToPerson);
+    machineContextMenu.addAction(ui->actionEditMachine);
+    machineContextMenu.addAction(ui->actionDeleteMachine);
 }
 
 // Display error if there is an error

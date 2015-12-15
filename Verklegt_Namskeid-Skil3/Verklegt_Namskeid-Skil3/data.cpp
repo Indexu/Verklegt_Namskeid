@@ -343,8 +343,6 @@ bool Data::getPerson(Person &p, QString &error){
 // ==== Machines ====
 // Get all machines
 bool Data::getAllMachines(QSqlQueryModel *machineQueryModel, QString &error){
-
-
     if(db.open()){
         // Connect model to table
         machineQueryModel->setQuery("SELECT * FROM machinesView", db);
@@ -594,6 +592,35 @@ bool Data::editMachine(const Machine &m, const int &type_id, const int &sys_id, 
 }
 
 
+// Check if machine ID exists
+bool Data::machineIDExistsDB(const int &id, QString &error){
+    // Open
+    if(db.open()){
+        bool exists = false;
+        QSqlQuery query(db);
+
+        query.prepare("SELECT id FROM machines "
+                      "WHERE id = :id");
+
+        query.bindValue(":id", id);
+
+        if(!query.exec()){
+            error = query.lastError().text();
+        }
+        else if(query.next()){
+             exists = true;
+        }
+
+        // Close
+        db.close();
+        return exists;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+    return false;
+}
+
 // Get all names from types or systems
 bool Data::getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getTypes, QString &error){
     // Open
@@ -638,6 +665,86 @@ bool Data::getAllTypesSystems(QVector<TypeSystem> &typeSystems, const bool &getT
         // Close
         db.close();
         return true;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
+}
+
+// ==== Connections ====
+// Get all connections
+bool Data::getAllConnections(QSqlQueryModel *connectionQueryModel, QString &error){
+    if(db.open()){
+        // Connect model to table
+        connectionQueryModel->setQuery("SELECT * FROM pers_machView", db);
+
+        if(connectionQueryModel->lastError().isValid()){
+            error = connectionQueryModel->lastError().text();
+            return false;
+        }
+
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+    return false;
+}
+
+// Add connection
+bool Data::addConnection(const int &p_id, const int &m_id, QString &error){
+    // Open
+    if(db.open()){
+        QSqlQuery query(db);
+
+        query.prepare("INSERT INTO pers_mach (p_id, m_id) "
+                      "VALUES (:pid, :mid)");
+
+        query.bindValue(":pid", p_id);
+        query.bindValue(":mid", m_id);
+
+        if(!query.exec()){
+            error = query.lastError().text();
+            return false;
+        }
+
+        // Close
+        db.close();
+        return true;
+    }
+    else{
+        error = "Unable to connect to database";
+    }
+
+    return false;
+}
+
+// Check if connection between Person and Machine exists
+bool Data::connectionExists(const int &p_id, const int &m_id, QString &error){
+    // Open
+    if(db.open()){
+        bool exists = false;
+        QSqlQuery query(db);
+
+        query.prepare("SELECT id FROM pers_mach "
+                      "WHERE p_id = :pid AND m_id = :mid");
+
+        query.bindValue(":pid", p_id);
+        query.bindValue(":mid", m_id);
+
+
+        if(!query.exec()){
+            error = query.lastError().text();
+        }
+        else if(query.next()){
+             exists = true;
+        }
+
+        // Close
+        db.close();
+        return exists;
     }
     else{
         error = "Unable to connect to database";
