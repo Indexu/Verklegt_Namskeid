@@ -113,7 +113,7 @@ til að tengja persónu við vél, breyta eða eyða manneskju.
 Það er bæði hægt að raða í hækkandi og lækkandi röð. Það er hægt að tvísmella á hvaða röð sem er til að breyta vélinni, eins er hægt að hægri smella á hvaða röð sem 
 er til að tengja vél við persónu, breyta eða eyða vél.  
   
-Í Connections flipanum er hægt að nota search og filter, fyrir allar niðurstöður eða velja einn flokk. Bæta við tengingu, breyta tengingu og  eyða tengingu. Það er 
+Í Connections flipanum er hægt að nota search og filter, fyrir allar niðurstöður eða velja einn flokk. Bæta við tengingu og eyða tengingu. Það er 
 hægt að raða eftir:  
 
 * Auðkenni
