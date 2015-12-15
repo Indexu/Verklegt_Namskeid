@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QSortFilterProxyModel>
+#include "utilities.h"
 
 namespace Ui {
 class ConnectToPerson;

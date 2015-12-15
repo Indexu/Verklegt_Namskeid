@@ -6,6 +6,7 @@
 #include "personmachine.h"
 #include <regex>
 #include <string>
+#include <QTableView>
 
 // = UTILITY FUNCTIONS =
 
@@ -21,6 +22,9 @@ namespace utilities{
 
     // Yes no to bool
     bool QStringBool(QString s);
+
+    // Get IDs of selected rows of a QTableView
+    QVector<int> getSelectedTableViewIds(QTableView *table);
 }
 
 #endif // UTILITIES_H

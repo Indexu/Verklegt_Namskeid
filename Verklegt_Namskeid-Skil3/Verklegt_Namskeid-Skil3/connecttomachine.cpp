@@ -55,18 +55,14 @@ void ConnectToMachine::on_cancelButton_clicked(){
 
 // Connect button -> clicked
 void ConnectToMachine::on_connectButton_clicked(){
-    // Get row
-    QModelIndexList selection = ui->machinesTable->selectionModel()->selectedRows();
+    QVector<int> ids = utilities::getSelectedTableViewIds(ui->machinesTable);
 
-    // No rows
-    if (selection.isEmpty()) {
+    // Only one row may be selected
+    if (ids.count() != 1) {
         return;
     }
 
-    // Get first column (id)
-    QModelIndex index = selection.at(0);
-    // Get id column data
-    Id = ui->machinesTable->model()->data(index).toInt();
+    Id = ids[0];
 
     this->done(1);
 }

@@ -176,30 +176,24 @@ void MainWindow::on_personTable_clicked(const QModelIndex &index){
 // === DELETE ===
 // Delete person
 void MainWindow::deletePerson(){
-    // Get row
-    QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
+    QVector<int> ids = utilities::getSelectedTableViewIds(ui->personTable);
 
     // No rows
-    if (selection.isEmpty()) {
+    if (ids.isEmpty()) {
         return;
     }
 
-    int numRows = selection.count();
+    int numRows = ids.size();
     QString deleteConfirmMessage = "";
     QString statusBarMessage = "";
 
     QVector<Person> personsToBeDeleted;
 
     for(int i = 0; i < numRows;i++){
-        // Get first column (id)
-        QModelIndex index = selection.at(i);
-        // Get id column data
-        int id = ui->personTable->model()->data(index).toInt();
-
         // An empty person
         Person p;
         // Set person ID to the ID of the row
-        p.setId(id);
+        p.setId(ids[i]);
 
         // Get the person info by ID
         if(!servicesLayer.getPerson(p, error)){
@@ -230,7 +224,7 @@ void MainWindow::deletePerson(){
     }
     // More than 10
     else{
-        deleteConfirmMessage = "Are you sure you want to delete these " + QString::number(selection.count()) + " entries?";
+        deleteConfirmMessage = "Are you sure you want to delete these " + QString::number(numRows) + " entries?";
         statusBarMessage = QString::number(numRows) + " entries deleted";
     }
 
@@ -258,22 +252,17 @@ void MainWindow::deletePerson(){
 // === EDIT ===
 // Edit person
 void MainWindow::editPerson(){
-    // Get row
-    QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
+    QVector<int> ids = utilities::getSelectedTableViewIds(ui->personTable);
 
-    // No rows
-    if (selection.isEmpty()) {
+    // No rows or more than 1
+    if (ids.size() != 1) {
         return;
     }
-
-    QModelIndex index = selection.at(0);
-    // Get ID
-    int id = ui->personTable->model()->data(index).toInt();
 
     // An empty person
     Person p;
     // Set person ID to the ID of the row
-    p.setId(id);
+    p.setId(ids[0]);
 
     // Get the person info by ID
     if(!servicesLayer.getPerson(p, error)){
@@ -312,19 +301,16 @@ void MainWindow::editPerson(){
 // === CONNECT ===
 // Connect to machine
 void MainWindow::connectToMachine(){
-    // Get row
-    QModelIndexList selection = ui->personTable->selectionModel()->selectedRows();
+    QVector<int> ids = utilities::getSelectedTableViewIds(ui->personTable);
 
-    // No rows
-    if (selection.isEmpty()) {
+    // No rows or more than 1
+    if (ids.size() != 1) {
         return;
     }
 
-    // Get first column (id)
-    QModelIndex index = selection.at(0);
-    // Get id column data
-    int p_id = ui->personTable->model()->data(index).toInt();
+    int p_id = ids[0];
 
+    // Connection dialog
     ConnectToMachine connectionDialog;
 
     // Setup
@@ -358,8 +344,8 @@ void MainWindow::connectToMachine(){
                 return;
             }
 
+            // Status bar
             QString statusBarMessage = "Connected " + p.getName() + " and " + m.getName();
-
             ui->statusBar->showMessage(statusBarMessage, constants::STATUSBAR_MESSAGE_TIME);
 
             // Refresh connections table

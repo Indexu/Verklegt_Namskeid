@@ -118,30 +118,24 @@ void MainWindow::on_machinesSearchField_textChanged(const QString &arg1){
 // === DELETE ===
 // Delete machine
 void MainWindow::deleteMachine(){
-    // Get row
-    QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
+    QVector<int> ids = utilities::getSelectedTableViewIds(ui->machineTable);
 
     // No rows
-    if (selection.isEmpty()) {
+    if (ids.isEmpty()) {
         return;
     }
 
-    int numRows = selection.count();
+    int numRows = ids.size();
     QString deleteConfirmMessage = "";
     QString statusBarMessage = "";
 
     QVector<Machine> machinesToBeDeleted;
 
     for(int i = 0; i < numRows;i++){
-        // Get first column (id)
-        QModelIndex index = selection.at(i);
-        // Get id column data
-        int id = ui->machineTable->model()->data(index).toInt();
-
         // An empty person
         Machine m;
         // Set person ID to the ID of the row
-        m.setId(id);
+        m.setId(ids[0]);
 
         // Get the person info by ID
         if(!servicesLayer.getMachine(m, error)){
@@ -172,7 +166,7 @@ void MainWindow::deleteMachine(){
     }
     // More than 10
     else{
-        deleteConfirmMessage = "Are you sure you want to delete these " + QString::number(selection.count()) + " entries?";
+        deleteConfirmMessage = "Are you sure you want to delete these " + QString::number(numRows) + " entries?";
         statusBarMessage = QString::number(numRows) + " entries deleted";
     }
 
@@ -200,18 +194,14 @@ void MainWindow::deleteMachine(){
 // === CONNECT ===
 // Connect to person
 void MainWindow::connectToPerson(){
-    // Get row
-    QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
+    QVector<int> ids = utilities::getSelectedTableViewIds(ui->machineTable);
 
     // No rows
-    if (selection.isEmpty()) {
+    if (ids.isEmpty()) {
         return;
     }
 
-    // Get first column (id)
-    QModelIndex index = selection.at(0);
-    // Get id column data
-    int m_id = ui->machineTable->model()->data(index).toInt();
+    int m_id = ids[0];
 
     ConnectToPerson connectionDialog;
 
@@ -359,46 +349,40 @@ void MainWindow::on_machineTable_doubleClicked(const QModelIndex &index){
 // === EDIT ===
 // Edit machine function
 void MainWindow::editMachine() {
-    // Edit machine dialog
-    editMachineDialog editDialog;
+    // Get IDs
+    QVector<int> ids = utilities::getSelectedTableViewIds(ui->machineTable);
+
+    // If empty or more than one
+    if (ids.size() != 1) {
+        return;
+    }
+
+    int id = ids[0];
 
     QVector<TypeSystem> types;
-
     // Get types
     if(!servicesLayer.getAllTypesSystems(types, 1, error)){
         checkError();
         return;
     }
 
-    // Set types
-    editDialog.setTypes(types);
-
     QVector<TypeSystem> systems;
-
     // Get systems
     if(!servicesLayer.getAllTypesSystems(systems, 0, error)){
         checkError();
         return;
     }
 
+    // Edit machine dialog
+    editMachineDialog editDialog;
+
+    // Set types
+    editDialog.setTypes(types);
     // Set systems
     editDialog.setSystems(systems);
 
     // Add to comboboxes
     editDialog.addToComboboxes();
-
-    // Get row
-    QModelIndexList selection = ui->machineTable->selectionModel()->selectedRows();
-
-    // If no rows
-    if (selection.isEmpty() || selection.count() > 1) {
-        qDebug() << "Only one row can be edited at a time";
-        return;
-    }
-
-    QModelIndex index = selection.at(0);
-    // Get ID
-    int id = ui->machineTable->model()->data(index).toInt();
 
     // Create an empty machine
     Machine m;
@@ -417,9 +401,6 @@ void MainWindow::editMachine() {
     editDialog.setFields();
     // Exec window
     editDialog.exec();
-
-    // Disable edit/delete buttons
-    disableEditDeleteMachineButtons();
 
     // Check if 'save' button was clicked
     if (editDialog.getSaveClick()) {
@@ -453,6 +434,9 @@ void MainWindow::editMachine() {
         }
         // Status bar message
         ui->statusBar->showMessage(editDialog.getMachine().getName() + " edited", constants::STATUSBAR_MESSAGE_TIME);
+
+        // Disable edit/delete buttons
+        disableEditDeleteMachineButtons();
     }
 }
 
