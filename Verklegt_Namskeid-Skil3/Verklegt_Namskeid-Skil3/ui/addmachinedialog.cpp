@@ -7,9 +7,6 @@ AddMachineDialog::AddMachineDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // Initialize addClick
-    addClick = false;
-
     // Set initial values
     newMachine.setYear(ui->yearEdit->date().year());
     newMachine.setBuilt(true);
@@ -75,20 +72,14 @@ void AddMachineDialog::verifyInputs(){
     }
 }
 
-// Get add click
-bool AddMachineDialog::getAddClick(){
-    return addClick;
-}
-
 // Add button -> clicked
 void AddMachineDialog::on_addButton_clicked(){
-    addClick = true;
-    this->close();
+    this->done(1);
 }
 
 // Cancel button -> clicked
 void AddMachineDialog::on_cancelButton_clicked(){
-    this->close();
+    this->done(0);
 }
 
 // Name field -> text changed

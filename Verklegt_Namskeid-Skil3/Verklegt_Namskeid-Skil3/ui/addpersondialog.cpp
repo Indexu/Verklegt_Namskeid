@@ -7,9 +7,6 @@ AddPersonDialog::AddPersonDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // Set click
-    addClick = false;
-
     // Set minimum dates
     ui->addPersonBirthDate->setMinimumDate(QDate(100, 1, 1));
     ui->addPersonDeathDate->setMinimumDate(QDate(100, 1, 1));
@@ -87,11 +84,6 @@ void AddPersonDialog::verifyInputs(){
     }
 }
 
-// Get add click
-bool AddPersonDialog::getAddClick(){
-    return addClick;
-}
-
 // Name field changes
 void AddPersonDialog::on_addPersonNameField_textChanged(const QString &arg1){
     newPerson.setName(arg1);
@@ -144,11 +136,10 @@ void AddPersonDialog::on_addPersonGenderCombobox_currentIndexChanged(const QStri
 
 // Add button -> click
 void AddPersonDialog::on_addButton_clicked(){
-    addClick = true;
-    this->close();
+    this->done(1);
 }
 
 // Cancel button -> click
 void AddPersonDialog::on_cancelButton_clicked(){
-    this->close();
+    this->done(0);
 }

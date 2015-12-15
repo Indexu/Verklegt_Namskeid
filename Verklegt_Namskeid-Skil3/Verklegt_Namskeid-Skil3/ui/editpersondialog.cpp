@@ -9,9 +9,6 @@ editPersonDialog::editPersonDialog(QWidget *parent) :
 
     ui->setupUi(this);
 
-    // Set save confirmation to false
-    saveClick = false;
-
     // Set minimum dates
     ui->editPersonDateOfBirth->setMinimumDate(QDate(100, 1, 1));
     ui->editPersonDateOfDeath->setMinimumDate(QDate(100, 1, 1));
@@ -109,12 +106,6 @@ Person editPersonDialog::getPerson()
     return editPerson;
 }
 
-// Get true if save button is clicked, otherwise false.
-bool editPersonDialog::getSaveClick()
-{
-    return saveClick;
-}
-
 // Alive check box - click
 void editPersonDialog::on_aliveCheckBox_clicked(bool checked)
 {
@@ -168,7 +159,7 @@ void editPersonDialog::on_editPersonDateOfDeath_dateChanged(const QDate &date)
 // Cancel button -> click
 void editPersonDialog::on_cancelButton_clicked()
 {
-    this->close();
+    this->done(0);
 }
 
 // Save button -> click
@@ -186,6 +177,6 @@ void editPersonDialog::on_editSaveButton_clicked()
         editPerson.setDateOfDeath(ui->editPersonDateOfDeath->date().toString(constants::DATE_FORMAT));
     }
     editPerson.setCountry(ui->editPersonCountryField->text());
-    saveClick = true;
-    this->close();
+
+    this->done(1);
 }

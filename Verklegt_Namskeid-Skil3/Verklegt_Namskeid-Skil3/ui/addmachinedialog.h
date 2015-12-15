@@ -33,9 +33,6 @@ public:
     // Verify data
     void verifyInputs();
 
-    // Get click
-    bool getAddClick();
-
 private slots:
     void on_addButton_clicked();
 
@@ -60,7 +57,6 @@ private:
     Machine newMachine;
     QVector<TypeSystem> types;
     QVector<TypeSystem> systems;
-    bool addClick;
 };
 
 #endif // ADDMACHINEDIALOG_H

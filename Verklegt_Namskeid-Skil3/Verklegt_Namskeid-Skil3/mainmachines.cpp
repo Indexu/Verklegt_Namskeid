@@ -6,9 +6,13 @@ void MainWindow::displayMachinesTable(){
     // Disable edit and delete buttons
     disableEditDeleteMachineButtons();
 
+    // Reset search field
+    ui->machinesSearchField->setText("");
+
     // Get all machines
     if(!servicesLayer.getAllMachines(machineQueryModel, error)){
         checkError();
+        return;
     }
 
     // Update results
@@ -205,6 +209,9 @@ void MainWindow::connectToPerson(){
 
     ConnectToPerson connectionDialog;
 
+    // Reset Person model
+    displayPersonTable();
+
     // Setup
     connectionDialog.setModel(personProxyModel);
     connectionDialog.displayTable();
@@ -276,11 +283,8 @@ void MainWindow::on_machinesAddButton_clicked(){
     // Add to comboboxes
     addDialog.addToComboboxes();
 
-    // Window
-    addDialog.exec();
-
     // Confirm add
-    if(addDialog.getAddClick()){
+    if(addDialog.exec()){
         // Disable Person edit and delete buttons
         disableEditDeletePersonButtons();
         // The new machine
@@ -399,11 +403,9 @@ void MainWindow::editMachine() {
     editDialog.setMachine(m);
     // Set field values
     editDialog.setFields();
-    // Exec window
-    editDialog.exec();
 
     // Check if 'save' button was clicked
-    if (editDialog.getSaveClick()) {
+    if (editDialog.exec()) {
         // Get the edited machine
         m = editDialog.getMachine();
 

@@ -20,7 +20,6 @@ public:
     void setFields();
     void setPerson(const Person &p);
     Person getPerson();
-    bool getSaveClick();
 
 private slots:
     void on_cancelButton_clicked();
@@ -44,7 +43,6 @@ private slots:
 private:
     Ui::editPersonDialog *ui;
     Person editPerson;
-    bool saveClick;
 };
 
 #endif // EDITPERSONDIALOG_H

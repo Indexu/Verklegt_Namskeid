@@ -6,6 +6,9 @@ void MainWindow::displayPersonTable(){
     // Disable Person edit and delete buttons
     disableEditDeletePersonButtons();
 
+    // Reset search field
+    ui->personSearchField->setText("");
+
     // Get all persons
     if(!servicesLayer.getAllPersons(personQueryModel, error)){
         checkError();
@@ -125,10 +128,9 @@ void MainWindow::on_personFilterCheckBox_clicked(){
 void MainWindow::on_personAddButton_clicked(){
     // Display dialog
     AddPersonDialog addDialog;
-    addDialog.exec();
 
     // Confirm add
-    if(addDialog.getAddClick()){
+    if(addDialog.exec()){
         // Disable Person edit and delete buttons
         disableEditDeletePersonButtons();
 
@@ -276,11 +278,9 @@ void MainWindow::editPerson(){
     editDialog.setPerson(p);
     // Set the fields
     editDialog.setFields();
-    // Exec window
-    editDialog.exec();
 
     // If saved
-    if (editDialog.getSaveClick()) {
+    if (editDialog.exec()) {
         // If error, show error, else update table
         if (!servicesLayer.editPerson(editDialog.getPerson(), error)) {
             checkError();
@@ -291,7 +291,7 @@ void MainWindow::editPerson(){
         }
 
         // Set status bar message
-        ui->statusBar->showMessage("Edit complete", constants::STATUSBAR_MESSAGE_TIME);
+        ui->statusBar->showMessage(editDialog.getPerson().getName() + " edited", constants::STATUSBAR_MESSAGE_TIME);
 
         // Disable Person edit and delete buttons
         disableEditDeletePersonButtons();
@@ -312,6 +312,9 @@ void MainWindow::connectToMachine(){
 
     // Connection dialog
     ConnectToMachine connectionDialog;
+
+    // Reset machine model
+    displayMachinesTable();
 
     // Setup
     connectionDialog.setModel(machineProxyModel);

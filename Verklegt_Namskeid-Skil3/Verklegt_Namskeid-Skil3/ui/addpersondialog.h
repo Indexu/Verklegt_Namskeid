@@ -25,9 +25,6 @@ public:
     // Verify data
     void verifyInputs();
 
-    // Get click
-    bool getAddClick();
-
 private slots:
     void on_addPersonNameField_textChanged(const QString &arg1);
 
@@ -48,7 +45,6 @@ private slots:
 private:
     Ui::AddPersonDialog *ui;
     Person newPerson;
-    bool addClick;
 };
 
 #endif // AddPersonDialog_H

@@ -7,8 +7,7 @@ editMachineDialog::editMachineDialog(QWidget *parent) :
     ui(new Ui::editMachineDialog)
 {
     ui->setupUi(this);
-    // Set save confirmation to false
-    saveClick = false;
+
     // Verify inputs
     verifyInputs();
 }
@@ -18,14 +17,8 @@ editMachineDialog::~editMachineDialog()
     delete ui;
 }
 
-// Get if edit was saved (true/false)
-bool editMachineDialog::getSaveClick(){
-   return saveClick;
-}
-
 // Set machine
-void editMachineDialog::setMachine(const Machine &m)
-{
+void editMachineDialog::setMachine(const Machine &m){
     editMachine = m;
 }
 
@@ -103,36 +96,33 @@ void editMachineDialog::setFields() {
 }
 
 // Name field -> text changed
-void editMachineDialog::on_editMachineNameField_textChanged(const QString &arg1)
-{
+void editMachineDialog::on_editMachineNameField_textChanged(const QString &arg1){
     editMachine.setName(arg1);
     verifyInputs();
 }
+
 // Year field -> year changed
-void editMachineDialog::on_editMachineYear_dateChanged(const QDate &date)
-{
+void editMachineDialog::on_editMachineYear_dateChanged(const QDate &date){
     editMachine.setYear(date.toString(constants::YEAR_BUILT).toInt());
 }
 
 // Machine type -> index changed
-void editMachineDialog::on_editMachineType_currentIndexChanged(const QString &arg1)
-{
+void editMachineDialog::on_editMachineType_currentIndexChanged(const QString &arg1){
     editMachine.setType(arg1);
 }
+
 // Machine system -> index changed
-void editMachineDialog::on_editMachineSystem_currentIndexChanged(const QString &arg1)
-{
+void editMachineDialog::on_editMachineSystem_currentIndexChanged(const QString &arg1){
     editMachine.setSystem(arg1);
 }
 
-// Radio buttons -> cliked
-void editMachineDialog::on_builtYesRadioButton_clicked()
-{
+// Yes Radio button -> clicked
+void editMachineDialog::on_builtYesRadioButton_clicked(){
     editMachine.setBuilt(true);
 }
 
-void editMachineDialog::on_builtNoRadioButton_clicked()
-{
+// No Radio button -> clicked
+void editMachineDialog::on_builtNoRadioButton_clicked(){
     editMachine.setBuilt(false);
 }
 
@@ -150,14 +140,11 @@ void editMachineDialog::on_yearUnknownCheckbox_clicked(bool checked)
 }
 
 // Cancel button -> clicked
-void editMachineDialog::on_editMachinecancelButton_clicked()
-{
-    this->close();
+void editMachineDialog::on_editMachinecancelButton_clicked(){
+    this->done(0);
 }
 
 // Save button -> clicked
-void editMachineDialog::on_editMachineSaveButton_clicked()
-{
-    saveClick = true;
-    this->close();
+void editMachineDialog::on_editMachineSaveButton_clicked(){
+    this->done(1);
 }

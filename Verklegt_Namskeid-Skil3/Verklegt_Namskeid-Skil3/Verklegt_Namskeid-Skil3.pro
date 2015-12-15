@@ -31,7 +31,11 @@ SOURCES += main.cpp\
     mainconnections.cpp \
     mainmachines.cpp \
     mainperson.cpp \
-    ui/addconnectiondialog.cpp
+    ui/addconnectiondialog.cpp \
+    data/dataperson.cpp \
+    data/datamachine.cpp \
+    data/dataconnection.cpp \
+    data/datatypesystem.cpp
 
 HEADERS  += mainwindow.h \
     models/person.h \

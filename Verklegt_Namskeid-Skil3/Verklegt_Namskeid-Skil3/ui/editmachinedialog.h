@@ -17,13 +17,25 @@ class editMachineDialog : public QDialog
 public:
     explicit editMachineDialog(QWidget *parent = 0);
     ~editMachineDialog();
-    bool getSaveClick();
+
+    // Set machine
     void setMachine(const Machine &m);
+
+    // Set fields
     void setFields();
+
+    // Add to comboboxes
     void addToComboboxes();
+
+    // Set types
     void setTypes(const QVector<TypeSystem> &t);
+    // Set systems
     void setSystems(const QVector<TypeSystem> &s);
+
+    // Get machine
     Machine getMachine();
+
+    // Verify inputs
     void verifyInputs();
 
 private slots:
@@ -46,11 +58,10 @@ private slots:
     void on_editMachineSaveButton_clicked();
 
 private:
+    Ui::editMachineDialog *ui;
     QVector<TypeSystem> types;
     QVector<TypeSystem> systems;
     Machine editMachine;
-    bool saveClick;
-    Ui::editMachineDialog *ui;
 };
 
 #endif // EDITMACHINEDIALOG_H
