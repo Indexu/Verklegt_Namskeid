@@ -243,6 +243,10 @@ private slots:
 
     void on_systemsTable_customContextMenuRequested(const QPoint &pos);
 
+    void on_typesTable_doubleClicked(const QModelIndex &index);
+
+    void on_systemsTable_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     Data dataLayer;

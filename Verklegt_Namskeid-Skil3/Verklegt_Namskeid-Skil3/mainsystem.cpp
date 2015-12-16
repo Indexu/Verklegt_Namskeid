@@ -225,7 +225,7 @@ void MainWindow::editSystem(){
     // Set the fields
     editDialog.setFields();
     // Set title
-    editDialog.setTitle("Edit system");
+    editDialog.setTitle("Edit System");
 
     // If saved
     if (editDialog.exec()) {
@@ -256,7 +256,7 @@ void MainWindow::on_systemAddButton_clicked(){
     // Display dialog
     AddTypeSystemDialog addDialog;
 
-    addDialog.setTitle("Add system");
+    addDialog.setTitle("Add System");
 
     // Confirm add
     if(addDialog.exec()){
@@ -282,6 +282,12 @@ void MainWindow::on_systemEditButton_clicked(){
     editSystem();
 }
 
+// Systems table -> double clicked
+void MainWindow::on_systemsTable_doubleClicked(const QModelIndex &index){
+    if(index.isValid()){
+        editSystem();
+    }
+}
 
 // Delete button -> clicked
 void MainWindow::on_systemDeleteButton_clicked(){

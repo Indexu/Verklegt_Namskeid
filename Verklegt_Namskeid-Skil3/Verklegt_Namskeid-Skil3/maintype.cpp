@@ -281,6 +281,13 @@ void MainWindow::on_typeEditButton_clicked(){
     editType();
 }
 
+// Types table -> double clicked
+void MainWindow::on_typesTable_doubleClicked(const QModelIndex &index){
+    if(index.isValid()){
+        editType();
+    }
+}
+
 
 // Delete button -> clicked
 void MainWindow::on_typeDeleteButton_clicked(){
