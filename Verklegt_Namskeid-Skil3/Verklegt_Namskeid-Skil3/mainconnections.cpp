@@ -11,6 +11,9 @@ void MainWindow::displayConnectionsTable(){
         checkError();
     }
 
+    // Clear search field
+    ui->connectionsSearchField->setText("");
+
     // Resize columns
     utilities::resizeTableColumns(ui->connectionsTable);
 

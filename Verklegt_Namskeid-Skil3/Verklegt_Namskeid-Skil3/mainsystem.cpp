@@ -12,6 +12,9 @@ void MainWindow::displaySystemsTable(){
         checkError();
     }
 
+    // Clear search field
+    ui->systemSearchField->setText("");
+
     // Resize columns
     utilities::resizeTableColumns(ui->systemsTable);
 
@@ -194,6 +197,7 @@ void MainWindow::deleteSystem(){
         // Re-display
         checkSystemSearch();
         displayMachinesTable();
+        displayConnectionsTable();
     }
 }
 
@@ -240,6 +244,7 @@ void MainWindow::editSystem(){
         else{
             checkSystemSearch();
             displayMachinesTable();
+            displayConnectionsTable();
         }
 
         // Set status bar message

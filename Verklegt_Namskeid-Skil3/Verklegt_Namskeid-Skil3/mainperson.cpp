@@ -6,14 +6,14 @@ void MainWindow::displayPersonTable(){
     // Disable Person edit and delete buttons
     disableEditDeletePersonButtons();
 
-    // Reset search field
-    ui->personSearchField->setText("");
-
     // Get all persons
     if(!servicesLayer.getAllPersons(personQueryModel, error)){
         checkError();
         return;
     }
+
+    // Reset search field
+    ui->personSearchField->setText("");
 
     // Resize columns
     utilities::resizeTableColumns(ui->personTable);

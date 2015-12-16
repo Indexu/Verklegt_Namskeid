@@ -11,6 +11,9 @@ void MainWindow::displayTypesTable(){
         checkError();
     }
 
+    // Clear search field
+    ui->typeSearchField->setText("");
+
     // Resize columns
     utilities::resizeTableColumns(ui->typesTable);
 
@@ -193,6 +196,7 @@ void MainWindow::deleteType(){
         // Re-display
         checkTypeSearch();
         displayMachinesTable();
+        displayConnectionsTable();
     }
 }
 
@@ -239,6 +243,7 @@ void MainWindow::editType(){
         else{
             checkTypeSearch();
             displayMachinesTable();
+            displayConnectionsTable();
         }
 
         // Set status bar message

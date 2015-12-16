@@ -6,14 +6,14 @@ void MainWindow::displayMachinesTable(){
     // Disable edit and delete buttons
     disableEditDeleteMachineButtons();
 
-    // Reset search field
-    ui->machinesSearchField->setText("");
-
     // Get all machines
     if(!servicesLayer.getAllMachines(machineQueryModel, error)){
         checkError();
         return;
     }
+
+    // Reset search field
+    ui->machinesSearchField->setText("");
 
     // Resize columns
     utilities::resizeTableColumns(ui->machineTable);
