@@ -310,6 +310,11 @@ void MainWindow::on_typesTable_clicked(const QModelIndex &index){
     }
 }
 
+// Types table -> double clicked
+void MainWindow::on_typesTable_doubleClicked(const QModelIndex &index){
+    editType();
+}
+
 // Person table -> Current row changes
 /*
  * QModelIndex &previous is not used simply
