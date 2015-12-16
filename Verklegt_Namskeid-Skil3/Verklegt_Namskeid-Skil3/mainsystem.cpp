@@ -317,11 +317,6 @@ void MainWindow::on_systemsTable_clicked(const QModelIndex &index){
     }
 }
 
-// system table -> double clicked
-void MainWindow::on_systemsTable_doubleClicked(const QModelIndex &index){
-    editSystem();
-}
-
 
 // Person table -> Current row changes
 /*
