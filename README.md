@@ -124,3 +124,25 @@ hægt að raða eftir:
 * Upprunarlandi
   
 Það er bæði hægt að raða í hækkandi og lækkandi röð. Það er hægt að tvísmella á hvaða röð sem er til að eyða tengingunni.
+
+
+
+Í Types flipanum er hægt að nota search og filter, fyrir allar niðurstöður eða velja einn flokk. Bæta við vélartýpu, breyta vélartýpu og  eyða vélartýpu. Það er hægt 
+að raða eftir:  
+
+* Auðkenni
+* Nafni Vélartýpu
+  
+Það er bæði hægt að raða í hækkandi og lækkandi röð. Það er hægt að tvísmella á hvaða röð sem er til að breyta vélartýpunni. eins er hægt að hægri smella á hvaða röð 
+sem er til að breyta eða eyða vélartýpu.
+
+
+
+Í Systems flipanum er hægt að nota search og filter, fyrir allar niðurstöður eða velja einn flokk. Bæta við vélargerð, breyta vélargerð og  eyða vélargerð. Það er 
+hægt að raða eftir:  
+
+* Auðkenni
+* Nafni Vélargerð
+  
+Það er bæði hægt að raða í hækkandi og lækkandi röð. Það er hægt að tvísmella á hvaða röð sem er til að breyta vélartýpunni. eins er hægt að hægri smella á hvaða röð sem 
+er til að breyta eða eyða vélargerð.

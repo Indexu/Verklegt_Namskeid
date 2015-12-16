@@ -22,6 +22,14 @@ INPUT(
 ./debug\datamachine.o
 ./debug\dataconnection.o
 ./debug\datatypesystem.o
+./debug\maintype.o
+./debug\addtypesystemdialog.o
+./debug\edittypesystemdialog.o
+./debug\mainsystem.o
+./debug\servicesperson.o
+./debug\servicesmachine.o
+./debug\servicesconnection.o
+./debug\servicestypesystem.o
 ./debug\qrc_resources.o
 ./debug\moc_mainwindow.o
 ./debug\moc_editpersondialog.o
@@ -31,4 +39,6 @@ INPUT(
 ./debug\moc_connecttomachine.o
 ./debug\moc_connecttoperson.o
 ./debug\moc_addconnectiondialog.o
+./debug\moc_addtypesystemdialog.o
+./debug\moc_edittypesystemdialog.o
 );
